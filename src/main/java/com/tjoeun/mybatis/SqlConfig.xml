@@ -10,6 +10,7 @@
 		<!-- 별명 설정
 		<typeAlias type="com.tjoeun.vo.MvcBoardVO" alias="MvcBoardVO" />
 		-->
+		<typeAlias type="com.tjoeun.shoppingmall.vo.ProductVO" alias="ProductVO" />
 	</typeAliases>
 	
 	<environments default="development">
@@ -26,7 +27,7 @@
 	
 	<mappers>
 		<!-- 실행할 sql 명령이 저장된 파일의 위치 -->
-		<mapper resource="com/tjoeun/mybatis/mvcBoard.xml" />
+		<mapper resource="com/tjoeun/mybatis/product.xml" />
 	</mappers>
 	
 </configuration>

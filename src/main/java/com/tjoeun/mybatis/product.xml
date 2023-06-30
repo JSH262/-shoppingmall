@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+
+	<!-- <typeAlias type="com.tjoeun.vo.MvcBoardVO" alias="MvcBoardVO" /> -->
+	<insert id="insert" parameterType="ProductVO">
+		insert into product(id, category_id, name, amount, price, discount, delivery_price, contents, thumbnail, seller_id)
+		values(product_seq_id.nextval, #{category_id}, #{name}, #{amount}, #{price}, #{discount}, #{delivery_price}, #{contents}, #{thumbnail}, #{seller_id})
+	</insert>
+	
+	<select id="selectList" parameterType="java.util.HashMap" resultType="ProductVO">
+		select *
+		from (	select t1.*, rownum rnum
+				from (	select *
+						from product
+						order by gup desc, seq, idx desc) t1
+				where rownum <![CDATA[ <= ]]> #{endNo})
+		where rnum <![CDATA[ >= ]]> #{startNo}
+	</select>
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
