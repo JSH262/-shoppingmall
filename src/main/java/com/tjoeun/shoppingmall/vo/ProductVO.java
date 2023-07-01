@@ -1,6 +1,13 @@
 package com.tjoeun.shoppingmall.vo;
 
-public class ProductVO {
+import java.lang.reflect.Method;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
+
+public class ProductVO extends BaseVO
+{
 	int rnum;
 	int id;
 	int categoryId;
@@ -16,6 +23,13 @@ public class ProductVO {
 	String createDate;
 	String modifyDate;
 	
+	public ProductVO()
+	{}
+	
+	public ProductVO(MultipartRequest request) throws Exception
+	{
+		 this.init(request);
+	}
 	
 	public int getRnum() {
 		return rnum;

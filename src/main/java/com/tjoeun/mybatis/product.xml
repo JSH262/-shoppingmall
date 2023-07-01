@@ -5,7 +5,7 @@
 	<!-- <typeAlias type="com.tjoeun.vo.MvcBoardVO" alias="MvcBoardVO" /> -->
 	<insert id="insert" parameterType="ProductVO">
 		insert into product(id, category_id, name, amount, price, discount, delivery_price, contents, thumbnail, seller_id)
-		values(product_seq_id.nextval, #{category_id}, #{name}, #{amount}, #{price}, #{discount}, #{delivery_price}, #{contents}, #{thumbnail}, #{seller_id})
+		values(product_seq_id.nextval, #{categoryId}, #{name}, #{amount}, #{price}, #{discount}, #{deliveryPrice}, #{contents}, #{thumbnail}, #{sellerId})
 	</insert>
 	
 	<select id="selectList" parameterType="java.util.HashMap" resultType="ProductVO">

@@ -9,13 +9,23 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/product.js"></script>
 
+<link href="<%=request.getContextPath() %>/summernote/summernote-lite.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath() %>/summernote/summernote-lite.min.js"></script>
+<script src="<%=request.getContextPath() %>/summernote/lang/summernote-ko-KR.min.js"></script>
+
+<style>
+	#file, #name, #price, #amount, #deliveryPrice {
+		width: 98%;
+	}
+</style>
+
 </head>
 <body>
 	<form id="form" method="POST" action="<%=request.getContextPath() %>">
 		<table border="1" align="center" cellpadding="5" cellspacing="0" style="margin-top:50px;">
 			<tr>
 				<th colspan="2">
-					상품 등록하기
+					<h1>상품 등록하기</h1>
 				</th>
 			</tr>
 			<tr>
@@ -32,6 +42,20 @@
 				</th>
 				<td>
 					<input type="text" name="name" id="name" />					
+				</td>
+			</tr>
+			<tr>
+				<th>
+					상품 카테고리
+				</th>
+				<td>
+					<select name="categoryId" id="categoryId">
+						<option value="1">/식품/과일</option>
+						<option value="2">/식품/채소</option>
+						<option value="3">/식품/곡물</option>
+						<option value="4">/식품/견과,건과</option>
+						<option value="5">/식품/축산</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -55,7 +79,7 @@
 					배송비
 				</th>
 				<td>
-					<input type="text" name="deliveryPrice" id="deliveryPrice" />					
+					<input type="number" name="deliveryPrice" id="deliveryPrice" />					
 				</td>
 			</tr>
 			<tr>
@@ -63,7 +87,8 @@
 					상품 설명
 				</th>
 				<td>
-					<input type="text" name="contents" id="contents" />					
+					<%--<div id="summernote"></div> --%>
+					<textarea name="contents" id="contents"></textarea>
 				</td>
 			</tr>
 			<tr>
