@@ -1,5 +1,6 @@
 package com.tjoeun.shoppingmall.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,9 +21,22 @@ public class ProductDAO {
 		return mapper.insert("Product.insert", item);
 	}
 	
-	public List<ProductVO> selectList(SqlSession mapper)
+	public List<ProductVO> selectList(SqlSession mapper, HashMap<String, Object> params)
 	{
-		return mapper.selectList("Product.selectList");
+		return mapper.selectList("Product.selectList", params);
+	}
+
+	public int totalCount(SqlSession mapper, java.util.HashMap<String, Object> params)
+	{
+		return (int)mapper.selectOne("Product.totalCount", params);
+	}
+
+	public ProductVO select(SqlSession mapper, int id) {
+		return (ProductVO)mapper.selectOne("Product.select", id);
 	}
 	
+	
+	public int update(SqlSession mapper, ProductVO item) {
+		return mapper.update("Product.update", item);
+	}
 }

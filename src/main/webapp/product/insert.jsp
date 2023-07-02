@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/product.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/insert.js"></script>
 
 <link href="<%=request.getContextPath() %>/summernote/summernote-lite.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath() %>/summernote/summernote-lite.min.js"></script>
@@ -87,8 +87,8 @@
 					상품 설명
 				</th>
 				<td>
-					<%--<div id="summernote"></div> --%>
-					<textarea name="contents" id="contents"></textarea>
+					<div name="contents" id="contents"></div>
+					<%--<textarea name="contents" id="contents"></textarea> --%>
 				</td>
 			</tr>
 			<tr>

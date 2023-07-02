@@ -29,6 +29,7 @@ public class SettingService {
 		catch(Exception exp)
 		{
 			mapper.rollback();
+			exp.printStackTrace();
 		}
 		
 		mapper.close();
@@ -47,6 +48,7 @@ public class SettingService {
 		}
 		catch(Exception exp)
 		{
+			exp.printStackTrace();
 		}
 		
 		mapper.close();

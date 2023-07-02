@@ -9,16 +9,81 @@
 	</insert>
 	
 	<select id="selectList" parameterType="java.util.HashMap" resultType="ProductVO">
-		select *
+		select 
+			<if test="for != null and for == 'list'">
+				rnum, id, name, discount, price, category_id, create_date, delivery_price, amount
+			</if>
+			<if test="for == null or for == 'all'">
+				*
+			</if>
+		
 		from (	select t1.*, rownum rnum
 				from (	select *
 						from product
-						order by gup desc, seq, idx desc) t1
-				where rownum <![CDATA[ <= ]]> #{endNo})
+						where 1 = 1
+						<if test="name != null">
+							and name like '%' || ${name} || '%'
+						</if>
+						<if test="categoryId != null">
+							and category_id = #{categoryId}
+						</if>						
+						order by id asc) t1
+				where rownum <![CDATA[ <= ]]> #{endNo}
+				order by rownum desc)
 		where rnum <![CDATA[ >= ]]> #{startNo}
 	</select>
 	
 	
+	<select id="totalCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*)
+		from product
+		where 1 = 1
+		<if test="name != null">
+			and name like '%' || ${name} || '%'
+		</if>
+		<if test="categoryId != null">
+			and category_id = #{categoryId}
+		</if>
+	</select>	
+	
+	<select id="select" parameterType="int" resultType="ProductVO">
+		select *
+		from product
+		where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="ProductVO">
+		update product
+		set	modify_date = sysdate			
+			<if test="name != null">
+				, name = #{name}
+			</if>
+			<if test="categoryId != null">
+				, category_id = #{categoryId}
+			</if>
+			<if test="amount != null">
+				, amount = #{amount}
+			</if>
+			<if test="price != null">
+				, price = #{price}
+			</if>
+			<if test="discount != null">
+				, discount = #{discount}
+			</if>
+			<if test="deliveryPrice != null">
+				, delivery_price = #{deliveryPrice}
+			</if>
+			<if test="useYn != null">
+				, use_yn = #{useYn}
+			</if>
+			<if test="contents != null">
+				, contents = #{contents}
+			</if>
+			<if test="thumbnail != null">
+				, thumbnail = #{thumbnail}
+			</if>
+		where id = #{id}
+	</update>
 	
 </mapper>
 

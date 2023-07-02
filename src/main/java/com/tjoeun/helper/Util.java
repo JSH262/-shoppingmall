@@ -1,5 +1,6 @@
 package com.tjoeun.helper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,19 +11,21 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.hc.client5.http.entity.mime.FileBody;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.fluent.Content;
 import org.apache.hc.client5.http.fluent.Request;
 import org.apache.hc.client5.http.fluent.Response;
 import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.HttpResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
 
 import com.fasterxml.uuid.Generators;
 
-public class Util {
-	
+public class Util 
+{	
 	//https://developer111.tistory.com/83
 	public static byte[] UUIDtoBytes()
 	{
@@ -177,7 +180,7 @@ public class Util {
         		}	
         	}
         	
-        	String body = Request.post(url)
+        	String body = Request.post(url + "/image/")
         			.body(builder.build())
         			.execute().returnContent().asString();
         	
@@ -238,5 +241,65 @@ public class Util {
 		
 	}
 	
+	static public void printStackTrace(Logger log, Exception exp)
+	{
+		for(StackTraceElement element : exp.getStackTrace())
+		{
+			log.error(element.toString());	
+		}	
+	}
+	
+	static public JSONObject toJSONObject(HttpServletRequest request) throws IOException
+	{
+		try
+		{
+			InputStream is = request.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			JSONParser parser = new JSONParser();
+			
+			while(true)
+			{
+				int read = is.read(buffer, 0, buffer.length);
+				if(read == -1)
+					break;
+				
+				baos.write(buffer, 0, read);
+			}
+			
+			is.close();
+			baos.flush();	
+			baos.close();
+			
+			return 	(JSONObject) parser.parse(new String(baos.toByteArray(), "UTF-8"));
+		}
+		catch(ParseException exp)
+		{
+			return null;
+		}		
+	}
+	
+	static public JSONObject toMap(HttpServletRequest request) throws IOException, ParseException
+	{
+		InputStream is = request.getInputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		JSONParser parser = new JSONParser();
+		
+		while(true)
+		{
+			int read = is.read(buffer, 0, buffer.length);
+			if(read == -1)
+				break;
+			
+			baos.write(buffer, 0, read);
+		}
+		
+		is.close();
+		baos.flush();	
+		baos.close();
+		
+		return 	(JSONObject) parser.parse(new String(baos.toByteArray(), "UTF-8"));
+	}
 	
 }

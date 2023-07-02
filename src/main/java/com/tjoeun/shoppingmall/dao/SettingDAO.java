@@ -23,5 +23,4 @@ public class SettingDAO {
 	{
 		return (SettingVO)mapper.selectOne("Setting.select");
 	}
-	
 }

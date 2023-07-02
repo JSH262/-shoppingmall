@@ -2,13 +2,13 @@ package com.tjoeun.shoppingmall.controller;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -22,7 +22,7 @@ import com.tjoeun.shoppingmall.vo.SettingVO;
 /**
  * Servlet implementation class ProductController
  */
-@WebServlet("/product/insertOK")
+@WebServlet("/product/insert")
 public class ProductInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String JSP_PATH = "/WEB-INF/product/";
@@ -72,9 +72,12 @@ public class ProductInsertController extends HttpServlet {
 		try
 		{
 			MultipartRequest mr = new MultipartRequest(request, this.getServletContext().getRealPath(""), 8000000, "UTF-8", new DefaultFileRenamePolicy());
-			String uploadUrl = setting.getUploadPath() + "/image";
+			String uploadUrl = setting.getUploadPath() + "/image/";
 			ProductVO item = new ProductVO(mr);
 
+///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
+			String sellerId = "asdf1234";
+			
 			String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {mr.getFile("file")}, "file", uploadUrl, null);
 			org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 			JSONObject jUploadResult = (JSONObject)parser.parse(uploadResult);
@@ -84,9 +87,7 @@ public class ProductInsertController extends HttpServlet {
 				// 3. 상품 정보를 저장한다.
 				JSONArray arrResult = (JSONArray)jUploadResult.get("result");
 				item.setThumbnail((String)arrResult.get(0));
-								
-///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
-				item.setSellerId("asdf1234");
+				item.setSellerId(sellerId);
 				
 				if(ProductService.getInstance().insert(item) == 1)
 				{

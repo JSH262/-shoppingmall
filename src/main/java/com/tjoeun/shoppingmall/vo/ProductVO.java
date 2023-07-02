@@ -4,18 +4,19 @@ import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 
 public class ProductVO extends BaseVO
 {
-	int rnum;
-	int id;
-	int categoryId;
+	Integer rnum;
+	Integer id;
+	Integer categoryId;
 	String name;
-	int amount;
-	int price;
-	int discount;
-	int deliveryPrice;
+	Integer amount;
+	Integer price;
+	Integer discount;
+	Integer deliveryPrice;
 	String contents;
 	String thumbnail;
 	String sellerId;
@@ -31,22 +32,22 @@ public class ProductVO extends BaseVO
 		 this.init(request);
 	}
 	
-	public int getRnum() {
+	public Integer getRnum() {
 		return rnum;
 	}
-	public void setRnum(int rnum) {
+	public void setRnum(Integer rnum) {
 		this.rnum = rnum;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getCategoryId() {
+	public Integer getCategoryId() {
 		return categoryId;
 	}
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
 	public String getName() {
@@ -55,28 +56,28 @@ public class ProductVO extends BaseVO
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAmount() {
+	public Integer getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
-	public int getDeliveryPrice() {
+	public Integer getDeliveryPrice() {
 		return deliveryPrice;
 	}
-	public void setDeliveryPrice(int deliveryPrice) {
+	public void setDeliveryPrice(Integer deliveryPrice) {
 		this.deliveryPrice = deliveryPrice;
 	}
 	public String getContents() {
@@ -116,8 +117,14 @@ public class ProductVO extends BaseVO
 		this.modifyDate = modifyDate;
 	}
 	
+	
 	@Override
-	public String toString() {
+	public String toString()
+	{
+		return 	new Gson().toJson(this);
+	}
+	
+	public String contents() {
 		return "ProductVO [rnum=" + rnum + ", id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", amount="
 				+ amount + ", price=" + price + ", discount=" + discount + ", deliveryPrice=" + deliveryPrice
 				+ ", contents=" + contents + ", thumbnail=" + thumbnail + ", sellerId=" + sellerId + ", useYn=" + useYn

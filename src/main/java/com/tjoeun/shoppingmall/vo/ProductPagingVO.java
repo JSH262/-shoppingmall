@@ -8,27 +8,31 @@ import com.oreilly.servlet.MultipartRequest;
 
 public class ProductPagingVO extends BaseVO
 {
-	int currentPage;
-	int totalPage;
-	int totalCount;
-	int startNo;
-	int endNo;
-	int startPage;
-	int endPage;
-	int pageSize;
+	Integer currentPage;
+	Integer totalPage;
+	Integer totalCount;
+	Integer startNo;
+	Integer endNo;
+	Integer startPage;
+	Integer endPage;
+	Integer pageSize;
 	
 	
 	
 	public ProductPagingVO()
 	{}
 	
-	public ProductPagingVO(int currentPage, int totalCount, int pageSize)
+	public ProductPagingVO(Integer currentPage, Integer totalCount, Integer pageSize)
 	{
 		this.calPage(currentPage, totalCount, pageSize);
 	}
 	
 		
-	public void calPage(int currentPage, int totalCount, int pageSize)
+	public ProductPagingVO(HttpServletRequest request) throws Exception {
+		this.init(request);
+	}
+
+	public void calPage(Integer currentPage, Integer totalCount, Integer pageSize)
 	{
 		this.currentPage = currentPage;
 		this.totalCount = totalCount;
@@ -42,67 +46,67 @@ public class ProductPagingVO extends BaseVO
 		this.endPage = Math.min(this.startPage + 9, this.totalPage);
 	}
 
-	public int getCurrentPage() {
+	public Integer getCurrentPage() {
 		return currentPage;
 	}
 
-	public void setCurrentPage(int currentPage) {
+	public void setCurrentPage(Integer currentPage) {
 		this.currentPage = currentPage;
 	}
 
-	public int getTotalPage() {
+	public Integer getTotalPage() {
 		return totalPage;
 	}
 
-	public void setTotalPage(int totalPage) {
+	public void setTotalPage(Integer totalPage) {
 		this.totalPage = totalPage;
 	}
 
-	public int getTotalCount() {
+	public Integer getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 	}
 
-	public int getStartNo() {
+	public Integer getStartNo() {
 		return startNo;
 	}
 
-	public void setStartNo(int startNo) {
+	public void setStartNo(Integer startNo) {
 		this.startNo = startNo;
 	}
 
-	public int getEndNo() {
+	public Integer getEndNo() {
 		return endNo;
 	}
 
-	public void setEndNo(int endNo) {
+	public void setEndNo(Integer endNo) {
 		this.endNo = endNo;
 	}
 
-	public int getStartPage() {
+	public Integer getStartPage() {
 		return startPage;
 	}
 
-	public void setStartPage(int startPage) {
+	public void setStartPage(Integer startPage) {
 		this.startPage = startPage;
 	}
 
-	public int getEndPage() {
+	public Integer getEndPage() {
 		return endPage;
 	}
 
-	public void setEndPage(int endPage) {
+	public void setEndPage(Integer endPage) {
 		this.endPage = endPage;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 	
