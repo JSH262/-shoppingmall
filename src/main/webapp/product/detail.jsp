@@ -7,7 +7,13 @@
 	int id = Integer.parseInt(request.getParameter("id"));
 	String currentPage = request.getParameter("currentPage");
 	String pageSize = request.getParameter("pageSize");
-	ProductVO vo = ProductService.getInstance().select(id);
+	
+	ProductVO params = new ProductVO();
+	
+	params.setId(id);
+	params.setChoose("detail");
+	
+	ProductVO vo = ProductService.getInstance().select(params);
 %>  
 <!DOCTYPE html>
 <html>
@@ -89,6 +95,16 @@
 						<input class="text-readonly" type="number" id="price" name="price" value="<%=vo.getPrice() %>" />
 					</td>
 				</tr>
+				
+				<tr>
+					<th>
+						할인된 상품 가격
+					</th>
+					<td>
+						<input class="text-readonly" type="number" id="discountPrice" name="discountPrice" value="<%=vo.getFmtDiscountPrice() %>" />
+					</td>
+				</tr>
+				
 				
 				<tr>
 					<th>

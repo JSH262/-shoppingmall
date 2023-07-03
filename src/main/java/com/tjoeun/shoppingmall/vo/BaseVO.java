@@ -8,6 +8,16 @@ import com.oreilly.servlet.MultipartRequest;
 
 public class BaseVO 
 {
+	String choose;
+	
+	public String getChoose() {
+		return choose;
+	}
+
+	public void setChoose(String choose) {
+		this.choose = choose;
+	}
+
 	public void init(HttpServletRequest request) throws Exception
 	{
 		 Method[] childMethods = this.getClass().getMethods();

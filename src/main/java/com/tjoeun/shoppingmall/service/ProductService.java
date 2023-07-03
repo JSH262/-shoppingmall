@@ -89,14 +89,14 @@ public class ProductService
 				
 		return retval;
 	}
-	public ProductVO select(int id)
+	public ProductVO select(ProductVO params)
 	{
 		ProductVO retval = null;
 		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = ProductDAO.getInstance().select(mapper, id);
+			retval = ProductDAO.getInstance().select(mapper, params);
 		}
 		catch(Exception exp)
 		{

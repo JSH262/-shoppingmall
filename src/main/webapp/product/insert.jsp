@@ -68,6 +68,14 @@
 			</tr>
 			<tr>
 				<th>
+					상품 할인률
+				</th>
+				<td>
+					<input type="number" name="discount" id="discount" />					
+				</td>
+			</tr>
+			<tr>
+				<th>
 					판매수량
 				</th>
 				<td>

@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 
 public class ProductPagingVO extends BaseVO
@@ -110,6 +111,10 @@ public class ProductPagingVO extends BaseVO
 		this.pageSize = pageSize;
 	}
 	
-	
+	@Override
+	public String toString()
+	{
+		return new Gson().toJson(this);
+	}
 	
 }

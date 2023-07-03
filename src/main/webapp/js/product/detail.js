@@ -179,9 +179,9 @@ $(() => {
 			AjaxForm(url, "POST", data, 
 				function(resp)
 				{
-					console.log(resp);
-		
-					$("#thumbnail").attr('src', resp.result.thumbnail);
+					if(resp.result.thumbnail)					
+						$("#thumbnail").attr('src', resp.result.thumbnail);
+						
 					showTag($("#thumbnail"));
 					hideTag($("#file"));
 					$("#categoryId").attr('disabled', true);

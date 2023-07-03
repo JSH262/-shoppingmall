@@ -64,10 +64,10 @@ $(() => {
 		let file = document.getElementById('file');
 		let name = $("#name").val();
 		let price = $("#price").val();
+		let discount = $("#discount").val();
 		let amount = $("#amount").val();
 		let deliveryPrice = $("#deliveryPrice").val();
-		let categoryId = $("#categoryId").val();
-		
+		let categoryId = $("#categoryId").val();		
 		let contents = null;
 		
 		if($("#contents").summernote)
@@ -91,6 +91,7 @@ $(() => {
 		data.append('file', file.files[0]);
 		data.append('name', name);
 		data.append('price', price);
+		data.append('discount', discount);
 		data.append('amount', amount);
 		data.append('deliveryPrice', deliveryPrice);
 		data.append('contents', contents);
@@ -100,11 +101,19 @@ $(() => {
 		AjaxForm(url, "POST", data, 
 			function(resp)
 			{
-				console.log(resp);
+				if(resp.code == 0)
+				{
+					location.href = resp.result; 	
+				}
+				else
+				{
+					alert(resp.msg);
+				}
+							
 			}, 
-			function()
+			function(err)
 			{
-				
+				console.error(err);
 			});
 	});
 	

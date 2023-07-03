@@ -1,6 +1,9 @@
 package com.tjoeun.shoppingmall.vo;
 
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +26,14 @@ public class ProductVO extends BaseVO
 	String useYn;
 	String createDate;
 	String modifyDate;
+	Integer discountPrice;
 	
+	String fmtAmount;
+	String fmtPrice;
+	String fmtDiscount;
+	String fmtDeliveryPrice;
+	String fmtDiscountPrice;
+		
 	public ProductVO()
 	{}
 	
@@ -117,7 +127,54 @@ public class ProductVO extends BaseVO
 		this.modifyDate = modifyDate;
 	}
 	
-	
+	public String getFmtAmount() {
+		return fmtAmount;
+	}
+
+	public void setFmtAmount(String fmtAmount) {
+		this.fmtAmount = fmtAmount;
+	}
+
+	public String getFmtPrice() {
+		return fmtPrice;
+	}
+
+	public void setFmtPrice(String fmtPrice) {
+		this.fmtPrice = fmtPrice;
+	}
+
+	public String getFmtDiscount() {
+		return fmtDiscount;
+	}
+
+	public void setFmtDiscount(String fmtDiscount) {
+		this.fmtDiscount = fmtDiscount;
+	}
+
+	public String getFmtDeliveryPrice() {
+		return fmtDeliveryPrice;
+	}
+
+	public void setFmtDeliveryPrice(String fmtDeliveryPrice) {
+		this.fmtDeliveryPrice = fmtDeliveryPrice;
+	}
+
+	public Integer getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(Integer discountPrice) {
+		this.discountPrice = discountPrice;
+	}
+
+	public String getFmtDiscountPrice() {
+		return fmtDiscountPrice;
+	}
+
+	public void setFmtDiscountPrice(String fmtDiscountPrice) {
+		this.fmtDiscountPrice = fmtDiscountPrice;
+	}
+
 	@Override
 	public String toString()
 	{

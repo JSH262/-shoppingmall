@@ -10,10 +10,24 @@
 	
 	<select id="selectList" parameterType="java.util.HashMap" resultType="ProductVO">
 		select 
-			<if test="for != null and for == 'list'">
-				rnum, id, name, discount, price, category_id, create_date, delivery_price, amount
+			<if test="choose != null and choose == 'list'">
+				rnum, id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
+				to_char(amount, 'FM999,999,999') fmt_amount,
+				to_char(price, 'FM999,999,999') fmt_price,
+				discount || '%' fmt_discount,
+				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price
 			</if>
-			<if test="for == null or for == 'all'">
+			<if test="choose != null and choose == 'detail'">
+				rnum, id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
+				
+				price - price * (discount / 100) discountPrice,				
+				to_char(amount, 'FM999,999,999') fmt_amount,
+				to_char(price, 'FM999,999,999') fmt_price,
+				discount || '%' fmt_discount,
+				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price,
+				to_char(price - price * (discount / 100), 'FM999,999,999') fmt_discount_price
+			</if>
+			<if test="choose == null or choose == 'all'">
 				*
 			</if>
 		
@@ -27,9 +41,8 @@
 						<if test="categoryId != null">
 							and category_id = #{categoryId}
 						</if>						
-						order by id asc) t1
-				where rownum <![CDATA[ <= ]]> #{endNo}
-				order by rownum desc)
+						order by id desc) t1
+				where rownum <![CDATA[ <= ]]> #{endNo})
 		where rnum <![CDATA[ >= ]]> #{startNo}
 	</select>
 	
@@ -46,8 +59,23 @@
 		</if>
 	</select>	
 	
-	<select id="select" parameterType="int" resultType="ProductVO">
-		select *
+	<select id="select" parameterType="ProductVO" resultType="ProductVO">
+		select
+			<if test="choose == null">
+				*
+			</if>
+			<if test="choose != null and choose == 'detail'">
+				id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
+				
+				price - price * (discount / 100) discountPrice,				
+				to_char(amount, 'FM999,999,999') fmt_amount,
+				to_char(price, 'FM999,999,999') fmt_price,
+				discount || '%' fmt_discount,
+				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price,
+				to_char(price - price * (discount / 100), 'FM999,999,999') fmt_discount_price
+			</if>
+			
+			
 		from product
 		where id = #{id}
 	</select>

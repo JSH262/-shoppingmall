@@ -88,7 +88,7 @@ public class ProductInsertController extends HttpServlet {
 				JSONArray arrResult = (JSONArray)jUploadResult.get("result");
 				item.setThumbnail((String)arrResult.get(0));
 				item.setSellerId(sellerId);
-				
+							
 				if(ProductService.getInstance().insert(item) == 1)
 				{
 					retval.put("code", 0);

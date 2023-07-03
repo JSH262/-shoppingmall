@@ -56,7 +56,7 @@ public class ProductListController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		params.put("for", "list");
+		params.put("choose", "list");
 		
 		ProductService service = ProductService.getInstance();
 		int totalCount = service.totalCount(null);
@@ -66,8 +66,7 @@ public class ProductListController extends HttpServlet {
 		JSONObject result = new JSONObject();
 		
 		result.put("list", list);
-		result.put("currentPage", currentPage);
-		result.put("pageSize", pageSize);
+		result.put("paging", page);
 		retval.put("result", result);
 		retval.put("code", 0);
 		
@@ -85,7 +84,7 @@ public class ProductListController extends HttpServlet {
 			long currentPage = (long)params.get("currentPage");
 			long pageSize = (long)params.get("pageSize");			
 			
-			serviceParams.put("for", "list");
+			serviceParams.put("choose", "list");
 			serviceParams.put("name", params.get("name"));
 			serviceParams.put("categoryId", params.get("categoryId"));
 			
@@ -96,8 +95,7 @@ public class ProductListController extends HttpServlet {
 			JSONObject result = new JSONObject();
 						
 			result.put("list", list);
-			result.put("currentPage", currentPage);
-			result.put("pageSize", pageSize);
+			result.put("paging", page);
 			retval.put("result", result);
 			retval.put("code", 0);
 			

@@ -31,8 +31,8 @@ public class ProductDAO {
 		return (int)mapper.selectOne("Product.totalCount", params);
 	}
 
-	public ProductVO select(SqlSession mapper, int id) {
-		return (ProductVO)mapper.selectOne("Product.select", id);
+	public ProductVO select(SqlSession mapper, ProductVO params) {
+		return (ProductVO)mapper.selectOne("Product.select", params);
 	}
 	
 	

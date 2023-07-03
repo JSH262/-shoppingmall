@@ -54,36 +54,59 @@ public class ProductModifyController extends HttpServlet {
 		try 
 		{
 			ProductVO params = new ProductVO(mr);
-			String strUploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {mr.getFile("file")}, "file", fileUploadUrl, null);			
-			JSONObject jUploadResult = (JSONObject)parser.parse(strUploadResult);
-			if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
+			File uploadThumImage = mr.getFile("file");
+			
+			if(uploadThumImage != null)
 			{
-				JSONArray result = (JSONArray)jUploadResult.get("result");
-				String fileId = (String)result.get(0);
-				
-				params.setThumbnail(fileId);
-				
+				String strUploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {uploadThumImage}, "file", fileUploadUrl, null);			
+				JSONObject jUploadResult = (JSONObject)parser.parse(strUploadResult);
+				if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
+				{
+					JSONArray result = (JSONArray)jUploadResult.get("result");
+					String fileId = (String)result.get(0);
+					
+					params.setThumbnail(fileId);
+					
+					// 상품 정보를 수정				
+					if(service.update(params) == 1)
+					{
+						JSONObject resultData = new JSONObject();
+						
+						resultData.put("thumbnail", request.getContextPath() + "/image/" + fileId);
+						retval.put("result", resultData);
+						retval.put("code", 0);
+					}
+					else
+					{
+						retval.put("code", -7);
+						retval.put("msg", "상품정보 수정 실패");	
+					}
+				}
+				else
+				{
+					//업로드 실패
+					retval.put("code", -1);
+					retval.put("msg", jUploadResult.get("msg"));
+				}
+			}
+			else
+			{
 				// 상품 정보를 수정				
 				if(service.update(params) == 1)
 				{
 					JSONObject resultData = new JSONObject();
 					
-					resultData.put("thumbnail", request.getContextPath() + "/image/" + fileId);
+					resultData.put("thumbnail", null);
 					retval.put("result", resultData);
 					retval.put("code", 0);
 				}
 				else
 				{
-					retval.put("code", -7);
+					retval.put("code", -9);
 					retval.put("msg", "상품정보 수정 실패");	
 				}
 			}
-			else
-			{
-				//업로드 실패
-				retval.put("code", -1);
-				retval.put("msg", jUploadResult.get("msg"));
-			}
+			
 		} 
 		catch (Exception e) 
 		{
