@@ -18,7 +18,8 @@
 				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price
 			</if>
 			<if test="choose != null and choose == 'detail'">
-				rnum, id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
+				rnum, id, name, discount, price, 
+				category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
 				
 				price - price * (discount / 100) discountPrice,				
 				to_char(amount, 'FM999,999,999') fmt_amount,
@@ -66,7 +67,8 @@
 			</if>
 			<if test="choose != null and choose == 'detail'">
 				id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
-				
+				contents,
+				thumbnail,
 				price - price * (discount / 100) discountPrice,				
 				to_char(amount, 'FM999,999,999') fmt_amount,
 				to_char(price, 'FM999,999,999') fmt_price,
