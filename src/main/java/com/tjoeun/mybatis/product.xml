@@ -70,7 +70,6 @@
 				id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
 				contents,
 				thumbnail,
-				price - price * (discount / 100.0) discount_price,
 				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
 				to_char(price, 'FM999,999,999') || '원' fmt_price,
 				discount || '%' fmt_discount,

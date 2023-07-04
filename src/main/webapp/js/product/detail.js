@@ -2,7 +2,7 @@
 function inputTextEnable(item)
 {
 	item.removeClass('text-readonly');
-	item.attr('readonly', false);
+	item.attr('readonly', false);	
 }
 function inputTextDisable(item)
 {
@@ -18,15 +18,55 @@ function showTag(item)
 	item.removeClass('node-hide');	
 }
 
-function inputShow(enable)
+function changeClassControlBox(cmd)
 {
-	if(enable)
+	switch(cmd)
 	{
-	}
-	else
-	{
+	case 'modify':
+		$("#name").removeClass("text-readonly");
+		$('#name').attr('readonly', false);			
+		$("#thumbnail").addClass('node-hide');
+		$("#file").removeClass('node-hide');			
+		$("#categoryId").attr('disabled', false);			
+		$("#price").removeClass('text-readonly');
+		$("#price").removeClass('node-hide');
+		$("#fmtPrice").addClass("node-hide");
+		$("#discountPriceNode").addClass('node-hide');		
+		$("#discount").removeClass('text-readonly');
+		$("#discount").removeClass('node-hide');
+		$("#fmtDiscount").addClass("node-hide");
+		$("#amount").removeClass('text-readonly');
+		$("#amount").removeClass('node-hide');
+		$("#fmtAmount").addClass("node-hide");			
+		$("#deliveryPrice").removeClass('text-readonly');
+		$("#deliveryPrice").removeClass('node-hide');
+		$("#fmtDeliveryPrice").addClass("node-hide");
 		
+		break;
+		
+		
+	case 'cancel':
+		$("#name").addClass("text-readonly");
+		$('#name').attr('readonly', true);			
+		$("#thumbnail").removeClass('node-hide');
+		$("#file").addClass('node-hide');			
+		$("#categoryId").attr('disabled', true);			
+		$("#price").addClass('text-readonly');
+		$("#price").addClass('node-hide');
+		$("#fmtPrice").removeClass("node-hide");
+		$("#discountPriceNode").removeClass("node-hide");		
+		$("#discount").addClass('text-readonly');
+		$("#discount").addClass('node-hide');
+		$("#fmtDiscount").removeClass("node-hide");			
+		$("#amount").addClass('text-readonly');
+		$("#amount").addClass('node-hide');
+		$("#fmtAmount").removeClass("node-hide");			
+		$("#deliveryPrice").addClass('text-readonly');
+		$("#deliveryPrice").addClass('node-hide');
+		$("#fmtDeliveryPrice").removeClass("node-hide");
+		break;
 	}
+	
 }
 
 $(() => {
@@ -98,26 +138,7 @@ $(() => {
 				}
 			});
 			
-			// 수정하기를 누르면 컨트롤을 활성화시킨다.
-			inputTextEnable($("#name"));
-			hideTag($("#thumbnail"));	//썸네일은 숨기고 파일 컨트롤을 보여준다.
-			showTag($("#file"));
-			inputTextEnable($("#price"));
-			inputTextEnable($("#discount"));
-			inputTextEnable($("#amount"));
-			inputTextEnable($("#deliveryPrice"));
-			inputTextEnable($("#discount"));
-			inputTextEnable($("#amount"));
-			inputTextEnable($("#deliveryPrice"));
-			$("#categoryId").attr('disabled', false);
-			
-			// 수정하기를 누르면 읽기전용 컨트롤러를 비활성화(숨김)시킨다.
-			inputTextDisable($("fmtPrice"));
-			inputTextDisable($("fmtDiscountPrice"));
-			inputTextDisable($("fmtDiscount"));
-			inputTextDisable($("fmtAmount"));
-			inputTextDisable($("fmtDeliveryPrice"));
-			
+			changeClassControlBox('modify');
 			
 			$('#save').removeClass('node-hide');
 			$('#cancel').removeClass('node-hide');
@@ -136,24 +157,8 @@ $(() => {
 			$("#contents").html(oldContents);
 			$("#categoryId").val(oldCategoryId);
 			
-			inputTextDisable($("#name"));
-			showTag($("#thumbnail"));
-			inputTextDisable($("#price"));
-			inputTextDisable($("#discount"));
-			inputTextDisable($("#amount"));
-			inputTextDisable($("#deliveryPrice"));
-			inputTextDisable($("#discount"));
-			inputTextDisable($("#amount"));
-			inputTextDisable($("#deliveryPrice"));
-			$("#categoryId").attr('disabled', true);
-			showTag($("#file"));
 			
-			// 취소하기를 누르면 읽기전용 컨트롤러를 활성화시킨다.
-			inputTextEnable($("fmtPrice"));
-			inputTextEnable($("fmtDiscountPrice"));
-			inputTextEnable($("fmtDiscount"));
-			inputTextEnable($("fmtAmount"));
-			inputTextEnable($("fmtDeliveryPrice"));
+			changeClassControlBox('cancel');
 			
 			$('#save').addClass('node-hide');
 			$('#cancel').addClass('node-hide');
@@ -208,13 +213,11 @@ $(() => {
 				{
 					let result = resp.result;
 					
+					console.log(result);
+					
 					if(result.thumbnail)					
 						$("#thumbnail").attr('src', result.thumbnail);
 						
-						
-						
-					showTag($("#thumbnail"));
-					hideTag($("#file"));
 					$("#categoryId").attr('disabled', true);
 		
 					$('#save').addClass('node-hide');
@@ -231,27 +234,14 @@ $(() => {
 					oldContents = $("#contents").html();	
 					
 					//
-					$("fmtPrice").val(result.fmtPrice);
-					$("fmtDiscountPrice").val(result.fmtDiscountPrice);
-					$("fmtDiscount").val(result.fmtDiscount);
-					$("fmtAmount").val(result.fmtAmount);
-					$("fmtDeliveryPrice").val(result.fmtDeliveryPrice);
+					$("#fmtPrice").val(result.fmtPrice);
+					$("#fmtDiscountPrice").val(result.fmtDiscountPrice);
+					$("#fmtDiscount").val(result.fmtDiscount);
+					$("#fmtAmount").val(result.fmtAmount);
+					$("#fmtDeliveryPrice").val(result.fmtDeliveryPrice);
 					
-					inputTextDisable($("#name"));
-					inputTextDisable($("#price"));
-					inputTextDisable($("#discount"));
-					inputTextDisable($("#amount"));
-					inputTextDisable($("#deliveryPrice"));
-					inputTextDisable($("#discount"));
-					inputTextDisable($("#amount"));
-					inputTextDisable($("#deliveryPrice"));
 					
-					// 저장하기를 누르면 읽기전용 컨트롤러를 활성화시킨다.
-					inputTextEnable($("fmtPrice"));
-					inputTextEnable($("fmtDiscountPrice"));
-					inputTextEnable($("fmtDiscount"));
-					inputTextEnable($("fmtAmount"));
-					inputTextEnable($("fmtDeliveryPrice"));
+					changeClassControlBox('cancel');
 				}, 
 				function()
 				{
