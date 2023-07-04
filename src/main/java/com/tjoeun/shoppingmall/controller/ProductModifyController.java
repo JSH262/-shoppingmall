@@ -2,6 +2,9 @@ package com.tjoeun.shoppingmall.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -71,8 +74,15 @@ public class ProductModifyController extends HttpServlet {
 					if(service.update(params) == 1)
 					{
 						JSONObject resultData = new JSONObject();
-						
+						NumberFormat numFormat = NumberFormat.getInstance();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E) H:m:s");
+											
 						resultData.put("thumbnail", request.getContextPath() + "/image/" + fileId);
+						resultData.put("fmtPrice", numFormat.format(params.getPrice()) + "원");
+						resultData.put("fmtDiscountPrice", numFormat.format(params.getPrice() - (params.getPrice() * params.getDiscount() * 100)) + "원");
+						resultData.put("fmtDiscount", params.getDiscount()  + "%");
+						resultData.put("fmtAmount", numFormat.format(params.getAmount()) + "개");
+						resultData.put("fmtDeliveryPrice", numFormat.format(params.getDeliveryPrice()) + "원");
 						retval.put("result", resultData);
 						retval.put("code", 0);
 					}

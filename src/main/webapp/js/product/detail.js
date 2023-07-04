@@ -2,10 +2,12 @@
 function inputTextEnable(item)
 {
 	item.removeClass('text-readonly');
+	item.attr('readonly', false);
 }
 function inputTextDisable(item)
 {
 	item.addClass('text-readonly');
+	item.attr('readonly', true);
 }
 function hideTag(item)
 {
@@ -14,6 +16,17 @@ function hideTag(item)
 function showTag(item)
 {
 	item.removeClass('node-hide');	
+}
+
+function inputShow(enable)
+{
+	if(enable)
+	{
+	}
+	else
+	{
+		
+	}
 }
 
 $(() => {
@@ -37,9 +50,9 @@ $(() => {
 		
 		$("#modify").bind('click', function() {	
 			$("#contents").summernote({
-				tabsize:2,
+				tabsize: 2,
 				lang: 'ko-KR',
-				height: 500,
+				//height: 500,
 				toolbar: [
 		          ['style', ['style']],
 		          ['font', ['bold', 'underline', 'clear']],
@@ -85,9 +98,10 @@ $(() => {
 				}
 			});
 			
-			
+			// 수정하기를 누르면 컨트롤을 활성화시킨다.
 			inputTextEnable($("#name"));
-			hideTag($("#thumbnail"));
+			hideTag($("#thumbnail"));	//썸네일은 숨기고 파일 컨트롤을 보여준다.
+			showTag($("#file"));
 			inputTextEnable($("#price"));
 			inputTextEnable($("#discount"));
 			inputTextEnable($("#amount"));
@@ -96,7 +110,14 @@ $(() => {
 			inputTextEnable($("#amount"));
 			inputTextEnable($("#deliveryPrice"));
 			$("#categoryId").attr('disabled', false);
-			showTag($("#file"));
+			
+			// 수정하기를 누르면 읽기전용 컨트롤러를 비활성화(숨김)시킨다.
+			inputTextDisable($("fmtPrice"));
+			inputTextDisable($("fmtDiscountPrice"));
+			inputTextDisable($("fmtDiscount"));
+			inputTextDisable($("fmtAmount"));
+			inputTextDisable($("fmtDeliveryPrice"));
+			
 			
 			$('#save').removeClass('node-hide');
 			$('#cancel').removeClass('node-hide');
@@ -115,7 +136,6 @@ $(() => {
 			$("#contents").html(oldContents);
 			$("#categoryId").val(oldCategoryId);
 			
-			
 			inputTextDisable($("#name"));
 			showTag($("#thumbnail"));
 			inputTextDisable($("#price"));
@@ -127,6 +147,13 @@ $(() => {
 			inputTextDisable($("#deliveryPrice"));
 			$("#categoryId").attr('disabled', true);
 			showTag($("#file"));
+			
+			// 취소하기를 누르면 읽기전용 컨트롤러를 활성화시킨다.
+			inputTextEnable($("fmtPrice"));
+			inputTextEnable($("fmtDiscountPrice"));
+			inputTextEnable($("fmtDiscount"));
+			inputTextEnable($("fmtAmount"));
+			inputTextEnable($("fmtDeliveryPrice"));
 			
 			$('#save').addClass('node-hide');
 			$('#cancel').addClass('node-hide');
@@ -179,8 +206,12 @@ $(() => {
 			AjaxForm(url, "POST", data, 
 				function(resp)
 				{
-					if(resp.result.thumbnail)					
-						$("#thumbnail").attr('src', resp.result.thumbnail);
+					let result = resp.result;
+					
+					if(result.thumbnail)					
+						$("#thumbnail").attr('src', result.thumbnail);
+						
+						
 						
 					showTag($("#thumbnail"));
 					hideTag($("#file"));
@@ -199,6 +230,13 @@ $(() => {
 					oldDeliveryPrice = $("#deliveryPrice").val();			
 					oldContents = $("#contents").html();	
 					
+					//
+					$("fmtPrice").val(result.fmtPrice);
+					$("fmtDiscountPrice").val(result.fmtDiscountPrice);
+					$("fmtDiscount").val(result.fmtDiscount);
+					$("fmtAmount").val(result.fmtAmount);
+					$("fmtDeliveryPrice").val(result.fmtDeliveryPrice);
+					
 					inputTextDisable($("#name"));
 					inputTextDisable($("#price"));
 					inputTextDisable($("#discount"));
@@ -207,6 +245,13 @@ $(() => {
 					inputTextDisable($("#discount"));
 					inputTextDisable($("#amount"));
 					inputTextDisable($("#deliveryPrice"));
+					
+					// 저장하기를 누르면 읽기전용 컨트롤러를 활성화시킨다.
+					inputTextEnable($("fmtPrice"));
+					inputTextEnable($("fmtDiscountPrice"));
+					inputTextEnable($("fmtDiscount"));
+					inputTextEnable($("fmtAmount"));
+					inputTextEnable($("fmtDeliveryPrice"));
 				}, 
 				function()
 				{

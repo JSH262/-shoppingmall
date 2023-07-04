@@ -55,7 +55,7 @@
 						상품 이름
 					</th>
 					<td>
-						<input class="text-readonly" type="text" id="name" name="name" value="<%=vo.getName() %>" />	
+						<input class="text-readonly" type="text" id="name" name="name" value="<%=vo.getName() %>" readonly="readonly" />	
 					</td>
 				</tr>
 			
@@ -93,6 +93,7 @@
 					</th>
 					<td>
 						<input class="text-readonly" type="number" id="price" name="price" value="<%=vo.getPrice() %>" />
+						<input class="text-readonly" type="text" id="fmtPrice" name="fmtPrice" value="<%=vo.getFmtPrice() %>" readonly="readonly" />
 					</td>
 				</tr>
 				
@@ -101,7 +102,8 @@
 						할인된 상품 가격
 					</th>
 					<td>
-						<input class="text-readonly" type="number" id="discountPrice" name="discountPrice" value="<%=vo.getFmtDiscountPrice() %>" />
+						<input class="text-readonly" type="text" id="discountPrice" name="discountPrice" value="<%=vo.getDiscountPrice() %>" />
+						<input class="text-readonly" type="text" id="fmtDiscountPrice" name="fmtDiscountPrice" value="<%=vo.getFmtDiscountPrice() %>" readonly="readonly" />
 					</td>
 				</tr>
 				
@@ -112,6 +114,7 @@
 					</th>
 					<td>
 						<input class="text-readonly" type="number" id="discount" name="discount" value="<%=vo.getDiscount() %>" />
+						<input class="text-readonly" type="text" id="fmtDiscount" name="fmtDiscount" value="<%=vo.getFmtDiscount() %>" readonly="readonly" />
 					</td>
 				</tr>
 				
@@ -119,6 +122,7 @@
 					<th>상품 수량</th>
 					<td>
 						<input class="text-readonly" type="number" id="amount" name="amount" value="<%=vo.getAmount() %>" />
+						<input class="text-readonly" type="text" id="fmtAmount" name="fmtAmount" value="<%=vo.getFmtAmount() %>" readonly="readonly" />
 					</td>
 				</tr>
 			
@@ -126,6 +130,7 @@
 					<th>상품 배송비</th>
 					<td>
 						<input class="text-readonly" type="number" id="deliveryPrice" name="deliveryPrice" value="<%=vo.getDeliveryPrice() %>" />
+						<input class="text-readonly" type="text" id="fmtDeliveryPrice" name="fmtDeliveryPrice" value="<%=vo.getFmtDeliveryPrice() %>" readonly="readonly" />
 					</td>
 				</tr>
 				<tr>
