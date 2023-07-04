@@ -54,7 +54,7 @@
 	</head>
 	<body>
 		<form id="form" action="<%=request.getContextPath() %>">
-			<table border="1" cellpadding="5" cellspacing="1">
+			<table border="1" cellpadding="5" cellspacing="1" style="margin: 0px auto;">
 				<tr>
 					<th>
 						상품 이름
