@@ -26,7 +26,6 @@ public class ProductVO extends BaseVO
 	String useYn;
 	String createDate;
 	String modifyDate;
-	Integer discountPrice;
 	
 	String fmtAmount;
 	String fmtPrice;
@@ -157,14 +156,6 @@ public class ProductVO extends BaseVO
 
 	public void setFmtDeliveryPrice(String fmtDeliveryPrice) {
 		this.fmtDeliveryPrice = fmtDeliveryPrice;
-	}
-
-	public Integer getDiscountPrice() {
-		return discountPrice;
-	}
-
-	public void setDiscountPrice(Integer discountPrice) {
-		this.discountPrice = discountPrice;
 	}
 
 	public String getFmtDiscountPrice() {

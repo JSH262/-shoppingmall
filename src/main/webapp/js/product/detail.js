@@ -2,10 +2,12 @@
 function inputTextEnable(item)
 {
 	item.removeClass('text-readonly');
+	item.attr('readonly', false);	
 }
 function inputTextDisable(item)
 {
 	item.addClass('text-readonly');
+	item.attr('readonly', true);
 }
 function hideTag(item)
 {
@@ -14,6 +16,57 @@ function hideTag(item)
 function showTag(item)
 {
 	item.removeClass('node-hide');	
+}
+
+function changeClassControlBox(cmd)
+{
+	switch(cmd)
+	{
+	case 'modify':
+		$("#name").removeClass("text-readonly");
+		$('#name').attr('readonly', false);			
+		$("#thumbnail").addClass('node-hide');
+		$("#file").removeClass('node-hide');			
+		$("#categoryId").attr('disabled', false);			
+		$("#price").removeClass('text-readonly');
+		$("#price").removeClass('node-hide');
+		$("#fmtPrice").addClass("node-hide");
+		$("#discountPriceNode").addClass('node-hide');		
+		$("#discount").removeClass('text-readonly');
+		$("#discount").removeClass('node-hide');
+		$("#fmtDiscount").addClass("node-hide");
+		$("#amount").removeClass('text-readonly');
+		$("#amount").removeClass('node-hide');
+		$("#fmtAmount").addClass("node-hide");			
+		$("#deliveryPrice").removeClass('text-readonly');
+		$("#deliveryPrice").removeClass('node-hide');
+		$("#fmtDeliveryPrice").addClass("node-hide");
+		
+		break;
+		
+		
+	case 'cancel':
+		$("#name").addClass("text-readonly");
+		$('#name').attr('readonly', true);			
+		$("#thumbnail").removeClass('node-hide');
+		$("#file").addClass('node-hide');			
+		$("#categoryId").attr('disabled', true);			
+		$("#price").addClass('text-readonly');
+		$("#price").addClass('node-hide');
+		$("#fmtPrice").removeClass("node-hide");
+		$("#discountPriceNode").removeClass("node-hide");		
+		$("#discount").addClass('text-readonly');
+		$("#discount").addClass('node-hide');
+		$("#fmtDiscount").removeClass("node-hide");			
+		$("#amount").addClass('text-readonly');
+		$("#amount").addClass('node-hide');
+		$("#fmtAmount").removeClass("node-hide");			
+		$("#deliveryPrice").addClass('text-readonly');
+		$("#deliveryPrice").addClass('node-hide');
+		$("#fmtDeliveryPrice").removeClass("node-hide");
+		break;
+	}
+	
 }
 
 $(() => {
@@ -37,9 +90,9 @@ $(() => {
 		
 		$("#modify").bind('click', function() {	
 			$("#contents").summernote({
-				tabsize:2,
+				tabsize: 2,
 				lang: 'ko-KR',
-				height: 500,
+				//height: 500,
 				toolbar: [
 		          ['style', ['style']],
 		          ['font', ['bold', 'underline', 'clear']],
@@ -85,18 +138,7 @@ $(() => {
 				}
 			});
 			
-			
-			inputTextEnable($("#name"));
-			hideTag($("#thumbnail"));
-			inputTextEnable($("#price"));
-			inputTextEnable($("#discount"));
-			inputTextEnable($("#amount"));
-			inputTextEnable($("#deliveryPrice"));
-			inputTextEnable($("#discount"));
-			inputTextEnable($("#amount"));
-			inputTextEnable($("#deliveryPrice"));
-			$("#categoryId").attr('disabled', false);
-			showTag($("#file"));
+			changeClassControlBox('modify');
 			
 			$('#save').removeClass('node-hide');
 			$('#cancel').removeClass('node-hide');
@@ -116,17 +158,7 @@ $(() => {
 			$("#categoryId").val(oldCategoryId);
 			
 			
-			inputTextDisable($("#name"));
-			showTag($("#thumbnail"));
-			inputTextDisable($("#price"));
-			inputTextDisable($("#discount"));
-			inputTextDisable($("#amount"));
-			inputTextDisable($("#deliveryPrice"));
-			inputTextDisable($("#discount"));
-			inputTextDisable($("#amount"));
-			inputTextDisable($("#deliveryPrice"));
-			$("#categoryId").attr('disabled', true);
-			showTag($("#file"));
+			changeClassControlBox('cancel');
 			
 			$('#save').addClass('node-hide');
 			$('#cancel').addClass('node-hide');
@@ -179,11 +211,13 @@ $(() => {
 			AjaxForm(url, "POST", data, 
 				function(resp)
 				{
-					if(resp.result.thumbnail)					
-						$("#thumbnail").attr('src', resp.result.thumbnail);
+					let result = resp.result;
+					
+					console.log(result);
+					
+					if(result.thumbnail)					
+						$("#thumbnail").attr('src', result.thumbnail);
 						
-					showTag($("#thumbnail"));
-					hideTag($("#file"));
 					$("#categoryId").attr('disabled', true);
 		
 					$('#save').addClass('node-hide');
@@ -199,14 +233,15 @@ $(() => {
 					oldDeliveryPrice = $("#deliveryPrice").val();			
 					oldContents = $("#contents").html();	
 					
-					inputTextDisable($("#name"));
-					inputTextDisable($("#price"));
-					inputTextDisable($("#discount"));
-					inputTextDisable($("#amount"));
-					inputTextDisable($("#deliveryPrice"));
-					inputTextDisable($("#discount"));
-					inputTextDisable($("#amount"));
-					inputTextDisable($("#deliveryPrice"));
+					//
+					$("#fmtPrice").val(result.fmtPrice);
+					$("#fmtDiscountPrice").val(result.fmtDiscountPrice);
+					$("#fmtDiscount").val(result.fmtDiscount);
+					$("#fmtAmount").val(result.fmtAmount);
+					$("#fmtDeliveryPrice").val(result.fmtDeliveryPrice);
+					
+					
+					changeClassControlBox('cancel');
 				}, 
 				function()
 				{

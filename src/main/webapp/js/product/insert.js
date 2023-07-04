@@ -3,6 +3,8 @@
 $(() => {
 	const contextPath = $("#form").attr('action');
 	const fileUploadUrl = contextPath + '/image/';
+	const currentPage = $('#currentPage').val();
+	const pageSize = $('#pageSize').val();
 	
 	$("#contents").summernote({
 		tabsize:2,
@@ -108,8 +110,7 @@ $(() => {
 				else
 				{
 					alert(resp.msg);
-				}
-							
+				}	
 			}, 
 			function(err)
 			{
@@ -117,5 +118,9 @@ $(() => {
 			});
 	});
 	
+	
+	$("#return").bind('click', function() {
+		location.href = `${contextPath}/product/list.jsp?currentPage=${currentPage}&pageSize=${pageSize}`;
+	});
 	
 });

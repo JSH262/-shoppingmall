@@ -71,6 +71,12 @@
 					<th colspan="8">
 						등록한 상품 목록
 					</th>
+					
+				</tr>
+				<tr>
+					<td colspan="8" align="right">
+						<input type="button" id="registerProduct" value="상품 등록하기" />
+					</td>
 				</tr>
 				<tr>
 					<th>순번</th>
@@ -93,8 +99,8 @@
 				</tr>
 			</tfoot>			
 		</table>
-		<input type="hidden" id="currentPage" name="currentPage" value="<%=currentPage %>" />
-		<input type="hidden" id="pageSize" name="pageSize" value="<%=pageSize %>" />
 	</form>
+	<input type="hidden" id="currentPage" name="currentPage" value="<%=currentPage %>" />
+	<input type="hidden" id="pageSize" name="pageSize" value="<%=pageSize %>" />
 </body>
 </html>
