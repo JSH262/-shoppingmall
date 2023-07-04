@@ -6,6 +6,11 @@ $(() => {
 	let pageSize = $("#pageSize").val();
 	
 	
+	$("#registerProduct").bind('click', function() {
+		location.href = `${contextPath}/product/insert.jsp?currentPage=${currentPage}&pageSize=${pageSize}`;
+	});
+	
+	
 	Ajax(contextPath + `/product/list?currentPage=${currentPage}&pageSize=${pageSize}`, "GET", null, 
 		function(resp) 
 		{

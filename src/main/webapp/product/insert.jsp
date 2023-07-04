@@ -102,9 +102,13 @@
 			<tr>
 				<td colspan="2" align="center">
 					<input type="button" id="formSubmit" value="상품 추가하기" />
+					<input type="button" id="return" value="돌아가기" />
 				</td>				
 			</tr>
 		</table>
 	</form>
+	<input type="hidden" id="currentPage" name="currentPage" value="<%=request.getParameter("currentPage") %>">
+	<input type="hidden" id="pageSize" name="pageSize" value="<%=request.getParameter("pageSize") %>">
+	
 </body>
 </html>

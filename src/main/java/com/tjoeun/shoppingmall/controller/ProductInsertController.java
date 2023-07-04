@@ -68,6 +68,70 @@ public class ProductInsertController extends HttpServlet {
 	{
 		JSONObject retval = new JSONObject();
 		
+		try
+		{
+			MultipartRequest mr = new MultipartRequest(request, this.getServletContext().getRealPath(""), 8000000, "UTF-8", new DefaultFileRenamePolicy());
+			String uploadUrl = setting.getUploadPath() + "/image/";
+			ProductVO item = new ProductVO(mr);
+			File uploadFile = mr.getFile("file");
+			
+///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
+			String sellerId = "asdf1234";
+			
+			if(uploadFile != null)
+			{
+				String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {uploadFile}, "file", uploadUrl, null);
+				org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+				JSONObject jUploadResult = (JSONObject)parser.parse(uploadResult);
+							
+				if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
+				{
+					// 3. 상품 정보를 저장한다.
+					JSONArray arrResult = (JSONArray)jUploadResult.get("result");
+					item.setThumbnail((String)arrResult.get(0));		
+					retval.put("uploadCode", 0);
+				}
+				else
+				{
+					//업로드 실패
+					retval.put("uploadCode", jUploadResult.get("code"));
+					retval.put("uploadMsg", jUploadResult.get("msg"));
+				}
+			}
+			
+			item.setSellerId(sellerId);
+						
+			if(ProductService.getInstance().insert(item) == 1)
+			{
+				retval.put("code", 0);
+				retval.put("msg", "상품등록 성공");
+				retval.put("result", request.getContextPath() + "/product/list.jsp");
+			}
+			else
+			{
+				retval.put("code", -3);
+				retval.put("msg", "상품등록 실패");
+			}
+		}
+		catch(Exception exp)
+		{
+			retval.put("code", -2);
+			retval.put("msg", exp.getMessage());
+			
+			exp.printStackTrace();
+		}
+		
+		
+		response.setContentType("applicatoin/json; charset=UTF-8");
+		
+		response.getWriter().write(retval.toJSONString());
+	}
+
+	/*
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		JSONObject retval = new JSONObject();
+		
 		
 		try
 		{
@@ -77,8 +141,14 @@ public class ProductInsertController extends HttpServlet {
 
 ///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
 			String sellerId = "asdf1234";
+			File uploadFile = mr.getFile("file");
 			
-			String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {mr.getFile("file")}, "file", uploadUrl, null);
+			if(uploadFile != null)
+			{
+				
+			}
+			
+			String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {uploadFile}, "file", uploadUrl, null);
 			org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 			JSONObject jUploadResult = (JSONObject)parser.parse(uploadResult);
 						
@@ -123,7 +193,8 @@ public class ProductInsertController extends HttpServlet {
 		
 		response.getWriter().write(retval.toJSONString());
 	}
-
+	*/
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
