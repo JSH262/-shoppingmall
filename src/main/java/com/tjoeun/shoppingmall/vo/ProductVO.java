@@ -27,12 +27,14 @@ public class ProductVO extends BaseVO
 	String createDate;
 	String modifyDate;
 	
-	String fmtAmount;
-	String fmtPrice;
-	String fmtDiscount;
-	String fmtDeliveryPrice;
-	String fmtDiscountPrice;
-		
+	String fmtAmount; 	//문자열 포멧이 적용된 상품의 수량(n개)
+	String fmtPrice;	//문자열 포멧이 적용된 상품의 가격(0,000원)
+	String fmtDiscount;	//문자열 포멧이 적용된 상품의 할인률(n%)
+	String fmtDeliveryPrice;	//문자열 포멧이 적용된 배송료(0,000원)
+	String fmtDiscountPrice;	//문자열 포멧이 적용된 상품의 할인률이 적용된 상품의 가격(0,000원)
+	String discountPrice;		//상품의 할인율이 적용된 상품의 가격(00000)
+	
+	
 	public ProductVO()
 	{}
 	
@@ -166,16 +168,18 @@ public class ProductVO extends BaseVO
 		this.fmtDiscountPrice = fmtDiscountPrice;
 	}
 
+	public String getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(String discountPrice) {
+		this.discountPrice = discountPrice;
+	}
+
 	@Override
 	public String toString()
 	{
 		return 	new Gson().toJson(this);
 	}
 	
-	public String contents() {
-		return "ProductVO [rnum=" + rnum + ", id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", amount="
-				+ amount + ", price=" + price + ", discount=" + discount + ", deliveryPrice=" + deliveryPrice
-				+ ", contents=" + contents + ", thumbnail=" + thumbnail + ", sellerId=" + sellerId + ", useYn=" + useYn
-				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + "]";
-	}
 }

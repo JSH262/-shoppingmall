@@ -69,7 +69,21 @@
 						상품 썸네일
 					</th>
 					<td colspan="2">
-						<img width="300px" id="thumbnail" name="thumbnail" src="<%=request.getContextPath() %>/image/<%=vo.getThumbnail() %>" />						
+						<%
+							if(vo.getThumbnail() != null && vo.getThumbnail().length() > 0)
+							{
+						%>
+								<img width="300px" id="thumbnail" name="thumbnail" src="<%=request.getContextPath() %>/image/<%=vo.getThumbnail() %>" />
+						<%
+							}
+							else
+							{
+						%>
+								<img width="300px" id="thumbnail" name="thumbnail" src="<%=request.getContextPath() %>/resources/default/noimg.png" />
+						<%	
+							}
+						%>
+												
 						<input class="node-hide" type="file" id="file" name="file" />
 					</td>
 									

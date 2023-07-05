@@ -33,9 +33,104 @@ public class ProductListController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+		doAction(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	{
+		doAction(request, response);	
+	}
+	
+	void doAction(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
+		{
+//////////////////////////////////////////////////////////////////////// 테스트 용
+			// 사용자가 판매자일 경우와 구매자일 경우 전달하는 목록이나 기능이 달라져야 한다.
+			String sellerId = null; 
+			
+			HashMap<String, Object> serviceParams = new HashMap<>();
+			ProductService service = ProductService.getInstance();
+			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
+			long currentPage = 1;
+			long pageSize = 15;
+			
+			System.out.println(params);
+			
+			if(params != null)
+			{				
+				// POST
+				currentPage = (long)params.get("currentPage");
+				pageSize = (long)params.get("pageSize");
+				String searchValue = (String)params.get("searchValue");
+				String searchCategory = (String)params.get("searchCategory");				
+				
+				if(searchValue != null && searchValue.length() > 0)
+				{
+					switch(searchCategory)
+					{
+					case "categoryId":
+						serviceParams.put("categoryId", searchValue);
+						break;
+						
+					case "name":
+						serviceParams.put("name", searchValue);
+						break;
+					}
+				}
+				else
+				{
+					searchValue = null;
+					searchCategory = null;
+				}
+			}
+			else
+			{
+				// GET
+				try 
+				{
+					ProductPagingVO page = new ProductPagingVO(request);
+					
+					currentPage = (long)page.getCurrentPage();
+					pageSize = (long)page.getPageSize();
+				}
+				catch (Exception e) 
+				{				
+					e.printStackTrace();
+				}
+				
+			}
+			
+			serviceParams.put("choose", "list");
+			serviceParams.put("sellerId", sellerId);
+			
+			int totalCount = service.totalCount(serviceParams);
+			ProductPagingVO page = new ProductPagingVO((int)currentPage, totalCount, (int)pageSize);
+			List<ProductVO> list = service.selectList(serviceParams, page);
+			JSONObject retval = new JSONObject();
+			JSONObject result = new JSONObject();
+						
+			result.put("list", list);
+			result.put("paging", page);
+			retval.put("result", result);
+			retval.put("code", 0);
+			
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().write(retval.toJSONString());
+		}
+		catch(IOException exp)
+		{
+			exp.printStackTrace();
+		}
+	}
+    
+    
+    
+    
+    /*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//product 리스트 조회 -> JSON 변환 -> 전송
@@ -106,7 +201,7 @@ public class ProductListController extends HttpServlet {
 		{
 			exp.printStackTrace();
 		}
-		
 	}
+	*/
 
 }
