@@ -147,6 +147,18 @@
 		</head>
 		<body>
 			<h1>구매자용 페이지</h1>
+			<div style="display:grid;grid-template-columns: 1fr 1fr 1fr;border:1px solid black;">
+				<div>
+					<img src="<%=request.getContextPath() %>/resources/default/noimg.png" />
+				</div>
+				<div>
+					<span>LG 식기세척기</span>
+					<del>999,999,999</del>
+					<span>10%</span>
+					<span>989,999,999</span>
+				</div>
+			</div>
+			
 			
 			
 			<input type="hidden" id="contextPath" name="form" value="<%=request.getContextPath() %>" />
