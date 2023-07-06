@@ -65,6 +65,79 @@ public class ProductInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{				
+		response.getWriter().write("???");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+JSONObject retval = new JSONObject();
+		
+		try
+		{
+			MultipartRequest mr = new MultipartRequest(request, this.getServletContext().getRealPath(""), 8000000, "UTF-8", new DefaultFileRenamePolicy());
+			String uploadUrl = setting.getUploadPath() + "/image/";
+			ProductVO item = new ProductVO(mr);
+			File uploadFile = mr.getFile("file");
+			
+///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
+			String sellerId = "asdf1234";
+			
+			if(uploadFile != null)
+			{
+				String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {uploadFile}, "file", uploadUrl, null);
+				org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+				JSONObject jUploadResult = (JSONObject)parser.parse(uploadResult);
+							
+				if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
+				{
+					// 3. 상품 정보를 저장한다.
+					JSONArray arrResult = (JSONArray)jUploadResult.get("result");
+					item.setThumbnail((String)arrResult.get(0));		
+					retval.put("uploadCode", 0);
+				}
+				else
+				{
+					//업로드 실패
+					retval.put("uploadCode", jUploadResult.get("code"));
+					retval.put("uploadMsg", jUploadResult.get("msg"));
+					item.setThumbnail("");
+				}
+			}
+			else
+			{
+				item.setThumbnail("");
+			}
+			
+			item.setSellerId(sellerId);
+						
+			if(ProductService.getInstance().insert(item) == 1)
+			{
+				retval.put("code", 0);
+				retval.put("msg", "상품등록 성공");
+				retval.put("result", request.getContextPath() + "/product/list.jsp");
+			}
+			else
+			{
+				retval.put("code", -3);
+				retval.put("msg", "상품등록 실패");
+			}
+		}
+		catch(Exception exp)
+		{
+			retval.put("code", -2);
+			retval.put("msg", exp.getMessage());
+			
+			exp.printStackTrace();
+		}
+		
+		
+		response.setContentType("applicatoin/json; charset=UTF-8");
+		
+		response.getWriter().write(retval.toJSONString());
+	}
+	
+	/*
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
 		
@@ -126,81 +199,7 @@ public class ProductInsertController extends HttpServlet {
 		
 		response.getWriter().write(retval.toJSONString());
 	}
-
-	/*
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		JSONObject retval = new JSONObject();
-		
-		
-		try
-		{
-			MultipartRequest mr = new MultipartRequest(request, this.getServletContext().getRealPath(""), 8000000, "UTF-8", new DefaultFileRenamePolicy());
-			String uploadUrl = setting.getUploadPath() + "/image/";
-			ProductVO item = new ProductVO(mr);
-
-///////////////////////////////////////////////////////////////////////////////////////// 테스트 용
-			String sellerId = "asdf1234";
-			File uploadFile = mr.getFile("file");
-			
-			if(uploadFile != null)
-			{
-				
-			}
-			
-			String uploadResult = com.tjoeun.helper.Util.SendPostImage(new File[] {uploadFile}, "file", uploadUrl, null);
-			org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
-			JSONObject jUploadResult = (JSONObject)parser.parse(uploadResult);
-						
-			if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
-			{
-				// 3. 상품 정보를 저장한다.
-				JSONArray arrResult = (JSONArray)jUploadResult.get("result");
-				item.setThumbnail((String)arrResult.get(0));
-				item.setSellerId(sellerId);
-							
-				if(ProductService.getInstance().insert(item) == 1)
-				{
-					retval.put("code", 0);
-					retval.put("msg", "상품등록 성공");
-					retval.put("result", request.getContextPath() + "/product/list.jsp");
-				}
-				else
-				{
-					retval.put("code", -3);
-					retval.put("msg", "상품등록 실패");
-				}
-			}
-			else
-			{
-				//업로드 실패
-				retval.put("code", -1);
-				retval.put("msg", jUploadResult.get("msg"));
-			}
-			
-			
-		}
-		catch(Exception exp)
-		{
-			retval.put("code", -2);
-			retval.put("msg", exp.getMessage());
-			
-			exp.printStackTrace();
-		}
-		
-		
-		response.setContentType("applicatoin/json; charset=UTF-8");
-		
-		response.getWriter().write(retval.toJSONString());
-	}
 	*/
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

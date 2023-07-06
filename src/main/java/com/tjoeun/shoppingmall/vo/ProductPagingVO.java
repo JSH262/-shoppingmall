@@ -18,6 +18,8 @@ public class ProductPagingVO extends BaseVO
 	Integer endPage;
 	Integer pageSize;
 	
+	String searchCategory;
+	String searchValue;
 	
 	
 	public ProductPagingVO()
@@ -111,6 +113,25 @@ public class ProductPagingVO extends BaseVO
 		this.pageSize = pageSize;
 	}
 	
+	
+	
+	
+	public String getSearchCategory() {
+		return searchCategory;
+	}
+
+	public void setSearchCategory(String searchCategory) {
+		this.searchCategory = searchCategory;
+	}
+
+	public String getSearchValue() {
+		return searchValue;
+	}
+
+	public void setSearchValue(String searchValue) {
+		this.searchValue = searchValue;
+	}
+
 	@Override
 	public String toString()
 	{
