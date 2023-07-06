@@ -143,22 +143,81 @@
 			
 			<title>Insert title here</title>
 			<style type="text/css">
+				.product-container {
+					display:grid;
+					grid-template-columns: 15% 1% 43% 1% 19% 1% 18%;
+					grid-template-rows: 1fr;
+					
+				}
+				.product-item {
+					font-size: 18px;
+					padding: 10px;
+				}
+				
+				.product-name-container {
+					display:grid;
+					grid-template-rows: auto auto auto auto auto 
+				}
+				.product-price-container {
+					display:grid;
+					grid-template-rows: auto auto auto auto auto 
+				}
+				.product-space {
+					height: 30px;
+				}
+				.v-line{
+					border-left: thin solid lightgray;
+					height:90%;
+					left: 1px;
+				}
+				.h-line {
+					border-top: thin solid lightgray;
+				}
 			</style>
 		</head>
 		<body>
 			<h1>구매자용 페이지</h1>
-			<div style="display:grid;grid-template-columns: 1fr 1fr 1fr;border:1px solid black;">
-				<div>
-					<img src="<%=request.getContextPath() %>/resources/default/noimg.png" />
-				</div>
-				<div>
-					<span>LG 식기세척기</span>
-					<del>999,999,999</del>
-					<span>10%</span>
-					<span>989,999,999</span>
+			<div id="list">
+				<div name="product">
+					<hr class="h-line" />
+					<div class="product-container">
+						<div class="product-item" name="thumnail">사진</div>
+						<div class="v-line"></div>
+						<div class="product-item">
+							<div class="product-name-container">
+								<div class="product-item" name="name">이름</div>
+								<div class="product-item">&nbsp;</div>
+								<div class="product-item">&nbsp;</div>
+								<div class="product-item">&nbsp;</div>
+								<div class="product-item">
+									<span name="score">평점</span>  
+									<span name="review">리뷰 개수</span>
+									<span>
+										<span name="bookmark">찜하기</span>
+										<span name="bookmarkCnt">찜하기 개수</span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="v-line"></div>
+						<div class="product-item">
+							<div class="product-price-container">
+								<div class="product-item" id="discountPrice" name="discountPrice">할인된 가격</div>
+								<div class="product-item">
+									<del name="price">원래가격</del>
+									<span name="discount">할인률</span>
+								</div>
+								<div class="product-item">&nbsp;</div>
+								<div class="product-item">&nbsp;</div>
+								<div class="product-item" name="deliveryPrice">배송비</div>
+							</div>
+						</div>
+						<div class="v-line"></div>
+						<div class="product-item" name="companyName">업체명</div>
+					</div>
+					<hr class="h-line" />
 				</div>
 			</div>
-			
 			
 			
 			<input type="hidden" id="contextPath" name="form" value="<%=request.getContextPath() %>" />
