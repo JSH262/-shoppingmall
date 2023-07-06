@@ -57,9 +57,7 @@ public class ProductListController extends HttpServlet {
 			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
 			long currentPage = 1;
 			long pageSize = 15;
-			
-			System.out.println(params);
-			
+						
 			if(params != null)
 			{				
 				// POST

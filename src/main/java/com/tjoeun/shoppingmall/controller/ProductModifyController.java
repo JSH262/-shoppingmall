@@ -58,6 +58,7 @@ public class ProductModifyController extends HttpServlet {
 		DecimalFormat numFormat = new DecimalFormat("###,###,###");
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E) H:m:s");
 		String thumbnailUrl = null;
+		
 		try 
 		{
 			ProductVO params = new ProductVO(mr);

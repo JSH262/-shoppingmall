@@ -46,7 +46,13 @@
 						</if>
 						<if test="sellerId != null">
 							and seller_id = #{sellerId}
-						</if>						
+						</if>
+						<if test="useYn != null">
+							and use_yn = #{useYn}
+						</if>
+						<if test="useYn == null">
+							and use_yn = 'Y'
+						</if>
 						order by id desc) t1
 				where rownum <![CDATA[ <= ]]> #{endNo})
 		where rnum <![CDATA[ >= ]]> #{startNo}
@@ -62,6 +68,12 @@
 		</if>
 		<if test="categoryId != null">
 			and category_id = #{categoryId}
+		</if>
+		<if test="useYn != null">
+			and use_yn = #{useYn}
+		</if>
+		<if test="useYn == null">
+			and use_yn = 'Y'
 		</if>
 	</select>	
 	
@@ -83,7 +95,13 @@
 				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price
 			</if>
 		from product
-		where id = #{id}
+		where id = #{id} 
+			<if test="useYn != null">
+				and use_yn = #{useYn}
+			</if>
+			<if test="useYn == null">
+				and use_yn = 'Y'
+			</if>
 	</select>
 	
 	<update id="update" parameterType="ProductVO">

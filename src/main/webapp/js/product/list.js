@@ -8,10 +8,11 @@ $(() => {
 	$("#pagination").empty();
 			
 	$("#registerProduct").bind('click', function() {
-		let currPage = $("#currentPage").val();
-		let pageSize = $("#pageSize").val();
-		location.href = `${CONTEXT_PATH}/product/insert.jsp?currentPage=${currPage}&pageSize=${pageSize}`;
+		let cPage = $("#currentPage").val();
+		let pSize = $("#pageSize").val();
+		location.href = `${CONTEXT_PATH}/product/insert.jsp?currentPage=${cPage}&pageSize=${pSize}`;
 	});
+	
 	
 	let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 	{
@@ -29,7 +30,7 @@ $(() => {
 			pageSize: nPageSize	 
 		};
 				
-		Ajax(CONTEXT_PATH + `/product/list`, "POST", JSON.stringify(data), 
+		Ajax(`${CONTEXT_PATH}/product/list`, "POST", JSON.stringify(data), 
 			function(resp)
 			{
 				$("#list").empty();
@@ -115,8 +116,7 @@ $(() => {
 					nextNode = $(`<span class="page-number page-number-current">다음</span>`);
 				}
 				$("#pagination").append(nextNode);
-				
-				
+								
 				$("#currentPage").val(currentPage);
 				$("#pageSize").val(pageSize);
 			},
@@ -124,8 +124,7 @@ $(() => {
 			{
 				console.error(err);
 			});		
-	};
-	
+	};//let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 	
 	
 	
