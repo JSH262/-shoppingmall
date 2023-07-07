@@ -192,7 +192,7 @@ $(() => {
 			//Enter
 			if(e.keyCode == 13)
 			{
-				$("#search").trigger('click');
+				$("#searchProduct").trigger('click');
 			}
 			
 		});
