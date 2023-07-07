@@ -44,8 +44,6 @@ public class ProductService
 	
 	public List<ProductVO> selectList(HashMap<String, Object> params, ProductPagingVO page)
 	{
-		
-		
 		List<ProductVO> retval = null;
 		SqlSession mapper = MySession.getSession();
 		

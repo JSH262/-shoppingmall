@@ -27,13 +27,18 @@
 				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
 				to_char(price, 'FM999,999,999') || '원' fmt_price,
 				discount || '%' fmt_discount,
-				to_char(delivery_price, 'FM999,999,999') || '원' fmt_delivery_price,
-				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price				
+				
+				case delivery_price
+					when 0 then '무료배송'
+					else to_char(delivery_price, 'FM999,999,999') || '원'
+				end fmt_delivery_price,
+				
+				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name				
 			</if>
 			<if test="choose == null or choose == 'all'">
 				*
 			</if>
-		
 		from (	select t1.*, rownum rnum
 				from (	select *
 						from product

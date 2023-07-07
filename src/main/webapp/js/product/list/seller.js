@@ -12,7 +12,8 @@ $(() => {
 		let pSize = $("#pageSize").val();
 		location.href = `${CONTEXT_PATH}/product/insert.jsp?currentPage=${cPage}&pageSize=${pSize}`;
 	});
-	
+	let searCat = null;
+	let searVal = null;
 	
 	let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 	{
@@ -21,7 +22,6 @@ $(() => {
 
 		if(!nPageSize)
 			nPageSize = PAGE_SIZE;
-		
 		
 		let data = {
 			searchCategory: searchCategory,
@@ -75,7 +75,7 @@ $(() => {
 						//location.href = `${CONTEXT_PATH}/product/list.jsp?currentPage=${pagination.startPage - 1}&pageSize=${pageSize}`;
 						//, searchCategory, searchValue
 						
-						successSearchData(pagination.startPage - 1, pageSize, $("#searchCategory").val(), $("#searchValue").val());
+						successSearchData(pagination.startPage - 1, pageSize, searchCategory, searchValue);
 					});
 				}
 				$("#pagination").append(prevNode);
@@ -94,7 +94,7 @@ $(() => {
 						node = $(`<span class="page-number">${i}</span>`);		
 						node.bind('click', function() {
 							//location.href = `${CONTEXT_PATH}/product/list.jsp?currentPage=${i}&pageSize=${pageSize}`;							
-							successSearchData(i, pageSize, $("#searchCategory").val(), $("#searchValue").val());
+							successSearchData(i, pageSize, searchCategory, searchValue);
 						});	
 					}
 					
@@ -108,7 +108,7 @@ $(() => {
 					nextNode = $(`<span class="page-number">다음</span>`);
 					nextNode.bind('click', function() {
 						//location.href = `${CONTEXT_PATH}/product/list.jsp?currentPage=${pagination.endPage + 1}&pageSize=${pageSize}`;
-						successSearchData(pagination.endPage + 1, pageSize, $("#searchCategory").val(), $("#searchValue").val());
+						successSearchData(pagination.endPage + 1, pageSize, searchCategory, searchValue);
 					});
 				}
 				else
@@ -217,7 +217,19 @@ $(() => {
 	successSearchData();
 	
 	$("#searchProduct").bind('click', function(){
-		successSearchData(1, PAGE_SIZE, $("#searchCategory").val(), $("#searchValue").val());
+		searVal = $("#searchValue").val();
+		if(searVal)
+		{
+			searCat = $("#searchCategory").val();	
+		}
+		else
+		{
+			searCat = null;
+			searVal = null;
+		}
+		
+		
+		successSearchData(1, PAGE_SIZE, searCat, searVal);
 	});	
 	
 	
@@ -226,7 +238,7 @@ $(() => {
 		//Enter
 		if(e.keyCode == 13)
 		{
-			$("#searchProduct").trigger('click');
+			$("#search").trigger('click');
 		}
 		
 	});
