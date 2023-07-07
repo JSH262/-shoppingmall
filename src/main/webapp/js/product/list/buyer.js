@@ -92,7 +92,11 @@ $(() => {
 						}
 						
 						productItem.find('span[name=deliveryPrice]').text(item.fmtDeliveryPrice);
-						productItem.find('div[name=companyName]').text(item.companyName);
+						
+						if(item.companyName)
+							productItem.find('div[name=companyName]').text(item.companyName);
+						else
+							productItem.find('div[name=companyName]').text('');
 						
 						$("#list").append(productItem);
 					}
