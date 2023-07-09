@@ -54,7 +54,7 @@ public class ProductListController extends HttpServlet {
 			UsersVO user = new UsersVO();
 			user.setId("asdf1234");
 			user.setType(UsersType.BUYER);
-			// user.setType(UsersType.SELLER);
+			//user.setType(UsersType.SELLER);
 
 			String sellerId = user.getId();
 			String type = user.getType();
@@ -97,7 +97,6 @@ public class ProductListController extends HttpServlet {
 					currentPage = (long) page.getCurrentPage();
 					pageSize = (long) page.getPageSize();
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 

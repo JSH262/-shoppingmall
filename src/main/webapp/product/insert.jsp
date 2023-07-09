@@ -102,6 +102,8 @@
 			<tr>
 				<td colspan="2" align="center">
 					<input type="button" id="formSubmit" value="상품 추가하기" />
+					<input style="display:inline;" type="button" id="preview" value="미리보기" />
+					<input style="display:none;" type="button" id="insertView" value="미리보기 해체" />
 					<input type="button" id="return" value="돌아가기" />
 				</td>				
 			</tr>

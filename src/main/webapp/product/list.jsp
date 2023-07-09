@@ -246,16 +246,20 @@
 		</head>
 		<body>
 			<h1 style="text-align:center;">구매자 페이지</h1>
-			<div>
-				<div class="input-group">
-					<select class="form-select" id="searchCategory" aria-label="">
-					    <option selected>선택</option>
-					    <option value="name">이름</option>
-						<option value="categoryId">종류</option>
-				  	</select>
-
-					<input type="text" id="searchValue" class="form-control" aria-label="Text input with dropdown button">
-					<button type="button" class="btn btn-outline-info" id="searchProduct" name="searchProduct">🔍</button>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-sm-6">
+						<div class="input-group">
+							<select class="form-select" id="searchCategory" aria-label="">
+							    <option selected>선택</option>
+							    <option value="name">이름</option>
+								<option value="categoryId">종류</option>
+						  	</select>
+		
+							<input type="text" id="searchValue" class="form-control" aria-label="Text input with dropdown button">
+							<button type="button" class="btn btn-outline-info" id="searchProduct" name="searchProduct">🔍</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<%-- 참고 사이트: https://www.11st.co.kr/category/DisplayCategory.tmall?method=getDisplayCategory2Depth&dispCtgrNo=1001473 --%>
