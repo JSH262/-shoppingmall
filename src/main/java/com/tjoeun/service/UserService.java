@@ -4,8 +4,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.dao.UserDAO;
 import com.tjoeun.mybatis.MySession;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 import com.tjoeun.vo.CompanyVO;
-import com.tjoeun.vo.UserVO;
 
 public class UserService {
 	
@@ -16,7 +16,7 @@ public class UserService {
 	}
 	
 	private UserDAO dao = UserDAO.getInstance();
-	public int UserInsert(UserVO vo) {
+	public int UserInsert(UsersVO vo) {
 	    SqlSession mapper = MySession.getSession();
 	    int result = 0;
 	    try {
@@ -34,18 +34,18 @@ public class UserService {
 	}
 
 	// 1 이상이 넘어오면 사용불가 2는 dao 오류
-	public int IDCheck(String userId) {
+	public int IDCheck(String id) {
 		SqlSession mapper = MySession.getSession();
 		int result = 2;
 		try {
-			result = dao.IDCheck(mapper, userId);
+			result = dao.IDCheck(mapper, id);
 		} catch (Exception e) {
 			 e.printStackTrace();
 		}
 		mapper.close();
 		return result;
 	}
-	public int userLogin(UserVO vo) {
+	public int userLogin(UsersVO vo) {
 		SqlSession mapper = MySession.getSession();
 		int res = 0;
 		try {
@@ -70,6 +70,10 @@ public class UserService {
 	        mapper.close();
 	    }
 	    return result;
+	}
+	public UsersVO selectVO(String id) {
+		SqlSession mapper = MySession.getSession();
+		return dao.selectVO(mapper, id);
 	}
 	
 

@@ -28,16 +28,16 @@
 					<div class="form-group" style="text-align: center; margin: 0px auto;">
 						<div class="btn-group" data-toggle="buttons">
 							<label class="btn btn-primary active">
-								<input type="radio" name="userType" value="1" checked="checked">구매자
+								<input type="radio" name="type" value="1" checked="checked">구매자
 							</label>
 							<label class="btn btn-primary">
-								<input type="radio" name="userType" value="2">판매자
+								<input type="radio" name="type" value="2">판매자
 							</label>
 							<label class="btn btn-primary">
-								<input type="radio" name="userType" value="3">관리자
+								<input type="radio" name="type" value="3">관리자
 							</label>
 							<label class="btn btn-primary">
-								<input type="radio" name="userType" value="4">고객센터
+								<input type="radio" name="type" value="4">고객센터
 							</label>
 						</div>
 					</div>
@@ -53,12 +53,12 @@
 </form>
 <script>
 	function checkUserType() {
-		var userType = document.querySelector('input[name="userType"]:checked').value;
+		var type = document.querySelector('input[name="type"]:checked').value;
 		// 판매자일경우 회사 정보 기입창으로 넘겨줌
-		if (userType === "2") {
-			location.href = "companyInsert.jsp?userType=" + userType;
+		if (type === "2") {
+			location.href = "companyInsert.jsp?type=" + type;
 		} else {
-			location.href = "join.jsp?userType=" + userType;	// 이거 받는거 넣어줘야함
+			location.href = "join.jsp?type=" + type;	// 이거 받는거 넣어줘야함
 		}
 	}
 </script>

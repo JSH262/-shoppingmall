@@ -10,7 +10,31 @@ public class UsersVO {
 	String useYn;
 	String createDate;
 	String modifyDate;
-	int companyId;
+	String companyId;
+	
+	public UsersVO(String id, String password, String email, String phone, String type, String name, String companyId) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.phone = phone;
+		this.type = type;
+		this.name = name;
+		this.companyId = companyId;
+	}
+	public UsersVO(String id, String password, String email, String phone, String type, String name) {
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.phone = phone;
+		this.type = type;
+		this.name = name;
+	}
+	public UsersVO(String id, String password) {
+		super();
+		this.id = id;
+		this.password = password;
+	}
 	
 	public String getId() {
 		return id;
@@ -54,29 +78,17 @@ public class UsersVO {
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
-	public String getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
-	public String getModifyDate() {
-		return modifyDate;
-	}
-	public void setModifyDate(String modifyDate) {
-		this.modifyDate = modifyDate;
-	}
-	public int getCompanyId() {
+	public String getCompanyId() {
 		return companyId;
 	}
-	public void setCompanyId(int companyId) {
+	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
-	
 	@Override
 	public String toString() {
 		return "UsersVO [id=" + id + ", password=" + password + ", email=" + email + ", phone=" + phone + ", type="
 				+ type + ", name=" + name + ", useYn=" + useYn + ", createDate=" + createDate + ", modifyDate="
 				+ modifyDate + ", companyId=" + companyId + "]";
-	}	
+	}
+	
 }

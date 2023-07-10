@@ -14,10 +14,10 @@
 <body>
 
 <%
-  String userType = request.getParameter("userType");
+  String type = request.getParameter("type");
   String companyId = ""; // 변수 선언
-  if (userType.equals("2")) {
-	  companyId = request.getParameter("companyId"); // 초기화
+  if (type.equals("2")) {
+	  companyId = request.getParameter("id"); // 초기화
   }
 %>
 
@@ -36,7 +36,7 @@
 				<tr>
 					<th class="danger" style="vertical-align: middle; width: 120px;">아이디</th>
 					<td>
-						<input id="userId" class="form-control" type="text" name="userId"
+						<input id="id" class="form-control" type="text" name="id"
 							placeholder="아이디를 입력하세요" autocomplete="off"/>
 					</td>
 					<td class="info" style="vertical-align: middle; width: 120px; text-align: center;">
@@ -48,39 +48,39 @@
 				<tr>
 					<th class="danger" style="vertical-align: middle;">비밀번호</th>
 					<td colspan="2">
-						<input id="userPassword1" class="form-control" type="password" 
-							name="userPassword1" placeholder="비밀번호를 입력하세요" 
+						<input id="password1" class="form-control" type="password" 
+							name="password1" placeholder="비밀번호를 입력하세요" 
 							autocomplete="off" onkeyup="isValidUserPassword()"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="danger" style="vertical-align: middle;">비밀번호 확인</th>
 					<td colspan="2">
-						<input id="userPassword2" class="form-control" type="password" 
-							name="userPassword2" placeholder="비밀번호를 입력하세요" 
+						<input id="password2" class="form-control" type="password" 
+							name="password2" placeholder="비밀번호를 입력하세요" 
 							autocomplete="off" onkeyup="passwordCheckFunction()"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="danger" style="vertical-align: middle;">이름</th>
 					<td colspan="2">
-						<input id="userName" class="form-control" type="text" name="userName" 
+						<input id="name" class="form-control" type="text" name="name" 
 							placeholder="이름을 입력하세요" autocomplete="off"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="danger" style="vertical-align: middle;">이메일</th>
 					<td colspan="2">
-						<input id="userEmail" class="form-control" type="email" name="userEmail" 
+						<input id="email" class="form-control" type="email" name="email" 
 							placeholder="이메일을 입력하세요" autocomplete="off"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="danger" style="vertical-align: middle;">전화번호</th>
 					<td colspan="2">
-						<input id="userPhone" class="form-control" type="text" name="userPhone" 
+						<input id="phone" class="form-control" type="text" name="phone" 
 							placeholder="전화번호를 '-' 없이 입력하세요" autocomplete="off"/>
-						<input type="hidden" name="userType" id="userType" value="<%= userType %>">
+						<input type="hidden" name="type" id="type" value="<%= type %>">
 						<input type="hidden" name="companyId" id="companyId" value="<%= companyId %>"/>
 					</td>
 				</tr>

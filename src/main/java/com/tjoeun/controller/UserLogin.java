@@ -6,9 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.tjoeun.service.UserService;
-import com.tjoeun.vo.UserVO;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
@@ -30,25 +31,29 @@ public class UserLogin extends HttpServlet {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			
-			//String userId = request.getParameter("userId").trim();
-			String userId = request.getParameter("userId");
-			//String userPassword1 = request.getParameter("userPassword").trim();
-			String userPassword1 = request.getParameter("userPassword");
-			System.out.println(userId);
-			System.out.println(userPassword1);
+			//String id = request.getParameter("id").trim();
+			String id = request.getParameter("id");
+			//String password1 = request.getParameter("password").trim();
+			String password1 = request.getParameter("password");
+			System.out.println(id);
+			System.out.println(password1);
 			
 			
 			// 입력 체크 (입력이 없거나 공백)
-			if (userId == null || userId.equals("") || 
-					userPassword1 == null || userPassword1.equals("")) {
+			if (id == null || id.equals("") || 
+					password1 == null || password1.equals("")) {
 				response.getWriter().write("1");
 				return;
 			}
 			
-			
-			UserVO vo = new UserVO(userId, userPassword1);
+			UsersVO vo = new UsersVO(id, password1);
 			int res = service.userLogin(vo);
 			if (res == 0) {
+				UsersVO svo = service.selectVO(id);
+				HttpSession session = request.getSession();
+			    session.setAttribute("id", svo.getId()); // 사용자 아이디를 세션에 저장
+			    session.setAttribute("userType", svo.getType()); // 사용자 타입을 세션에 저장
+			    // 로그인 성공한 경우 처리할 로직 작성
 				response.getWriter().write("0"); // ②
 			} else {
 				response.getWriter().write("1"); // ②

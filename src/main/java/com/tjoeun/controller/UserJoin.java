@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tjoeun.dao.UserDAO;
 import com.tjoeun.service.UserService;
-import com.tjoeun.vo.UserVO;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @WebServlet("/UserJoin")
 public class UserJoin extends HttpServlet {
@@ -28,74 +28,75 @@ public class UserJoin extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		String userType = request.getParameter("userType");
-		String userId = request.getParameter("userId").trim();
-		String userPassword1 = request.getParameter("userPassword1").trim();
-		String userPassword2 = request.getParameter("userPassword2").trim();
-		String userName = request.getParameter("userName").trim();
-		String userEmail = request.getParameter("userEmail").trim();
-		String userPhone = request.getParameter("userPhone").trim();
-		String companyId = request.getParameter("companyId").trim();
+		String type = request.getParameter("type");
+		String id = request.getParameter("id").trim();
+		String password1 = request.getParameter("password1").trim();
+		String password2 = request.getParameter("password2").trim();
+		String name = request.getParameter("name").trim();
+		String email = request.getParameter("email").trim();
+		String phone = request.getParameter("phone").trim();
+		String companyId = request.getParameter("companyId");
+		
 		
 
-		System.out.println("userType: " + userType);
-		System.out.println("userId: " + userId);
-		System.out.println("userPassword1: " + userPassword1);
-		System.out.println("userPassword2: " + userPassword2);
-		System.out.println("userName: " + userName);
-		System.out.println("userEmail: " + userEmail);
-		System.out.println("userPhone: " + userPhone);
+		System.out.println("type: " + type);
+		System.out.println("id: " + id);
+		System.out.println("password1: " + password1);
+		System.out.println("password2: " + password2);
+		System.out.println("name: " + name);
+		System.out.println("email: " + email);
+		System.out.println("phone: " + phone);
 		System.out.println("companyId: " + companyId);
 		
 		// 입력 체크
-		if (userId == null || userId.equals("") ||  
-				userPassword1 == null || userPassword1.equals("") ||
-				userPassword2 == null || userPassword2.equals("") ||
-				userName == null || userName.equals("") ||
-				userEmail == null || userEmail.equals("") ||
-				userPhone == null || userPhone.equals("")) {
+		if (id == null || id.equals("") ||  
+				password1 == null || password1.equals("") ||
+				password2 == null || password2.equals("") ||
+				name == null || name.equals("") ||
+				email == null || email.equals("") ||
+				phone == null || phone.equals("")) {
 			response.getWriter().write("1");
 			return;
 		}
 
-		if (!isValiduserId(userId)) {
+		if (!isValidid(id)) {
 			response.getWriter().write("2");
 			
 			return;
 		}
 		
 		// 비밀번호 체크
-		if (!userPassword1.equals(userPassword2)) {
+		if (!password1.equals(password2)) {
 			response.getWriter().write("3"); // ②
 			
 			return; // 입력 데이터에 오류가 있으므로 서블릿을 종료한다.
 		}
 		
-		if (!isValidUserPassword(userPassword1)) {
+		if (!isValidpassword(password1)) {
 			response.getWriter().write("4");
 			
 			return;
 		}
 		
-		if (!isValidUserName(userName)) {
+		if (!isValidname(name)) {
 			response.getWriter().write("5");
 			
 			return;
 		}
 		
-		if (!isValidEmailFormat(userEmail)) {
+		if (!isValidEmailFormat(email)) {
 			response.getWriter().write("6");
 			
 			return;
 		}
 		
-		if (!isValidPhoneNumber(userPhone)) {
+		if (!isValidPhoneNumber(phone)) {
 			response.getWriter().write("7");
 			
 			return;
 		}
 		
-		UserVO vo = new UserVO(userId, userPassword2, userEmail, userPhone, userType, userName, companyId);
+		UsersVO vo = new UsersVO(id, password1, email, phone, type, name, companyId);
 		System.out.println(vo);
 		
 		
@@ -118,7 +119,7 @@ public class UserJoin extends HttpServlet {
 	}
 	
 	// 비밀번호가 유효한지 확인하는 메소드 (대문자 소문자 특수문자 숫자 각각 1개 이상 포함)
-	private boolean isValidUserPassword(String password) {
+	private boolean isValidpassword(String password) {
 	    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*_])[a-zA-Z\\d!@#$%^&*_]{8,30}$";
 	    return password.matches(passwordRegex);
 	}
@@ -129,15 +130,15 @@ public class UserJoin extends HttpServlet {
 	    return email.matches(emailRegex);
 	}
 
-	private boolean isValidUserName(String userName) {
+	private boolean isValidname(String name) {
 	    String regex = ".*\\d.*";
-	    return !userName.matches(regex);
+	    return !name.matches(regex);
 	}
 
 	// 아이디가 유효한지 확인하는 메소드 (언더바 포함)
-	private boolean isValiduserId(String userId) {
-	    String userIdRegex = "^[a-zA-Z0-9_]{4,20}$";
-	    return userId.matches(userIdRegex);
+	private boolean isValidid(String id) {
+	    String idRegex = "^[a-zA-Z0-9_]{4,20}$";
+	    return id.matches(idRegex);
 	}
 
 }

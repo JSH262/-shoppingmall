@@ -1,10 +1,10 @@
 function isValidUserPassword() {
-  let userPassword1 = $('#userPassword1').val();
+  let password1 = $('#password1').val();
   let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_])[a-zA-Z\d!@#$%^&*_]{8,30}$/;
 
-  if (userPassword1 === '') {
+  if (password1 === '') {
     $('#passwordCheckMessage').html('비밀번호를 입력하세요.\n생성규칙: 대문자, 소문자, 특수문자(!@#$%^&*_), 숫자 포함, 8자 이상 30자 이하');
-  } else if (!passwordRegex.test(userPassword1)) {
+  } else if (!passwordRegex.test(password1)) {
     $('#passwordCheckMessage').html('비밀번호 생성 규칙 (대문자, 소문자, 특수문자(!@#$%^&*_), 숫자 포함, 8자 이상 30자 이하)을 충족하지 못합니다!');
   } else {
     $('#passwordCheckMessage').html('사용 가능한 비밀번호입니다!');
@@ -14,10 +14,10 @@ function isValidUserPassword() {
 
 //	비밀번호가 일치하는가 확인하는 함수
 function passwordCheckFunction() {
-	let userPassword1 = $('#userPassword1').val();
-	let userPassword2 = $('#userPassword2').val();
+	let password1 = $('#password1').val();
+	let password2 = $('#password2').val();
 	
-	if (userPassword1 != userPassword2) {
+	if (password1 != password2) {
 		$('#passwordCheckMessage').html('비밀번호가 일치하지 않습니다.');
 	} else {
 		$('#passwordCheckMessage').html('확인 완료');
@@ -28,14 +28,14 @@ function passwordCheckFunction() {
 //	회원 가입을 실행하는 함수
 function userReister() {
 //	ajax를 이용해서 index.jsp에서 테이블에 저장할 데이터를 얻어온다.
-	//let userType = $('input[name=userType]:checked').val();
-	let userId = $('#userId').val();
-	let userPassword1 = $('#userPassword1').val();
-	let userPassword2 = $('#userPassword2').val();
-	let userEmail = $('#userEmail').val();
-	let userPhone = $('#userPhone').val();
-	let userType = $('#userType').val();
-	let userName = $('#userName').val();
+	//let type = $('input[name=type]:checked').val();
+	let id = $('#id').val();
+	let password1 = $('#password1').val();
+	let password2 = $('#password2').val();
+	let email = $('#email').val();
+	let phone = $('#phone').val();
+	let type = $('#type').val();
+	let name = $('#name').val();
 	let companyId = $('#companyId').val();
 
 //	jQuery ajax
@@ -44,13 +44,13 @@ function userReister() {
 		url: './UserJoin', // 요청할 서블릿
 		data: { // 서블릿으로 전송할 데이터
 			// 변수명: 값
-			userType: userType,
-			userId: userId,
-			userPassword1: userPassword1,
-			userPassword2: userPassword2,
-			userName: userName,
-			userEmail: userEmail,
-			userPhone: userPhone,
+			type: type,
+			id: id,
+			password1: password1,
+			password2: password2,
+			name: name,
+			email: email,
+			phone: phone,
 			companyId : companyId
 		},
 		// ajax 요청이 성공하면 실행할 콜백 함수
@@ -125,15 +125,15 @@ function userReister() {
 //	아이디 중복 검사를 실행하는 함수
 function registerCheckFunction() {
 //	ajax를 이용해서 중복 검사할 아이디를 얻어온다.
-	let userId = $('#userId').val();
-	console.log(userId);
+	let id = $('#id').val();
+	console.log(id);
 
 //	jQuery ajax
 	$.ajax({
 		type: 'POST',
 		url: './userIdCheck',
 		data: {
-			userId: userId
+			id: id
 		},
 		success: res => {
 			// console.log("요청 성공:", res);
@@ -149,21 +149,21 @@ function registerCheckFunction() {
 					$('#messageContent').html('사용중인 아이디 입니다.');
 					$('#errorMessage').html('에러: 사용중인 아이디 입니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#userId').val('');
+					$('#id').val('');
 					break;
 				case '2':
 					$('#messageType').html('에러 메시지');
 					$('#messageContent').html('spl 실행 오류입니다.');
 					$('#errorMessage').html('에러: spl 실행중 오류가 발생했습니다. 관리자에게 문의하세요.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#userId').val('');
+					$('#id').val('');
 					break;
 				case '3':
 					$('#messageType').html('에러 메시지');
 					$('#messageContent').html('아이디를 입력하고 중복 체크 버튼을 누르세요.');
 					$('#errorMessage').html('에러: 아이디를 입력하고 중복 체크 버튼을 누르세요.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#userId').val('');
+					$('#id').val('');
 					break;
 				
 				
@@ -176,14 +176,14 @@ function registerCheckFunction() {
 
 // 로그인 함수
 function UserLogin() {
-	var userId = $('#userId').val();
-	var userPassword = $('#userPassword').val();
+	var id = $('#id').val();
+	var password = $('#password').val();
 	$.ajax({
 		type: 'POST',
 		url: './UserLogin',
 		data: {
-		userId: userId,
-		userPassword: userPassword
+		id: id,
+		password: password
 	},
 	success: function(res) {
 		switch (res) {
@@ -198,7 +198,7 @@ function UserLogin() {
 					$('#messageContent').html('아이디 또는 비밀번호를 잘못 입력했습니다.');
 					$('#errorMessage').html('입력하신 내용을 다시 확인해주세요.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#userId').val('');
+					$('#id').val('');
 					break;
 			}
 		},
@@ -214,7 +214,7 @@ function companyInsert() {
 	let address1 = $('#address1').val();
 	let address2 = $('#address2').val();
 	let stamp = $('#stamp').val();
-	let userType = $('#userType').val();
+	let type = $('#type').val();
 
 	$.ajax({
 		type: 'POST', // 요청 방식
@@ -230,7 +230,7 @@ function companyInsert() {
 			switch (res) {
 				case '1':
 					alert('회사정보 입력 성공.');
-					location.href = 'join.jsp?userType=' + userType + '&companyId=' + id;
+					location.href = 'join.jsp?type=' + type + '&companyId=' + id;
 					break;
 				case '2':
 					alert('sql 실행 오류입니다. 관리자에게 문의하세요.');
