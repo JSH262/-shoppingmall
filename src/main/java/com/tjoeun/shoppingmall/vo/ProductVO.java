@@ -33,7 +33,7 @@ public class ProductVO extends BaseVO
 	String fmtDeliveryPrice;	//문자열 포멧이 적용된 배송료(0,000원)
 	String fmtDiscountPrice;	//문자열 포멧이 적용된 상품의 할인률이 적용된 상품의 가격(0,000원)
 	String discountPrice;		//상품의 할인율이 적용된 상품의 가격(00000)
-	
+	String companyName;			//상품의 업체명
 	
 	public ProductVO()
 	{}
@@ -174,6 +174,14 @@ public class ProductVO extends BaseVO
 
 	public void setDiscountPrice(String discountPrice) {
 		this.discountPrice = discountPrice;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	@Override
