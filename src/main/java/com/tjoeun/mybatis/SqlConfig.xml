@@ -17,6 +17,8 @@
 		<typeAlias type="com.tjoeun.shoppingmall.vo.SettingVO" alias="SettingVO" />
 		<typeAlias type="com.tjoeun.shoppingmall.vo.CategoryVO" alias="CategoryVO" />
 		<typeAlias type="com.tjoeun.shoppingmall.vo.CartVO" alias="CartVO" />
+    <typeAlias type="com.tjoeun.shoppingmall.vo.UsersVO" alias="vo" />
+		<typeAlias type="com.tjoeun.vo.CompanyVO" alias="co" />
 	</typeAliases>
 	
 	<environments default="development">
@@ -37,6 +39,6 @@
 		<mapper resource="com/tjoeun/mybatis/setting.xml" />
 		<mapper resource="com/tjoeun/mybatis/category.xml" />
 		<mapper resource="com/tjoeun/mybatis/cart.xml" />
+		<mapper resource="com/tjoeun/mybatis/User.xml" />
 	</mappers>
-	
 </configuration>
