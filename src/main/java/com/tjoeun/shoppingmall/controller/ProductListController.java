@@ -48,24 +48,11 @@ public class ProductListController extends HttpServlet {
 	{
 		try 
 		{
-//////////////////////////////////////////////////////////////////////// 테스트 용	//테스트 용
 			final String USERS_TYPE_SELLER = UsersType.SELLER;
 			final String USERS_TYPE_BUYER = UsersType.BUYER;
 			UsersVO user = (UsersVO) request.getSession().getAttribute("user");
-			if(user == null)
-			{
-				user = new UsersVO();
-				user.setId("asdf1234");
-				user.setType(UsersType.BUYER);
-				//user.setType(UsersType.SELLER);
-	
-	
-				AttributeName.setUserData(request, user);
-			}
-			
 			String sellerId = user.getId();
 			String type = user.getType();
-//////////////////////////////////////////////////////////////////////테스트 용
 
 			HashMap<String, Object> serviceParams = new HashMap<>();
 			ProductService service = ProductService.getInstance();

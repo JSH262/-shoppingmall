@@ -7,9 +7,6 @@
 <!DOCTYPE html>
 <html>
 <%
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-	//테스트 용
 	final String USERS_TYPE_SELLER = UsersType.SELLER;
 	final String USERS_TYPE_BUYER = UsersType.BUYER;
 	UsersVO vo = AttributeName.getUserData(request);

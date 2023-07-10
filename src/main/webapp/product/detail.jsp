@@ -419,7 +419,9 @@
 				 			&nbsp;
 				 		</div>
 				 		<div class="col-md-5">
-				 			<div class="row"><%=companyName %></div>
+				 			<div class="row">
+				 				<%=companyName %>
+				 			</div>
 				 			<div class="row">
 				 				<hr />
 				 			</div>

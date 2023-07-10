@@ -3,7 +3,7 @@
 
 
 $(() => {	
-	const ID = $("#id").val();
+	const ID = parseInt($("#id").val());
 	const CONTEXT_PATH = $("#contextPath").val();
 	
 	$("#amountMinus").bind('click', function() {
@@ -22,11 +22,10 @@ $(() => {
 		
 		let data = {
 			amount: amount,
-			productId: id
+			productId: ID
 		};
 		
-		//미구현
-		Ajax(`${CONTEXT_PATH}/product/cart/insert`, "POST", JSON.stringify(data), 
+		Ajax(`${CONTEXT_PATH}/cart/insert`, "POST", JSON.stringify(data), 
 			function(resp) 
 			{
 				if(resp.code == 0)

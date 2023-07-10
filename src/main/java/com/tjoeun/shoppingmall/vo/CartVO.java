@@ -1,10 +1,13 @@
 package com.tjoeun.shoppingmall.vo;
 
-public class CartVO {
+import javax.servlet.http.HttpServletRequest;
+
+public class CartVO extends BaseVO 
+{
 	String userId;
 	Integer productId;
 	Integer amount;
-		
+	String sellerId;
 	
 	String thumbnail;
 	String productName;
@@ -13,6 +16,15 @@ public class CartVO {
 	String deliveryPrice;
 	
 	
+	public CartVO() 
+	{
+		// TODO Auto-generated constructor stub
+	}
+	
+	public CartVO(HttpServletRequest request) throws Exception 
+	{
+		this.init(request);
+	}
 	
 	public String getUserId() {
 		return userId;
@@ -61,6 +73,14 @@ public class CartVO {
 	}
 	public void setDeliveryPrice(String deliveryPrice) {
 		this.deliveryPrice = deliveryPrice;
+	}
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
 	}	
 	
 	

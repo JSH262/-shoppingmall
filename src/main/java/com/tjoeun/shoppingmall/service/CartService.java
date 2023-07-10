@@ -3,8 +3,11 @@ package com.tjoeun.shoppingmall.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 
+import com.tjoeun.helper.AttributeName;
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.CartDAO;
 import com.tjoeun.shoppingmall.dao.CategoryDAO;
@@ -12,6 +15,7 @@ import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class CartService 
 {
@@ -105,6 +109,37 @@ public class CartService
 				
 		return retval;
 	}
-	
+
+	public int insert(HttpServletRequest request, CartVO vo) 
+	{
+		int retval = 0;
+		SqlSession mapper = MySession.getSession();
+		UsersVO user = AttributeName.getUserData(request);
+		String userId = user.getId();
+		
+		try
+		{
+			
+			ProductVO pVo = new ProductVO();			
+			pVo.setId(vo.getProductId());
+
+			String sellerId = ProductDAO.getInstance().select(mapper, pVo).getSellerId();
+			
+			vo.setUserId(userId);			
+			vo.setSellerId(sellerId);
+			
+			retval = CartDAO.getInstance().update(mapper, vo);
+			mapper.commit();
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			mapper.rollback();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
 	
 }
