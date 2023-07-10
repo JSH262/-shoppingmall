@@ -25,6 +25,7 @@ $(() => {
 			productId: id
 		};
 		
+		//미구현
 		Ajax(`${CONTEXT_PATH}/product/cart/insert`, "POST", JSON.stringify(data), 
 			function(resp) 
 			{

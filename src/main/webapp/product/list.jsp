@@ -75,6 +75,10 @@
 				.page-number-current:hover {
 					cursor: default;
 				}
+				.product-sold-out {
+					background-color: crimson;
+					color: white;
+				}
 			</style>
 		</head>
 		<body>
@@ -241,7 +245,10 @@
 				#pagination {
 					text-align: center;
 				}
-				
+									
+				.product-sold-out {
+					opacity: 0.3;
+				}
 			</style>
 		</head>
 		<body>
@@ -262,6 +269,10 @@
 					</div>
 				</div>
 			</div>
+			
+			<%-- 
+///////////////////////////////////////////////////////////////////////////////////////////품절표시 
+			--%>
 			<%-- 참고 사이트: https://www.11st.co.kr/category/DisplayCategory.tmall?method=getDisplayCategory2Depth&dispCtgrNo=1001473 --%>
 			<div id="list">
 				<div name="product">

@@ -61,7 +61,13 @@ $(() => {
 					for(let i = 0; i<list.length; i++)
 					{
 						let productItem = productNode.clone();
-						let item = list[i];					
+						let item = list[i];
+						
+						if(item.amount == 0)
+						{
+							productItem.addClass('product-sold-out');	
+						}
+																	
 						const productDetailMove = function()
 						{
 							location.href = `${CONTEXT_PATH}/product/detail.jsp?id=${item.id}&currentPage=${currentPage}&pageSize=${pageSize}`;

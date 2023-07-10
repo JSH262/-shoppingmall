@@ -25,7 +25,6 @@
 		if(UsersType.SELLER.equals(user.getType()))
 		{
 	%>
-
 			<head>
 				<meta charset="UTF-8">
 				<title>Insert title here</title>
@@ -62,11 +61,17 @@
 				</style>
 			</head>
 			<body>
-	
+
+<%-------------------------------------- 판매자 페이지 --%>	
 <%
 			if(vo != null)
 			{
 %>
+
+
+			<%-- 
+///////////////////////////////////////////////////////////////////////////////////////////품절표시 
+			--%>
 				<form id="form" action="<%=request.getContextPath() %>">
 					<table border="1" cellpadding="5" cellspacing="1" style="margin: 0px auto;">
 						<tr>
@@ -218,6 +223,8 @@
 		}
 		else
 		{
+			
+//////////////////////////// 구매자 페이지			
 			String name = vo.getName();
 			String fmtPrice = vo.getFmtPrice();
 			String fmtDiscountPrice = vo.getFmtDiscountPrice();
@@ -227,6 +234,7 @@
 			String fmtDeliveryPrice = vo.getFmtDeliveryPrice();
 			String companyName = vo.getCompanyName();
 			String delivery = "배송비";
+			
 			if(vo.getThumbnail() != null)
 			{
 				thumnail += "/image/" + vo.getThumbnail();
@@ -238,6 +246,7 @@
 			
 			if(vo.getDeliveryPrice() == 0)
 				delivery = "";
+			
 			
 %>
 			<head>
@@ -343,10 +352,12 @@
 					}
 					span[name=amountGroup] {
 					}
+
+					
 				</style>
 			</head>
 			<body>
-				<h1>구매자 페이지</h1>
+				
 				<%--
 				<div class="product-container">
 					<div class="product-image">
@@ -397,16 +408,17 @@
 				 --%>
 				
 				 <%--
+				 
 				 --%>
-				 <div class="container gap-3">
+				 <div class="container gap-3 mt-5">
 				 	<div class="row justify-content-center">
-				 		<div class="col-xl-5">
+				 		<div class="col-md-6">
 							<img style="max-width:100%" src="<%=thumnail %>" />
 				 		</div>
-				 		<div class="col-xl-1">
+				 		<div class="col-md-1">
 				 			&nbsp;
 				 		</div>
-				 		<div class="col-xl-5">
+				 		<div class="col-md-5">
 				 			<div class="row"><%=companyName %></div>
 				 			<div class="row">
 				 				<hr />
@@ -457,17 +469,31 @@
 						</div>
 						<div class="col-md-5">
 							<span class="input-group mb-3">
-								<input class="btn btn-outline-secondary" type="button" id="cart" name="cart" value="장바구니" />
-								<input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
+							<%
+								if(vo.getAmount() != 0)
+								{
+							%>
+									<input class="btn btn-outline-secondary" type="button" id="cart" name="cart" value="장바구니" />
+									<input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
+							<%
+								}
+								else
+								{
+							%>
+									<input class="btn btn-secondary" type="button" value="품절" disabled />
+							<%
+								}
+							%>								
+								
 							</span>
 						</div>
 				 	</div>
 				 	<div class="row justify-content-center">
-				 		<div class="col-xl-6">
+				 		<div class="col-md-12">
 				 			<%=contents %>
 				 		</div>
 				 	</div>
-				 </div>
+				</div>
 				
 				<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 				<input type="hidden" id="id" name="id" value="<%=vo.getId() %>" />

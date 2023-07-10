@@ -45,11 +45,17 @@ $(() => {
 					let item = list[i];
 					let tr = $('<tr>');
 											
-					//tr.append(`<td>${item.id}</td>`);				
+					//tr.append(`<td>${item.id}</td>`);
 					tr.append(`<td align="center">${item.rnum}</td>`);
 					tr.append(`<td align="center">${item.categoryId}</td>`);				
 					tr.append(`<td align="center"><a href="${CONTEXT_PATH}/product/detail.jsp?id=${item.id}&pageSize=${pageSize}&currentPage=${currentPage}">${item.name}</a></td>`);				
-					tr.append(`<td align="center">${item.fmtAmount}</td>`);
+					
+					if(item.amount != 0)
+						tr.append(`<td align="center">${item.fmtAmount}</td>`);
+					else
+						tr.append(`<td class="product-sold-out" align="center">${item.fmtAmount}</td>`);
+					
+					
 					tr.append(`<td align="center">${item.fmtPrice}</td>`);
 					tr.append(`<td align="center">${item.fmtDiscount}</td>`);
 					tr.append(`<td align="center">${item.fmtDeliveryPrice}</td>`);
