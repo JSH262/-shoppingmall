@@ -51,9 +51,8 @@ public class UserLogin extends HttpServlet {
 			if (res == 0) {
 				UsersVO svo = service.selectVO(id);
 				HttpSession session = request.getSession();
-			    session.setAttribute("id", svo.getId()); // 사용자 아이디를 세션에 저장
-			    session.setAttribute("userType", svo.getType()); // 사용자 타입을 세션에 저장
-			    // 로그인 성공한 경우 처리할 로직 작성
+			    	session.setAttribute("user", svo);
+			    	// 로그인 성공한 경우 처리할 로직 작성
 				response.getWriter().write("0"); // ②
 			} else {
 				response.getWriter().write("1"); // ②
