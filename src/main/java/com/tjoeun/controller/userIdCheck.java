@@ -33,12 +33,12 @@ public class userIdCheck extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String userId = request.getParameter("userId").trim();
-		System.out.println(userId);
+		String id = request.getParameter("id").trim();
+		System.out.println(id);
 		
 		// 회원 가입하려는 아이디가 테이블에 존재하는가 판단하는 메소드를 실행한다.
-		int result = service.IDCheck(userId);
-		if (userId.trim().equals("")) {
+		int result = service.IDCheck(id);
+		if (id.trim().equals("")) {
 			result = 3;
 		}
 		response.getWriter().write(result + "");

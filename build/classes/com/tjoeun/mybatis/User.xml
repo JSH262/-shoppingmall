@@ -4,28 +4,30 @@
 
 	<insert id="insert" parameterType="vo">
 	  <choose>
-	    <when test="userType == 2">
-		    insert into users (type, id, password, name, email, phone, company_id)
-		    values (#{userType}, #{userId}, #{userPassword},
-		    #{userName}, #{userEmail}, #{userPhone}, #{company_id})
-		</when>
-        <otherwise>
-		    INSERT INTO users (type, id, password, name, email, phone, company_id)
-		    VALUES (#{userType}, #{userId}, #{userPassword}, #{userName}, #{userEmail}, #{userPhone}, #{company_id})
+	    <when test="type == 2">
+	      insert into users (type, id, password, name, email, phone, company_id)
+	      values (#{type}, #{id}, #{password},
+	      #{name}, #{email}, #{phone}, #{companyId})
+	    </when>
+	    <otherwise>
+	      INSERT INTO users (type, id, password, name, email, phone, company_id)
+	      VALUES (#{type}, #{id}, #{password},
+	      #{name}, #{email}, #{phone}, null)
 	    </otherwise>
 	  </choose>
 	</insert>
 
+
 	
 	<!-- 존재하는 아이디인지 여부를 확인한다. -->
 	<select id="checkUserId" resultType="int" parameterType="java.lang.String">
-	  SELECT COUNT(*) FROM users WHERE id = #{userId}
+	  SELECT COUNT(*) FROM users WHERE id = #{id}
 	</select>
 	
 	<!-- passwordCheck 매퍼 -->
 	<select id="passwordCheck" parameterType="vo" resultType="int">
 	    SELECT COUNT(*) FROM users
-	    WHERE id = #{userId} password = #{userPassword}
+	    WHERE id = #{id} password = #{password}
 	</select>
 
 	<insert id="Companyinsert" parameterType="co">
@@ -33,6 +35,10 @@
 	    values (#{Name}, #{Id}, #{Address1},
 	    #{Address2}, #{Stamp})
 	</insert>
+	
+	<select id="selectVO" parameterType="java.lang.String" resultType="vo">
+		SELECT * FROM users WHERE id = #{id}
+	</select>
 
 	
 </mapper>

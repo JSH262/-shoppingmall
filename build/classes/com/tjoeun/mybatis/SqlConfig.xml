@@ -12,7 +12,7 @@
 	
 	<typeAliases>
 		<!-- 별명 설정 -->
-		<typeAlias type="com.tjoeun.vo.UserVO" alias="vo" />
+		<typeAlias type="com.tjoeun.shoppingmall.vo.UsersVO" alias="vo" />
 		<typeAlias type="com.tjoeun.vo.CompanyVO" alias="co" />
 	</typeAliases>
 	

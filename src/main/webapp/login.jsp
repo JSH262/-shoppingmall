@@ -27,15 +27,15 @@
 				<tr>
 					<th class="danger" style="vertical-align: middle; width: 120px;">아이디</th>
 					<td>
-						<input id="userId" class="form-control" type="text" name="userId"
+						<input id="id" class="form-control" type="text" name="id"
 							placeholder="아이디를 입력하세요" autocomplete="off"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="danger" style="vertical-align: middle;">비밀번호</th>
 					<td>
-						<input id="userPassword" class="form-control" type="password" 
-							name="userPassword" placeholder="비밀번호를 입력하세요" 
+						<input id="password" class="form-control" type="password" 
+							name="password" placeholder="비밀번호를 입력하세요" 
 							autocomplete="off"/>
 					</td>
 				</tr>
@@ -87,10 +87,10 @@
 
 <script>
 	function showInputValues() {
-		var userID = document.getElementById("userID").value;
-		var userPassword = document.getElementById("userPassword").value;
+		var userID = document.getElementById("id").value;
+		var userPassword = document.getElementById("password").value;
 		
-		alert("아이디: " + userID + "\n비밀번호: " + userPassword);
+		alert("아이디: " + id + "\n비밀번호: " + password);
 	}
 </script>
 

@@ -2,8 +2,8 @@ package com.tjoeun.dao;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.tjoeun.shoppingmall.vo.UsersVO;
 import com.tjoeun.vo.CompanyVO;
-import com.tjoeun.vo.UserVO;
 
 /*
 import java.sql.Connection;
@@ -21,21 +21,21 @@ public class UserDAO {
 	public static UserDAO getInstance() {
 		return instance;
 	}
-	public void insert(SqlSession mapper, UserVO vo) {
+	public void insert(SqlSession mapper, UsersVO vo) {
 		mapper.insert("com.tjoeun.vo.MvcBoardVO.insert", vo);
 	}
 	// 1이상이면 존재하는 아이디
-	public int IDCheck(SqlSession mapper, String userId) {
-		int result = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", userId);
+	public int IDCheck(SqlSession mapper, String id) {
+		int result = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", id);
 		return result;
 
 	}
 	// 0: 성공, 1: 아이디 없음, 2: 비밀번호 불일치
-	public int userLogin(SqlSession mapper, UserVO vo) {
+	public int userLogin(SqlSession mapper, UsersVO vo) {
 	    int result = 0;
 	    
 	    // 아이디 존재 여부 확인
-	    int idCount = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", vo.getUserId());
+	    int idCount = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", vo.getId());
 	    if (idCount == 0) {
 	        // 아이디가 존재하지 않는 경우
 	        result = 1;
@@ -53,6 +53,9 @@ public class UserDAO {
 	
 	public void Companyinsert(SqlSession mapper, CompanyVO co) {
 		mapper.insert("com.tjoeun.vo.MvcBoardVO.Companyinsert", co);
+	}
+	public UsersVO selectVO(SqlSession mapper, String id) {
+		return (UsersVO) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.selectVO", id);
 	}
 
 }

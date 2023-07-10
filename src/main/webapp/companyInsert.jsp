@@ -14,7 +14,7 @@
 </head>
 <body>
 <%
-    String userType = request.getParameter("userType");
+    String type = request.getParameter("type");
 %>
 <form>
 	<div class="container" style="margin-top: 20px;">
@@ -58,12 +58,12 @@
 					<td>
 						<input id="stamp" class="form-control" type="text" autocomplete="off"
 							placeholder="우편번호를 입력하세요"/>
-						<input type="hidden" name="userType" id="userType" value="<%= userType %>">
+						<input type="hidden" name="userType" id="type" value="<%= type %>">
 					</td>
 				</tr>
 				<tr class="warning">
 					<td colspan="2">
-						<input type="hidden" name="userType" value="<%= userType %>">
+						<input type="hidden" name="type" value="<%= type %>">
 						<input class="btn btn-primary" type="button" value="회사정보 입력완료" 
 							onclick="companyInsert()"/>
 					</td>
