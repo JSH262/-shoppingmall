@@ -35,6 +35,8 @@ public class UsersVO {
 		this.id = id;
 		this.password = password;
 	}
+	public UsersVO()
+	{}
 	
 	public String getId() {
 		return id;
