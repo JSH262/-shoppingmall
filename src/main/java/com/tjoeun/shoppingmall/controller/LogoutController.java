@@ -1,7 +1,7 @@
 package com.tjoeun.shoppingmall.controller;
 
+import java.io.File;
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,15 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import com.tjoeun.shoppingmall.service.CartService;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tjoeun.shoppingmall.service.SettingService;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 
 /**
  * Servlet implementation class ImageController
  */
-@WebServlet("/cart/insert")
-public class CartInsertController extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	SettingVO setting = null;
     
@@ -28,43 +29,37 @@ public class CartInsertController extends HttpServlet {
 		super.init();		
 		this.setting = SettingService.getInstance().select();
     }
-
-    public CartInsertController() {
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LogoutController() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-	
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("logout.jsp").forward(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
+		JSONObject result = new JSONObject();
 		
-		try 
-		{
-			if(CartService.getInstance().insert(request) == 1)
-			{
-				retval.put("code", 0);
-			}
-			else
-			{
-				retval.put("code", -1);
-				retval.put("msg", "데이터를 저장하지 못했습니다.");
-			}
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-			retval.put("code", -999);
-			retval.put("msg", e.getMessage());
-		}
+		request.getSession().invalidate();
 		
+		result.put("redirect", request.getContextPath() + "/");
+		retval.put("code", 0);
+		retval.put("result", result);
 		
-		response.getWriter().write(retval.toJSONString());
 		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().write(retval.toJSONString());
 		
 	}
 

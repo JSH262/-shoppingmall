@@ -1,12 +1,17 @@
 package com.tjoeun.shoppingmall.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.CartDAO;
@@ -110,25 +115,35 @@ public class CartService
 		return retval;
 	}
 
-	public int insert(HttpServletRequest request, CartVO vo) 
+	public int insert(HttpServletRequest request) throws JsonSyntaxException, IOException, ParseException 
 	{
 		int retval = 0;
 		SqlSession mapper = MySession.getSession();
 		UsersVO user = AttributeName.getUserData(request);
 		String userId = user.getId();
+		CartVO vo = new Gson().fromJson(com.tjoeun.helper.Util.toBody(request), CartVO.class);
 		
 		try
 		{
 			
 			ProductVO pVo = new ProductVO();			
 			pVo.setId(vo.getProductId());
+			vo.setUserId(userId);
+			
+			if(CartDAO.getInstance().isRow(mapper, vo) > 0)
+			{
+				retval = CartDAO.getInstance().update(mapper, vo);
+			}
+			else				
+			{
 
-			String sellerId = ProductDAO.getInstance().select(mapper, pVo).getSellerId();
+				String sellerId = ProductDAO.getInstance().select(mapper, pVo).getSellerId();
+		
+				vo.setSellerId(sellerId);
+				
+				retval = CartDAO.getInstance().insert(mapper, vo);
+			}
 			
-			vo.setUserId(userId);			
-			vo.setSellerId(sellerId);
-			
-			retval = CartDAO.getInstance().update(mapper, vo);
 			mapper.commit();
 		}
 		catch(Exception exp)

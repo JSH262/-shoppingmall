@@ -2,11 +2,13 @@ package com.tjoeun.shoppingmall.vo;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
+
 public class CartVO extends BaseVO 
 {
 	String userId;
 	Integer productId;
-	Integer amount;
+	Integer amount;	
 	String sellerId;
 	
 	String thumbnail;
@@ -81,6 +83,11 @@ public class CartVO extends BaseVO
 
 	public void setSellerId(String sellerId) {
 		this.sellerId = sellerId;
+	}
+
+	@Override
+	public String toString() {
+		return new Gson().toJson(this);
 	}	
 	
 	

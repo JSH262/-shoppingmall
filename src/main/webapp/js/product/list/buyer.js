@@ -8,10 +8,8 @@ $(() => {
 		let searCat = $("#searchCategory").val(); 
 		let searVal = $("#searchValue").val();
 		
-		
 		const productNode = $("div[name=product]").clone();
 		$("div[name=product]").remove();
-		
 		
 		let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 		{

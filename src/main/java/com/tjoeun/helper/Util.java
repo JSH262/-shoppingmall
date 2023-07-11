@@ -301,5 +301,26 @@ public class Util
 		
 		return 	(JSONObject) parser.parse(new String(baos.toByteArray(), "UTF-8"));
 	}
+	public static String toBody(HttpServletRequest request) throws IOException, ParseException
+	{
+		InputStream is = request.getInputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		
+		while(true)
+		{
+			int read = is.read(buffer, 0, buffer.length);
+			if(read == -1)
+				break;
+			
+			baos.write(buffer, 0, read);
+		}
+		
+		is.close();
+		baos.flush();	
+		baos.close();
+		
+		return 	new String(baos.toByteArray(), "UTF-8");
+	}
 	
 }
