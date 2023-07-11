@@ -17,6 +17,12 @@ public class CartVO extends BaseVO
 	String companyName;
 	String deliveryPrice;
 	
+	String fmtAmount;
+	String fmtPrice;
+	String fmtDeliveryPrice;			
+	String fmtDiscountPrice;
+	
+	
 
 	public CartVO() 
 	{
@@ -106,6 +112,37 @@ public class CartVO extends BaseVO
 	}
 
 
+	public String getFmtAmount() {
+		return fmtAmount;
+	}
+
+	public void setFmtAmount(String fmtAmount) {
+		this.fmtAmount = fmtAmount;
+	}
+
+	public String getFmtPrice() {
+		return fmtPrice;
+	}
+
+	public void setFmtPrice(String fmtPrice) {
+		this.fmtPrice = fmtPrice;
+	}
+
+	public String getFmtDeliveryPrice() {
+		return fmtDeliveryPrice;
+	}
+
+	public void setFmtDeliveryPrice(String fmtDeliveryPrice) {
+		this.fmtDeliveryPrice = fmtDeliveryPrice;
+	}
+
+	public String getFmtDiscountPrice() {
+		return fmtDiscountPrice;
+	}
+
+	public void setFmtDiscountPrice(String fmtDiscountPrice) {
+		this.fmtDiscountPrice = fmtDiscountPrice;
+	}
 
 	@Override
 	public String toString() {

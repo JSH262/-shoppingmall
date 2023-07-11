@@ -174,5 +174,22 @@ public class CartService
 				
 		return retval;
 	}
-	
+	public List<CartVO> productIds(CartVO item)
+	{
+		List<CartVO> retval = null;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = CartDAO.getInstance().productIds(mapper, item);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
 }

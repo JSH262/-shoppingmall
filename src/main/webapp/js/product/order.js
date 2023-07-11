@@ -20,32 +20,6 @@ $(() => {
 				$("#list").empty();
 				let list = resp.result.list;
 			
-				/*
-				{
-				    "rnum": 1,
-				    "id": 821,
-				    "categoryId": 2,
-				    "name": "ㅁㄴㅇㄻㄴㅇㄹ",
-				    "amount": 345,
-				    "price": 234,
-				    "discount": 33,
-				    "deliveryPrice": 123123,
-				    "thumbnail": "11ee1b13b6095f7b919ee32b767cd56b",
-				    "createDate": "2023-07-05(수) 18:04:10 ",
-				    "fmtAmount": "345개",
-				    "fmtPrice": "234원",
-				    "fmtDiscount": "33%",
-				    "fmtDeliveryPrice": "123,123원",
-				    "fmtDiscountPrice": "157원",
-				    "companyName": "LG 대행판매업체"
-				}
-				*/
-						
-				//할인된 금액
-				let totalDiscountedPrice = 0;
-				let totalPrice = 0;
-				let totalDeliveryPrice = 0;
-								
 				for(let i = 0; i<list.length; i++)
 				{
 					let productItem = productNode.clone();
@@ -58,7 +32,7 @@ $(() => {
 																
 					const productDetailMove = function()
 					{
-						location.href = `${CONTEXT_PATH}/product/detail.jsp?id=${item.id}&currentPage=${currentPage}&pageSize=${pageSize}`;
+						location.href = `${CONTEXT_PATH}/product/detail.jsp?id=${item.id}`;
 					}
 					
 					if(item.thumbnail)
@@ -94,15 +68,12 @@ $(() => {
 					
 					$("#list").append(productItem);
 					
-					
-					totalPrice += parseInt(item.amount) * parseInt(item.price);
-					totalDiscountedPrice += parseInt(item.amount) * parseInt(item.discountPrice);
-					totalDeliveryPrice += parseInt(item.deliveryPrice);
 				}
 				
-				$("#totalPrice").text(totalDiscountedPrice + totalDeliveryPrice);
-				$("#totalDiscountPrice").text(totalPrice - totalDiscountedPrice);
-				$("#totalDeliveryPrice").text(totalDeliveryPrice);
+				$("#totalPrice").text(item.fmtResultPrice); // 할인전 가격
+				$("#totalDiscount").text(item.fmtResultDiscount); // 할인된 가격
+				$("#totalDeliveryPrice").text(item.fmtResultDevliveryPrice); //총 배송비
+				$("#totalDiscountPrice").text(item.fmtResultDiscountPrice); //할인한 가격
 				
 				
 			},

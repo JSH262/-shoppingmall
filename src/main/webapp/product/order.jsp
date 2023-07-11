@@ -180,10 +180,19 @@
 				<hr class="h-line" />
 			</div>
 		</div>	
+		
+
+		$("#totalPrice").text(item.fmtResultPrice); // 할인전 가격
+		$("#totalDiscount").text(item.fmtResultDiscount); // 할인된 가격
+		$("#totalDeliveryPrice").text(item.fmtResultDevliveryPrice); //총 배송비
+		$("#totalDiscountPrice").text(item.fmtResultDiscountPrice); //할인한 가격
+		
 		<div id="result">
-			<div>배송비: <span id="totalDeliveryPrice"></span></div>
-			<div>합계: <span id="totalPrice"></span></div>
-			<div>할인률: <span id="totalDiscountPrice"></span></div>
+			<div>상품금액: <span id="totalPrice"></span></div>			
+			<div>배송비: +<span id="totalDeliveryPrice"></span></div>	
+			<div>할인금액: -<span id="totalDiscount"></span></div>
+			<div>----------------------------------</div>
+			<div>합계: <span id="totalDiscountPrice"></span></div>
 		</div>
 		 
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />

@@ -2,6 +2,7 @@ package com.tjoeun.shoppingmall.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,10 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
+import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.service.SettingService;
+import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
@@ -74,7 +77,7 @@ public class ProductOrderController extends HttpServlet {
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
-		//*
+		/*
 		Object[] productIds = null;
 		
 		if("POST".equals(request.getMethod().toUpperCase()))
@@ -123,20 +126,54 @@ public class ProductOrderController extends HttpServlet {
 			}
 		}
 		*/
-		
-		if(productIds != null)
+		UsersVO user = AttributeName.getUserData(request);
+		if(user != null)
 		{
-			JSONObject result = new JSONObject();
-			List<ProductVO> list = ProductService.getInstance().selectList(productIds);
+			CartVO params = new CartVO();
 			
-			result.put("list", list);
-			retval.put("result", result);
-			retval.put("code", 0);
+			params.setUserId(user.getId());
+			
+			List<CartVO> productIds = CartService.getInstance().productIds(params);
+			
+			if(productIds != null)
+			{
+				JSONObject result = new JSONObject();
+				List<ProductVO> list = ProductService.getInstance().selectList(productIds);
+				DecimalFormat numFormat = new DecimalFormat("#,###원");
+				
+				long totalPrice = 0L;
+				long totalDiscountPrice = 0L;
+				int totalDevliveryPrice = 0;
+				
+				for(ProductVO item : list)
+				{
+					int price = item.getAmount() * item.getPrice();
+					int discountPrice = item.getAmount() * item.getDiscountPrice();
+					int deliveryPrice = item.getDeliveryPrice();
+					
+					totalPrice += price;
+					totalDiscountPrice += discountPrice;
+					totalDevliveryPrice += deliveryPrice;
+				}
+				
+				result.put("fmtResultPrice", numFormat.format(totalPrice)); // 할인전 가격
+				result.put("fmtResultDiscount", numFormat.format(totalPrice - totalDiscountPrice)); // 할인된 가격
+				result.put("fmtResultDevliveryPrice", numFormat.format(totalDevliveryPrice)); //총 배송비
+				result.put("fmtResultDiscountPrice", numFormat.format(totalDiscountPrice + totalDevliveryPrice)); //할인한 가격
+				result.put("list", list);
+				retval.put("result", result);
+				retval.put("code", 0);
+			}
+			else
+			{
+				retval.put("code", -999);
+				retval.put("msg", "parameter is empty");
+			}
 		}
 		else
 		{
-			retval.put("code", -999);
-			retval.put("msg", "parameter is empty");
+			retval.put("code", -998);
+			retval.put("msg", "error");
 		}
 		
 		response.setContentType("applicatoin/json; charset=UTF-8");
