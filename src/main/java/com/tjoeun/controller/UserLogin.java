@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.tjoeun.helper.AttributeName;
 import com.tjoeun.service.UserService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
@@ -50,9 +51,8 @@ public class UserLogin extends HttpServlet {
 			int res = service.userLogin(vo);
 			if (res == 0) {
 				UsersVO svo = service.selectVO(id);
-				HttpSession session = request.getSession();
-			    	session.setAttribute("user", svo);
-			    	// 로그인 성공한 경우 처리할 로직 작성
+			    AttributeName.setUserData(request, svo);			    
+			    // 로그인 성공한 경우 처리할 로직 작성
 				response.getWriter().write("0"); // ②
 			} else {
 				response.getWriter().write("1"); // ②

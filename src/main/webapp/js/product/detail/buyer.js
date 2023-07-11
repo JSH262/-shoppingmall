@@ -3,8 +3,20 @@
 
 
 $(() => {	
-	const ID = $("#id").val();
+	const ID = parseInt($("#id").val());
 	const CONTEXT_PATH = $("#contextPath").val();
+	const CURRENT_PAGE = $("#currentPage").val();
+	const PAGE_SIZE = $("#pageSize").val();
+	
+	const alertTag = $(`
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<i class="bi bi-check-circle-fill"></i>
+			<span name="msg">
+				sadfasdfsadf
+			</span>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>`);
+	
 	
 	$("#amountMinus").bind('click', function() {
 		let value = parseInt($("#amount").val()) - 1;
@@ -17,35 +29,41 @@ $(() => {
 	});
 	
 	$("#cart").bind('click', function() {
+		
+		$("#cart").attr('disabled', true);
 				
 		let amount = parseInt($("#amount").val());
 		
 		let data = {
 			amount: amount,
-			productId: id
+			productId: ID
 		};
 		
-		//미구현
-		Ajax(`${CONTEXT_PATH}/product/cart/insert`, "POST", JSON.stringify(data), 
+		Ajax(`${CONTEXT_PATH}/cart/insert`, "POST", JSON.stringify(data), 
 			function(resp) 
 			{
 				if(resp.code == 0)
 				{
-					//정상적으로 추가됨
+					let node = alertTag.clone();					
+					node.find('span[name=msg]').text('장바구니에 상품이 추가되었습니다.');					
+					$("#alert").append(node);
+					
+					setTimeout(function() {
+						$("#alert").empty();
+					}, 5000);
 				}
 				else
 				{
 					alert(resp.msg);
 				}
+				
+				$("#cart").attr('disabled', false);
 			}, 
 			function(err)
 			{
 				console.error(err);
+				$("#cart").attr('disabled', false);
 			});
-		
-		
-		console.log(ID);
-		console.log(amount);
 	});
 	
 	$("#buy").bind('click', function() {		
@@ -53,6 +71,10 @@ $(() => {
 		
 		console.log(ID);
 		console.log(amount);	
+	});
+	
+	$("#return").bind('click', function() {
+		location.href= `${CONTEXT_PATH}/product/list.jsp?currentPage=${CURRENT_PAGE}&pageSize=${PAGE_SIZE}`;		
 	});
 });
 

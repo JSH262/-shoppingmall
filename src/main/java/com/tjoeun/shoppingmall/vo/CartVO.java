@@ -1,21 +1,34 @@
 package com.tjoeun.shoppingmall.vo;
 
-public class CartVO {
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.gson.Gson;
+
+public class CartVO extends BaseVO 
+{
 	String userId;
 	Integer productId;
 	Integer amount;
-	Integer sellerId;
-		
+	String sellerId;
+
 	String thumbnail;
 	String productName;
 	String discountPrice;
 	String companyName;
 	String deliveryPrice;
 	
-	public CartVO() {
+
+	public CartVO() 
+	{
+		// TODO Auto-generated constructor stub
 	}
 	
-	public CartVO(String userId, Integer productId, Integer amount, Integer sellerId) {
+	public CartVO(HttpServletRequest request) throws Exception 
+	{
+		this.init(request);
+	}
+	
+	public CartVO(String userId, Integer productId, Integer amount, String sellerId) {
 		super();
 		this.userId = userId;
 		this.productId = productId;
@@ -23,7 +36,7 @@ public class CartVO {
 		this.sellerId = sellerId;
 	}
 	
-	public CartVO(String userId, Integer productId, Integer amount, Integer sellerId, String thumbnail,
+	public CartVO(String userId, Integer productId, Integer amount, String sellerId, String thumbnail,
 			String productName, String discountPrice, String companyName, String deliveryPrice) {
 		super();
 		this.userId = userId;
@@ -55,10 +68,10 @@ public class CartVO {
 	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
-	public Integer getSellerId() {
+	public String getSellerId() {
 		return sellerId;
 	}
-	public void setSellerId(Integer sellerId) {
+	public void setSellerId(String sellerId) {
 		this.sellerId = sellerId;
 	}
 	public String getThumbnail() {
@@ -91,11 +104,14 @@ public class CartVO {
 	public void setDeliveryPrice(String deliveryPrice) {
 		this.deliveryPrice = deliveryPrice;
 	}
+
+
+
 	@Override
 	public String toString() {
-		return "CartVO [userId=" + userId + ", productId=" + productId + ", amount=" + amount + ", sellerId=" + sellerId
-				+ ", thumbnail=" + thumbnail + ", productName=" + productName + ", discountPrice=" + discountPrice
-				+ ", companyName=" + companyName + ", deliveryPrice=" + deliveryPrice + "]";
-	}
+		return new Gson().toJson(this);
+	}	
+	
+
 	
 }

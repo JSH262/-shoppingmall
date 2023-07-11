@@ -1,5 +1,6 @@
 package com.tjoeun.shoppingmall.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -125,5 +126,40 @@ public class ProductService
 				
 		return retval;
 		
+	}
+
+	public List<ProductVO> selectList(Object[] productIds) 
+	{
+		List<ProductVO> retval = new ArrayList<>();
+		SqlSession mapper = MySession.getSession();
+		ProductVO params = new ProductVO();
+		
+		try
+		{
+			params.setChoose("detail");
+			for(int i = 0; i<productIds.length; i++)
+			{
+				try
+				{
+					params.setId(Integer.parseInt(productIds[i].toString()));
+					
+					ProductVO result = ProductDAO.getInstance().select(mapper, params);
+					
+					retval.add(result);
+				}
+				catch(NumberFormatException  nfexp)
+				{
+					
+				}
+			}
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
 	}
 }

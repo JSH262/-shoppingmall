@@ -7,9 +7,6 @@
 <!DOCTYPE html>
 <html>
 <%
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-	//테스트 용
 	final String USERS_TYPE_SELLER = UsersType.SELLER;
 	final String USERS_TYPE_BUYER = UsersType.BUYER;
 	UsersVO vo = AttributeName.getUserData(request);
@@ -270,9 +267,6 @@
 				</div>
 			</div>
 			
-			<%-- 
-///////////////////////////////////////////////////////////////////////////////////////////품절표시 
-			--%>
 			<%-- 참고 사이트: https://www.11st.co.kr/category/DisplayCategory.tmall?method=getDisplayCategory2Depth&dispCtgrNo=1001473 --%>
 			<div id="list">
 				<div name="product">

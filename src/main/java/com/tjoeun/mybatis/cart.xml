@@ -3,8 +3,8 @@
 <mapper namespace="Cart">
 
 	<insert id="insert" parameterType="CartVO">		
-		insert into cart(userId, productId, amount)
-		values(#{userId}, #{productId}, #{amount})
+		insert into cart(user_id, product_id, amount, seller_id)
+		values(#{userId}, #{productId}, #{amount}, #{sellerId})
 	</insert>
 	
 	<select id="selectList" parameterType="CartVO" resultType="CartVO">
@@ -22,9 +22,15 @@
 	  WHERE user_id = #{userId}
 	</select>
 	
+	<select id="isRow" parameterType="CartVO" resultType="int">
+		select count(*)
+		from cart
+		where user_id = #{userId} and product_id = #{productId}
+	</select>
+	
 	<update id="update" parameterType="CartVO">
 		update cart
-		set	amount = #{amount}			
+		set	amount = nvl(amount, 0) + #{amount}
 		where user_id = #{userId} and product_id = #{productId}
 	</update>
 		
@@ -33,7 +39,6 @@
 		from cart
 		where user_id = #{userId} and product_id = #{productId}
 	</delete>
-		
 </mapper>
 
 
