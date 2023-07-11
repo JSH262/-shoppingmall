@@ -71,7 +71,8 @@ for (int i = 0; i < count; i++) {
     String discountPrice = vo.get(i).getDiscountPrice();
     String companyName = vo.get(i).getCompanyName();
     String delivery = vo.get(i).getDeliveryPrice();
-
+	Integer productId = vo.get(i).getProductId();
+    
     if (thumbnail != null) {
         thumbnail += "/image/" + thumbnail;
     } else {
@@ -191,7 +192,13 @@ for (int i = 0; i < count; i++) {
 <body>
 <div class="container gap-3 mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+    <%-- 
+        <div class="col-md-1">
+            <!-- 체크박스 추가 -->
+            <input type="checkbox" name="selectedProduct" value="<%= productId %>" />
+        </div>
+         --%>
+        <div class="col-md-5">
             <img style="max-width:100%" src="<%= thumbnail %>" />
         </div>
         <div class="col-md-1">
@@ -244,25 +251,32 @@ for (int i = 0; i < count; i++) {
         </div>
         <div class="col-md-5">
             <span class="input-group mb-3">
-            <%
-                if (amount != 0) {
-            %>
-                    
-            <%
-                } else {
-            %>
+                <% if (amount != 0) { %>
+                    <input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
+                <% } else { %>
                     <input class="btn btn-secondary" type="button" value="품절" disabled />
-            <%
-                }
-            %>
+                <% } %>                               
             </span>
         </div>
     </div>
 </div>
+<!-- 상품 컨테이너 끝 -->
 <%
 }
 %>
 
-<input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="order.jsp" method="post" id="paymentForm">
+                <c:forEach var="product" items="${vo}">
+                    <input type="hidden" name="selectedProductIds" value="${product.getProductId()}" />
+                </c:forEach>
+                <input class="btn btn-primary" type="submit" id="order" name="order" value="결제하기" />
+            </form>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
