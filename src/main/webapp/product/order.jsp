@@ -181,6 +181,7 @@
 			</div>
 		</div>	
 		<div id="result">
+			<div>배송비: <span id="totalDeliveryPrice"></span></div>
 			<div>합계: <span id="totalPrice"></span></div>
 			<div>할인률: <span id="totalDiscountPrice"></span></div>
 		</div>

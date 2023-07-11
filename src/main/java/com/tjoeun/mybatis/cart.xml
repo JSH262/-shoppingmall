@@ -20,7 +20,7 @@
 	
 	<update id="update" parameterType="CartVO">
 		update cart
-		set	amount = nvl(amount, 0) + #{amount}			
+		set	amount = nvl(amount, 0) + #{amount}
 		where user_id = #{userId} and product_id = #{productId}
 	</update>
 		

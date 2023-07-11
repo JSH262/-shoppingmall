@@ -100,8 +100,9 @@ $(() => {
 					totalDeliveryPrice += parseInt(item.deliveryPrice);
 				}
 				
-				$("#totalPrice").text(totalDiscountedPrice);
+				$("#totalPrice").text(totalDiscountedPrice + totalDeliveryPrice);
 				$("#totalDiscountPrice").text(totalPrice - totalDiscountedPrice);
+				$("#totalDeliveryPrice").text(totalDeliveryPrice);
 				
 				
 			},
