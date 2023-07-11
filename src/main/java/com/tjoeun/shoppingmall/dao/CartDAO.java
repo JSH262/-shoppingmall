@@ -43,6 +43,10 @@ public class CartDAO
 	{
 		return mapper.update("Cart.update", vo);
 	}
+
+	public int count(SqlSession mapper, String userId) {
+		return (int) mapper.selectOne("Cart.count", userId);
+	}
 	
 
 }

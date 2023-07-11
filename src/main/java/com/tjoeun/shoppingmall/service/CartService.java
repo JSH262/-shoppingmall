@@ -51,6 +51,24 @@ public class CartService
 		return retval;
 	}
 	
+	public int count(String userId) 
+	{
+		int retval = 0;
+		SqlSession mapper = MySession.getSession();
+		try
+		{
+			retval = CartDAO.getInstance().count(mapper, userId);
+			mapper.commit();
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			mapper.rollback();
+		}
+		mapper.close();
+		return retval;
+	}
+	
 	public int insert(CartVO vo) 
 	{
 		int retval = 0;

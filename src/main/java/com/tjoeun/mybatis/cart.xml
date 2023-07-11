@@ -7,9 +7,19 @@
 		values(#{userId}, #{productId}, #{amount}, #{sellerId})
 	</insert>
 	
-	<select id="selectList" parameterType="java.util.HashMap" resultType="CartVO">
-		select *
-		from cart
+	<select id="selectList" parameterType="CartVO" resultType="CartVO">
+	    SELECT c.user_id, c.product_id, c.amount, p.thumbnail, p.name as product_Name, p.delivery_price, 
+		(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
+		to_char(price - price * (discount / 100), 'FM999,999,999') || '원' discount_price
+		FROM cart c
+		JOIN product p ON c.product_id = p.id
+		where c.user_id = #{userId}
+	</select>
+	
+	<select id="count" parameterType="java.lang.String" resultType="java.lang.Integer">
+	  SELECT COUNT(*) AS count
+	  FROM cart
+	  WHERE user_id = #{userId}
 	</select>
 	
 	<select id="isRow" parameterType="CartVO" resultType="int">
@@ -29,19 +39,7 @@
 		from cart
 		where user_id = #{userId} and product_id = #{productId}
 	</delete>
-	
-		
 </mapper>
-
-
-
-
-
-
-
-
-
-
 
 
 

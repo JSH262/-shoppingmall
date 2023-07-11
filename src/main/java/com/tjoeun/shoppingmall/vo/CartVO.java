@@ -8,16 +8,16 @@ public class CartVO extends BaseVO
 {
 	String userId;
 	Integer productId;
-	Integer amount;	
+	Integer amount;
 	String sellerId;
-	
+
 	String thumbnail;
 	String productName;
 	String discountPrice;
 	String companyName;
 	String deliveryPrice;
 	
-	
+
 	public CartVO() 
 	{
 		// TODO Auto-generated constructor stub
@@ -28,6 +28,28 @@ public class CartVO extends BaseVO
 		this.init(request);
 	}
 	
+	public CartVO(String userId, Integer productId, Integer amount, String sellerId) {
+		super();
+		this.userId = userId;
+		this.productId = productId;
+		this.amount = amount;
+		this.sellerId = sellerId;
+	}
+	
+	public CartVO(String userId, Integer productId, Integer amount, String sellerId, String thumbnail,
+			String productName, String discountPrice, String companyName, String deliveryPrice) {
+		super();
+		this.userId = userId;
+		this.productId = productId;
+		this.amount = amount;
+		this.sellerId = sellerId;
+		this.thumbnail = thumbnail;
+		this.productName = productName;
+		this.discountPrice = discountPrice;
+		this.companyName = companyName;
+		this.deliveryPrice = deliveryPrice;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -45,6 +67,12 @@ public class CartVO extends BaseVO
 	}
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+	public String getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
 	}
 	public String getThumbnail() {
 		return thumbnail;
@@ -77,22 +105,13 @@ public class CartVO extends BaseVO
 		this.deliveryPrice = deliveryPrice;
 	}
 
-	public String getSellerId() {
-		return sellerId;
-	}
 
-	public void setSellerId(String sellerId) {
-		this.sellerId = sellerId;
-	}
 
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);
 	}	
 	
-	
-	
-	
-	
+
 	
 }
