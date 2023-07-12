@@ -38,4 +38,10 @@ public class ProductOrderDAO
 	{
 		return mapper.update("ProductOrder.update", item);
 	}
+	
+
+	public int totalCount(SqlSession mapper, ProductOrderVO item)
+	{
+		return (int)mapper.selectOne("ProductOrder.totalCount", item);
+	}
 }

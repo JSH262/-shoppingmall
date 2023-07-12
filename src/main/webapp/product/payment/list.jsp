@@ -11,25 +11,40 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 		
+		<style>
+		  table {
+		    width: 90%;
+		    border: 1px solid #444444;
+		    border-collapse: collapse;
+		    text-align: center;
+		  }
+		  th, td {
+		    border: 1px solid #444444;
+		    padding: 10px;
+		  }
+		</style>
+		
 	</head>
 	<body>
-		<h1>결제목록</h1>
-		<table>
-			<tr id="tableHeader">
+		<h1 style="text-align: center;margin-top:30px;">결제목록</h1>
+		<table border="1" align="center">
+			<tr id="tableHeader" align="center">
 				<th>주문번호</th>
 				<th>썸네일</th>				
 				<th>상품이름</th>
 				<th>상품수량</th>
 				<th>상품가격</th>
+				<th>배송비</th>
 				<th>총 가격</th>
 			</tr>
-			<tbody>
-				<tr id="tableNode">
+			<tbody id="list">
+				<tr name="tableNode" align="center">
 					<td name="id"></td>
 					<td name="thumbnail"></td>
 					<td name="productName"></td>
 					<td name="productAmount"></td>
 					<td name="productPrice"></td>
+					<td name="productDelivery"></td>
 					<td name="totalProductPrice"></td>
 				</tr>
 			</tbody>

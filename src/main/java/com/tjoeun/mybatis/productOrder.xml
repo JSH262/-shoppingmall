@@ -33,7 +33,7 @@
 					to_char(t2.product_amount, 'FM999,999,999') fmt_product_amount,
 					to_char(t2.product_delivery_price, 'FM999,999,999') fmt_product_delivery_price,
 					to_char(t2.product_price, 'FM999,999,999') fmt_product_price,
-					to_char(t2.product_amount * po.product_price + po.product_delivery_price, 'FM999,999,999') fmt_total_product_price
+					to_char(t2.product_amount * t2.product_price + t2.product_delivery_price, 'FM999,999,999') fmt_total_product_price
 					
 				from (	select t1.*, rownum rnum
 						from (	select *
@@ -50,7 +50,11 @@
 		    </otherwise>
 		</choose>
 	</select>
-	
+	<select id="totalCount" parameterType="ProductOrderVO" resultType="int">
+		select count(*)
+		from product_order
+		where user_id = #{userId}
+	</select>
 	
 	<update id="update" parameterType="ProductOrderVO">
 		update product_order

@@ -89,7 +89,13 @@ public class ProductPaymentListController extends HttpServlet {
 		
 		try
 		{
-			ProductPagingVO page = new ProductPagingVO(request);
+			ProductOrderVO totalItem = new ProductOrderVO();
+			
+			totalItem.setUserId(user.getId());
+			
+			
+			int totalCount = ProductOrderService.getInstance().totalCount(totalItem);
+			ProductPagingVO page = new ProductPagingVO(request, totalCount);
 			ProductOrderVO params = new ProductOrderVO();
 			
 			
