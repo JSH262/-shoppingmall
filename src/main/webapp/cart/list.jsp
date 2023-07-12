@@ -22,7 +22,7 @@
 	int count = CartService.getInstance().count(user.getId());
 	for (int i = 0; i < count; i++) {
     Integer amount = vo.get(i).getAmount();
-    Integer sellerId = vo.get(i).getSellerId();
+    String sellerId = vo.get(i).getSellerId();
     String thumbnail = vo.get(i).getThumbnail();
     String productName = vo.get(i).getProductName();
     String discountPrice = vo.get(i).getDiscountPrice();
