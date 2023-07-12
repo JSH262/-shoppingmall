@@ -1,7 +1,4 @@
 
-
-
-
 $(() => {	
 	const ID = parseInt($("#id").val());
 	const CONTEXT_PATH = $("#contextPath").val();

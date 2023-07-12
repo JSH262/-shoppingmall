@@ -50,6 +50,7 @@ public class UserLogin extends HttpServlet {
 			UsersVO vo = new UsersVO(id, password1);
 			int res = service.userLogin(vo);
 			if (res == 0) {
+
 				UsersVO svo = service.selectVO(id);
 			    AttributeName.setUserData(request, svo);			    
 			    // 로그인 성공한 경우 처리할 로직 작성

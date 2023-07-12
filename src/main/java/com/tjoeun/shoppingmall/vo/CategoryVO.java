@@ -72,4 +72,5 @@ public class CategoryVO
 		return "CategoryVO [id=" + id + ", name=" + name + ", lev=" + lev + ", gup=" + gup + ", seq=" + seq + ", useYn="
 				+ useYn + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", type=" + type + "]";
 	}
+	
 }

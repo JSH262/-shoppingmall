@@ -14,12 +14,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import com.tjoeun.helper.AttributeName;
-import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
-import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
  * Servlet implementation class ProductListController
@@ -27,187 +24,182 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 @WebServlet("/product/list")
 public class ProductListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ProductListController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ProductListController() {
-		super();
-	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
 		doAction(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-		doAction(request, response);
-	}
-
-	void doAction(HttpServletRequest request, HttpServletResponse response) 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	{
-		try 
+		doAction(request, response);	
+	}
+	
+	void doAction(HttpServletRequest request, HttpServletResponse response)
+	{
+		try
 		{
-			final String USERS_TYPE_SELLER = UsersType.SELLER;
-			final String USERS_TYPE_BUYER = UsersType.BUYER;
+//////////////////////////////////////////////////////////////////////// 테스트 용
+			// 사용자가 판매자일 경우와 구매자일 경우 전달하는 목록이나 기능이 달라져야 한다.
+			String sellerId = null; 
 			
-			UsersVO user = (UsersVO) request.getSession().getAttribute("user");
-			String sellerId = user.getId();
-			String type = user.getType();			
 			HashMap<String, Object> serviceParams = new HashMap<>();
 			ProductService service = ProductService.getInstance();
 			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
 			long currentPage = 1;
 			long pageSize = 15;
-
-			if (params != null) 
-			{
+						
+			if(params != null)
+			{				
 				// POST
-				currentPage = (long) params.get("currentPage");
-				pageSize = (long) params.get("pageSize");
-				String searchValue = (String) params.get("searchValue");
-				String searchCategory = (String) params.get("searchCategory");
-
-				if (searchValue != null && searchValue.length() > 0) 
+				currentPage = (long)params.get("currentPage");
+				pageSize = (long)params.get("pageSize");
+				String searchValue = (String)params.get("searchValue");
+				String searchCategory = (String)params.get("searchCategory");				
+				
+				if(searchValue != null && searchValue.length() > 0)
 				{
-					switch (searchCategory) 
+					switch(searchCategory)
 					{
 					case "categoryId":
 						serviceParams.put("categoryId", searchValue);
 						break;
-
+						
 					case "name":
 						serviceParams.put("name", searchValue);
 						break;
 					}
 				}
-				else 
+				else
 				{
 					searchValue = null;
 					searchCategory = null;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				// GET
 				try 
 				{
 					ProductPagingVO page = new ProductPagingVO(request);
-
-					currentPage = (long) page.getCurrentPage();
-					pageSize = (long) page.getPageSize();
+					
+					currentPage = (long)page.getCurrentPage();
+					pageSize = (long)page.getPageSize();
 				}
 				catch (Exception e) 
-				{
+				{				
+					e.printStackTrace();
 				}
+				
 			}
-
-			// 판매자
-			if (USERS_TYPE_SELLER.equals(type)) 
-			{
-				serviceParams.put("choose", "list");
-				serviceParams.put("sellerId", sellerId);
-			}
-
-			// 구매자
-			else if (USERS_TYPE_BUYER.equals(type)) 
-			{
-				serviceParams.put("choose", "detail");
-			}
-
-			// 로그인을 하지 않은 사용자
-			else 
-			{
-				serviceParams.put("choose", "detail");
-			}
-
+			
+			serviceParams.put("choose", "list");
+			serviceParams.put("sellerId", sellerId);
+			
 			int totalCount = service.totalCount(serviceParams);
-			ProductPagingVO page = new ProductPagingVO((int) currentPage, totalCount, (int) pageSize);
+			ProductPagingVO page = new ProductPagingVO((int)currentPage, totalCount, (int)pageSize);
 			List<ProductVO> list = service.selectList(serviceParams, page);
 			JSONObject retval = new JSONObject();
 			JSONObject result = new JSONObject();
-
+						
 			result.put("list", list);
 			result.put("paging", page);
 			retval.put("result", result);
 			retval.put("code", 0);
-
+			
 			response.setContentType("application/json; charset=UTF-8");
 			response.getWriter().write(retval.toJSONString());
-		} 
-		catch (IOException exp) 
+		}
+		catch(IOException exp)
 		{
 			exp.printStackTrace();
 		}
 	}
+    
+    
+    
+    
+    /*
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//product 리스트 조회 -> JSON 변환 -> 전송
+		HashMap<String, Object> params = new HashMap<>();
+		int currentPage = 1;
+		int pageSize = 15;
+		
+		try 
+		{
+			ProductPagingVO pageParam = new ProductPagingVO(request);
+			
+			currentPage = pageParam.getCurrentPage();
+			pageSize = pageParam.getPageSize();
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		params.put("choose", "list");
+		
+		ProductService service = ProductService.getInstance();
+		int totalCount = service.totalCount(null);
+		ProductPagingVO page = new ProductPagingVO(currentPage, totalCount, pageSize);
+		List<ProductVO> list = service.selectList(params, page);
+		JSONObject retval = new JSONObject();
+		JSONObject result = new JSONObject();
+		
+		result.put("list", list);
+		result.put("paging", page);
+		retval.put("result", result);
+		retval.put("code", 0);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().write(retval.toJSONString());
+	}
 
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-//	{
-//	  
-//		//product 리스트 조회 -> JSON 변환 -> 전송 
-//		HashMap<String, Object> params = new HashMap<>();
-//		int currentPage = 1; 
-//		int pageSize = 15;
-//		  
-//		try 
-//		{ 
-//			ProductPagingVO pageParam = new ProductPagingVO(request);
-//			  
-//			currentPage = pageParam.getCurrentPage(); pageSize = pageParam.getPageSize();
-//		} 
-//		catch (Exception e) 
-//		{ 
-//			e.printStackTrace(); 
-//		}
-//			  
-//		params.put("choose", "list");
-//		  
-//		ProductService service = ProductService.getInstance(); 
-//		int totalCount = service.totalCount(null); 
-//		ProductPagingVO page = new ProductPagingVO(currentPage, totalCount, pageSize); 
-//		List<ProductVO> list = service.selectList(params, page); 
-//		JSONObject retval = new JSONObject();
-//		JSONObject result = new JSONObject();
-//		  
-//		result.put("list", list); result.put("paging", page); retval.put("result",
-//		result); retval.put("code", 0);
-//		  
-//		response.setContentType("application/json; charset=UTF-8");
-//		response.getWriter().write(retval.toJSONString()); 
-//	  }
-//		  
-//	  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException 
-//	  { 
-//		  try 
-//		  {
-//			  HashMap<String, Object> serviceParams = new HashMap<>(); 
-//			  ProductService service = ProductService.getInstance(); 
-//			  JSONObject params = com.tjoeun.helper.Util.toJSONObject(request); 
-//			  long currentPage = (long)params.get("currentPage"); 
-//			  long pageSize = (long)params.get("pageSize");
-//			  
-//			  serviceParams.put("choose", "list");
-//			  serviceParams.put("name", params.get("name")); 
-//			  serviceParams.put("categoryId", params.get("categoryId"));
-//			  
-//			  int totalCount = service.totalCount(serviceParams); 
-//			  ProductPagingVO page = new ProductPagingVO((int)currentPage, totalCount, (int)pageSize);
-//			  List<ProductVO> list = service.selectList(serviceParams, page); 
-//			  JSONObject retval = new JSONObject(); 
-//			  JSONObject result = new JSONObject();
-//			  
-//			  result.put("list", list); 
-//			  result.put("paging", page); 
-//			  retval.put("result", result); 
-//			  retval.put("code", 0);
-//			  
-//			  response.setContentType("application/json; charset=UTF-8");
-//			  response.getWriter().write(retval.toJSONString());
-//		  } 
-//		  catch(IOException exp) 
-//		  {
-//			  exp.printStackTrace(); 
-//		  } 
-//	  }
-	  
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException 
+	{
+		try
+		{
+			HashMap<String, Object> serviceParams = new HashMap<>();
+			ProductService service = ProductService.getInstance();
+			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
+			long currentPage = (long)params.get("currentPage");
+			long pageSize = (long)params.get("pageSize");			
+			
+			serviceParams.put("choose", "list");
+			serviceParams.put("name", params.get("name"));
+			serviceParams.put("categoryId", params.get("categoryId"));
+			
+			int totalCount = service.totalCount(serviceParams);
+			ProductPagingVO page = new ProductPagingVO((int)currentPage, totalCount, (int)pageSize);
+			List<ProductVO> list = service.selectList(serviceParams, page);
+			JSONObject retval = new JSONObject();
+			JSONObject result = new JSONObject();
+						
+			result.put("list", list);
+			result.put("paging", page);
+			retval.put("result", result);
+			retval.put("code", 0);
+			
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().write(retval.toJSONString());
+		}
+		catch(IOException exp)
+		{
+			exp.printStackTrace();
+		}
+	}
+	*/
+
 }
