@@ -231,6 +231,7 @@
 			<div><input type="button" id="pay" value="결제하기"/></div>
 		</div>
 		 
+		<input type="hidden" id="id" name="id" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 	</body>
 </html>

@@ -32,7 +32,7 @@ $(() => {
 																
 					const productDetailMove = function()
 					{
-						location.href = `${CONTEXT_PATH}/product/detail.jsp?id=${item.id}`;
+						location.href = `${CONTEXT_PATH}/product/detail.jsp?id=${item.productId}`;
 					}
 					
 					if(item.thumbnail)
