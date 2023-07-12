@@ -5,7 +5,8 @@ $(() => {
 	const fileUploadUrl = contextPath + '/image/';
 	const currentPage = $('#currentPage').val();
 	const pageSize = $('#pageSize').val();
-	const summernoteParams = {
+	
+	$("#contents").summernote({
 		tabsize:2,
 		lang: 'ko-KR',
 		height: 500,
@@ -52,10 +53,7 @@ $(() => {
 				//$("#summernote").summernote('insertNode', imgNode);
 			}			
 		}
-	}
-	
-	
-	$("#contents").summernote(summernoteParams);
+	});
 	
 	$("#formSubmit").bind('click', function() {
 		
@@ -76,18 +74,11 @@ $(() => {
 		
 		if($("#contents").summernote)
 		{
-			if($(".note-editor.note-frame").length == 1)
-			{	
-				contents = $("#contents").summernote('code');
-			}
-			else
-			{
-				contents = $("#contents").html();	
-			}
+			contents = $("#contents").summernote('code');
 		}
 		else
 		{
-			contents = $("#contents").html();
+			contents = $("#contents").val();
 		}
 				
 		/*
@@ -107,6 +98,7 @@ $(() => {
 		data.append('deliveryPrice', deliveryPrice);
 		data.append('contents', contents);
 		data.append('categoryId', categoryId);
+		
 		
 		AjaxForm(url, "POST", data, 
 			function(resp)
@@ -130,27 +122,5 @@ $(() => {
 	$("#return").bind('click', function() {
 		location.href = `${contextPath}/product/list.jsp?currentPage=${currentPage}&pageSize=${pageSize}`;
 	});
-	
-	
-	$("#preview").bind('click', function() {
-		if($("#preview").css("display") != 'none')
-		{
-			$("#insertView").css('display', 'inline');
-			$("#preview").css('display', 'none');
-			
-			 $("#contents").summernote('destroy');
-		}
-	});
-	
-	$("#insertView").bind('click', function() {
-		if($("#insertView").css("display") != 'none')
-		{
-			$("#preview").css('display', 'inline');
-			$("#insertView").css('display', 'none');
-			
-			$("#contents").summernote(summernoteParams);			
-		}
-	});
-	
 	
 });
