@@ -70,10 +70,10 @@ $(() => {
 					
 				}
 				
-				$("#totalPrice").text(item.fmtResultPrice); // 할인전 가격
-				$("#totalDiscount").text(item.fmtResultDiscount); // 할인된 가격
-				$("#totalDeliveryPrice").text(item.fmtResultDevliveryPrice); //총 배송비
-				$("#totalDiscountPrice").text(item.fmtResultDiscountPrice); //할인한 가격
+				$("#totalPrice").text(resp.result.fmtResultPrice); // 할인전 가격
+				$("#totalDiscount").text(resp.result.fmtResultDiscount); // 할인된 가격
+				$("#totalDeliveryPrice").text(resp.result.fmtResultDevliveryPrice); //총 배송비
+				$("#totalDiscountPrice").text(resp.result.fmtResultDiscountPrice); //할인한 가격
 				
 				
 			},

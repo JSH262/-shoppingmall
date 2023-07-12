@@ -125,6 +125,47 @@
 				.product-sold-out {
 					opacity: 0.3;
 				}
+				
+				#totalPrice {
+					font-weight: bold;
+				}			
+				#totalPrice:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				
+				#totalDeliveryPrice {
+					font-weight: bold;
+				}
+				#totalDeliveryPrice:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				#totalDiscount {
+					font-weight: bold;
+				}
+				#totalDiscount:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				#totalDiscountPrice {
+					font-size:x-large;
+					color: crimson;
+					font-weight: bold;
+				}
+				#totalDiscountPrice:after {
+					font-size:medium;
+					color: black;
+					font-weight: normal;
+					content: '원'
+				}
+				#result {
+					text-align: center;
+				}
+				
 			</style>
 	</head>
 	<body>
@@ -186,6 +227,8 @@
 			<span> + 배송비 <span id="totalDeliveryPrice"></span></span>	
 			<span> - 할인금액 <span id="totalDiscount"></span></span>
 			<span> = <span id="totalDiscountPrice"></span></span>
+			<div>&nbsp;</div>
+			<div><input type="button" id="pay" value="결제하기"/></div>
 		</div>
 		 
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />

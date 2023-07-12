@@ -13,9 +13,10 @@ public class CartVO extends BaseVO
 
 	String thumbnail;
 	String productName;
-	String discountPrice;
+	int discountPrice;
 	String companyName;
-	String deliveryPrice;
+	int deliveryPrice;
+	int price;
 	
 	String fmtAmount;
 	String fmtPrice;
@@ -43,7 +44,7 @@ public class CartVO extends BaseVO
 	}
 	
 	public CartVO(String userId, Integer productId, Integer amount, String sellerId, String thumbnail,
-			String productName, String discountPrice, String companyName, String deliveryPrice) {
+			String productName, int discountPrice, String companyName, int deliveryPrice) {
 		super();
 		this.userId = userId;
 		this.productId = productId;
@@ -92,10 +93,10 @@ public class CartVO extends BaseVO
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public String getDiscountPrice() {
+	public int getDiscountPrice() {
 		return discountPrice;
 	}
-	public void setDiscountPrice(String discountPrice) {
+	public void setDiscountPrice(int discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 	public String getCompanyName() {
@@ -104,13 +105,21 @@ public class CartVO extends BaseVO
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public String getDeliveryPrice() {
+	public int getDeliveryPrice() {
 		return deliveryPrice;
 	}
-	public void setDeliveryPrice(String deliveryPrice) {
+	public void setDeliveryPrice(int deliveryPrice) {
 		this.deliveryPrice = deliveryPrice;
 	}
 
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
 
 	public String getFmtAmount() {
 		return fmtAmount;

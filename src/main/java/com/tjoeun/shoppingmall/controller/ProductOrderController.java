@@ -133,20 +133,21 @@ public class ProductOrderController extends HttpServlet {
 			
 			params.setUserId(user.getId());
 			
-			List<CartVO> productIds = CartService.getInstance().productIds(params);
+			List<CartVO> productIds = CartService.getInstance().selectList(params);
 			
 			if(productIds != null)
 			{
 				JSONObject result = new JSONObject();
-				List<ProductVO> list = ProductService.getInstance().selectList(productIds);
-				DecimalFormat numFormat = new DecimalFormat("#,###원");
+				DecimalFormat numFormat = new DecimalFormat("#,###");
 				
 				long totalPrice = 0L;
 				long totalDiscountPrice = 0L;
 				int totalDevliveryPrice = 0;
 				
-				for(ProductVO item : list)
+				for(CartVO item : productIds)
 				{
+					
+					
 					int price = item.getAmount() * item.getPrice();
 					int discountPrice = item.getAmount() * item.getDiscountPrice();
 					int deliveryPrice = item.getDeliveryPrice();
@@ -160,7 +161,7 @@ public class ProductOrderController extends HttpServlet {
 				result.put("fmtResultDiscount", numFormat.format(totalPrice - totalDiscountPrice)); // 할인된 가격
 				result.put("fmtResultDevliveryPrice", numFormat.format(totalDevliveryPrice)); //총 배송비
 				result.put("fmtResultDiscountPrice", numFormat.format(totalDiscountPrice + totalDevliveryPrice)); //할인한 가격
-				result.put("list", list);
+				result.put("list", productIds);
 				retval.put("result", result);
 				retval.put("code", 0);
 			}

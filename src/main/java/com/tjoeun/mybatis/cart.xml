@@ -17,19 +17,16 @@
 			(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
 			p.delivery_price,
 			
-			to_char(c.amount, 'FM999,999,999') || '개' fmt_amount,
-			to_char(p.price, 'FM999,999,999') || '원' fmt_price,
+			p.price,
+			to_char(c.amount, 'FM999,999,999') fmt_amount,
+			to_char(p.price, 'FM999,999,999') fmt_price,
 			p.discount || '%' fmt_discount,			
 			case p.delivery_price
 				when 0 then '무료배송'
-				else to_char(p.delivery_price, 'FM999,999,999') || '원'
+				else to_char(p.delivery_price, 'FM999,999,999')
 			end fmt_delivery_price,			
-			to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
-			
-			
-								
-		FROM cart c
-		JOIN product p ON c.product_id = p.id
+			to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') fmt_discount_price
+		FROM cart c JOIN product p ON c.product_id = p.id
 		where c.user_id = #{userId}
 	</select>
 	
