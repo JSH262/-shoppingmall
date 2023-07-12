@@ -21,6 +21,11 @@ public class CartDAO
 	{
 		return mapper.selectList("Cart.selectList", vo);
 	}
+
+	public int isRow(SqlSession mapper, CartVO vo)
+	{
+		return (int)mapper.selectOne("Cart.isRow", vo);
+	}
 	
 	
 	public int insert(SqlSession mapper, CartVO vo) 

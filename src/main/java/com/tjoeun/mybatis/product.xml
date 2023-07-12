@@ -106,6 +106,7 @@
 				end fmt_delivery_price,
 				
 				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				seller_id,
 				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name
 			</if>
 		from product
