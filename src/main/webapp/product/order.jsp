@@ -59,6 +59,12 @@
 				
 				span[name=price] {
 					text-decoration: line-through;
+					opacity: 0.0;
+				}
+				span[name=price]: before {
+					color:black;
+					font-size: medium;
+					content: '원';
 				}
 				span[name=discount] {
 					color: scrim;
@@ -80,6 +86,11 @@
 				div[name=discountPrice] {
 					font-size: 15px;
 					font-weight: bold;
+				}
+				div[name=discountPrice]: before {
+					color:black;
+					font-size: medium;
+					content: '원';
 				}
 				
 				div[name=companyName] {

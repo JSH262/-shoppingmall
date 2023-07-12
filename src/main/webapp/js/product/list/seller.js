@@ -4,6 +4,8 @@ $(() => {
 	const CURRENT_PAGE =  parseInt($("#currentPage").val());
 	const PAGE_SIZE = parseInt($("#pageSize").val());
 	
+	
+	
 	$("#list").empty();
 	$("#pagination").empty();
 			

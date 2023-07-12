@@ -12,8 +12,27 @@
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//검증 추가	
 		UsersVO user = AttributeName.getUserData(request);
-		String currentPage = request.getParameter("currentPage");
-		String pageSize = request.getParameter("pageSize");	
+		Integer currentPage = 1;
+		Integer pageSize = 15;
+	
+		try
+		{
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));			
+		}
+		catch(NumberFormatException exp)
+		{
+			
+		}
+		
+		try
+		{
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		catch(NumberFormatException exp)
+		{
+			
+		}
+		
 		int id = Integer.parseInt(request.getParameter("id"));
 		ProductVO params = new ProductVO();
 		
@@ -56,6 +75,10 @@
 					}
 					input[type=text] {
 						width: 98%;
+					}
+					.product-sold-out {
+						background-color: crimson;
+						color: white;
 					}
 					
 				</style>
@@ -156,7 +179,7 @@
 						</tr>
 						
 						<tr>
-							<th>상품 수량</th>
+							<th id="productAmountHeader">상품 수량</th>
 							<td>
 								<input class="text-readonly node-hide" type="number" id="amount" name="amount" value="<%=vo.getAmount() %>" />
 								<input class="text-readonly" type="text" id="fmtAmount" name="fmtAmount" value="<%=vo.getFmtAmount() %>" readonly="readonly" />
