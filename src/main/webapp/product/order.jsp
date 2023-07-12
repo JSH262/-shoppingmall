@@ -239,7 +239,7 @@
 			<span> - 할인금액 <span id="totalDiscount"></span></span>
 			<span> = <span id="totalDiscountPrice"></span></span>
 			<div>&nbsp;</div>
-			<div><input type="button" id="pay" value="결제하기"/></div>
+			<div><input type="button" id="pay" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/payment.jsp';" /></div>
 		</div>
 		 
 		<input type="hidden" id="id" name="id" />

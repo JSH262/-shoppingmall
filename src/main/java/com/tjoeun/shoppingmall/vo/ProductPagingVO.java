@@ -12,8 +12,8 @@ public class ProductPagingVO extends BaseVO
 	Integer currentPage;
 	Integer totalPage;
 	Integer totalCount;
-	Integer startNo;
-	Integer endNo;
+	//Integer startNo;
+	//Integer endNo;
 	Integer startPage;
 	Integer endPage;
 	Integer pageSize;
@@ -73,6 +73,7 @@ public class ProductPagingVO extends BaseVO
 		this.totalCount = totalCount;
 	}
 
+	/*
 	public Integer getStartNo() {
 		return startNo;
 	}
@@ -88,6 +89,7 @@ public class ProductPagingVO extends BaseVO
 	public void setEndNo(Integer endNo) {
 		this.endNo = endNo;
 	}
+	*/
 
 	public Integer getStartPage() {
 		return startPage;

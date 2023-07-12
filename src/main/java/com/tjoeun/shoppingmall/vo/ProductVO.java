@@ -12,7 +12,6 @@ import com.oreilly.servlet.MultipartRequest;
 
 public class ProductVO extends BaseVO
 {
-	Integer rnum;
 	Integer id;
 	Integer categoryId;
 	String name;
@@ -43,12 +42,6 @@ public class ProductVO extends BaseVO
 		 this.init(request);
 	}
 	
-	public Integer getRnum() {
-		return rnum;
-	}
-	public void setRnum(Integer rnum) {
-		this.rnum = rnum;
-	}
 	public Integer getId() {
 		return id;
 	}

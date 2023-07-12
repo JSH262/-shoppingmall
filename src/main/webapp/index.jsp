@@ -29,9 +29,6 @@
 		}
 	%>
 	
-	
-		
-		
 		<input type="button" value="상품보기" onclick="location.href='<%=request.getContextPath() %>/product/list.jsp'" />
 	</div>
 
