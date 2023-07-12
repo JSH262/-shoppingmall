@@ -1,7 +1,4 @@
 
-
-
-
 $(() => {	
 	const ID = $("#id").val();
 	const CONTEXT_PATH = $("#contextPath").val();
