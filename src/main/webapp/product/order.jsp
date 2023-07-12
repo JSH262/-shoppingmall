@@ -59,6 +59,12 @@
 				
 				span[name=price] {
 					text-decoration: line-through;
+					opacity: 0.0;
+				}
+				span[name=price]: before {
+					color:black;
+					font-size: medium;
+					content: '원';
 				}
 				span[name=discount] {
 					color: scrim;
@@ -80,6 +86,11 @@
 				div[name=discountPrice] {
 					font-size: 15px;
 					font-weight: bold;
+				}
+				div[name=discountPrice]: before {
+					color:black;
+					font-size: medium;
+					content: '원';
 				}
 				
 				div[name=companyName] {
@@ -125,6 +136,47 @@
 				.product-sold-out {
 					opacity: 0.3;
 				}
+				
+				#totalPrice {
+					font-weight: bold;
+				}			
+				#totalPrice:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				
+				#totalDeliveryPrice {
+					font-weight: bold;
+				}
+				#totalDeliveryPrice:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				#totalDiscount {
+					font-weight: bold;
+				}
+				#totalDiscount:after {
+					font-size:medium;
+					font-weight: normal;
+					content: '원'
+				}
+				#totalDiscountPrice {
+					font-size:x-large;
+					color: crimson;
+					font-weight: bold;
+				}
+				#totalDiscountPrice:after {
+					font-size:medium;
+					color: black;
+					font-weight: normal;
+					content: '원'
+				}
+				#result {
+					text-align: center;
+				}
+				
 			</style>
 	</head>
 	<body>
@@ -180,12 +232,17 @@
 				<hr class="h-line" />
 			</div>
 		</div>	
+		
 		<div id="result">
-			<div>배송비: <span id="totalDeliveryPrice"></span></div>
-			<div>합계: <span id="totalPrice"></span></div>
-			<div>할인률: <span id="totalDiscountPrice"></span></div>
+			<span>상품금액 <span id="totalPrice"></span></span>			
+			<span> + 배송비 <span id="totalDeliveryPrice"></span></span>	
+			<span> - 할인금액 <span id="totalDiscount"></span></span>
+			<span> = <span id="totalDiscountPrice"></span></span>
+			<div>&nbsp;</div>
+			<div><input type="button" id="pay" value="결제하기"/></div>
 		</div>
 		 
+		<input type="hidden" id="id" name="id" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 	</body>
 </html>

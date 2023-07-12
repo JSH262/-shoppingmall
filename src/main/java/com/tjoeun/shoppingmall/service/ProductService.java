@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
+import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
@@ -128,7 +129,7 @@ public class ProductService
 		
 	}
 
-	public List<ProductVO> selectList(Object[] productIds) 
+	public List<ProductVO> selectList(List<CartVO> productIds) 
 	{
 		List<ProductVO> retval = new ArrayList<>();
 		SqlSession mapper = MySession.getSession();
@@ -137,11 +138,11 @@ public class ProductService
 		try
 		{
 			params.setChoose("detail");
-			for(int i = 0; i<productIds.length; i++)
+			for(int i = 0; i<productIds.size(); i++)
 			{
 				try
 				{
-					params.setId(Integer.parseInt(productIds[i].toString()));
+					params.setId(productIds.get(i).getProductId());
 					
 					ProductVO result = ProductDAO.getInstance().select(mapper, params);
 					

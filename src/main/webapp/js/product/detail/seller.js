@@ -18,6 +18,19 @@ function showTag(item)
 	item.removeClass('node-hide');	
 }
 
+function changeAmountHeader(amount)
+{
+	amount = parseInt(amount);
+	
+	if(amount == 0)
+		$("#productAmountHeader").addClass('product-sold-out');
+	else
+	{
+		$("#productAmountHeader").removeClass('product-sold-out');
+	}
+}
+
+
 function changeClassControlBox(cmd)
 {
 	switch(cmd)
@@ -87,6 +100,7 @@ $(() => {
 		let oldCategoryId = $("#categoryValue").val();
 		$("#categoryId").val(oldCategoryId);
 		
+		changeAmountHeader($("#amount").val());
 		
 		$("#modify").bind('click', function() {	
 			$("#contents").summernote({
@@ -157,12 +171,13 @@ $(() => {
 			$("#contents").html(oldContents);
 			$("#categoryId").val(oldCategoryId);
 			
-			
 			changeClassControlBox('cancel');
 			
 			$('#save').addClass('node-hide');
 			$('#cancel').addClass('node-hide');
 			$('#modify').removeClass('node-hide');
+			
+			changeAmountHeader($("#amount").val());
 		});
 		
 		
@@ -211,10 +226,14 @@ $(() => {
 			AjaxForm(url, "POST", data, 
 				function(resp)
 				{
+					if(resp.code != 0)
+					{
+						alert(resp.code + ": " + resp.msg);
+						return;
+					}
+					
 					let result = resp.result;
-					
-					console.log(result);
-					
+										
 					if(result.thumbnail)					
 						$("#thumbnail").attr('src', result.thumbnail);
 						
@@ -242,6 +261,7 @@ $(() => {
 					
 					
 					changeClassControlBox('cancel');
+					changeAmountHeader($("#amount").val());
 				}, 
 				function()
 				{

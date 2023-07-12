@@ -49,4 +49,8 @@ public class CartDAO
 	}
 	
 
+	public List<CartVO> productIds(SqlSession mapper, CartVO item)
+	{
+		return mapper.selectList("Cart.productIds", item);
+	}
 }

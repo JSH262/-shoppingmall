@@ -8,11 +8,25 @@
 	</insert>
 	
 	<select id="selectList" parameterType="CartVO" resultType="CartVO">
-	    SELECT c.user_id, c.product_id, c.amount, p.thumbnail, p.name as product_Name, p.delivery_price, 
-		(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
-		to_char(price - price * (discount / 100), 'FM999,999,999') || '원' discount_price
-		FROM cart c
-		JOIN product p ON c.product_id = p.id
+	    SELECT 
+	    	c.user_id, c.product_id, c.amount, c.seller_id,
+	    	
+	    	p.thumbnail,
+	    	p.name as product_Name,
+	    	p.price - p.price * (p.discount / 100) as discount_price,
+			(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
+			p.delivery_price,
+			
+			p.price,
+			to_char(c.amount, 'FM999,999,999') fmt_amount,
+			to_char(p.price, 'FM999,999,999') fmt_price,
+			p.discount || '%' fmt_discount,			
+			case p.delivery_price
+				when 0 then '무료배송'
+				else to_char(p.delivery_price, 'FM999,999,999')
+			end fmt_delivery_price,			
+			to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') fmt_discount_price
+		FROM cart c JOIN product p ON c.product_id = p.id
 		where c.user_id = #{userId}
 	</select>
 	
@@ -39,6 +53,14 @@
 		from cart
 		where user_id = #{userId} and product_id = #{productId}
 	</delete>
+	
+	
+	<select id="productIds" parameterType="CartVO" resultType="CartVO">
+		select product_id
+		from cart
+		where user_id = #{userId}
+	</select>
+	
 </mapper>
 
 
