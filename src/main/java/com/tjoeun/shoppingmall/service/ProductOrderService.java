@@ -130,4 +130,22 @@ public class ProductOrderService
 		mapper.close();
 		return retval;
 	}
+	
+	public int totalCount(ProductOrderVO item)
+	{
+		int retval = 0;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = ProductOrderDAO.getInstance().totalCount(mapper, item);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+		return retval;
+	}
 }

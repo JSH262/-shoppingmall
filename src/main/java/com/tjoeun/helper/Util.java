@@ -278,13 +278,12 @@ public class Util
 			return null;
 		}		
 	}
-	
-	static public JSONObject toMap(HttpServletRequest request) throws IOException, ParseException
+  
+	public static String toBody(HttpServletRequest request) throws IOException, ParseException
 	{
 		InputStream is = request.getInputStream();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
-		JSONParser parser = new JSONParser();
 		
 		while(true)
 		{
@@ -299,7 +298,7 @@ public class Util
 		baos.flush();	
 		baos.close();
 		
-		return 	(JSONObject) parser.parse(new String(baos.toByteArray(), "UTF-8"));
+		return 	new String(baos.toByteArray(), "UTF-8");
 	}
 	
 }
