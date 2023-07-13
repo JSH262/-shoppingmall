@@ -278,29 +278,7 @@ public class Util
 			return null;
 		}		
 	}
-	
-	static public JSONObject toMap(HttpServletRequest request) throws IOException, ParseException
-	{
-		InputStream is = request.getInputStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		JSONParser parser = new JSONParser();
-		
-		while(true)
-		{
-			int read = is.read(buffer, 0, buffer.length);
-			if(read == -1)
-				break;
-			
-			baos.write(buffer, 0, read);
-		}
-		
-		is.close();
-		baos.flush();	
-		baos.close();
-		
-		return 	(JSONObject) parser.parse(new String(baos.toByteArray(), "UTF-8"));
-	}
+
 	public static String toBody(HttpServletRequest request) throws IOException, ParseException
 	{
 		InputStream is = request.getInputStream();

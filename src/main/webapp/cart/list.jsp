@@ -13,6 +13,10 @@
 <!DOCTYPE html>
 <html>
 <%
+
+//////////////////////////////////////////////////////////////// cart/list.jsp에서 상품이 비어있을 경우 비어있다고 표시하기
+
+
 	UsersVO user = AttributeName.getUserData(request);
 	String currentPage = request.getParameter("currentPage");
 	// 카트로 수정
@@ -25,20 +29,17 @@
     String sellerId = vo.get(i).getSellerId();
     String thumbnail = vo.get(i).getThumbnail();
     String productName = vo.get(i).getProductName();
-    String discountPrice = vo.get(i).getDiscountPrice();
+    int discountPrice = vo.get(i).getDiscountPrice();
     String companyName = vo.get(i).getCompanyName();
-    String delivery = vo.get(i).getDeliveryPrice();
+    int delivery = vo.get(i).getDeliveryPrice();
 	Integer productId = vo.get(i).getProductId();
     
     if (thumbnail != null) {
-        thumbnail += "/image/" + thumbnail;
+        thumbnail = request.getContextPath() + "/image/" + thumbnail;
     } else {
-        thumbnail += "/resources/default/noimg.png";
+        thumbnail = "/resources/default/noimg.png";
     }
 
-    if (delivery.equals('0')) {
-        delivery = "";
-    }
 %>
 <head>
 <meta charset="UTF-8">
@@ -208,10 +209,8 @@
         </div>
         <div class="col-md-5">
             <span class="input-group mb-3">
-                <% if (amount != 0) { %>
-                    <input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
-                <% } else { %>
-                    <input class="btn btn-secondary" type="button" value="품절" disabled />
+                <% if (amount == 0) { %>
+                <input class="btn btn-secondary" type="button" value="품절" disabled />
                 <% } %>                               
             </span>
         </div>
@@ -269,7 +268,7 @@
             <!-- 주석부분이 실사용(경로) -->
             <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
             <!-- 테스트용 -->
-            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='orderTest.jsp?ProductIds=<%= productIds %>'" />
+            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/payment.jsp'" />
         </div>
     </div>
 </div>

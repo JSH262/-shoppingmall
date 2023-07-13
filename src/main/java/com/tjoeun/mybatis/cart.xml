@@ -51,7 +51,14 @@
 	<delete id="delete" parameterType="CartVO">
 		delete 
 		from cart
-		where user_id = #{userId} and product_id = #{productId}
+		where
+			<if test="userId != null"> 
+				user_id = #{userId}
+			</if>
+			<if test="productId != null"> 
+				and product_id = #{productId}
+			</if>  
+			
 	</delete>
 	
 	
