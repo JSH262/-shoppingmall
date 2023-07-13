@@ -6,8 +6,9 @@
 <%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@page import="com.tjoeun.helper.AttributeName"%>
 <%@page import="com.tjoeun.shoppingmall.service.ProductService"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
+    pageEncoding="UTF-8"%>   
   
 <!DOCTYPE html>
 <html>
@@ -18,60 +19,17 @@
 	CartVO params = new CartVO();
 	params.setUserId(user.getId());
 	List<CartVO> vo = CartService.getInstance().selectList(params);
-%>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/detail/seller.js"></script>
-
-<link href="<%=request.getContextPath() %>/summernote/summernote-lite.min.css" rel="stylesheet">
-<script src="<%=request.getContextPath() %>/summernote/summernote-lite.min.js"></script>
-<script src="<%=request.getContextPath() %>/summernote/lang/summernote-ko-KR.min.js"></script>
-
-<style>
-	.text-readonly {
-		border: 0px solid white;
-		cursor: default;
-		font-size: 15px;
-		width: 98%;
-	}
-	
-	.text-input {
-		border: 1px solid black;
-		cursor: text;
-		font-size: 15px;
-		width: 98%;
-	}
-	
-	.node-hide {
-		display:none;
-	}
-	input[type=text] {
-		width: 98%;
-	}
-	
-</style>
-</head>
-<body>
-<%
-//  userId를 통해 count 가져오기
-int count = CartService.getInstance().count(user.getId());
-
-// 테스트용
-System.out.println(user.getId());
-System.out.println(count);
-//
-for (int i = 0; i < count; i++) {
+	int count = CartService.getInstance().count(user.getId());
+	for (int i = 0; i < count; i++) {
     Integer amount = vo.get(i).getAmount();
-    Integer sellerId = vo.get(i).getSellerId();
+    String sellerId = vo.get(i).getSellerId();
     String thumbnail = vo.get(i).getThumbnail();
     String productName = vo.get(i).getProductName();
     String discountPrice = vo.get(i).getDiscountPrice();
     String companyName = vo.get(i).getCompanyName();
     String delivery = vo.get(i).getDeliveryPrice();
-
+	Integer productId = vo.get(i).getProductId();
+    
     if (thumbnail != null) {
         thumbnail += "/image/" + thumbnail;
     } else {
@@ -191,7 +149,13 @@ for (int i = 0; i < count; i++) {
 <body>
 <div class="container gap-3 mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+    <%-- 
+        <div class="col-md-1">
+            <!-- 체크박스 추가 -->
+            <input type="checkbox" name="selectedProduct" value="<%= productId %>" />
+        </div>
+         --%>
+        <div class="col-md-5">
             <img style="max-width:100%" src="<%= thumbnail %>" />
         </div>
         <div class="col-md-1">
@@ -244,26 +208,72 @@ for (int i = 0; i < count; i++) {
         </div>
         <div class="col-md-5">
             <span class="input-group mb-3">
-            <%
-                if (amount != 0) {
-            %>
+                <% if (amount != 0) { %>
                     <input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
-            <%
-                } else {
-            %>
+                <% } else { %>
                     <input class="btn btn-secondary" type="button" value="품절" disabled />
-            <%
-                }
-            %>
+                <% } %>                               
             </span>
         </div>
     </div>
 </div>
+<!-- 상품 컨테이너 끝 -->
 <%
 }
 %>
-
-
+<!-- from사용 -->
+<%-- 
+<%
+    StringBuilder productIdsBuilder = new StringBuilder();
+    for (int i = 0; i < count; i++) {
+        Integer productId = vo.get(i).getProductId();
+        productIdsBuilder.append(productId);
+        if (i != count - 1) {
+            productIdsBuilder.append(",");
+        }
+    }
+    String productIds = productIdsBuilder.toString();
+%>
+<!-- 버튼 -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="order.jsp" method="get">
+                <input type="hidden" name="ProductIds" value="<%= productIds %>" />
+                <input class="btn btn-primary" type="submit" value="결제하기" />
+            </form>
+        </div>
+    </div>
+</div>
+ --%>
+ 
+ <!--  onclick 사용 -->
+ <%
+    // 변수를 선언하여 productid 값을 모두 저장
+    StringBuilder productIdsBuilder = new StringBuilder();
+    for (int i = 0; i < count; i++) {
+        // 이전 코드 내용
+        Integer productId = vo.get(i).getProductId();
+        productIdsBuilder.append(productId);
+        if (i != count - 1) {
+            productIdsBuilder.append(",");
+        }
+    }
+    String productIds = productIdsBuilder.toString();
+%>
+<!-- 선택 상품 결제하기 버튼 -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <input type="hidden" name="ProductIds" value="<%= productIds %>" />
+            <!-- 주석부분이 실사용(경로) -->
+            <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
+            <!-- 테스트용 -->
+            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='orderTest.jsp?ProductIds=<%= productIds %>'" />
+        </div>
+    </div>
+</div>
+ 
 
 </body>
 </html>

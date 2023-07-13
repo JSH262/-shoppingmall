@@ -9,7 +9,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class MySession {
+	// SqlSession을 얻기 위한 SqlSessionFactory 객체를 정적으로 선언
 	static SqlSessionFactory factory; 
+	// 정적 초기화 블록에서 설정 파일을 읽어 객체(매퍼)를 생성한다.
 	static {
 		Reader r = null;
 		try {
@@ -21,8 +23,13 @@ public class MySession {
 		}
 	}
 	
+	// SqlSession 객체 얻기
 	public static SqlSession getSession(){
 		return factory.openSession();
+	}
+	
+	public static SqlSession getSession(boolean autoCommit){
+		return factory.openSession(autoCommit);
 	}
 }
 

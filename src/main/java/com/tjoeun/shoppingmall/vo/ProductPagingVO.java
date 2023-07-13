@@ -1,8 +1,11 @@
 package com.tjoeun.shoppingmall.vo;
 
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+import com.oreilly.servlet.MultipartRequest;
 
 public class ProductPagingVO extends BaseVO
 {

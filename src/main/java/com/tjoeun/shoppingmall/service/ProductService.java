@@ -1,6 +1,5 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
-import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
@@ -46,6 +44,8 @@ public class ProductService
 	
 	public List<ProductVO> selectList(HashMap<String, Object> params, ProductPagingVO page)
 	{
+		
+		
 		List<ProductVO> retval = null;
 		SqlSession mapper = MySession.getSession();
 		
@@ -127,40 +127,5 @@ public class ProductService
 				
 		return retval;
 		
-	}
-
-	public List<ProductVO> selectList(List<CartVO> productIds) 
-	{
-		List<ProductVO> retval = new ArrayList<>();
-		SqlSession mapper = MySession.getSession();
-		ProductVO params = new ProductVO();
-		
-		try
-		{
-			params.setChoose("detail");
-			for(int i = 0; i<productIds.size(); i++)
-			{
-				try
-				{
-					params.setId(productIds.get(i).getProductId());
-					
-					ProductVO result = ProductDAO.getInstance().select(mapper, params);
-					
-					retval.add(result);
-				}
-				catch(NumberFormatException  nfexp)
-				{
-					
-				}
-			}
-		}
-		catch(Exception exp)
-		{
-			exp.printStackTrace();
-		}
-		
-		mapper.close();
-				
-		return retval;
 	}
 }
