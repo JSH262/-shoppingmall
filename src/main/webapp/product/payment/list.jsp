@@ -17,10 +17,14 @@
 		    border: 1px solid #444444;
 		    border-collapse: collapse;
 		    text-align: center;
+		    margin-bottom: 30px;
 		  }
 		  th, td {
 		    border: 1px solid #444444;
 		    padding: 10px;
+		  }
+		  img {
+		  	height: 500px;
 		  }
 		</style>
 		
