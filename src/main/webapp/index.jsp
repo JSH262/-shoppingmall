@@ -19,6 +19,7 @@
 	%>
 			<input type="button" value="로그아웃" onclick="location.href='<%=request.getContextPath() %>/logout.jsp'" />
 			<input type="button" value="구입할 상품확인" onclick="location.href='<%=request.getContextPath() %>/product/order.jsp'" />
+			<input type="button" value="상품구입 목록" onclick="location.href='<%=request.getContextPath() %>/product/payment/list.jsp'" />
 	<%
 		}
 		else
