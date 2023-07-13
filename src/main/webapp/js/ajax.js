@@ -105,6 +105,7 @@ function userReister() {
 					$('#messageContent').html('회원 가입에 성공했습니다.');
 					$('#errorMessage').html('회원 가입에 성공했습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-success');
+					location.href="index.jsp";
 					break;
 				case '9':
 					$('#messageType').html('에러 메시지');
@@ -192,6 +193,7 @@ function UserLogin() {
 					$('#messageContent').html('로그인 성공.');
 					$('#errorMessage').html('로그인에 성공했습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-success');
+					location.href="index.jsp";
 					break;
 				case '1':
 					$('#messageType').html('에러 메시지');
