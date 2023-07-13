@@ -15,7 +15,7 @@
 <%
 
 //////////////////////////////////////////////////////////////// cart/list.jsp에서 상품이 비어있을 경우 비어있다고 표시하기
-
+//////////////////////////////////////////////////////////////// cart/list.jsp 배송비 무료배송 표시
 
 	UsersVO user = AttributeName.getUserData(request);
 	String currentPage = request.getParameter("currentPage");

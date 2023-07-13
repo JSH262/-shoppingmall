@@ -50,10 +50,17 @@ public class ProductListController extends HttpServlet {
 		{
 			final String USERS_TYPE_SELLER = UsersType.SELLER;
 			final String USERS_TYPE_BUYER = UsersType.BUYER;
-			
 			UsersVO user = (UsersVO) request.getSession().getAttribute("user");
-			String sellerId = user.getId();
-			String type = user.getType();			
+			String sellerId = null;
+			String type = null;
+			
+			if(user != null)
+			{
+				sellerId = user.getId();
+				type = user.getType();	
+			}
+			
+			
 			HashMap<String, Object> serviceParams = new HashMap<>();
 			ProductService service = ProductService.getInstance();
 			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);

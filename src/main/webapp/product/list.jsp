@@ -10,6 +10,11 @@
 	final String USERS_TYPE_SELLER = UsersType.SELLER;
 	final String USERS_TYPE_BUYER = UsersType.BUYER;
 	UsersVO vo = AttributeName.getUserData(request);
+	String type = null;
+	
+	if(vo != null)
+		type = vo.getType();
+	
 %>
 
 <%
@@ -35,7 +40,7 @@
 	}
 
 	//판매자
-	if(vo.getType().equals(USERS_TYPE_SELLER))
+	if(USERS_TYPE_SELLER.equals(type))
 	{
 %>
 		<head>
@@ -132,7 +137,7 @@
 	}
 
 	//구매자
-	else if(vo.getType().equals(USERS_TYPE_BUYER))
+	else if(USERS_TYPE_BUYER.equals(type) || type == null)
 	{
 %>
 		<head>
