@@ -14,6 +14,7 @@
 	
 		
 		UsersVO user = AttributeName.getUserData(request);
+		String userType = user != null ? user.getType() : UsersType.BUYER;
 		Integer currentPage = 1;
 		Integer pageSize = 15;
 	
@@ -43,7 +44,7 @@
 		
 		ProductVO vo = ProductService.getInstance().select(params);
 		
-		if(UsersType.SELLER.equals(user.getType()))
+		if(UsersType.SELLER.equals(userType))
 		{
 	%>
 			<head>
