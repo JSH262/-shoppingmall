@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.vo.CartVO;
+import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
@@ -163,4 +164,25 @@ public class ProductService
 				
 		return retval;
 	}
+	
+	public List<CategoryVO> selectProductCatList(CategoryVO params)
+	{
+		List<CategoryVO> retval = new ArrayList<>();
+		SqlSession mapper = MySession.getSession();
+		ProductDAO dao = ProductDAO.getInstance(); 
+		
+		try
+		{
+			retval = dao.selectProductCatList(mapper, params);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
+	
 }

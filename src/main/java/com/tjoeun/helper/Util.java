@@ -219,7 +219,8 @@ public class Util
 		Response serResp = Request.get(url)
 				.body(builder.build())
 				.execute();//.returnContent().asBytes();
-				
+
+		resp.setContentType("image/*");
 		Content content = serResp.returnContent();
 		InputStream is = content.asStream();
 		ServletOutputStream sos = resp.getOutputStream();	
@@ -234,7 +235,6 @@ public class Util
 			sos.write(buffer, 0, read);
 		}
 
-		resp.setContentType("image/*");
 		is.close();
 		sos.flush();
 		sos.close();

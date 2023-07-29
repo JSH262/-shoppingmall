@@ -32,7 +32,7 @@
     int discountPrice = vo.get(i).getDiscountPrice();
     String companyName = vo.get(i).getCompanyName();
     int delivery = vo.get(i).getDeliveryPrice();
-	Integer productId = vo.get(i).getProductId();
+	Long productId = vo.get(i).getProductId();
     
     if (thumbnail != null) {
         thumbnail = request.getContextPath() + "/image/" + thumbnail;
@@ -252,7 +252,7 @@
     StringBuilder productIdsBuilder = new StringBuilder();
     for (int i = 0; i < count; i++) {
         // 이전 코드 내용
-        Integer productId = vo.get(i).getProductId();
+        Long productId = vo.get(i).getProductId();
         productIdsBuilder.append(productId);
         if (i != count - 1) {
             productIdsBuilder.append(",");
@@ -268,7 +268,7 @@
             <!-- 주석부분이 실사용(경로) -->
             <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
             <!-- 테스트용 -->
-            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/payment.jsp'" />
+            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/order.jsp'" />
         </div>
     </div>
 </div>

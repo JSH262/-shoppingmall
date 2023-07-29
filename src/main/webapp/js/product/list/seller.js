@@ -49,7 +49,7 @@ $(() => {
 											
 					//tr.append(`<td>${item.id}</td>`);
 					tr.append(`<td align="center">${item.rnum}</td>`);
-					tr.append(`<td align="center">${item.categoryId}</td>`);				
+					tr.append(`<td align="center">${item.categoryName}</td>`);				
 					tr.append(`<td align="center"><a href="${CONTEXT_PATH}/product/detail.jsp?id=${item.id}&pageSize=${pageSize}&currentPage=${currentPage}">${item.name}</a></td>`);				
 					
 					if(item.amount != 0)

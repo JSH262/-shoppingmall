@@ -46,6 +46,13 @@ public class ProductListController extends HttpServlet {
 
 	void doAction(HttpServletRequest request, HttpServletResponse response) 
 	{
+		
+		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+		//판매자로 로그인했을 때 세션이 만료가 되면 구매자의 상품 페이지 정보를 JSON 형태로 보낸다. 
+		//spring web에서 jsp가 분리가 되기 때문에 상관이 없다.
+
+		
 		try 
 		{
 			final String USERS_TYPE_SELLER = UsersType.SELLER;

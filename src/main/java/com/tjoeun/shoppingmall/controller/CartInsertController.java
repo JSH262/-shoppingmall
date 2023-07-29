@@ -62,9 +62,9 @@ public class CartInsertController extends HttpServlet {
 			retval.put("msg", e.getMessage());
 		}
 		
-		
-		response.getWriter().write(retval.toJSONString());
+
 		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().write(retval.toJSONString());
 		
 	}
 

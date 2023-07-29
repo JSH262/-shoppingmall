@@ -22,6 +22,7 @@ import com.tjoeun.helper.PaymentStatus;
 import com.tjoeun.helper.ProductOrderStatus;
 import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.service.CartService;
+import com.tjoeun.shoppingmall.service.DestinationAddressService;
 import com.tjoeun.shoppingmall.service.PaymentService;
 import com.tjoeun.shoppingmall.service.ProductOrderService;
 import com.tjoeun.shoppingmall.service.ProductService;
@@ -129,11 +130,14 @@ public class ProductPaymentController extends HttpServlet {
 					
 					for(CartVO item : productIds)
 					{
-						int discountPrice = item.getAmount() * item.getDiscountPrice();
-						int deliveryPrice = item.getDeliveryPrice();
-						
-						totalDiscountPrice += discountPrice;
-						totalDevliveryPrice += deliveryPrice;
+						if(item.getProductAmount() >= item.getAmount() && item.getProductAmount() > 0)
+						{
+							int discountPrice = item.getAmount() * item.getDiscountPrice();
+							int deliveryPrice = item.getDeliveryPrice();
+							
+							totalDiscountPrice += discountPrice;
+							totalDevliveryPrice += deliveryPrice;	
+						}
 					}
 					
 					long paymentPrice = totalDiscountPrice + totalDevliveryPrice;
@@ -151,56 +155,16 @@ public class ProductPaymentController extends HttpServlet {
 			}
 			else if(PAYMENT_PROCESS_PAY_BEFORE.equals(status))
 			{
-				CartVO cart = new CartVO();				
-				cart.setUserId(user.getId());
-				
-				List<CartVO> productIds = CartService.getInstance().selectList(cart);
-				Long poId = ProductOrderService.getInstance().selectId(user.getId());
-				
-				
-				if(productIds != null)
+				if(PaymentService.getInstance().pay(user, AttributeName.getDestAddr(request)))
 				{
-					long paymentPrice = 0;
-					for(CartVO item : productIds)
-					{
-						ProductOrderVO params = new ProductOrderVO();
-						
-						params.setId(poId);
-						params.setUserId(user.getId());
-						params.setProductId(item.getProductId());
-						params.setProductAmount(item.getAmount());
-						params.setProductPrice(item.getDiscountPrice());
-						params.setProductDeliveryPrice(item.getDeliveryPrice());
-						params.setProductName(item.getProductName());
-						params.setStatus(ProductOrderStatus.COMPLATE);
-						params.setProductThumbnail(item.getThumbnail());
-						
-						ProductOrderService.getInstance().insert(params);
-						
-						paymentPrice += item.getAmount() * item.getDiscountPrice();
-						paymentPrice += item.getDeliveryPrice();
-					}
-					
-					
-					PaymentVO pVo = new PaymentVO();
-					
-					pVo.setUserId(user.getId());
-					pVo.setPaymentNumber(String.valueOf(System.currentTimeMillis()));
-					pVo.setStatus(PaymentStatus.SUCCESS);
-					pVo.setProductOrderId(poId);
-					pVo.setPaymentPrice(paymentPrice);
-					
-					System.out.println(pVo);
-					PaymentService.getInstance().insert(pVo);
+					retval.put("code", 0);
+					retval.put("msg", "결제가 완료되었습니다.");	
 				}
-
-//////////////////////////////////////////////////////////////////////////////////상품 목록에서 수량을 감소			
-				
-				CartService.getInstance().delete(cart);
-				
-				
-				retval.put("code", 0);
-				retval.put("msg", "결제가 완료되었습니다.");				
+				else
+				{
+					retval.put("code", -996);
+					retval.put("msg", "error");					
+				}
 			}
 			else
 			{

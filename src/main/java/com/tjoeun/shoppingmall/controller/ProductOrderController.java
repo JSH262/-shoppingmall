@@ -146,15 +146,16 @@ public class ProductOrderController extends HttpServlet {
 				
 				for(CartVO item : productIds)
 				{
-					
-					
-					int price = item.getAmount() * item.getPrice();
-					int discountPrice = item.getAmount() * item.getDiscountPrice();
-					int deliveryPrice = item.getDeliveryPrice();
-					
-					totalPrice += price;
-					totalDiscountPrice += discountPrice;
-					totalDevliveryPrice += deliveryPrice;
+					if(item.getAmount() <= item.getProductAmount() && item.getProductAmount() > 0)
+					{
+						int price = item.getAmount() * item.getPrice();
+						int discountPrice = item.getAmount() * item.getDiscountPrice();
+						int deliveryPrice = item.getDeliveryPrice();
+						
+						totalPrice += price;
+						totalDiscountPrice += discountPrice;
+						totalDevliveryPrice += deliveryPrice;
+					}
 				}
 				
 				result.put("fmtResultPrice", numFormat.format(totalPrice)); // 할인전 가격

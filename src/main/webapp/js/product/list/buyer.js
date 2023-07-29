@@ -1,7 +1,10 @@
 
 $(() => {
+	
 	try
 	{
+		
+		
 		const CONTEXT_PATH = $("#contextPath").val();
 		const CURRENT_PAGE =  parseInt($("#currentPage").val());
 		const PAGE_SIZE = parseInt($("#pageSize").val());

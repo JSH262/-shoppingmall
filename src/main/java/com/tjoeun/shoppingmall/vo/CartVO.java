@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 public class CartVO extends BaseVO 
 {
 	String userId;
-	Integer productId;
+	Long productId;
 	Integer amount;
 	String sellerId;
 
@@ -17,12 +17,12 @@ public class CartVO extends BaseVO
 	String companyName;
 	int deliveryPrice;
 	int price;
+	int productAmount;
 	
 	String fmtAmount;
 	String fmtPrice;
 	String fmtDeliveryPrice;			
 	String fmtDiscountPrice;
-	
 	
 
 	public CartVO() 
@@ -35,7 +35,7 @@ public class CartVO extends BaseVO
 		this.init(request);
 	}
 	
-	public CartVO(String userId, Integer productId, Integer amount, String sellerId) {
+	public CartVO(String userId, Long productId, Integer amount, String sellerId) {
 		super();
 		this.userId = userId;
 		this.productId = productId;
@@ -43,7 +43,7 @@ public class CartVO extends BaseVO
 		this.sellerId = sellerId;
 	}
 	
-	public CartVO(String userId, Integer productId, Integer amount, String sellerId, String thumbnail,
+	public CartVO(String userId, Long productId, Integer amount, String sellerId, String thumbnail,
 			String productName, int discountPrice, String companyName, int deliveryPrice) {
 		super();
 		this.userId = userId;
@@ -63,10 +63,10 @@ public class CartVO extends BaseVO
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public Integer getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 	public Integer getAmount() {
@@ -156,6 +156,14 @@ public class CartVO extends BaseVO
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);
+	}
+
+	public int getProductAmount() {
+		return productAmount;
+	}
+
+	public void setProductAmount(int productAmount) {
+		this.productAmount = productAmount;
 	}	
 	
 

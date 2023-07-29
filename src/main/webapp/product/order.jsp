@@ -16,13 +16,16 @@
 	<head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1.0" />		
+	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/order.js"></script>
 			
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+			
+			
 			
 			<title>Insert title here</title>
 			<style type="text/css">
@@ -177,71 +180,298 @@
 					text-align: center;
 				}
 				
+				div[name=product] {
+					position: relative;
+				}
+				.overlayContents {
+					position: absolute;
+				    background-color: rgba(0,0,0,0.1);
+			    	width: 100%;
+			    	height: 100%;
+			   	 	font-size: xx-large;
+			   	 	text-align: center;
+			   	 	justify-content: center;
+			    	align-items: center;
+			    	display: flex;
+				}
+				.hide {
+					display:none;
+				}
+				.hide-opacity {
+					opacity: 0.0;
+					cursor: default;
+				}
+				select[name=request], input[name=requestMessage] {
+					width: 40%;
+				}
 			</style>
 	</head>
 	<body>
-		<h1>상품주문</h1>
-		<div id="list">
-			<div name="product">
-				<hr class="h-line" />
-				<div class="product-container">
-					<div class="product-item">
-						<img name="thumnail" src="<%=request.getContextPath() %>/resources/default/noimg.png" style="max-width: 100%;" />
-					</div>
-					<div class="v-line"></div>
-					<div class="product-item">
-						<div class="product-name-container">
-							<div class="product-item" name="name">식기세척기</div>
-							<div class="product-item">&nbsp;</div>
-							<div class="product-item">&nbsp;</div>
-							<div class="product-item">&nbsp;</div>
-							<div class="product-item">
-								<span name="score">★★★★☆</span>  
-								<span name="review">1,000건</span>
-								<span name="review-bookmark-bar">&nbsp;｜&nbsp;</span>
-								<span>
-									<span name="bookmark">♡</span>										
-									<span name="bookmarkCnt">1,200건</span>
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="v-line"></div>
-					<div class="product-item">
-						<div class="product-price-container">
-							<div class="product-item" id="discountPrice" name="discountPrice">810,000원</div>
-							<div class="product-item">
-								
-								<span name="price">900,000원</span>
-								<%--
-								<span name="discount">10%</span>
-								 --%>
-							</div>
-							<div class="product-item">
-								<span>수량</span>&nbsp;<span name="amount">1개</span>
-							</div>
-							<div class="product-item">&nbsp;</div>
-							<div class="product-item">
-								<span name="delivery">배송비</span>&nbsp;<span name="deliveryPrice">3,000원</span>
-							</div>
-						</div>
-					</div>
-					<div class="v-line"></div>
-					<div class="product-item" name="companyName">LG전용 매장</div>
+		<div class="mx-auto ms-5 me-5 mt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col fs-1">배송정보</div>
+					<span class="col align-self-center">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addrListModal">배송지 목록</button>
+					</span>
 				</div>
-				<hr class="h-line" />
+				<hr />
+				<div class="row" id="deliveryInfoEmpty">
+					<div class="fs-3">배송지 목록에서 배송지 정보를 선택해주세요</div>
+				</div>
+				<div class="row mb-1 opacity-0" name="deliveryInfo">
+					<label name="mainAddrName">홍길동</label>
+				</div>
+				<div class="row mb-1 opacity-0" name="deliveryInfo">
+					<div col="col">
+						<label name="mainAddrAddr">서울 종로구 우정국로2길 21 9층</label>
+						<input type="hidden" name="mainAddrId">
+					</div>
+				</div>
+				<div class="row mb-1 opacity-0" name="deliveryInfo">
+					<label name="mainAddrPhone">02-766-8367</label>
+				</div>
+				<div class="row mb-1 opacity-0" name="deliveryInfo">
+					<div class="col-6">
+						<select name="mainAddrRequest" disabled="disabled" style="width:100%">
+							<option value="1">배송시 요청사항 선택하기</option>
+							<option value="2">직접 수령하겠습니다</option>
+							<option value="3">문 앞에 놓아주세요</option>
+							<option value="4">경비실에 맡겨주세요</option>
+							<option value="5">배송 전 휴대폰으로 연락주세요</option>
+							<option value="6">파손위험이 있는 상품이니 조심히 다뤄주세요</option>						
+							<option value="999">직접입력</option>
+						</select>
+					</div>
+				</div>
+				
+				<%-- name="mainAddrRequest"에서 직접입력 선택시 아래 div 보이기 --%>
+				<div class="row invisible" name="mainAddrReqBody">
+					<div class="col-6">
+						<input type="text" style="width:100%" name="mainAddrReqMsg" readonly="readonly" placeholder="수령방법을 입력해주세요 (최대 50자)" />
+					</div>
+					<div class="col-6">
+						<span name="mainAddrCurrMsg">0</span><span>/</span><span name="mainAddrMaxMsg">50</span>
+					</div>
+				</div>
 			</div>
-		</div>	
-		
+			
+			<div class="m-5 ">&nbsp;</div>
+			
+			<div>
+				<div class="fs-1">주문상품</div>
+				<hr />
+				<div id="list">
+					<div name="product">
+						<div class="hide overlayContents" name="overlayContents"></div>
+						<div name="productBody" class="">
+							<hr class="h-line" />
+							<div class="product-container">
+								<div class="product-item">
+									<img name="thumnail" src="<%=request.getContextPath() %>/resources/default/noimg.png" style="max-width: 100%;" />
+								</div>
+								<div class="v-line"></div>
+								<div class="product-item">
+									<div class="product-name-container">
+										<div class="product-item" name="name">식기세척기</div>
+										<div class="product-item">&nbsp;</div>
+										<div class="product-item">&nbsp;</div>
+										<div class="product-item">&nbsp;</div>
+										<div class="product-item">
+											<span name="score">★★★★☆</span>  
+											<span name="review">1,000건</span>
+											<span name="review-bookmark-bar">&nbsp;｜&nbsp;</span>
+											<span>
+												<span name="bookmark">♡</span>										
+												<span name="bookmarkCnt">1,200건</span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="v-line"></div>
+								<div class="product-item">
+									<div class="product-price-container">
+										<div class="product-item" id="discountPrice" name="discountPrice">810,000원</div>
+										<div class="product-item">
+											
+											<span name="price">900,000원</span>
+											<%--
+											<span name="discount">10%</span>
+											 --%>
+										</div>
+										<div class="product-item">
+											<span>수량</span>&nbsp;<span name="amount">1개</span>
+										</div>
+										<div class="product-item">&nbsp;</div>
+										<div class="product-item">
+											<span name="delivery">배송비</span>&nbsp;<span name="deliveryPrice">3,000원</span>
+										</div>
+									</div>
+								</div>
+								<div class="v-line"></div>
+								<div class="product-item" name="companyName">LG전용 매장</div>
+							</div>
+							<hr class="h-line" />
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+		</div>
 		<div id="result">
 			<span>상품금액 <span id="totalPrice"></span></span>			
 			<span> + 배송비 <span id="totalDeliveryPrice"></span></span>	
 			<span> - 할인금액 <span id="totalDiscount"></span></span>
 			<span> = <span id="totalDiscountPrice"></span></span>
 			<div>&nbsp;</div>
-			<div><input type="button" id="pay" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/payment.jsp';" /></div>
+			<div><input type="button" id="pay" value="결제하기" /></div>
 		</div>
 		 
+		 <%-- 배송지 목록 모달 --%>
+		<div class="modal fade" id="addrListModal" tabindex="-1" aria-labelledby="AddrListModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">배송지 목록</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>					
+					<div class="modal-body bg-light bg-gradient">					
+			        	<div class="container">
+			        		<div class="row">
+				        		<div class="col align-self-center">
+									<button type="button" style="width:100%;" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addrAddModal">배송지 추가하기</button>
+								</div>
+							</div>
+						</div>
+						
+						<div name="addrListBody">
+				        	<div class="container mt-3 mb-3 pt-3 pb-3 bg-opacity-10 border border-info rounded" name="addrListContents">
+				        		<div class="row mb-3 fs-4">
+				        			<span name="addrListName">사무실</span>
+				        			<span class="invisible" name="addrListId"></span>
+				        		</div>	        	
+								<div class="row">
+									<div class="col">
+										<span name="addrListRecvName">홍길동</span><span> | </span><span name="addrListPhone">02-766-8367</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col" name="addrListFullAddr">서울 종로구 우정국로2길 21 9층</div>
+								</div>
+								<div class="row">
+									<div class="col" name="addrListReqMsg">경비실에 맡겨주세요</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<input name="addrListRemove" class="btn btn-danger w-100" type="button" value="삭제" />
+									</div>
+									<div class="col">
+										<input name="addrListChoose" class="btn btn-outline-primary w-100" type="button" value="선택" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		    	</div>
+		  	</div>
+		</div>
+		
+		
+		
+		
+		<%-- 배송지 추가하기 모달 --%>
+		<div class="modal fade" id="addrAddModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddrAddModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">배송지 추가</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" name="addrAddBody">
+						<div class="container">
+							<div class="row">
+								<div>배송지 이름</div>
+							</div>
+							<div class="row">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="addrAddName" name="addrAddName" placeholder="사무실">
+									<label style="left: auto;" for="addrAddName">배송지</label>
+								</div>
+							</div>
+							<div class="mt-1 mb-1">
+								&nbsp;
+							</div>
+						
+							<div class="row">
+								<div>받는 분</div>
+							</div>
+				        	<div class="row">
+								<div class="form-floating mb-3">								
+									<input type="text" class="form-control" id="addrAddRecvName" name="addrAddRecvName" placeholder="이름">
+									<label style="left: auto;" for="addrAddRecvName">이름</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-floating mb-3">
+								 	<input type="text" class="form-control" id="addrAddPhone" name="addrAddPhone" placeholder="연락처">
+									<label style="left: auto;" for="addAddrPhone">연락처</label>
+								</div>
+							</div>
+							<div class="mt-1 mb-1">
+								&nbsp;
+							</div>
+							<div class="row">
+								<div>주소</div>
+							</div>
+							<div class="row">
+								<div>
+									<input type="button" value="우편번호 찾기" name="addrAddOpenPostcode" />
+								</div>
+								<div>
+									<input class="form-control w-100" type="text" name="addrAddAddr1" readonly="readonly" placeholder="기본주소">
+								</div>								
+								<div>									
+									<input class="form-control w-100" type="text" name="addrAddAddr2" placeholder="상세주소">
+								</div>
+							</div>
+							<div class="mt-1 mb-1">
+								&nbsp;
+							</div>							
+							<div class="row">
+								<div>배송 요청사항</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<select name="addrAddRequest" class="w-100">
+										<option value="1">배송시 요청사항 선택하기</option>
+										<option value="2">직접 수령하겠습니다</option>
+										<option value="3">문 앞에 놓아주세요</option>
+										<option value="4">경비실에 맡겨주세요</option>
+										<option value="5">배송 전 휴대폰으로 연락주세요</option>
+										<option value="6">파손위험이 있는 상품이니 조심히 다뤄주세요</option>						
+										<option value="999">직접입력</option>
+									</select>
+								</div>
+							</div>		
+							<div class="row hide" name="addrAddReq">
+								<div class="col-11">
+									<input class="w-100" type="text" name="addrAddReqMsg" placeholder="수령방법을 입력해주세요 (최대 50자)" width="30px" />
+								</div>
+								<div class="col-1">
+									<span name="addrAddCurrMsg">0</span><span>/</span><span name="addrAddMaxMsg">50</span>
+								</div>
+							</div>
+						</div>
+					</div>
+		      		<div class="modal-footer">
+		      			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addrListModal" name="addrAddCancel">취소</button>
+		        		<button type="button" class="btn btn-primary" name="addrAddSave">저장</button>
+		      		</div>
+				</div>
+		    </div>
+		</div>
+		
+		
 		<input type="hidden" id="id" name="id" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 	</body>

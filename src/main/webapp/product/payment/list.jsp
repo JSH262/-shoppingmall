@@ -34,23 +34,15 @@
 		<table border="1" align="center">
 			<tr id="tableHeader" align="center">
 				<th>주문번호</th>
-				<th>썸네일</th>				
-				<th>상품이름</th>
+				<th>주문 상품 정보</th>
+				<th>합계</th>
 				<th>상품수량</th>
 				<th>상품가격</th>
 				<th>배송비</th>
-				<th>총 가격</th>
+				<th>주문상태</th>				
 			</tr>
 			<tbody id="list">
-				<tr name="tableNode" align="center">
-					<td name="id"></td>
-					<td name="thumbnail"></td>
-					<td name="productName"></td>
-					<td name="productAmount"></td>
-					<td name="productPrice"></td>
-					<td name="productDelivery"></td>
-					<td name="totalProductPrice"></td>
-				</tr>
+				
 			</tbody>
 		</table>
 		

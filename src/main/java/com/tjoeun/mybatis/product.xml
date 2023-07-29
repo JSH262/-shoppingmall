@@ -17,7 +17,12 @@
 				discount || '%' fmt_discount,
 				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price,
 				to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
-				seller_id
+				seller_id,				
+				(	select name
+					from category c 
+					where type = 'P' and id = category_id
+					start with pid is null
+					connect by prior id = gup) category_name	
 			</if>
 			<if test="choose != null and choose == 'detail'">
 				rnum, id, name, discount, price, category_id, 
@@ -34,7 +39,14 @@
 				end fmt_delivery_price,
 				
 				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
-				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name				
+				
+				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name,
+				
+				(	select substr(SYS_CONNECT_BY_PATH(name, ' > '), 4)
+					from category c 
+					where type = 'P' and id = category_id
+					start with pid is null
+					connect by prior id = gup) category_name			
 			</if>
 			<if test="choose == null or choose == 'all'">
 				*
@@ -47,7 +59,13 @@
 							and name like '%' || '${name}' || '%'
 						</if>
 						<if test="categoryId != null">
-							and category_id = #{categoryId}
+							and (category_id = #{categoryId}
+									or 	category_id in (select c.id
+										from category c 
+										where type = 'P'
+										start with id = #{categoryId}
+										connect by prior id = gup))
+							
 						</if>
 						<if test="sellerId != null">
 							and seller_id = #{sellerId}
@@ -129,7 +147,12 @@
 				, category_id = #{categoryId}
 			</if>
 			<if test="amount != null">
-				, amount = #{amount}
+				<if test="choose != null and choose == 'amount+=n'">
+					, amount = amount + #{amount}
+				</if>
+				<if test="choose != null and choose == 'amount-=n'">
+					, amount = amount - #{amount}
+				</if>				
 			</if>
 			<if test="price != null">
 				, price = #{price}
@@ -151,6 +174,27 @@
 			</if>
 		where id = #{id}
 	</update>
+		
+		
+	<select id="selectProductCatList" parameterType="CategoryVO" resultType="CategoryVO">
+	
+		select *
+		from (	select substr(SYS_CONNECT_BY_PATH(name, ' > '), 4) name, c.id, c.lev, c.gup, c.seq, CONNECT_BY_ISLEAF as ISLEAF
+				from category c 
+				where type = 'P'
+				start with pid is null
+				connect by prior id = gup
+				order SIBLINGS by lev)
+		where ISLEAF = 1
+		
+	</select>
+		
+	<update id="updateDecrement" parameterType="ProductVO">
+		update product
+		set amount = amount - #{amount}
+		where id = #{id} and amount >= #{amount}
+	</update>		
+		
 		
 </mapper>
 

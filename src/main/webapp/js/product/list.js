@@ -1,5 +1,6 @@
 
 $(() => {
+	
 	const CONTEXT_PATH = $("#form").val();
 	const CURRENT_PAGE =  parseInt($("#currentPage").val());
 	const PAGE_SIZE = parseInt($("#pageSize").val());

@@ -13,7 +13,7 @@ import com.oreilly.servlet.MultipartRequest;
 public class ProductVO extends BaseVO
 {
 	//Integer rnum;
-	Integer id;
+	Long id;
 	Integer categoryId;
 	String name;
 	Integer amount;
@@ -34,6 +34,7 @@ public class ProductVO extends BaseVO
 	String fmtDiscountPrice;	//문자열 포멧이 적용된 상품의 할인률이 적용된 상품의 가격(0,000원)
 	Integer discountPrice;		//상품의 할인율이 적용된 상품의 가격(00000)
 	String companyName;			//상품의 업체명
+	String categoryName;
 	
 	public ProductVO()
 	{}
@@ -50,10 +51,10 @@ public class ProductVO extends BaseVO
 		this.rnum = rnum;
 	}
 	*/
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Integer getCategoryId() {
@@ -183,6 +184,14 @@ public class ProductVO extends BaseVO
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	@Override

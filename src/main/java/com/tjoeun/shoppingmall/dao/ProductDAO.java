@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
 public class ProductDAO {
@@ -38,5 +39,16 @@ public class ProductDAO {
 	
 	public int update(SqlSession mapper, ProductVO item) {
 		return mapper.update("Product.update", item);
+	}
+	
+	
+	public List<CategoryVO> selectProductCatList(SqlSession mapper, CategoryVO params)
+	{
+		return mapper.selectList("Product.selectProductCatList", params);
+	}
+
+	public int updateDecrement(SqlSession mapper, ProductVO item)
+	{
+		return mapper.update("Product.updateDecrement", item);
 	}
 }

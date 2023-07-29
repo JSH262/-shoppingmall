@@ -11,6 +11,7 @@ public class CategoryVO
 	String createDate;
 	String modifyDate;
 	String type;
+	Integer pid;
 	
 	public Integer getId() {
 		return id;
@@ -65,11 +66,18 @@ public class CategoryVO
 	}
 	public void setType(String type) {
 		this.type = type;
+	}	
+	public Integer getPid() {
+		return pid;
+	}
+	public void setPid(Integer pid) {
+		this.pid = pid;
 	}
 	
 	@Override
 	public String toString() {
 		return "CategoryVO [id=" + id + ", name=" + name + ", lev=" + lev + ", gup=" + gup + ", seq=" + seq + ", useYn="
-				+ useYn + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", type=" + type + "]";
+				+ useYn + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", type=" + type + ", pid="
+				+ pid + "]";
 	}
 }

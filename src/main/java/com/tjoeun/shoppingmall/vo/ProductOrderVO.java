@@ -8,7 +8,7 @@ public class ProductOrderVO extends BaseVO
 {
 	String userId;
 	Long id;
-	Integer productId;
+	Long productId;
 	Integer productAmount;
 	Integer productPrice;
 	Integer productDeliveryPrice;
@@ -16,11 +16,21 @@ public class ProductOrderVO extends BaseVO
 	String productThumbnail;
 	Integer status;
 	String createDate;
+	String modifyDate;
+	String sellerId;
 	
 	String fmtProductAmount;
 	String fmtProductPrice;
 	String fmtProductDeliveryPrice;
 	String fmtTotalProductPrice;
+	
+	
+	String deliveryName;
+	String deliveryAddr1;
+	String deliveryAddr2;
+	String deliveryPhone;
+	String deliveryRequestMsg;
+	
 	
 	public ProductOrderVO() {
 	}
@@ -47,10 +57,10 @@ public class ProductOrderVO extends BaseVO
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 	public Integer getProductAmount() {
@@ -113,6 +123,49 @@ public class ProductOrderVO extends BaseVO
 	}
 	public void setFmtTotalProductPrice(String fmtTotalProductPrice) {
 		this.fmtTotalProductPrice = fmtTotalProductPrice;
+	}
+	
+	public String getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+	public String getDeliveryName() {
+		return deliveryName;
+	}
+	public void setDeliveryName(String deliveryName) {
+		this.deliveryName = deliveryName;
+	}
+	public String getDeliveryAddr1() {
+		return deliveryAddr1;
+	}
+	public void setDeliveryAddr1(String deliveryAddr1) {
+		this.deliveryAddr1 = deliveryAddr1;
+	}
+	public String getDeliveryAddr2() {
+		return deliveryAddr2;
+	}
+	public void setDeliveryAddr2(String deliveryAddr2) {
+		this.deliveryAddr2 = deliveryAddr2;
+	}
+	public String getDeliveryPhone() {
+		return deliveryPhone;
+	}
+	public void setDeliveryPhone(String deliveryPhone) {
+		this.deliveryPhone = deliveryPhone;
+	}
+	public String getDeliveryRequestMsg() {
+		return deliveryRequestMsg;
+	}
+	public void setDeliveryRequestMsg(String deliveryRequestMsg) {
+		this.deliveryRequestMsg = deliveryRequestMsg;
+	}	
+	public String getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
 	}
 	
 	@Override

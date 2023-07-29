@@ -1,3 +1,5 @@
+<%@page import="com.tjoeun.shoppingmall.vo.CategoryVO"%>
+<%@page import="java.util.List"%>
 <%@page import="com.tjoeun.helper.UsersType"%>
 <%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@page import="com.tjoeun.helper.AttributeName"%>
@@ -46,6 +48,8 @@
 		
 		if(UsersType.SELLER.equals(userType))
 		{
+			
+			
 	%>
 			<head>
 				<meta charset="UTF-8">
@@ -92,12 +96,9 @@
 <%
 			if(vo != null)
 			{
+				List<CategoryVO> catList = ProductService.getInstance().selectProductCatList(null);
+				
 %>
-
-
-			<%-- 
-///////////////////////////////////////////////////////////////////////////////////////////품절표시 
-			--%>
 				<form id="form" action="<%=request.getContextPath() %>">
 					<table border="1" cellpadding="5" cellspacing="1" style="margin: 0px auto;">
 						<tr>
@@ -141,12 +142,25 @@
 							</th>
 							<td>
 								<select name="categoryId" id="categoryId" disabled="disabled">
-									<option value="0">선택</option>
-									<option value="1">/식품/과일</option>
-									<option value="2">/식품/채소</option>
-									<option value="3">/식품/곡물</option>
-									<option value="4">/식품/견과,건과</option>
-									<option value="5">/식품/축산</option>
+									<%
+										for(CategoryVO item : catList)
+										{
+											if(item.getId() == vo.getCategoryId())
+											{
+									%>
+												<option value="<%=item.getId() %>" selected="selected"><%=item.getName() %></option>
+									<%
+											}
+											else
+											{
+									%>
+												<option value="<%=item.getId() %>"><%=item.getName() %></option>
+									<%
+											}
+										}
+									%>									
+									
+									
 								</select>
 							</td>
 						</tr>

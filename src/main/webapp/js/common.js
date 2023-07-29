@@ -1,13 +1,14 @@
 
 
-function Ajax(url, method, data, success, fail)
+function Ajax(url, method, data, success, fail, complete)
 {
 	$.ajax({
 		type: method, //요청방식
 		url: url, //요청할 서블릿
 		data: data,
 		success: success,
-		error: fail
+		error: fail,
+		complete: complete 
 	});
 	/*
 	let formData = new FormData();
@@ -26,7 +27,7 @@ function Ajax(url, method, data, success, fail)
 	//*/
 }
 
-function AjaxForm(url, method, data, success, fail)
+function AjaxForm(url, method, data, success, fail, complete)
 {
 	$.ajax({
 		type: method, //요청방식
@@ -35,7 +36,8 @@ function AjaxForm(url, method, data, success, fail)
 		contentType : false,
 		processData : false,
 		success: success,
-		error: fail
+		error: fail,
+		complete: complete 
 	});
 	/*
 	let formData = new FormData();

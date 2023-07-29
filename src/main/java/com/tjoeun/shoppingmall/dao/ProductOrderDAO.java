@@ -44,4 +44,9 @@ public class ProductOrderDAO
 	{
 		return (int)mapper.selectOne("ProductOrder.totalCount", item);
 	}
+
+	public ProductOrderVO select(SqlSession mapper, ProductOrderVO item) 
+	{
+		return (ProductOrderVO) mapper.selectOne("ProductOrder.select", item);
+	}
 }
