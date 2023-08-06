@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Setting">
+
+	<!-- <typeAlias type="com.tjoeun.vo.MvcBoardVO" alias="MvcBoardVO" /> -->
+	<insert id="insert" parameterType="SettingVO">
+		insert into setting(id, upload_path, batch_item)
+		values(setting_id_seq.nextval, #{upload_path}, #{batch_item})
+	</insert>
+	
+	<select id="select" resultType="SettingVO">
+		select *
+		from setting
+		where id = (select max(id) from setting)
+	</select>
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
