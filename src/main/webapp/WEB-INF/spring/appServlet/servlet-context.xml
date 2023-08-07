@@ -51,6 +51,10 @@
 		<beans:property name="password" value="#{db['password']}"/>
 	</beans:bean>		
 	
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		  <beans:constructor-arg name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property> 
 		<beans:property name="mapperLocations" value="classpath:com/tjoeun/mybatis/*.xml"></beans:property>
