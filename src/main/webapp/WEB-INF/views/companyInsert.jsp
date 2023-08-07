@@ -13,6 +13,8 @@
 <script type="text/javascript" src="./js/ajax.js"></script> <!-- ajax 구현 -->
 </head>
 <body>
+	
+
 <%
     String type = request.getParameter("type");
 %>

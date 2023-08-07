@@ -21,12 +21,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.uuid.Generators;
 
 public class Util 
 {	
+	static Logger logger = LoggerFactory.getLogger(Util.class);
+	
 	//https://developer111.tistory.com/83
 	public static byte[] UUIDtoBytes()
 	{
@@ -220,6 +223,9 @@ public class Util
 		}
 		
 		url += "image/" + fileId;
+		
+		logger.info(url);
+		
 		
 		Response serResp = Request.get(url)
 				.body(builder.build())
