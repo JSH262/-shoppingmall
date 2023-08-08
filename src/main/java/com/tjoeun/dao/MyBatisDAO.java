@@ -16,6 +16,8 @@ public interface MyBatisDAO {
 
 	void deleteId(String id);
 
+	void update(UsersVO usersVO);
+
 	
 
 	

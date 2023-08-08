@@ -33,8 +33,8 @@ div {
 		</td>
 	</tr>
 	<tr>
-		<th style="width: 70px;">ID</th>
-		<th style="width: 210px;">이름</th>
+		<th style="width: 170px;">ID</th>
+		<th style="width: 110px;">이름</th>
 		<th style="width: 300px;">E-mail</th>
 		<th style="width: 250px;">핸드폰 번호</th>
 		<th style="width: 170px;">회사 ID</th>
@@ -158,12 +158,7 @@ div {
 			</c:if>
 		</td>
 	</tr>
-	
-	<tr>
-		<td colspan="5" align="right">
-			<input type="button" value="글쓰기" onclick="location.href='insert'"/>
-		</td>
-	</tr>
+
 </table>
 </body>
 </html>

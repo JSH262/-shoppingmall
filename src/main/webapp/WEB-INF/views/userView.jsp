@@ -10,48 +10,52 @@
 </head>
 <body>
 
-<form action="deleteId" method="post">
+<form action="updateId" method="post">
 	<table width="600" align="center" border="1" cellpadding="5" cellspacing="0">
 		<tr>
-			<th colspan="4">게시글 보기</th>
+			<th colspan="4">유저 아이디</th>
 		</tr>
 		<tr>
-			<th width="80">글번호</th>
-			<th width="290">이름</th>
-			<th width="150">작성일</th>
-			<th width="80">조회수</th>
+			<th width="170">ID</th>
+			<th width="160">이름</th>
+			<th width="150">가입일</th>
+			<th width="120">업체아이디</th>
 		</tr>
 		<tr>
-			<td align="center">${vo.idx}</td>
+			<td align="center">${vo.id}</td>
 			<td align="center">
 				<c:set var="name" value="${fn:replace(vo.name, '<', '&lt;')}"/>
 				<c:set var="name" value="${fn:replace(name, '>', '&gt;')}"/>
 				${name}
 			</td>
 			<td align="center">
-				<fmt:formatDate value="${vo.writeDate}" pattern="yyyy.MM.dd(E)"/>
+				<fmt:formatDate value="${vo.create_date}" pattern="yyyy.MM.dd(E)"/>
 			</td>
 			<td align="center">${vo.hit}</td>
 		</tr>
 		<tr>
-			<th>제목</th>
-			<td colspan="3">
-				<input type="text" name="subject" value="${vo.subject}" style="width: 98%;"/>
-			</td>
+			<th width="100">분류</th>
+			<th width="200">Email</th>
+			<th width="200">핸드폰번호</th>
+			<th width="100">사용여부</th>
 		</tr>
 		<tr>
-			<th>내용</th>
-			<td colspan="3">
-				<textarea rows="10" name="content" style="width: 98%; resize: none;">${vo.content}</textarea>
+			<td align="center">${vo.type}</td>
+			<td align="center">
+				<c:set var="email" value="${fn:replace(vo.email, '<', '&lt;')}"/>
+				<c:set var="email" value="${fn:replace(email, '>', '&gt;')}"/>
+				${email}
 			</td>
+			<td align="center">
+				${vo.phone}
+			</td>
+			<td align="center">${vo.use_yn}</td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
 				<input type="submit" value="수정하기"/>
 				<input type="button" value="삭제하기" 
-					onclick="location.href='delete?idx=${vo.idx}&currentPage=${currentPage}'"/>
-				<input type="button" value="답변하기" 
-					onclick="location.href='reply?idx=${vo.idx}&currentPage=${currentPage}'"/>
+					onclick="location.href='deleteId?id=${vo.id}&currentPage=${currentPage}'"/>
 				<input type="button" value="돌아가기" 
 					onclick="location.href='list?currentPage=${currentPage}'"/>
 			</td>

@@ -74,4 +74,13 @@ public class AdminController {
 		return "redirect:adminPage";
 	}
 	
+	@RequestMapping("/update")
+	public String update(HttpServletRequest request, Model model, UsersVO usersVO) {
+		logger.info("컨트롤러의 update() 메소드 실행 - 커맨드 객체 사용");
+		MyBatisDAO mapper = sqlSession.getMapper(MyBatisDAO.class);
+		mapper.update(usersVO);
+		model.addAttribute("currentPage", request.getParameter("currentPage"));
+		return "redirect:adminPage";
+	}
+	
 }
