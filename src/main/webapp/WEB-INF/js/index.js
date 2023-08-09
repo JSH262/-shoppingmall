@@ -41,4 +41,26 @@ $(() => {
 	$("#newProductsBody div:eq(0)").append(newProductNode);
 	//*/
 	
+	
+	
+	Ajax(`${CONTEXT_PATH}/main`, "POST", null, 
+			function(resp)
+			{
+				if(resp.code == 0)
+				{
+					console.log(resp);
+				}
+				else
+					alert(resp.code + ": " + resp.msg);
+					
+				isExecPay = false;			
+			},
+			function(err)
+			{
+				console.error(err);
+				isExecPay = false;
+			}
+		);
+	
+	
 });

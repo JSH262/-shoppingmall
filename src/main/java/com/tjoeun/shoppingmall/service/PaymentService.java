@@ -45,6 +45,7 @@ public class PaymentService
 		catch(Exception exp)
 		{
 			exp.printStackTrace();
+			logger.error("", exp);
 		}
 		
 		mapper.close();
@@ -63,8 +64,8 @@ public class PaymentService
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
 			mapper.rollback();
+			logger.error("", exp);
 		}
 		
 		mapper.close();
@@ -128,12 +129,6 @@ public class PaymentService
 							params.setDeliveryRequestMsg(destAddrVO.getReqMsg());
 							params.setSellerId(item.getSellerId());
 							
-							logger.info("-----------------------------------------");
-							logger.info(destAddrVO.getReqMsg());
-							logger.info(params.getDeliveryRequestMsg());
-							logger.info("" + destAddrVO.getReqMsg().length());
-							logger.info("" + params.getDeliveryRequestMsg().length());
-							
 							poDAO.insert(mapper, params);
 												
 							paymentPrice += item.getAmount() * item.getDiscountPrice();
@@ -162,10 +157,9 @@ public class PaymentService
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
 			mapper.rollback();
+			logger.error("", exp);
 		}
-		
 		
 		mapper.close();
 		

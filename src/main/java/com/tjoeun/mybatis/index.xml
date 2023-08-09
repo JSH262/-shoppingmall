@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Payment">
+<mapper namespace="Index">
 
-	<insert id="insert" parameterType="PaymentVO">
-		insert into payment(id, user_id, payment_number, status, product_order_id, payment_price)
-		values(PAYMENT_SEQ_ID.nextval, #{userId}, #{paymentNumber}, #{status}, #{productOrderId}, #{paymentPrice})
-	</insert>
 		
-	<select id="selectList" parameterType="PaymentVO" resultType="PaymentVO">
+	<!-- 많이 팔린 상품 목록 -->
+	<select id="lotSellProductList" resultType="ProductVO">
+		
 		select *
-		from (	select t1.*, rownum rnum
-				from (	select *
-						from payment
-						where user_id = #{userId}
-						order by id desc) t1
-				where rownum <![CDATA[ <= ]]> #{endNo})
-		where rnum <![CDATA[ >= ]]> #{startNo}
+        from (  select t.*, rownum rnum
+                from (	select id, thumbnail
+                        from product
+                        where id in (
+                                select product_id
+                                from product_order 
+                                where status = 5
+                                group by product_id
+                                having sum(product_amount) >= 50)
+                        order by id desc) t)
+        where rnum <![CDATA[ <= ]]>  5	
+		
 	</select>
+		
+	<!-- 신상품 목록(1개월 이내) -->
+	<select id="newProductList" resultType="ProductVO">
+		select *
+		from ( 	select t.*, rownum rnum
+				from (	select id, name, discount, price, thumbnail
+						from product
+						where to_char(create_date, 'yyyy/mm/dd hh24:mi:ss') >= to_char(add_months(sysdate, -1), 'yyyy/mm/dd hh24:mi:ss')
+						order by create_date desc) t)
+		where rnum <![CDATA[ <= ]]> 5
+	
+			
+	</select>
+	
 	
 	
 	
