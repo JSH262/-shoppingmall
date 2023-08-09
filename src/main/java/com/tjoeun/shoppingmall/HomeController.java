@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,5 +28,27 @@ public class HomeController {
 	{
 		return "index";
 	}
+	
+	
+	
+	@RequestMapping(value="/index", method=RequestMethod.POST)
+	public JSONObject homePage()
+	{
+		JSONObject retval = new JSONObject();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return retval;		
+	}
+	
+	
+	
+	
 	
 }

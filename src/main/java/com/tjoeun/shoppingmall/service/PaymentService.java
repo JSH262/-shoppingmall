@@ -1,29 +1,20 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.PaymentStatus;
 import com.tjoeun.helper.ProductOrderStatus;
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.CartDAO;
-import com.tjoeun.shoppingmall.dao.CategoryDAO;
 import com.tjoeun.shoppingmall.dao.DestinationAddressDAO;
 import com.tjoeun.shoppingmall.dao.PaymentDAO;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.dao.ProductOrderDAO;
 import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
 import com.tjoeun.shoppingmall.vo.PaymentVO;
 import com.tjoeun.shoppingmall.vo.ProductOrderVO;
@@ -32,6 +23,8 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class PaymentService 
 {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	static PaymentService g_inst = new PaymentService();
 	PaymentService() {}
 	
@@ -134,6 +127,12 @@ public class PaymentService
 							params.setDeliveryPhone(destAddrVO.getPhone());
 							params.setDeliveryRequestMsg(destAddrVO.getReqMsg());
 							params.setSellerId(item.getSellerId());
+							
+							logger.info("-----------------------------------------");
+							logger.info(destAddrVO.getReqMsg());
+							logger.info(params.getDeliveryRequestMsg());
+							logger.info("" + destAddrVO.getReqMsg().length());
+							logger.info("" + params.getDeliveryRequestMsg().length());
 							
 							poDAO.insert(mapper, params);
 												
