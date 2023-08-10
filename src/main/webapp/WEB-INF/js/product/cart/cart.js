@@ -37,9 +37,10 @@ function updateAmount(button) {
     });
 }
 
-function deleteProduct(event) {
+function deleteProduct(button) {
+	var parentSpan = $(button).closest('.input-group');
+	var productId = parentSpan.find('input[name=productId]').val();
 	var userId = $('#userId').val();
-	var productId = $('#productId').val();
 	$.ajax({
 		type: 'POST',
 		url: './deleteProduct',
