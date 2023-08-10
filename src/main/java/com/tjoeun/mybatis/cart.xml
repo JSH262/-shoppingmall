@@ -72,6 +72,12 @@
 		where user_id = #{userId}
 	</select>
 	
+	<update id="updateAmount" parameterType="CartVO">
+		update cart
+		set	amount = #{amount}
+		where user_id = #{userId} and product_id = #{productId}
+	</update>
+	
 </mapper>
 
 
