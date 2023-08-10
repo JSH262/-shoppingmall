@@ -100,19 +100,43 @@
 			<version>1</version>
 		</dependency>
 				
-		<!-- Servlet -->
+		<!-- Servlet
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>servlet-api</artifactId>			
+			<version>2.5</version>			
 			<scope>provided</scope>
 		</dependency>
+		 -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		 -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+		<dependency>
+		    <groupId>javax.servlet.jsp</groupId>
+		    <artifactId>javax.servlet.jsp-api</artifactId>
+		    <version>2.3.3</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+		
+		
+		
+		
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -246,6 +270,23 @@
 		    <artifactId>httpclient5-fluent</artifactId>
 		    <version>5.2.1</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/jakarta.websocket/jakarta.websocket-api -->
+		<dependency>
+		    <groupId>jakarta.websocket</groupId>
+		    <artifactId>jakarta.websocket-api</artifactId>
+		    <version>1.1.2</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/jakarta.websocket/jakarta.websocket-client-api -->
+		<dependency>
+		    <groupId>jakarta.websocket</groupId>
+		    <artifactId>jakarta.websocket-client-api</artifactId>
+		    <version>1.1.2</version>
+		    <scope>provided</scope>
+		</dependency>
+				
 
 				      
 	</dependencies>

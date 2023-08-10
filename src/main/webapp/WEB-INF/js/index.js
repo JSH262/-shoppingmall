@@ -2,12 +2,12 @@ $(() => {
 	const CONTEXT_PATH = getContextPath();
 	
 	let newProductNode = $(`
-		<div class="col-4" name="newProductItem">
+		<div class="col" name="newProductItem">
 			<div class="card">
 				<img class="card-img-top newProductImageDuration" src="">
 				<div class="card-body">
 					<h5 class="card-title"></h5>
-					<p class="card-text"></p>
+					<p class="card-text fs-4"></p>
 				</div>
 			</div>
 		</div>
@@ -22,34 +22,6 @@ $(() => {
 	let cbNode = $(`<div class="carousel-item" data-bs-interval="3000">
 						<img class="ratio ratio-21x9 mx-auto d-block" src="" class="d-block w-100">
 					</div>`);
-	
-	/*
-	//이미지 확대를 위한 이벤트
-	let npImg = newProductNode.find('.card > img');
-	let npBody = newProductNode;
-	npBody.bind('mouseover', function() {
-		npImg.addClass('newProductImageDuration-hover newProductShadow ');
-		npBody.addClass('newProductCursor');
-	});
-	npBody.bind('mouseleave', function() {
-		npImg.removeClass('newProductImageDuration-hover newProductShadow');
-		npBody.removeClass('newProductCursor');
-	});
-	npBody.bind('click', function() {
-		alert('이동');
-	});
-	
-	//이미지
-	npImg.attr('src', `${CONTEXT_PATH}/image/11ee340585123d80b956651ffe5e5aa3`);
-	
-	//제목
-	newProductNode.find('.card-title').text('Card title');
-	
-	//내용
-	newProductNode.find('.card-text').text(`Some quick example text to build on the card title and make up the bulk of the card's content.`);
-	
-	$("#newProductsBody div:eq(0)").append(newProductNode);
-	//*/
 	
 	Ajax(`${CONTEXT_PATH}/index`, "POST", null, 
 			function(resp)
@@ -77,37 +49,28 @@ $(() => {
 						
 						bodyTmp.find('img').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);
 						bodyTmp.bind('click', function() {
-							alert(item[i].id);
+							location.href= `${CONTEXT_PATH}/product/detail?id=${item.id}`;
 						});
 						
 						$("#carousel-body").append(bodyTmp);
 						$("#carousel-indicator").append(indicatorTmp);
 					}
 					
-					let cnt = 0;
-					let npTmpRow = $(`<div class="row">`).clone();
 					for(let i = 0; i<newProductList.length; i++)
 					{
 						let item = newProductList[i];
 						let npTmp = newProductNode.clone();
-							
+						let discountPrice = item.price - (item.discount / 100 * item.price);
+						
 						//id, name, discount, price, thumbnail
 						npTmp.find('img').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);
 						npTmp.find('.card-title').text(item.name);
-						npTmp.find('.card-text').html(`<span>${item.discount}</span> ${item.price}`);
+						npTmp.find('.card-text').html(`<span class="fs-6 text-danger">${item.discount}% </span>${discountPrice.toLocaleString()}<span class="fs-6">원</span>`);
 						npTmp.bind('click', function() {
-							alert(item.id);
+							location.href= `${CONTEXT_PATH}/product/detail?id=${item.id}`;
 						});
 						
-						npTmpRow.append(npTmp);
-						$("#newProductsBody").append(npTmpRow);
-
-						cnt += 1;
-						if(cnt == 3)
-						{
-							npTmpRow = $(`<div class="row">`).clone();
-							cnt = 0;
-						}
+						$("#newProductsBody").append(npTmp);
 					}
 				}
 				else
