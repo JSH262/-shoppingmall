@@ -22,7 +22,8 @@ import com.tjoeun.shoppingmall.vo.SettingVO;
  * Servlet implementation class ImageController
  */
 @Controller
-public class DestinationAddressRemoveController extends HttpServlet {
+public class DestinationAddressRemoveController  
+{
 	private static final long serialVersionUID = 1L;
 	SettingVO setting = null;
 

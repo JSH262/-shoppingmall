@@ -224,9 +224,12 @@ public class Util
 		
 		url += "image/" + fileId;
 		
+<<<<<<< HEAD
 		logger.info(url);
 		
 		
+=======
+>>>>>>> refs/remotes/origin/jsh
 		Response serResp = Request.get(url)
 				.body(builder.build())
 				.execute();//.returnContent().asBytes();

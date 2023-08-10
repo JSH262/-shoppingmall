@@ -21,7 +21,8 @@ import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
  * Servlet implementation class ImageController
  */
 @Controller
-public class DestinationAddressSelectedController extends HttpServlet {
+public class DestinationAddressSelectedController
+{
 	private static final long serialVersionUID = 1L;
 
 	@RequestMapping(value="/destaddr/selected", method=RequestMethod.POST)

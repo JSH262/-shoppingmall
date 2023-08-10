@@ -55,3 +55,26 @@ function AjaxForm(url, method, data, success, fail, complete)
 	});
 	//*/
 }
+
+
+function getContextPath()
+{
+	if(document.contextPath)
+	{
+		return document.contextPath;
+	}
+	else
+	{
+		let uri = location.pathname;
+		let arr = uri.split('/');
+
+		if(arr.length >= 3)
+		{
+			return `/${arr[1]}`;
+		}
+		else
+		{
+			return null;
+		}
+	}
+}

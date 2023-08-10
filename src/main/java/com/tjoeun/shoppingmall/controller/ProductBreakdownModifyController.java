@@ -25,7 +25,8 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
  * Servlet implementation class ImageController/product/breakdown/status
  */
 @Controller
-public class ProductBreakdownModifyController extends HttpServlet {
+public class ProductBreakdownModifyController 
+{
 	private static final long serialVersionUID = 1L;
 
 	@RequestMapping(value="/product/breakdown/modify", method=RequestMethod.POST)
