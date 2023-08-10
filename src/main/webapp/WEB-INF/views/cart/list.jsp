@@ -12,45 +12,27 @@
   
 <!DOCTYPE html>
 <html>
-<%
-
-//////////////////////////////////////////////////////////////// cart/list.jsp에서 상품이 비어있을 경우 비어있다고 표시하기
-//////////////////////////////////////////////////////////////// cart/list.jsp 배송비 무료배송 표시
-
-	UsersVO user = AttributeName.getUserData(request);
-	String currentPage = request.getParameter("currentPage");
-	// 카트로 수정
-	CartVO params = new CartVO();
-	params.setUserId(user.getId());
-	List<CartVO> vo = CartService.getInstance().selectList(params);
-	int count = CartService.getInstance().count(user.getId());
-	for (int i = 0; i < count; i++) {
-    Integer amount = vo.get(i).getAmount();
-    String sellerId = vo.get(i).getSellerId();
-    String thumbnail = vo.get(i).getThumbnail();
-    String productName = vo.get(i).getProductName();
-    int discountPrice = vo.get(i).getDiscountPrice();
-    String companyName = vo.get(i).getCompanyName();
-    int delivery = vo.get(i).getDeliveryPrice();
-	Long productId = vo.get(i).getProductId();
-    
-    if (thumbnail != null) {
-        thumbnail = request.getContextPath() + "/image/" + thumbnail;
-    } else {
-        thumbnail = "/resources/default/noimg.png";
-    }
-
-%>
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
+<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/> --%>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/detail/buyer.js"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
+<%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script> --%>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/cart/cart.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<script>
+       function productAmount(node, value)
+       {
+           let item = $(node).siblings('input[name=amount]');    
+           let amount = parseInt(item.val()) + value;
+            
+           item.val(amount);
+       }
+    </script>
 <style>
 	.product-container {
 		max-width: 1200px;
@@ -147,6 +129,35 @@
 	
 </style>
 </head>
+<%
+
+//////////////////////////////////////////////////////////////// cart/list.jsp에서 상품이 비어있을 경우 비어있다고 표시하기
+//////////////////////////////////////////////////////////////// cart/list.jsp 배송비 무료배송 표시
+
+	UsersVO user = AttributeName.getUserData(request);
+	String currentPage = request.getParameter("currentPage");
+	// 카트로 수정
+	CartVO params = new CartVO();
+	params.setUserId(user.getId());
+	List<CartVO> vo = CartService.getInstance().selectList(params);
+	int count = CartService.getInstance().count(user.getId());
+	for (int i = 0; i < count; i++) {
+	    Integer amount = vo.get(i).getAmount();
+	    String sellerId = vo.get(i).getSellerId();
+	    String thumbnail = vo.get(i).getThumbnail();
+	    String productName = vo.get(i).getProductName();
+	    int discountPrice = vo.get(i).getDiscountPrice();
+	    String companyName = vo.get(i).getCompanyName();
+	    int delivery = vo.get(i).getDeliveryPrice();
+		Long productId = vo.get(i).getProductId();
+	    
+	    if (thumbnail != null) {
+	        thumbnail = request.getContextPath() + "/image/" + thumbnail;
+	    } else {
+	        thumbnail = "/resources/default/noimg.png";
+	    }
+
+%>
 <body>
 <div class="container gap-3 mt-5">
     <div class="row justify-content-center">
@@ -199,9 +210,13 @@
         <div class="col-md-6">
             <span class="input-group mb-3 justify-content-end">
                 <label class="input-group-text" for="amount">수량</label>
-                <input class="form-control" style="max-width: 15%;" type="number" id="amount" name="amount" min="1" value="1" />
-                <input class="btn btn-outline-secondary" type="button" id="amountMinus" name="amountMinus" value="-" />
-                <input class="btn btn-outline-secondary" type="button" id="amountPlus" name="amountPlus" value="+" />
+                <input class="form-control" style="max-width: 15%;" type="number" id="amount" name="amount" min="1" value="<%= amount %>" />
+                <input class="btn btn-outline-secondary" type="button" value="-" onclick="productAmount(this, -1)"/>
+                <input class="btn btn-outline-secondary" type="button" value="+" onclick="productAmount(this, 1)"/>
+	            <input type="hidden" id="userId" name="userId" value="<%= user.getId() %>">
+	            <input type="hidden" id="productId" name="productId" value="<%= productId %>">
+	            <input class="btn btn-primary" type="button" value="적용하기" onclick="updateAmount(this)" />
+	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct()" />
             </span>
         </div>
         <div class="col-md-1">                  
@@ -218,7 +233,7 @@
 </div>
 <!-- 상품 컨테이너 끝 -->
 <%
-}
+	}
 %>
 <!-- from사용 -->
 <%-- 
@@ -271,6 +286,34 @@
             <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/order'" />
         </div>
     </div>
+</div>
+
+<div id="messageModal" class="modal fade" role="dialog" aria-hidden="true">
+	<div class="vertical-alignment-helper">
+		<div class="modal-dialog vertical-align-center">
+			<!-- 모달 창의 종류(색상)를 설정한다. -->
+			<!-- messageCheck라는 id를 추가하고 class를 제거한다. -->
+			<div id="messageCheck">
+				<div class="modal-header panel-heading">
+					<button class="close" type="button" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<!-- messageType이라는 id를 추가한다. -->
+					<h4 id="messageType" class="modal-title">
+						<%-- ${messageType} --%>
+					</h4>
+				</div>
+				<!-- messageContent라는 id를 추가한다. -->
+				<div id="messageContent" class="modal-body">
+					<%-- ${messageContent} --%>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
  
 

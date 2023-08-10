@@ -31,6 +31,8 @@ public class CartService
 	{
 		return g_inst;
 	}
+	
+	static CartDAO dao = CartDAO.getInstance();
 
 	public List<CartVO> selectList(CartVO vo)
 	{
@@ -191,5 +193,39 @@ public class CartService
 		mapper.close();
 				
 		return retval;
+	}
+
+	public static int updateAmount(CartVO co) {
+		SqlSession mapper = MySession.getSession();
+		int result = 0;
+		try {
+			dao.updateAmount(mapper, co);
+			mapper.commit();
+			result = 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+			mapper.rollback();
+		} finally {
+			mapper.close();
+		}
+		return result;
+	}
+
+	public static int deleteProduct(CartVO co) {
+		SqlSession mapper = MySession.getSession();
+		int result = 0;
+		try {
+			dao.deleteProduct(mapper, co);
+			mapper.commit();
+			result = 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 1;
+			mapper.rollback();
+		} finally {
+			mapper.close();
+		}
+		return result;
 	}
 }
