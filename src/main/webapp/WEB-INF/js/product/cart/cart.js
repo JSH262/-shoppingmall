@@ -1,7 +1,12 @@
-function updateAmount(event) {
+function updateAmount(button) {
+	var parentSpan = $(button).closest('.input-group');
+    var amount = parentSpan.find('input[name=amount]').val();
+    var productId = parentSpan.find('input[name=productId]').val();
     var userId = $('#userId').val();
-    var amount = $(event.target).closest('.input-group').siblings('input[name=amount]').val();
-    var productId = $('#productId').val();
+    
+    console.log('userId:', userId);
+    console.log('amount:', amount);
+    console.log('productId:', productId);
     
     $.ajax({
         type: 'POST',
@@ -18,10 +23,6 @@ function updateAmount(event) {
                     $('#messageContent').html('수량변경 성공.');
                     $('#errorMessage').html('변경된 수량이 적용되었습니다.');
                     $('#messageCheck').attr('class', 'modal-content panel-success');
-                    
-                    // 변경된 수량으로 형제 요소 내 해당 상품 수량 업데이트
-                    $(event.target).closest('.input-group').siblings('input[name=amount]').val(amount);
-                    
                     break;
                 case '1':
                     $('#messageType').html('에러 메시지');

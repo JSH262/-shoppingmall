@@ -21,10 +21,9 @@
 
 <%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script> --%>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/cart/cart.js"></script>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <script>
        function productAmount(node, value)
        {
@@ -214,9 +213,9 @@
                 <input class="form-control" style="max-width: 15%;" type="number" id="amount" name="amount" min="1" value="<%= amount %>" />
                 <input class="btn btn-outline-secondary" type="button" value="-" onclick="productAmount(this, -1)"/>
                 <input class="btn btn-outline-secondary" type="button" value="+" onclick="productAmount(this, 1)"/>
-	            <input type="hidden" id="userId" value="<%= user.getId() %>">
-	            <input type="hidden" id="productId" value="<%= productId %>">
-	            <input class="btn btn-primary" type="button" value="적용하기" onclick="updateAmount()" />
+	            <input type="hidden" id="userId" name="userId" value="<%= user.getId() %>">
+	            <input type="hidden" id="productId" name="productId" value="<%= productId %>">
+	            <input class="btn btn-primary" type="button" value="적용하기" onclick="updateAmount(this)" />
 	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct()" />
             </span>
         </div>
