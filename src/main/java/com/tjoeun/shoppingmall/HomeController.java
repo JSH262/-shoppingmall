@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tjoeun.shoppingmall.service.IndexService;
 
@@ -35,14 +36,16 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/index", method = RequestMethod.POST)
-	public void home(HttpServletRequest request, HttpServletResponse response) throws IOException
+	//consumes: mime를 지정해서 요청에 대한 데이터를 고정시킬 수 있다.
+	//produces: mime를 지정해서 응답에 대한 데이터를 고정시킨다.
+	@ResponseBody
+	@RequestMapping(value = "/index", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String home(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		JSONObject retval = new JSONObject();
 		
 		try
 		{
-		
 			JSONObject result = new JSONObject();		
 			IndexService indexService = IndexService.getInstance();
 			
@@ -50,7 +53,6 @@ public class HomeController {
 			result.put("newList", indexService.newProductList());
 			retval.put("result", result);
 			retval.put("code", "0");
-			
 		}
 		catch(Exception exp)
 		{
@@ -58,8 +60,7 @@ public class HomeController {
 			retval.put("msg", exp.getMessage());
 		}
 		
-		response.setContentType("application/json;charset=UTF-8");
-		response.getWriter().write(retval.toJSONString());
+		return retval.toJSONString();
 	}
 	
 	

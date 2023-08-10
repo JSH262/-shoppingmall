@@ -20,7 +20,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 	
 	<style>
-		#mainProducts img {
+		#carousel-body img {
 		  	object-fit: none;
 		  	height: 300px;
 		}
@@ -49,16 +49,19 @@
 	<div id="carouselLotSell" class="carousel carousel-dark slide" data-bs-ride="carousel">
 		
 		<%-- 이미지 밑의 선택된 이미지 및 이미지 목록들 --%>
-		<div class="carousel-indicators">			
+		<div class="carousel-indicators" id="carousel-indicator">
+			<%--			
 			<button class="active" aria-current="true"  
 					type="button" data-bs-target="#carouselLotSell" data-bs-slide-to="0" aria-label="Slide 1"></button>
 			<button type="button" data-bs-target="#carouselLotSell" data-bs-slide-to="1" aria-label="Slide 2"></button>
 			<button type="button" data-bs-target="#carouselLotSell" data-bs-slide-to="2" aria-label="Slide 3"></button>
 			<button type="button" data-bs-target="#carouselLotSell" data-bs-slide-to="3" aria-label="Slide 4"></button>
+			 --%>
 		</div>
 		
 		<%-- 이미지들 --%>
-		<div class="carousel-inner" id="mainProducts">
+		<div class="carousel-inner" id="carousel-body">
+			<%--
 			<div class="carousel-item active" data-bs-interval="3000">
 				<img class="ratio ratio-21x9 mx-auto d-block" src="<%=request.getContextPath() %>/image/11ee340654fc4111b956dd7a96c7332c" class="d-block w-100" alt="...">
 			</div>
@@ -71,6 +74,7 @@
 			<div class="carousel-item" data-bs-interval="3000">
 				<img class="ratio ratio-21x9 mx-auto d-block" src="<%=request.getContextPath() %>/image/11ee34057f5e4775b9564175e94239a8" class="d-block w-100" alt="...">
 			</div>
+			 --%>
 		</div>
 		
 		<%-- 이미지 왼쪽에 있는 이동 버튼 --%>
@@ -92,11 +96,7 @@
 		<h1>신상품</h1>
 	</div>
 	<div class="container" id="newProductsBody">
-		<div class="row">
-			
-		</div>
-		
-		
+	
 		<%-- 상품 로딩중 표시
 		<div class="row" name="newProductLoading">			
 			<div class="col-4">
