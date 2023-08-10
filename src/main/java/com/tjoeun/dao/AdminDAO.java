@@ -1,31 +1,42 @@
 package com.tjoeun.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
-public interface AdminDAO {
+public class AdminDAO {
 	
-	public int selectCount() {
+	private static AdminDAO instance = new AdminDAO();
+	private AdminDAO() { }
+	public static AdminDAO getInstance() {
+		return instance;
+	}
+	
+	public int selectCount(SqlSession mapper) {
 		
+		return mapper.selectOne("selectCount");
 	}
 
-	public ArrayList<UsersVO> selectList(HashMap<String, Integer> hmap){
+	public List<Object> selectList(SqlSession mapper,HashMap<String, Integer> hmap){
 		
+		return mapper.selectList("selectList", hmap);
 	}
 
-	public UsersVO selectById(String id) {
+	public UsersVO selectById(SqlSession mapper, String id) {
 		
+		return (UsersVO) mapper.selectList("selectById", id);		
 	}
 
-	public void deleteId(String id) {
-		
+	public void deleteId(SqlSession mapper, String id) {
+		mapper.update("deleteId", id);
 	}
 
-	public void update(UsersVO usersVO) {
-		
+	public void update(SqlSession mapper, UsersVO usersVO) {
+		mapper.update("update", usersVO);
 	}
 
 	

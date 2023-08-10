@@ -1,26 +1,12 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tjoeun.helper.AttributeName;
+import com.tjoeun.dao.AdminDAO;
 import com.tjoeun.mybatis.MySession;
-import com.tjoeun.shoppingmall.dao.CartDAO;
-import com.tjoeun.shoppingmall.dao.CategoryDAO;
-import com.tjoeun.shoppingmall.dao.ProductDAO;
-import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
-import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class AdminService 
@@ -32,29 +18,47 @@ public class AdminService
 	{
 		return g_inst;
 	}
+	private AdminDAO dao = AdminDAO.getInstance();
 	
 	public int selectCount() {
 		SqlSession mapper = MySession.getSession();
+		mapper.close();
+		return selectCount();
+		
 		
 	}
 
-	public ArrayList<UsersVO> selectList(SqlSession session, HashMap<String, Integer> hmap){
+	public ArrayList<UsersVO> selectList(HashMap<String, Integer> hmap){
 		SqlSession mapper = MySession.getSession();
+		
+		
+		mapper.close();
+		return selectList(hmap);
+		
 	}
 
 	public UsersVO selectById(String id) {
 		SqlSession mapper = MySession.getSession();
+		
+		mapper.close();
+		return selectById(id);
 		
 	}
 
 	public void deleteId(String id) {
 		SqlSession mapper = MySession.getSession();
 		
+		dao.deleteId(mapper, id);
+		mapper.commit();
+		mapper.close();
 	}
 
 	public void update(UsersVO usersVO) {
 		SqlSession mapper = MySession.getSession();
 		
+		dao.update(mapper, usersVO);
+		mapper.commit();
+		mapper.close();
 	}
 
 }

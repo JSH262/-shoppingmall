@@ -75,7 +75,7 @@ div {
 		</td>
 		<td align="center">${vo.companyId}</td>
 		<td>
-		<input type="button" value="삭제" onclick="location.href='deleteID?id=${vo.id}&currentPage=${usersList.currentPage}'">
+		<input type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
 		<td>
 		</td>
 	</tr>
