@@ -1,10 +1,12 @@
 function passwordCheck() {
 	var password = $('#password').val();
+	var userId = $('#userId').val();
 	var action = $('#action').val();
 	$.ajax({
 		type: 'POST',
 		url: './PasswordCheck',
 		data: {
+		userId: userId,
 		password: password
 	},
 	success: function(res) {

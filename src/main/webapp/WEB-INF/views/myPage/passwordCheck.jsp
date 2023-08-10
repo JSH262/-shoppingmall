@@ -1,3 +1,5 @@
+<%@page import="com.tjoeun.helper.AttributeName"%>
+<%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,7 +16,9 @@
 <body>
 
 <%
-  String action = request.getParameter("action");
+	String action = request.getParameter("action");
+	UsersVO user = AttributeName.getUserData(request);
+	String userId = user.getId();
 %>
 
 <div class="container" style="margin-top: 20px;">
@@ -42,6 +46,7 @@
 						<h5 id="errorMessage" style="color: lime; font-weight: bold;">
 							${messageType}: ${messageContent}
 						</h5>
+						<input class="hidden" id="userId" value="<%=userId %>"/>
 						<input class="btn btn-primary" type="button" value="확인" onclick="passwordCheck()"/>
 					</td>
 				</tr>

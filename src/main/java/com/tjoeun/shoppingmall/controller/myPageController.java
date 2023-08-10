@@ -45,7 +45,7 @@ public class myPageController
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String id = request.getParameter("id");
+		String id = request.getParameter("userId");
 		String password = request.getParameter("password");
 
 		if (password == null || password.equals("")) {
