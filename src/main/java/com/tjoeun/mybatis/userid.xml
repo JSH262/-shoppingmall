@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.MyBatisDAO">
+
+	
+	<!-- 전체 글의 개수를 얻어온다. -->
+	<select id="selectCount" resultType="int">
+		select count(*) from users
+	</select>
+	
+	<!-- 1페이지 분량의 글 목록을 얻어온다. -->
+	<select id="selectList" parameterType="java.util.HashMap" resultType="vo">
+		<!--
+		<![CDATA[
+		select * from (
+			select rownum rnum, AA.* from (
+				select * from mvcboard order by gup desc, seq asc
+			) AA where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+		-->
+		
+		select * from (
+			select rownum rnum, AA.* from (
+				select * from users order by id desc
+			) AA
+		) where rnum between #{startNo} and #{endNo}
+	</select>
+
+	
+	<!-- 글 1건을 얻어온다. -->
+	<select id="selectById" parameterType="String" resultType="vo">
+		select * from users where id = #{id}
+	</select>
+	
+	<!-- 아이디 1건을 삭제한다. -->
+	<update id="delete" parameterType="String">
+		update users set use_yn = N where id = ${id}
+	</update>
+		
+	<update id="updateId" parameterType="vo">
+		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{use_yn},  company_id = #{company_id} where id = #{id}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
