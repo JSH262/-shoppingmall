@@ -224,6 +224,8 @@ public class Util
 		
 		url += "image/" + fileId;
 		
+		
+		
 		Response serResp = Request.get(url)
 				.body(builder.build())
 				.execute();//.returnContent().asBytes();

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.service.CartService;
+import com.tjoeun.shoppingmall.vo.CartVO;
 
 /**
  * Servlet implementation class ImageController
@@ -65,5 +66,45 @@ public class CartController
 		response.getWriter().write(retval.toJSONString());
 		
 	}
+	@RequestMapping(value="/cart/updateAmount", method=RequestMethod.POST)
+	protected void updateAmount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		String userId = request.getParameter("userId");
+		long productId = Long.parseLong(request.getParameter("productId"));
+		int amount = Integer.parseInt(request.getParameter("amount"));
 
+		CartVO co = new CartVO();
+		co.setAmount(amount);
+		co.setUserId(userId);
+		co.setProductId(productId);
+		
+		int res = CartService.updateAmount(co);
+		if (res == 0) {
+			response.getWriter().write("0"); // ②
+		} else {
+			response.getWriter().write("1"); // ②
+		}
+	}
+	
+	@RequestMapping(value="/cart/deleteProduct", method=RequestMethod.POST)
+	protected void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		String userId = request.getParameter("userId");
+		long productId = Long.parseLong(request.getParameter("productId"));
+
+		CartVO co = new CartVO();
+		co.setUserId(userId);
+		co.setProductId(productId);
+		
+		int res = CartService.deleteProduct(co);
+		if (res == 0) {
+			response.getWriter().write("0"); // ②
+		} else {
+			response.getWriter().write("1"); // ②
+		}
+	}
 }

@@ -17,7 +17,7 @@
   String type = request.getParameter("type");
   String companyId = ""; // 변수 선언
   if (type.equals("2")) {
-	  companyId = request.getParameter("id"); // 초기화
+	  companyId = request.getParameter("companyId"); // 초기화
   }
 %>
 
