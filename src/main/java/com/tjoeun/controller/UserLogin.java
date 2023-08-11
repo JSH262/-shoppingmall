@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.service.UserService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
+import com.tjoeun.shoppingmall.ws.HttpSessionManagement;
 
 @Controller
 public class UserLogin {
@@ -52,6 +53,9 @@ public class UserLogin {
 
 			UsersVO svo = service.selectVO(id);
 			AttributeName.setUserData(request, svo);
+			
+			HttpSessionManagement.getInstance().sessionCreated(request.getSession());
+			
 			// 로그인 성공한 경우 처리할 로직 작성
 			response.getWriter().write("0"); // ②
 		} else {

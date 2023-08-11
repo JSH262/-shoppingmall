@@ -5,22 +5,32 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
-
-
-@WebListener
-public class HttpSessionManagement implements javax.servlet.http.HttpSessionListener
+public class HttpSessionManagement
 {
-
-	private static Set<HttpSession> clients = Collections.synchronizedSet(new HashSet<HttpSession>());
+	final static Logger logger = LoggerFactory.getLogger(HttpSessionManagement.class);
 	
-	public static UsersVO getUserData(String id)
+	private HttpSessionManagement() {}
+	
+	private static HttpSessionManagement instance = new HttpSessionManagement();
+	
+	static public HttpSessionManagement getInstance()
+	{
+		return instance;
+	}
+	
+	
+	private Set<HttpSession> clients = Collections.synchronizedSet(new HashSet<HttpSession>());
+	
+	public UsersVO getUserData(String id)
 	{
 		UsersVO retval = null;
 		
@@ -50,28 +60,77 @@ public class HttpSessionManagement implements javax.servlet.http.HttpSessionList
 		return retval;
 	}
 	
-	public static boolean isUser(String id)
+	public boolean isUser(String id)
 	{
 		return getUserData(id) != null;
 	}
 	
-	
-	@Override
-	public void sessionCreated(HttpSessionEvent se) 
+	public void sessionCreated(HttpSession se) 
 	{
-		synchronized(clients)
-		{
-			clients.add(se.getSession());
-		}
+		clients.add(se);
 	}
-
-	@Override
-	public void sessionDestroyed(HttpSessionEvent se) 
+	
+	public void sessionDestroyed(HttpSession se) 
+	{
+		clients.remove(se);
+	}
+	public void sessionDestroyed(String id)
 	{
 		synchronized (clients) 
 		{
-			clients.remove(se.getSession());
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
+			{
+				try
+				{
+					HttpSession session = iter.next();
+					UsersVO vo = AttributeName.getUserData(session);
+					
+					if(vo.getId().equals(id))
+					{
+						clients.remove(session);
+						break;
+					}
+				}
+				catch(Exception exp)
+				{
+					exp.printStackTrace();
+				}
+			}
 		}
 	}
-
+	
+	
+	public void releases()
+	{
+		Iterator<HttpSession> iter = clients.iterator();
+		while(iter.hasNext())
+		{
+			HttpSession tmp = iter.next();
+			long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
+			
+			if(System.currentTimeMillis() >= time)
+			{
+				clients.remove(tmp);
+			}
+		}
+	}
+	
+	/**
+	 * 세션이 정상인가?
+	 * 
+	 * @param se
+	 * @return
+	 */
+	public boolean isSession(HttpSession se)
+	{
+		long time = se.getLastAccessedTime() + se.getMaxInactiveInterval();
+		
+		if(System.currentTimeMillis() >= time)
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }

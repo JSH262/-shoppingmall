@@ -1,5 +1,8 @@
 package com.tjoeun.shoppingmall.ws;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.websocket.Session;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
@@ -10,16 +13,20 @@ public class WsInfoData
 	Session socket;
 	
 	//사용자의 정보
-	UsersVO userInfo;	
+	UsersVO userInfo;
 	
-	//대화 중인 상대방의 정보
-	WsInfoData personInfo;
+	//방
+	WsRoomData room;
 	
 	
 	public WsInfoData() 
 	{
 	}
 	
+	public WsInfoData(Session socket) 
+	{
+		this.socket = socket;
+	}
 	
 	public WsInfoData(Session socket, UsersVO userInfo) 
 	{
@@ -27,37 +34,48 @@ public class WsInfoData
 		this.userInfo = userInfo;
 	}
 
-	
-	
-	
-
-	public Session getSocket() {
-		return socket;
+	public boolean createRoom(String roomId) 
+	{
+		if(this.room == null && this.userInfo != null)
+		{
+			this.room = new WsRoomData(this, roomId);
+			return true;
+		}
+		
+		return false;	
 	}
-
-
-	public void setSocket(Session socket) {
-		this.socket = socket;
+	public boolean isReader()
+	{
+		if(room != null)
+		{
+			String readerId = this.room.reader.userInfo.getId(); 
+			String id = this.userInfo.getId();
+			
+			if(readerId != null && id != null)
+			{
+				if(id.equals(readerId))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
-
-
-	public UsersVO getUserInfo() {
-		return userInfo;
+	public void setRoom(WsRoomData room)
+	{
+		this.room = room;
 	}
-
-
-	public void setUserInfo(UsersVO userInfo) {
-		this.userInfo = userInfo;
+	public WsRoomData getRoom()
+	{
+		return this.room;
 	}
-
-
-	public WsInfoData getPersonInfo() {
-		return personInfo;
+	public UsersVO getUserInfo() 
+	{
+		return this.userInfo;
 	}
-
-
-	public void setPersonInfo(WsInfoData personInfo) {
-		this.personInfo = personInfo;
+	public void sendText(String text) throws IOException
+	{
+		this.socket.getBasicRemote().sendText(text);
 	}
-	
 }

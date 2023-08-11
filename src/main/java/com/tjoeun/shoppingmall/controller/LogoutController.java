@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tjoeun.shoppingmall.ws.HttpSessionManagement;
+
 @Controller
 public class LogoutController {
 	private static final long serialVersionUID = 1L;
@@ -19,8 +21,9 @@ public class LogoutController {
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	protected String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		HttpSessionManagement.getInstance().sessionDestroyed(request.getSession());
 		request.getSession().invalidate();
-
+		
 		return "redirect:/";
 	}
 
@@ -28,6 +31,7 @@ public class LogoutController {
 	@RequestMapping(value="/logout", method=RequestMethod.POST)
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		HttpSessionManagement.getInstance().sessionDestroyed(request.getSession());
 		JSONObject retval = new JSONObject();
 		JSONObject result = new JSONObject();
 		
