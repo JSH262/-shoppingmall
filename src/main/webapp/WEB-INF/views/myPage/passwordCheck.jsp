@@ -74,7 +74,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button" data-dismiss="modal" 
-                            onclick="location.href='<%= request.getContextPath() %>/<%=action %>.jsp'">확인</button>
+                            onclick="location.href='<%= request.getContextPath() %>/myPage/<%=action %>'">확인</button>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
 
     <div>    
 	    <button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=update'">회원정보 수정</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=password'">비밀번호 변경</button>
+		<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=passwordUpdate'">비밀번호 변경</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=unregister'">회원 탈퇴</button>
     </div>
     

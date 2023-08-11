@@ -44,6 +44,26 @@ public class MyPageService
 		mapper.close();
 		return res;
 	}
+	public int passwordUpdate(UsersVO vo) {
+		SqlSession mapper = MySession.getSession();
+		int res = 0;
+		try {
+			res = dao.passwordUpdate(mapper, vo);
+		} catch (Exception e) {
+		}
+		mapper.close();
+		return res;
+	}
+	public int unregister(UsersVO vo) {
+		SqlSession mapper = MySession.getSession();
+		int res = 0;
+		try {
+			res = dao.unregister(mapper, vo);
+		} catch (Exception e) {
+		}
+		mapper.close();
+		return res;
+	}
 	
 	
 }

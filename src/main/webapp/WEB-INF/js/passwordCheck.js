@@ -1,10 +1,9 @@
 function passwordCheck() {
 	var password = $('#password').val();
 	var userId = $('#userId').val();
-	var action = $('#action').val();
 	$.ajax({
 		type: 'POST',
-		url: './PasswordCheck',
+		url: './passwordCheckF',
 		data: {
 		userId: userId,
 		password: password
@@ -19,19 +18,18 @@ function passwordCheck() {
 					break;
 				case '1':
 					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호를 입력하세요.');
-					$('#errorMessage').html('비밀번호를 입력해주세요.');
+					$('#messageContent').html('값을 입력해주세요');
+					$('#errorMessage').html('값을 입력하고 버튼을 눌러주세요.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#passwordCheck').val('');
 					break;
 				case '2':
 					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호를 잘못 입력했습니다.');
-					$('#errorMessage').html('입력하신 내용을 다시 확인해주세요.');
+					$('#messageContent').html('인증 실패.');
+					$('#errorMessage').html('비밀번호가 일치하지 않습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#passwordCheck').val('');
 					break;
 			}
+			$('#messageModal').modal('show');
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});

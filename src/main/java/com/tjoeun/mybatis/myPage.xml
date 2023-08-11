@@ -7,6 +7,19 @@
 	    WHERE id = #{id} password = #{password}
 	</select>
 	
+	<update id="updatePassword" parameterType="vo">
+	    UPDATE users
+	    SET password = #{Password}
+	    WHERE id = #{id}
+	</update>
+	
+	<!-- 이거 왜 N으로 안들어가지.. -->
+	<update id="unregister" parameterType="vo">
+	    UPDATE users
+	    SET USE_YN = 'N'
+	    WHERE id = #{id}
+	</update>
+	
 </mapper>
 
 
