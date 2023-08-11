@@ -20,6 +20,14 @@
 	    WHERE id = #{id}
 	</update>
 	
+	<update id="userUpdate" parameterType="vo">
+	    UPDATE users
+	    SET password = #{password},
+	        email = #{email},
+	        phone = #{phone}
+	    WHERE id = #{id}
+	</update>
+
 </mapper>
 
 

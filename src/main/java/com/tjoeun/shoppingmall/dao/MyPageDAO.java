@@ -53,6 +53,16 @@ public class MyPageDAO
 		}
 		return result;
 	}
+
+	public int userUpdate(SqlSession mapper, UsersVO vo) {
+		int result = 0;
+
+	    int passwordCount = (int) mapper.update("MyPage.userUpdate", vo);
+        if (passwordCount == 0) {
+            result = 1;
+        }
+	    return result;
+	}
 	
 	
 }

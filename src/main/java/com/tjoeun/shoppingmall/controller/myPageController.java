@@ -145,6 +145,31 @@ public class myPageController
 		}
 		
 	}
+
+	@RequestMapping(value="/myPage/userUpdate", method=RequestMethod.POST)
+	protected void myPageUserUpdate(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		String id = request.getParameter("userId");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		
+		UsersVO vo = new UsersVO();
+		vo.setId(id);
+		vo.setName(name);
+		vo.setEmail(email);
+		vo.setPhone(phone);
+		int res = service.userUpdate(vo);
+		if (res == 0) {
+			response.getWriter().write("0"); // ②
+		} else {
+			response.getWriter().write("1"); // ②
+		}
+		
+	}
 	
 }
 
