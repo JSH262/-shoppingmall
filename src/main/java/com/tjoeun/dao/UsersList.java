@@ -1,13 +1,14 @@
 package com.tjoeun.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class UsersList {
 	
 
-	private ArrayList<UsersVO> list = new ArrayList<UsersVO>();
+	private List<UsersVO> list = new ArrayList<UsersVO>();
 	private int pageSize = 10; 
 	private int totalCount = 0;
 	private int totalPage = 0;
@@ -37,11 +38,11 @@ public class UsersList {
 		endPage = endPage > totalPage ? totalPage : endPage;
 	}
 	
-	public ArrayList<UsersVO> getList() {
+	public List<UsersVO> getList() {
 		return list;
 	}
-	public void setList(ArrayList<UsersVO> list) {
-		this.list = list;
+	public void setList(List<UsersVO> list2) {
+		this.list = list2;
 	}
 	public int getPageSize() {
 		return pageSize;

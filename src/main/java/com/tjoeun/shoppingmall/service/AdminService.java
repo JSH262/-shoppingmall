@@ -1,7 +1,7 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -18,47 +18,44 @@ public class AdminService
 	{
 		return g_inst;
 	}
-	private AdminDAO dao = AdminDAO.getInstance();
 	
 	public int selectCount() {
 		SqlSession mapper = MySession.getSession();
-		mapper.close();
-		return selectCount();
+		AdminDAO dao = AdminDAO.getInstance();
+
+		return dao.selectCount(mapper);
 		
 		
 	}
 
-	public ArrayList<UsersVO> selectList(HashMap<String, Integer> hmap){
+	public List<UsersVO> selectList(HashMap<String, Integer> hmap){
 		SqlSession mapper = MySession.getSession();
+		AdminDAO dao = AdminDAO.getInstance();
 		
-		
-		mapper.close();
-		return selectList(hmap);
+		return dao.selectList(mapper, hmap);
 		
 	}
 
 	public UsersVO selectById(String id) {
 		SqlSession mapper = MySession.getSession();
+		AdminDAO dao = AdminDAO.getInstance();
 		
-		mapper.close();
-		return selectById(id);
+		return dao.selectById(mapper, id);
 		
 	}
 
 	public void deleteId(String id) {
 		SqlSession mapper = MySession.getSession();
-		
+		AdminDAO dao = AdminDAO.getInstance();
 		dao.deleteId(mapper, id);
-		mapper.commit();
-		mapper.close();
+
 	}
 
 	public void update(UsersVO usersVO) {
 		SqlSession mapper = MySession.getSession();
-		
+		AdminDAO dao = AdminDAO.getInstance();
 		dao.update(mapper, usersVO);
-		mapper.commit();
-		mapper.close();
+
 	}
 
 }

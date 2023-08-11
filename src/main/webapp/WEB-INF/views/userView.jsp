@@ -29,9 +29,14 @@
 				${name}
 			</td>
 			<td align="center">
-				<fmt:formatDate value="${vo.create_date}" pattern="yyyy.MM.dd(E)"/>
+			${vo.createdate}
+				<%-- <fmt:formatDate value="${vo.createdate}" pattern="yyyy.MM.dd(E)"/> --%>
 			</td>
-			<td align="center">${vo.hit}</td>
+			<td align="center">
+			<c:set var="companyId" value="${fn:replace(vo.companyId '<', '&lt;')}"/>
+				<c:set var="companyId " value="${fn:replace(companyId , '>', '&gt;')}"/>
+				<input type="text" name="companyId " value="${companyId }" />
+			</td>
 		</tr>
 		<tr>
 			<th width="100">분류</th>
@@ -44,12 +49,17 @@
 			<td align="center">
 				<c:set var="email" value="${fn:replace(vo.email, '<', '&lt;')}"/>
 				<c:set var="email" value="${fn:replace(email, '>', '&gt;')}"/>
-				${email}
+				<input type="text" name="email" value="${email}" />
 			</td>
 			<td align="center">
-				${vo.phone}
+				<c:set var="phone" value="${fn:replace(vo.phone, '<', '&lt;')}"/>
+				<c:set var="phone" value="${fn:replace(phone, '>', '&gt;')}"/>
+				<input type="text" name="phone" value="${phone}" />
 			</td>
-			<td align="center">${vo.use_yn}</td>
+			
+			<td align="center">
+			<input type="text" name="useYn" value="${vo.useYn}" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">

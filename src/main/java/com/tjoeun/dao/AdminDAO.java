@@ -1,5 +1,6 @@
 package com.tjoeun.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AdminDAO {
 		return mapper.selectOne("selectCount");
 	}
 
-	public List<Object> selectList(SqlSession mapper,HashMap<String, Integer> hmap){
+	public List<UsersVO> selectList(SqlSession mapper, HashMap<String, Integer> hmap){
 		
 		return mapper.selectList("selectList", hmap);
 	}

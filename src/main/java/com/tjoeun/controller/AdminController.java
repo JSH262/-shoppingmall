@@ -25,7 +25,7 @@ public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	private SqlSession sqlSession;
-	@RequestMapping("/adminPage")
+	@RequestMapping("/adminPageTest")
 	public String home(HttpServletRequest request, Model model) {
 		logger.info("MvcBoard 게시판 실행");
 		return "rediract:adminPage";
@@ -42,8 +42,7 @@ public class AdminController {
 		} catch (NumberFormatException e) { }
 		AdminService service = AdminService.getInstance();
 		int totalCount = service.selectCount();
-		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
-		UsersList usersList = ctx.getBean("usersList", UsersList.class);
+		UsersList usersList = new UsersList();
 		usersList.initusersList(pageSize, totalCount, currentPage);
 		HashMap<String, Integer> hmap = new HashMap<String, Integer>();
 		hmap.put("startNo", usersList.getStartNo());
