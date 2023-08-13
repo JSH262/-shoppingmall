@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tjoeun.helper.AttributeName;
+import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.service.IndexService;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
  * Handles requests for the application home page.
@@ -64,7 +67,22 @@ public class HomeController {
 	}
 	
 	
-	
+	@RequestMapping(value = "/chatting", method = RequestMethod.GET)
+	public String chatting(HttpServletRequest request, HttpServletResponse response) throws IOException
+	{
+		UsersVO userInfo = AttributeName.getUserData(request);
+		
+		if(userInfo != null && userInfo.getType().equals(UsersType.BUYER))
+		{
+			return "chattingBuyer";
+		}
+		else if(userInfo != null && userInfo.getType().equals(UsersType.SELLER))
+		{
+			return "chattingSeller";
+		}
+		
+		return "redirect:/";
+	}
 	
 	
 }

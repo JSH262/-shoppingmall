@@ -2,6 +2,9 @@ package com.tjoeun.shoppingmall.ws;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.websocket.Session;
 
@@ -16,7 +19,7 @@ public class WsInfoData
 	UsersVO userInfo;
 	
 	//방
-	WsRoomData room;
+	HashMap<String, WsRoomData> rooms = new HashMap<>();
 	
 	
 	public WsInfoData() 
@@ -34,48 +37,93 @@ public class WsInfoData
 		this.userInfo = userInfo;
 	}
 
-	public boolean createRoom(String roomId) 
+	public WsRoomData createRoom(String roomId) 
 	{
-		if(this.room == null && this.userInfo != null)
+		WsRoomData room = this.getRoom(roomId);
+	
+		synchronized (this.rooms) 
 		{
-			this.room = new WsRoomData(this, roomId);
-			return true;
-		}
-		
-		return false;	
-	}
-	public boolean isReader()
-	{
-		if(room != null)
-		{
-			String readerId = this.room.reader.userInfo.getId(); 
-			String id = this.userInfo.getId();
-			
-			if(readerId != null && id != null)
+			if(room == null)
 			{
-				if(id.equals(readerId))
-				{
-					return true;
-				}
+				room = new WsRoomData(roomId);
+				
+				this.rooms.put(roomId, room);	
 			}
 		}
 		
-		return false;
+		return room;
 	}
-	public void setRoom(WsRoomData room)
+	
+	public void removeRoom(String roomId)	
 	{
-		this.room = room;
+		synchronized (this.rooms) 
+		{
+			if(this.rooms.get(roomId) != null)
+			{
+				this.rooms.remove(roomId);
+			}
+		}
 	}
-	public WsRoomData getRoom()
+	
+	public WsRoomData getRoom(String roomId)
 	{
-		return this.room;
+		WsRoomData room = null;
+		
+		synchronized (this.rooms) 
+		{
+			room = this.rooms.get(roomId);
+		}
+		
+		return room;
 	}
+	
+	public boolean isRoom(String roomId)
+	{
+		return this.getRoom(roomId) != null;
+	}
+
+	public void addRoom(WsRoomData room) 
+	{
+		boolean isRoom = this.isRoom(room.getRoomId());
+		
+		synchronized (this.rooms) 
+		{
+			if(isRoom == false)
+				this.rooms.put(room.getRoomId(), room);			
+		}
+	}
+
+	
 	public UsersVO getUserInfo() 
 	{
 		return this.userInfo;
 	}
-	public void sendText(String text) throws IOException
+	public Session getSocket()
 	{
-		this.socket.getBasicRemote().sendText(text);
+		return this.socket;
 	}
+
+	public void sendAllRoomMessage(String id, String msg) 
+	{
+		synchronized (this.rooms) 
+		{
+			Set<String> keys = this.rooms.keySet();
+			Iterator<String> iter = keys.iterator();
+			
+			while(iter.hasNext())
+			{
+				try 
+				{
+					WsRoomData room = this.rooms.get(iter.next());
+					
+					room.sendMessage(id, msg);
+				}
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}		
+	}
+
 }

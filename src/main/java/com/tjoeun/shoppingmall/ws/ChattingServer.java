@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.websocket.*;
 import javax.websocket.server.*;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tjoeun.helper.UsersType;
+import com.tjoeun.helper.Util;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
@@ -32,25 +34,79 @@ public class ChattingServer
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public static class ServerCode
-	{	
-		private final static String INIT = "1";
-		private final static String SEND = "2";
-		private final static String ENTRY = "3";		
-	}
-	public static class ClientCode
+	
+	public static enum RequestCode
 	{
-		private final static String SENDER = "1";
-		private final static String SUCCESS = "0";
-		private final static String ERROR = "-999";
-		private final static String DATA_NOT_FOUND = "-998";
-		private final static String ROOM_NOT_FOUND = "-997";
-		private final static String ROOM_ENTRY_FAIL = "-996";
-		private final static String NOT_AUTH = "-995";
-		private final static String CREATE_ROOM_FAIL = "-994";		
+		INIT("1", "인증"),
+		SENDER("2", "대화 전송"),
+		CREATE_ROOM("3", "방 생성"),
+		ENTRY_ROOM("4", "방 참여"),
+		
+		NONE("0", "알수없음");
+		
+		private String code;
+		private String msg;
+		
+		private RequestCode(String code, String msg)
+		{
+			this.code = code;
+			this.msg = msg;
+		}
+		
+		public String getCode()
+		{
+			return this.code;
+		}
+		
+		public String getMsg()
+		{
+			return this.msg;
+		}
 	}
 	
-	
+	public static enum ResponseCode
+	{
+		ERROR("-999", "오류"),
+		
+		INIT_SUCCESS("1", "초기화 성공"),
+		SENDER_SUCCESS("2", "대화 전송 성공"),
+		ENTRY_ROOM_SUCCESS("3", "방 참여 성공"),
+		CREATE_ROOM_SUCCESS("4", "방 생성 성공"),
+		
+		CLOSE_USER("5", "유저 접속 종료"),
+		
+		
+		CREATE_ROOM_FAIL_AUTH("-998", "잚못된 사용자로 인한 방 생성 실패"),
+		ENTRY_ROOM_FAIL_NOT_FOUND("-997", "방을 찾을 수 없어서 참여를 할 수 없습니다."),
+		INIT_FAIL_DATA("-996", "데이터가 존재하지 않음"), 
+		INIT_FAIL_AUTH("-995", "잘못된 데이터"), 
+		SENDER_FAIL_NOT_ROOM("-994", "방을 찾을 수 없어서 대화를 보낼 수 없습니다."), 
+		SENDER_FAIL_AUTH("-993", "잘못된 데이터"),
+		
+		NONE("0", "알수없음");
+			
+			
+			
+		private String code;
+		private String msg;
+		
+		private ResponseCode(String code, String msg)
+		{
+			this.code = code;
+			this.msg = msg;
+		}
+		
+		public String getCode()
+		{
+			return this.code;
+		}
+		
+		public String getMsg()
+		{
+			return this.msg;
+		}
+	}
+		
 	private JSONParser parser = new JSONParser();	
 	
 	@OnOpen // 클라이언트 접속 시 실행
@@ -59,6 +115,21 @@ public class ChattingServer
 		clients.put(session, null);
 	}
 
+	static public RequestCode StringToRequestCode(String strCode)
+	{
+		RequestCode[] arrCode = RequestCode.values();
+		for(int i = 0; i<arrCode.length; i++)
+		{
+			if(arrCode[i].getCode().equals(strCode))
+			{
+				return arrCode[i];
+			}
+		}
+		
+		return null;
+	}
+	
+	
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException 
 	{		
@@ -66,153 +137,220 @@ public class ChattingServer
 		
 		try 
 		{
-			JSONObject jMsg = (JSONObject)this.parser.parse(message);
-			JSONObject result = (JSONObject)jMsg.get("result");
+			JSONObject jMsg = (JSONObject)parser.parse(message);
+			RequestCode code = StringToRequestCode((String)jMsg.get("code"));
 			
-			switch(jMsg.get("requestCode").toString())
+			switch(code)
 			{
-			case ServerCode.INIT:
+			case ENTRY_ROOM:
 				{
-					String id = (String)result.get("id");
-					UsersVO vo = HttpSessionManagement.getInstance().getUserData(id);
-					
-					if(vo != null)
-					{
-						WsInfoData wsInfo = new WsInfoData(session, vo);
+					String id = (String)jMsg.get("id");	
+					String roomId = (String)jMsg.get("roomId");
+					WsInfoData wsInfo = clients.get(session);
+										
+					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
+					{										
+						WsRoomData room = wsInfo.getRoom(roomId);
 						
-						clients.put(session, wsInfo);
-						
-						if(vo.getType() != null && vo.getType().equals(UsersType.SELLER))
+						if(room != null)
 						{
-							if(wsInfo.createRoom(id))
+							if(room.isEntryRoom(wsInfo) == false)
 							{
-								// 구매자에게 자신이 접속했다고 알려주기
+								room.entryRoom(wsInfo);	
 							}
-							else
-							{
-								retval.put("code", ClientCode.CREATE_ROOM_FAIL);	
-								retval.put("msg", "방 생성 실패");
-							}
-						}		
-						
-						retval.put("code", ClientCode.SUCCESS);	
-						retval.put("msg", "접속 성공");		
-					}
-					else
-					{
-						retval.put("code", ClientCode.DATA_NOT_FOUND);
-						retval.put("msg", "잘못된 데이터");					
-					}		
-				}
-				break;
-			
-			case ServerCode.ENTRY:
-				{
-					String id = (String)result.get("id");	//방에 접속하려는 사용자의 아이디
-					String roomId = (String)result.get("roomId");	//방 아이디
-					Set<Session> keys = clients.keySet();
-					Iterator<Session> iter = keys.iterator();
-					String code = ClientCode.ROOM_NOT_FOUND;;
-					String msg = "방을 찾을 수 없습니다.";
-					WsInfoData user = clients.get(session);	// 방에 접속하려는 사용자의 데이터
-					
-					// 방에 접속하려는 사용자를 검사한다.
-					if(user != null && user.getUserInfo().getId().equals(id))
-					{
-						//방을 찾는다.
-						while(iter.hasNext())
-						{
-							WsInfoData wsInfo = clients.get(iter.next());
-							WsRoomData wsRoom = wsInfo.getRoom();
+														
+							ArrayList<WsInfoData> entryUsers = room.getUsers();
+							JSONArray enterUsers = new JSONArray();
 							
-							//방 아이디는 판매자의 아이디로 한다.
-							if(wsRoom != null && wsRoom.getRoomId().equals(roomId))
+							for(int i = 0; i<entryUsers.size(); i++)
 							{
-								if(wsRoom.entryRoom(user))
-								{
-									user.setRoom(wsRoom);									
-									code = ClientCode.SUCCESS;
-									msg = null;
-								}
-								else
-								{
-									code = ClientCode.ROOM_ENTRY_FAIL;
-									msg = "방 접속 오류";
-								}
-								break;
+								enterUsers.add(								
+										entryUsers.get(i).getUserInfo().getId()
+								);
 							}
+							
+							retval.put("entryUserList", enterUsers);
+							retval.put("code", ResponseCode.ENTRY_ROOM_SUCCESS);
+						}
+						else
+						{
+							ResponseCode error = ResponseCode.ENTRY_ROOM_FAIL_NOT_FOUND; 
+							retval.put("code", error.getCode());
+							retval.put("msg", error.getMsg());	
 						}
 					}
 					else
 					{
-						code = ClientCode.NOT_AUTH;
-						msg = "알수없음";
+						ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
+						retval.put("code", error.getCode());
+						retval.put("msg", error.getMsg());
 					}
-										
-					retval.put("code", code);
-					retval.put("msg", msg);		
 				}
 				break;
 				
-			case ServerCode.SEND:			
+				
+			case CREATE_ROOM:
 				{
-					String senderId = (String)result.get("senderId");
-					String id = (String)result.get("id");
+					String id = (String)jMsg.get("id");	
 					WsInfoData wsInfo = clients.get(session);
 					
-					// 사용자 인증
-					if(id.equals(wsInfo.getUserInfo().getId()))
+					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
 					{
-						WsRoomData room = wsInfo.getRoom();
-						Iterator<WsInfoData> iter = room.getUsers().iterator();
+						JSONArray enterUsers = new JSONArray();
+						String roomId = Util.UUIDtoString();						
+						JSONArray entryUsers = (JSONArray)jMsg.get("entryUsers");
+						WsRoomData room = wsInfo.createRoom(roomId);
 						
-						while(iter.hasNext())
+						// 자기자신을 방에 참여시킨다.
+						room.entryRoom(wsInfo);
+						
+						for(int i = 0; i<entryUsers.size(); i++)
 						{
-							WsInfoData roomUser = iter.next();
-							if(senderId.equals(roomUser.getUserInfo().getId()))
+							String entryUserId = (String)entryUsers.get(i);							
+							Set<Session> keys = clients.keySet();
+							Iterator<Session> iter = keys.iterator();
+							while(iter.hasNext())
 							{
-								String msg = (String)result.get("msg");								
-								JSONObject senderData = new JSONObject();
+								WsInfoData entryUserData = clients.get(iter.next());
 								
-								// 상대방에게 내용을 전송
-								senderData.put("code", ClientCode.SENDER);
-								senderData.put("msg", msg);
-								senderData.put("senderId", senderId);
-								roomUser.sendText(senderData.toJSONString());
-								
-								// 요청한 사용자에게 메시지가 성공적으로 전송을 됬음을 알림
-								retval.put("code", ClientCode.SUCCESS);								
-								break;
+								if(entryUserId.equals(entryUserData.getUserInfo().getId()))
+								{
+									// 방에 참여할 다른 사용자를 방에 참여한다.
+									room.entryRoom(entryUserData);
+									entryUserData.addRoom(room);
+									enterUsers.add(entryUserId);
+									break;
+								}
 							}
+						}
+						
+						retval.put("code", ResponseCode.CREATE_ROOM_SUCCESS);
+						retval.put("roomId", roomId);
+						retval.put("entryUserList", enterUsers);
+					}
+					else
+					{
+						ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
+						retval.put("code", error.getCode());
+						retval.put("msg", error.getMsg());
+					}
+				}
+			
+				break;
+				
+			case INIT:
+				{
+					String id = (String)jMsg.get("id");
+					if(id != null)
+					{
+						UsersVO userInfo = HttpSessionManagement.getInstance().getUserData(id);
+						if(userInfo != null)
+						{
+							WsInfoData wsInfo = new WsInfoData(session, userInfo);
+														
+							clients.put(session, wsInfo);	
+						}
+						else
+						{
+							// 오류: 로그인을 한 사용자가 이님 또는 불법을 시도하려는 사용자
+							ResponseCode error = ResponseCode.INIT_FAIL_AUTH; 
+							retval.put("code", error.getCode());
+							retval.put("msg", error.getMsg());
 						}
 					}
 					else
 					{
-						retval.put("code", ClientCode.NOT_AUTH);
-						retval.put("msg", "알수없음");
+						// 오류: id가 없음
+						ResponseCode error = ResponseCode.INIT_FAIL_DATA; 
+						retval.put("code", error.getCode());
+						retval.put("msg", error.getMsg());
 					}
 				}
-				
 				break;
+				
+			case SENDER:
+				{
+					String id = (String)jMsg.get("id");
+					WsInfoData wsInfo = clients.get(session);
+					
+					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
+					{
+						String roomId = (String)jMsg.get("roomId");
+						String msg = (String)jMsg.get("msg");
+						WsRoomData room = wsInfo.getRoom(roomId);
+						
+						if(room != null)
+						{
+							JSONObject sendMsg = new JSONObject();
+							
+							sendMsg.put("id", id);
+							sendMsg.put("msg", msg);
+							sendMsg.put("roomId", roomId);
+							sendMsg.put("code", ResponseCode.SENDER_SUCCESS);
+							
+							room.sendMessage(id, sendMsg.toJSONString());
+						}
+						else
+						{
+							// 오류: 방이 없음
+							ResponseCode error = ResponseCode.SENDER_FAIL_NOT_ROOM; 
+							retval.put("code", error.getCode());
+							retval.put("msg", error.getMsg());
+						}
+					}
+					else
+					{
+						// 오류: id 또는 로그인하지 않음
+						ResponseCode error = ResponseCode.SENDER_FAIL_AUTH; 
+						retval.put("code", error.getCode());
+						retval.put("msg", error.getMsg());
+					}
+				}
+				break;
+
+			case NONE:
+			default:
+				retval.put("code", ResponseCode.NONE.getCode());
+				retval.put("msg", ResponseCode.NONE.getMsg());
+				break;
+			
 			}
+			
 		} 
-		catch (ParseException e) 
+		catch (Exception e) 
 		{
-			retval.put("code", "-999");
+			retval.put("code", ResponseCode.ERROR);
 			retval.put("msg", e.getClass().getName() + ": " + e.getMessage());
 		}
 		
 		session.getBasicRemote().sendText(retval.toJSONString());
 	}
 
-	@OnClose // 클라이언트와의 연결이 끊기면 실행
+	@OnClose
 	public void onClose(Session session) 
 	{
 		WsInfoData wsInfo = clients.get(session);		
 		if(wsInfo != null)
 		{
-			String id = wsInfo.getUserInfo().getId();		
+			String id = wsInfo.getUserInfo().getId();
 			
+			try 
+			{
+				JSONObject senderData = new JSONObject();
+				
+				senderData.put("closedId", id);
+				senderData.put("code", ResponseCode.CLOSE_USER.getCode());
+				senderData.put("msg", ResponseCode.CLOSE_USER.getMsg());
+				
+				//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
+				wsInfo.sendAllRoomMessage(id, senderData.toJSONString());
+			}
+			catch (Exception e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+						
 			HttpSessionManagement.getInstance().sessionDestroyed(id);
 		}
 		

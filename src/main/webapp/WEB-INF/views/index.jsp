@@ -155,178 +155,25 @@
 
 
 
-
 	
-	<%
-		UsersVO userData = AttributeName.getUserData(request);
-	
-		if(userData != null)
-		{
-	%>
-			<script>
-				$(() => {
-					
-					let CONTEXT_PATH = getContextPath();
-					const myModal = new bootstrap.Modal(document.getElementById('chattingModal'));
-					let wSocket = null;
-					const INIT = "1";
-					const SEND = "2";
-					const ENTRY = "3";	
-					
-					
-					$("#chattingModal button[name=chattingModalClose]").bind('click', function() {
-						<%--
-						if(wSocket)
-						{
-							wSocket.close();
-							wSocket = null;
-						}
-						--%>
-						myModal.hide();
-					});
-					$("#btnStartChatting").bind('click', function() {
-						myModal.show();
-						<%--
-						if(!wSocket)
-						{				
-							let url = "ws://" + location.host + CONTEXT_PATH + '/chatting';
-							
-							wSocket = new WebSocket(url);
-							
-							// 웹소켓 서버에 연결됐을 때 실행
-							wSocket.onopen = function(event) 
-							{
-							    console.log("웹소켓 서버에 연결되었습니다.");
-							    
-								let connectData = {
-									"requestCode": INIT,
-									"result": {
-										"id": "<%=userData.getId() %>"
-									}
-								};
-								
-								wSocket.send(JSON.stringify(connectData));
-							};
-		
-							// 웹소켓이 닫혔을 때(서버와의 연결이 끊겼을 때) 실행
-							wSocket.onclose = function(event) 
-							{
-								console.log("웹소켓 서버가 종료되었습니다.");
-							};
-		
-							// 에러 발생 시 실행
-							wSocket.onerror = function(event) {
-								console.log("채팅 중 에러가 발생하였습니다.", event.data);
-							}; 
-		
-							// 메시지를 받았을 때 실행
-							wSocket.onmessage = function(event) { 
-							    var data = JSON.parse(event.data);
-							    
-							    if(data.code == '0')
-						    	{
-							    	console.log(data.msg);
-						    	}
-							    else if(data.code == '1')
-							    {
-								    var senderId = data.senderId;
-								    var msg = data.msg;
-								    
-								    console.log(senderId, msg);
-							    }
-							    else
-							    {
-							    	console.error(data);
-							    }
-							};
-						} 
-						--%>
-					});
-				});		
-			</script>
-		
-			<div style="position: fixed; bottom:30px; right: 30px;">
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-info" id="btnStartChatting">
-					<i class="bi bi-chat-right-text-fill"></i>
-				</button>
-			</div>
-			
-			<!-- Modal -->
-			<div class="modal fade" id="chattingModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="chattingModal" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-scrollable">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5">Modal title</h1>
-							<button type="button" class="btn-close" name="chattingModalClose" aria-label="Close"></button>
-						</div>						
-						<div class="modal-body">
-							<span>홍길동</span>
-							<span>김유신</span>
-							<span>임꺽정</span>
-							<span>일지매</span>
-							<span>장길산</span>
-							<span>홍길동</span>
-							<span>김유신</span>
-							<span>임꺽정</span>
-							<span>일지매</span>
-							<span>장길산</span>
-							<span>홍길동</span>
-							<span>김유신</span>
-							<span>임꺽정</span>
-							<span>일지매</span>
-							<span>장길산</span>
-							<span>홍길동</span>
-							<span>김유신</span>
-							<span>임꺽정</span>
-							<span>일지매</span>
-							<span>장길산</span>
-						</div>
-						<div class="modal-body">
-							<div class="container-fluid">
-								<div class="row">
-									<div class="col-3">
-										<div>홍길동</div>
-										<div>김유신</div>
-										<div>임꺽정</div>
-										<div>일지매</div>
-										<div>장길산</div>
-									</div>
-									<div class="col-1 d-flex">
-										<div class="vr"></div>
-									</div>
-									
-									<div class="col-8">
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-										<p class="m1-1 bg-warning-subtle text-start">asdfasdfasdf</p>
-										<p class="m1-1 bg-secondary-subtle text-end">234234234234324</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<input type="text" id="chattingMsg" />
-							<button type="button" class="btn btn-secondary" name="chattingModalClose">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-	<%
-		}
-	%>
 
-
-
-
+	<div>
+		<h1>채팅 테스트</h1>
+		<div style="position: fixed; bottom:30px; right: 30px;">
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-info" id="btnStartChatting">
+				<i class="bi bi-chat-right-text-fill"></i>
+			</button>
+		</div>
+		
+		<script>
+			$(() => {
+				$("#btnStartChatting").bind('click', () => {
+					window.open(getContextPath() + '/chatting', '채팅', "width=995,height=850,resizable=no");
+				});			
+			});
+		</script>
+	</div>
 
 
 

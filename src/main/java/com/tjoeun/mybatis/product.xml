@@ -46,7 +46,8 @@
 					from category c 
 					where type = 'P' and id = category_id
 					start with pid is null
-					connect by prior id = pid) category_name			
+					connect by prior id = pid) category_name,
+				seller_id		
 			</if>
 			<if test="choose == null or choose == 'all'">
 				*

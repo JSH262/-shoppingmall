@@ -73,6 +73,11 @@ $(() => {
 	$("#return").bind('click', function() {
 		location.href= `${CONTEXT_PATH}/product/list?currentPage=${CURRENT_PAGE}&pageSize=${PAGE_SIZE}`;		
 	});
+	
+	$("#btnStartChatting").bind('click', () => {
+		window.open(`${CONTEXT_PATH}/chatting?productId=${ID}&sellerId=${$('#sellerId').val()}`, '채팅', "width=995,height=850,resizable=no");
+	});		
+
 });
 
 
