@@ -2,18 +2,29 @@ package com.tjoeun.shoppingmall.ws;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class WsRoomData 
 {
 	private String roomId;
-	private ArrayList<WsInfoData> users;
+	private List<WsInfoData> users = Collections.synchronizedList(new ArrayList<WsInfoData>());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	
 	
 	
 	public WsRoomData(String roomId)
 	{
+		
+		
+		
 		this.roomId = roomId;
 	}
 	
@@ -27,10 +38,7 @@ public class WsRoomData
 	{
 		boolean retval = false;
 		
-		synchronized (this.users) 
-		{
-			retval = this.users.add(user);
-		}
+		retval = this.users.add(user);
 		
 		return retval;
 	}
@@ -39,33 +47,28 @@ public class WsRoomData
 	{
 		boolean retval = false;
 		
-		synchronized (this.users) 
+		UsersVO userInfo = user.getUserInfo();
+		
+		for(int i = 0; i<this.users.size(); i++)
 		{
-			UsersVO userInfo = user.getUserInfo();
+			WsInfoData tmp = this.users.get(i);
 			
-			for(int i = 0; i<this.users.size(); i++)
+			if(userInfo.getId().equals(tmp.getUserInfo().getId()))
 			{
-				WsInfoData tmp = this.users.get(i);
-				
-				if(userInfo.getId().equals(tmp.getUserInfo().getId()))
-				{
-					retval = true;
-					break;
-				}
+				retval = true;
+				break;
 			}
 		}
 		
 		return retval;
 	}
 	
-	public ArrayList<WsInfoData> getUsers()
+	public List<WsInfoData> getUsers()
 	{
-		ArrayList<WsInfoData> retval = null;
+		List<WsInfoData> retval = null;
 		
-		synchronized (this.users) 
-		{
-			retval = (ArrayList<WsInfoData>)this.users.clone();	
-		}
+		retval = this.users;
+		
 		
 		return retval;
 	}
@@ -73,30 +76,35 @@ public class WsRoomData
 
 	public void sendMessage(String id, String msg) throws IOException 
 	{
-		synchronized (this.users) 
+		for(int i = 0; i<this.users.size(); i++)
 		{
-			for(int i = 0; i<this.users.size(); i++)
+			WsInfoData wsInfo = this.users.get(i);				
+			
+			if(id != null && id.equals(wsInfo.getUserInfo().getId()))
 			{
-				try
-				{
-					WsInfoData wsInfo = this.users.get(i);				
-					
-					if(id != null && id.equals(wsInfo.getUserInfo().getId()))
-					{
-						// 자신한테는 보내지 않는다.
-					}
-					else
-					{
-						wsInfo.getSocket().getBasicRemote().sendText(msg);
-					}
-				}
-				catch(IOException exp)
-				{
-					exp.printStackTrace();
-				}
+				// 자신한테는 보내지 않는다.
+			}
+			else
+			{
+				wsInfo.getSocket().getBasicRemote().sendText(msg);				
+				logger.info("call sendMessage: 주체 => " + id);
 			}
 		}
-		
+	}
+	
+	
+	public void leaveUserRoom(String userId)
+	{
+		for(int i = 0; i<this.users.size(); i++)
+		{			
+			WsInfoData wsInfo = this.users.get(i);				
+			
+			if(userId != null && userId.equals(wsInfo.getUserInfo().getId()))
+			{
+				this.users.remove(i);
+				break;
+			}
+		}
 	}
 	
 	

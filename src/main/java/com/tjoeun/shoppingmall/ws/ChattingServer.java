@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -72,6 +73,7 @@ public class ChattingServer
 		SENDER_SUCCESS("2", "대화 전송 성공"),
 		ENTRY_ROOM_SUCCESS("3", "방 참여 성공"),
 		CREATE_ROOM_SUCCESS("4", "방 생성 성공"),
+		SEND_SUCCESS("5", "전송 성공"),
 		
 		CLOSE_USER("5", "유저 접속 종료"),
 		
@@ -82,6 +84,7 @@ public class ChattingServer
 		INIT_FAIL_AUTH("-995", "잘못된 데이터"), 
 		SENDER_FAIL_NOT_ROOM("-994", "방을 찾을 수 없어서 대화를 보낼 수 없습니다."), 
 		SENDER_FAIL_AUTH("-993", "잘못된 데이터"),
+		
 		
 		NONE("0", "알수없음");
 			
@@ -135,6 +138,8 @@ public class ChattingServer
 	{		
 		JSONObject retval = new JSONObject();
 		
+		logger.info("받음: " + message);
+		
 		try 
 		{
 			JSONObject jMsg = (JSONObject)parser.parse(message);
@@ -159,7 +164,7 @@ public class ChattingServer
 								room.entryRoom(wsInfo);	
 							}
 														
-							ArrayList<WsInfoData> entryUsers = room.getUsers();
+							List<WsInfoData> entryUsers = room.getUsers();
 							JSONArray enterUsers = new JSONArray();
 							
 							for(int i = 0; i<entryUsers.size(); i++)
@@ -170,7 +175,7 @@ public class ChattingServer
 							}
 							
 							retval.put("entryUserList", enterUsers);
-							retval.put("code", ResponseCode.ENTRY_ROOM_SUCCESS);
+							retval.put("code", ResponseCode.ENTRY_ROOM_SUCCESS.getCode());
 						}
 						else
 						{
@@ -201,9 +206,6 @@ public class ChattingServer
 						JSONArray entryUsers = (JSONArray)jMsg.get("entryUsers");
 						WsRoomData room = wsInfo.createRoom(roomId);
 						
-						// 자기자신을 방에 참여시킨다.
-						room.entryRoom(wsInfo);
-						
 						for(int i = 0; i<entryUsers.size(); i++)
 						{
 							String entryUserId = (String)entryUsers.get(i);							
@@ -212,8 +214,11 @@ public class ChattingServer
 							while(iter.hasNext())
 							{
 								WsInfoData entryUserData = clients.get(iter.next());
+								UsersVO entryUserInfo = entryUserData.getUserInfo();
 								
-								if(entryUserId.equals(entryUserData.getUserInfo().getId()))
+								if(
+									entryUserId.equals(entryUserInfo.getId())
+								)
 								{
 									// 방에 참여할 다른 사용자를 방에 참여한다.
 									room.entryRoom(entryUserData);
@@ -224,7 +229,7 @@ public class ChattingServer
 							}
 						}
 						
-						retval.put("code", ResponseCode.CREATE_ROOM_SUCCESS);
+						retval.put("code", ResponseCode.CREATE_ROOM_SUCCESS.getCode());
 						retval.put("roomId", roomId);
 						retval.put("entryUserList", enterUsers);
 					}
@@ -249,6 +254,10 @@ public class ChattingServer
 							WsInfoData wsInfo = new WsInfoData(session, userInfo);
 														
 							clients.put(session, wsInfo);	
+							retval.put("code", ResponseCode.INIT_SUCCESS.getCode());
+							retval.put("msg", ResponseCode.INIT_SUCCESS.getMsg());
+							
+							
 						}
 						else
 						{
@@ -286,9 +295,14 @@ public class ChattingServer
 							sendMsg.put("id", id);
 							sendMsg.put("msg", msg);
 							sendMsg.put("roomId", roomId);
-							sendMsg.put("code", ResponseCode.SENDER_SUCCESS);
+							sendMsg.put("code", ResponseCode.SENDER_SUCCESS.getCode());
+							
+							logger.info(sendMsg.toJSONString());
 							
 							room.sendMessage(id, sendMsg.toJSONString());
+							
+							retval = null;
+							//retval.put("code", ResponseCode.SEND_SUCCESS.getCode());
 						}
 						else
 						{
@@ -319,43 +333,53 @@ public class ChattingServer
 		} 
 		catch (Exception e) 
 		{
-			retval.put("code", ResponseCode.ERROR);
+			retval.put("code", ResponseCode.ERROR.getCode());
 			retval.put("msg", e.getClass().getName() + ": " + e.getMessage());
+			
+			e.printStackTrace();
 		}
 		
-		session.getBasicRemote().sendText(retval.toJSONString());
+
+		
+		if(retval != null)
+		{
+			logger.info("보냄: " + retval.toJSONString());
+			session.getBasicRemote().sendText(retval.toJSONString());
+		}
 	}
 
 	@OnClose
 	public void onClose(Session session) 
 	{
 		WsInfoData wsInfo = clients.get(session);		
+		clients.remove(session);
+		
 		if(wsInfo != null)
 		{
 			String id = wsInfo.getUserInfo().getId();
 			
 			try 
 			{
+				logger.info("웹 소켓 종료: " + wsInfo.getUserInfo());
+				
 				JSONObject senderData = new JSONObject();
 				
-				senderData.put("closedId", id);
+				senderData.put("closedId", id);				
 				senderData.put("code", ResponseCode.CLOSE_USER.getCode());
 				senderData.put("msg", ResponseCode.CLOSE_USER.getMsg());
 				
 				//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
-				wsInfo.sendAllRoomMessage(id, senderData.toJSONString());
+				wsInfo.sendAllRoomMessage(id, senderData);
+				
+				wsInfo.leaveRooms();
 			}
 			catch (Exception e) 
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-						
-			HttpSessionManagement.getInstance().sessionDestroyed(id);
 		}
 		
-		clients.remove(session);
-		logger.info("웹소켓 종료 : " + session.getId());
 	}
 
 	@OnError // 에러 발생 시 실행

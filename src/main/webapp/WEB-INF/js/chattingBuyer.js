@@ -1,15 +1,17 @@
 $(() => {
 				
-	const SUCCESSS = "0";
 	const INIT = "1";
-	const SEND = "2";
-	const ENTRY = "3";		
-	const CLOSE_USER = "4";
-	const SENDER = "5";
-	const INIT_SUCCESS = "6";
-	const ENTRY_SUCCESS = "7";		
-	const SENDER_SUCCESS = "8";
+	const SENDER = "2";
+	const CREATE_ROOM = "3";
+	const ENTRY_ROOM = "4";
+	
+	const INIT_SUCCESS = "1";
+	const SENDER_SUCCESS = "2";
+	const ENTRY_ROOM_SUCCESS = "3";
+	const CREATE_ROOM_SUCCESS = "4";	
+	const CLOSE_USER = "5";
 
+	let currRoomId = null;
 	let chatMsgGup = $("#chatMsgGup");
 	let CONTEXT_PATH = getContextPath();
 	let wSocket = null;
@@ -18,7 +20,7 @@ $(() => {
 	let sellerId = document.sId;
 	let userId = document.id;
 	let chatMeNode =  $(`
-		<div class="chat-message-right pb-4">
+		<div class="chat-message-right pb-4" name="chatMsg">
 			<div class="chat-avatar-right" name="chatUserAvatar">
 				<img src="" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
 				<div class="text-muted small text-nowrap mt-2">
@@ -35,7 +37,7 @@ $(() => {
 			</div>
 		</div>`);
 	let chatOrtherNode = $(`
-		<div class="chat-message-left pb-4">
+		<div class="chat-message-left pb-4" name="chatMsg">
 			<div class="chat-avatar-left" name="chatUserAvatar">
 				<img src="" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
 				<div class="text-muted small text-nowrap mt-2" name="chatMsgTime"></div>
@@ -59,11 +61,8 @@ $(() => {
 		    console.log("웹소켓 서버에 연결되었습니다.");
 		    
 			let connectData = {
-				"requestCode": INIT,
-				"result": {
-					"id": userId,
-					"romdId": roomId
-				}
+				"code": INIT,
+				"id": userId
 			};
 			
 			wSocket.send(JSON.stringify(connectData));
@@ -84,16 +83,61 @@ $(() => {
 		wSocket.onmessage = function(event) { 
 		    var data = JSON.parse(event.data);
 		    
-		    if(data.code == SUCCESS || data.code == INIT_SUCCESS || data.code == ENTRY_SUCCESS)
+		    if(data.code <= 0)
 	    	{
-		    	console.log(data.msg);
+		    	console.error(data);
 	    	}
+		    else if(data.code == INIT_SUCCESS)
+		    {
+		    	// CREATE_ROOM을 한다.
+		    	let sendData = {
+					"code": CREATE_ROOM,
+					"id": userId,
+					entryUsers: [
+						sellerId, userId
+					]
+				};
+
+				wSocket.send(JSON.stringify(sendData));
+		    }
+		    else if(data.code == CREATE_ROOM_SUCCESS)
+		    {
+		    	currRoomId = data.roomId;
+		    }
+		    else if(data.code == CLOSE_USER)
+		    {
+		    	console.log(data.closedId, "가 접속을 종료했습니다.")
+		    }		    
 		    else if(data.code == SENDER_SUCCESS)
 		    {
-			    var senderId = data.senderId;
+		    	console.log(data);
+		    	
+			    var senderId = data.id;
 			    var msg = data.msg;
+			    var roomId = data.roomId;
 			    
-			    console.log(senderId, msg);
+			    if(currRoomId == roomId)
+	    		{
+				    let oNode = chatOrtherNode.clone();
+					let now = new Date();
+					let strTime = now.getHours() + ":" + now.getMinutes();
+					//let strDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
+					
+					oNode.find('div[name=chatUserAvatar] > img').remove();				
+					oNode.find('div[name=chatUserAvatar]').prepend($('<i class="bi bi-person-fill"></i>'));				
+					oNode.find('div[name=chatMsgTime]').text(strTime);
+					//mNode.find('div[name=chatMsgDate]').text(strDate);
+					oNode.find('div[name=chatMsg]').text(msg);
+					oNode.find('div[name=chatId]').text(senderId);
+	
+					chatMsgGup.before(oNode);
+					
+					$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
+		    	}
+			    else
+			    {
+			    	console.error(data);
+			    }
 		    }
 		    else
 		    {
@@ -107,27 +151,35 @@ $(() => {
 			let msg = chatMsgGup.find('input').val();
 			if(msg)
 			{
+				// msg 전송
+				let sendData = {
+					code: SENDER,
+					roomId: currRoomId,
+					id: userId,
+					msg: msg
+				};
+
+				console.log(sendData);
+				wSocket.send(JSON.stringify(sendData));
+			
+				
 				chatMsgGup.find('input').val('');
 				let mNode = chatMeNode.clone();
 				let now = new Date();
 				let strTime = now.getHours() + ":" + now.getMinutes();
 				//let strDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
-												
+				
 				mNode.find('div[name=chatUserAvatar] > img').remove();				
 				mNode.find('div[name=chatUserAvatar]').prepend($('<i class="bi bi-person-fill"></i>'));				
 				mNode.find('div[name=chatMsgTime]').text(strTime);
 				//mNode.find('div[name=chatMsgDate]').text(strDate);
 				mNode.find('div[name=chatMsg]').text(msg);
 				mNode.find('div[name=chatId]').text('나');
-				
-				
-////////////////////////////////////////////////////////////////////////////////////////////////////				
+
 				chatMsgGup.before(mNode);
 				
-				// msg 전송
-				
-				
 				$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
+				
 			}
 			else
 			{

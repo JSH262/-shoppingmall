@@ -2,11 +2,15 @@ package com.tjoeun.shoppingmall.ws;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.websocket.Session;
+
+import org.json.simple.JSONObject;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
@@ -19,11 +23,13 @@ public class WsInfoData
 	UsersVO userInfo;
 	
 	//방
-	HashMap<String, WsRoomData> rooms = new HashMap<>();
+	Map<String, WsRoomData> rooms = Collections.synchronizedMap(new HashMap<String, WsRoomData>());
+	
 	
 	
 	public WsInfoData() 
 	{
+		
 	}
 	
 	public WsInfoData(Session socket) 
@@ -41,14 +47,11 @@ public class WsInfoData
 	{
 		WsRoomData room = this.getRoom(roomId);
 	
-		synchronized (this.rooms) 
+		if(room == null)
 		{
-			if(room == null)
-			{
-				room = new WsRoomData(roomId);
-				
-				this.rooms.put(roomId, room);	
-			}
+			room = new WsRoomData(roomId);
+			
+			this.rooms.put(roomId, room);	
 		}
 		
 		return room;
@@ -56,12 +59,9 @@ public class WsInfoData
 	
 	public void removeRoom(String roomId)	
 	{
-		synchronized (this.rooms) 
+		if(this.rooms.get(roomId) != null)
 		{
-			if(this.rooms.get(roomId) != null)
-			{
-				this.rooms.remove(roomId);
-			}
+			this.rooms.remove(roomId);
 		}
 	}
 	
@@ -69,10 +69,7 @@ public class WsInfoData
 	{
 		WsRoomData room = null;
 		
-		synchronized (this.rooms) 
-		{
-			room = this.rooms.get(roomId);
-		}
+		room = this.rooms.get(roomId);
 		
 		return room;
 	}
@@ -86,11 +83,8 @@ public class WsInfoData
 	{
 		boolean isRoom = this.isRoom(room.getRoomId());
 		
-		synchronized (this.rooms) 
-		{
-			if(isRoom == false)
-				this.rooms.put(room.getRoomId(), room);			
-		}
+		if(isRoom == false)
+			this.rooms.put(room.getRoomId(), room);			
 	}
 
 	
@@ -103,27 +97,55 @@ public class WsInfoData
 		return this.socket;
 	}
 
-	public void sendAllRoomMessage(String id, String msg) 
+	public void sendAllRoomMessage(String id, JSONObject msg) 
 	{
-		synchronized (this.rooms) 
+		Set<String> keys = this.rooms.keySet();
+		Iterator<String> iter = keys.iterator();
+		
+		while(iter.hasNext())
 		{
-			Set<String> keys = this.rooms.keySet();
-			Iterator<String> iter = keys.iterator();
-			
-			while(iter.hasNext())
+			try 
 			{
-				try 
-				{
-					WsRoomData room = this.rooms.get(iter.next());
-					
-					room.sendMessage(id, msg);
-				}
-				catch (IOException e) 
-				{
-					e.printStackTrace();
-				}
+				WsRoomData room = this.rooms.get(iter.next());
+				
+				msg.put("roomId", room.getRoomId());					
+				room.sendMessage(id, msg.toJSONString());
 			}
-		}		
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void leaveRooms()
+	{
+		Set<String> keys = this.rooms.keySet();
+		Iterator<String> iter = keys.iterator();
+		
+		while(iter.hasNext())
+		{
+			WsRoomData room = this.rooms.get(iter.next());
+			
+			room.leaveUserRoom(this.userInfo.getId());				
+		}
+	}
+	
+	public void leaveRoom(String roomId)
+	{
+		Set<String> keys = this.rooms.keySet();
+		Iterator<String> iter = keys.iterator();
+		
+		while(iter.hasNext())
+		{
+			WsRoomData room = this.rooms.get(iter.next());
+			
+			if(roomId.equals(room.getRoomId()))
+			{
+				room.leaveUserRoom(this.userInfo.getId());	
+				break;
+			}				
+		}
 	}
 
 }

@@ -110,7 +110,7 @@ $(() => {
 	    	}
 		    else if(data.code == SENDER_SUCCESS)
 		    {
-		    	
+		    	console.log(data);
 		    	/*
 		    	 	// 대화를 보낸 사용자
 					sendMsg.put("id", id);
@@ -144,44 +144,51 @@ $(() => {
 				//oNode.find('div[name=chatMsgDate]').text(strDate);
 			    			    
 			    //선택이 되어 있을 때만 추가한다.
-			    if(roomId == currRoomId)
+			    if(currRoomId == roomId)
+			    {
 			    	chatMsgGup.before(oNode);
+					$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
+			    }
 			    
-			    if(!roomList[roomId])
-			    	roomList[roomId] = {};
-		    	
-		    	if(!roomList[roomId].chatList)
-		    		roomList[roomId].chatList = [];
+			    if(roomId && !roomList[roomId])
+			    {
+			    	roomList[roomId] = {
+		    			chatList: []
+			    	};
+			    }
 			    
 		    	roomList[roomId].chatList.push(oNode);
 		    	roomList[roomId].readerId = senderId;
 		    	
-		    	
 		    	$("div[name=chatUser]").remove();
 		    	
+		    	// 지금까지 생성되 모든 방을 순회하면서 유저 목록을 새롭게 만들고 click 이벤트를 부여한다.
 		    	for(let key in roomList)
 		    	{
-		    		//roomList[key].readerId;
 		    		let tmpUser = chatUserNode.clone();
-		    		let sellerId = roomList[key].readerId;
 		    		
 		    		tmpUser.find('div[name=chatUserAvatar] > img').remove();
 		    		tmpUser.find('div[name=chatUserAvatar]').append($('<i class="bi bi-person-bounding-box"></i>'));
-		    		tmpUser.find('div[name=chatUserId]').text(sellerId);
+		    		tmpUser.find('div[name=chatUserId]').text(senderId);
 		    		tmpUser.find('div[name=chatUserOnline]').removeClass('invisible');
 		    		
 		    		tmpUser.bind('click', function() {
 		    			currRoomId = key;
 		    			
+		    			$("#chatList > div[name=chatMsg]").remove();
+		    			
 		    			// 화면에 뿌리기
-		    			//roomList[currRoomId].chatList;
+		    			for(let i = 0; i<roomList[currRoomId].chatList.length; i++)
+		    			{
+		    				let chatData = roomList[currRoomId].chatList[i];
+		    				
+
+					    	chatMsgGup.before(chatData);
+		    			}
 		    		});
 		    		
-		    		chatUserSearchGup.before(tmpUser);
+		    		chatUserSearchGup.after(tmpUser);
 		    	}
-		    	
-		    	//
-		    	
 		    	
 		    	/*  
 			    
@@ -225,6 +232,10 @@ $(() => {
 		    	console.log("사용자가 접속을 종료함: ", data);
 		    	
 		    }
+		    else
+		    {
+		    	console.error(data);
+		    }
 		};
 		//*/
 		
@@ -246,20 +257,28 @@ $(() => {
 				mNode.find('div[name=chatMsg]').text(msg);
 				mNode.find('div[name=chatId]').text('나');
 				
-				
-////////////////////////////////////////////////////////////////////////////////////////////////////				
 				chatMsgGup.before(mNode);
 				
+				
+				
+			    if(currRoomId && !roomList[currRoomId])
+			    {
+			    	roomList[currRoomId] = {
+			    		chatList: []
+			    	};
+			    }
+			    
+	    		roomList[currRoomId].chatList.push(mNode);
+		    	
 				// msg 전송
 				let sendData = {
-					"result": {
-						roomId: ROOM_ID,						
-						senderId: "",
-						userId: ID
-					}
+					code: SENDER,
+					roomId: currRoomId,
+					id: ID,
+					msg: msg
 				};
 				
-				
+				wSocket.send(JSON.stringify(sendData));
 				$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 			}
 			else

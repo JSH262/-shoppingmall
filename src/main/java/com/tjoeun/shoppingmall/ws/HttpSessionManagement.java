@@ -15,9 +15,7 @@ import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class HttpSessionManagement
-{
-	final static Logger logger = LoggerFactory.getLogger(HttpSessionManagement.class);
-	
+{	
 	private HttpSessionManagement() {}
 	
 	private static HttpSessionManagement instance = new HttpSessionManagement();
@@ -34,28 +32,26 @@ public class HttpSessionManagement
 	{
 		UsersVO retval = null;
 		
-		synchronized (clients) 
+		Iterator<HttpSession> iter = clients.iterator();
+		while(iter.hasNext())
 		{
-			Iterator<HttpSession> iter = clients.iterator();
-			while(iter.hasNext())
+			try
 			{
-				try
+				HttpSession session = iter.next();
+				UsersVO vo = AttributeName.getUserData(session);
+				
+				if(vo.getId().equals(id))
 				{
-					HttpSession session = iter.next();
-					UsersVO vo = AttributeName.getUserData(session);
-					
-					if(vo.getId().equals(id))
-					{
-						retval = vo;
-						break;
-					}
-				}
-				catch(Exception exp)
-				{
-					exp.printStackTrace();
+					retval = vo;
+					break;
 				}
 			}
+			catch(Exception exp)
+			{
+				exp.printStackTrace();
+			}
 		}
+	
 		
 		return retval;
 	}
@@ -72,32 +68,30 @@ public class HttpSessionManagement
 	
 	public void sessionDestroyed(HttpSession se) 
 	{
-		clients.remove(se);
+		clients.remove(se);	
 	}
 	public void sessionDestroyed(String id)
 	{
-		synchronized (clients) 
+		Iterator<HttpSession> iter = clients.iterator();
+		while(iter.hasNext())
 		{
-			Iterator<HttpSession> iter = clients.iterator();
-			while(iter.hasNext())
+			try
 			{
-				try
+				HttpSession session = iter.next();
+				UsersVO vo = AttributeName.getUserData(session);
+				
+				if(vo.getId().equals(id))
 				{
-					HttpSession session = iter.next();
-					UsersVO vo = AttributeName.getUserData(session);
-					
-					if(vo.getId().equals(id))
-					{
-						clients.remove(session);
-						break;
-					}
-				}
-				catch(Exception exp)
-				{
-					exp.printStackTrace();
+					clients.remove(session);
+					break;
 				}
 			}
+			catch(Exception exp)
+			{
+				exp.printStackTrace();
+			}
 		}
+	
 	}
 	
 	
@@ -120,7 +114,7 @@ public class HttpSessionManagement
 	 * 세션이 정상인가?
 	 * 
 	 * @param se
-	 * @return
+	 * @return true: 정상, false: 비정상
 	 */
 	public boolean isSession(HttpSession se)
 	{
@@ -132,5 +126,29 @@ public class HttpSessionManagement
 		}
 		
 		return true;
+	}
+	
+	public boolean isSession(String id)
+	{
+		boolean retval = true;
+		Iterator<HttpSession> iter = clients.iterator();
+		while(iter.hasNext())
+		{
+			HttpSession tmp = iter.next();
+			UsersVO user = AttributeName.getUserData(tmp);
+			
+			if(id.equals(user.getId()))
+			{
+
+				long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
+				
+				if(System.currentTimeMillis() >= time)
+				{
+					retval = false;
+				}
+			}
+		}
+		
+		return retval;
 	}
 }
