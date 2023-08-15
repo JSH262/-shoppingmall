@@ -110,20 +110,6 @@ $(() => {
 	    	}
 		    else if(data.code == SENDER_SUCCESS)
 		    {
-		    	console.log(data);
-		    	/*
-		    	 	// 대화를 보낸 사용자
-					sendMsg.put("id", id);
-					
-					// 대화 내용
-					sendMsg.put("msg", msg);
-					
-					// 대화를 보낸 방의 아이디
-					sendMsg.put("roomId", roomId);
-					
-					// 받은 데이터 결과
-					sendMsg.put("code", ResponseCode.SENDER_SUCCESS);
-		    	 */
 		    	let senderId = data.id;
 		    	let roomId = data.roomId;
 			    let msg = data.msg;			    
@@ -131,8 +117,6 @@ $(() => {
 				let strTime = now.getHours() + ":" + now.getMinutes();
 				//let strDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
 			
-			    
-			    
 			    
 			    let oNode = chatOrtherNode.clone();
 
@@ -142,13 +126,7 @@ $(() => {
 			    oNode.find('div[name=chatMsg]').text(msg);
 			    oNode.find('div[name=chatMsgTime]').text(strTime);
 				//oNode.find('div[name=chatMsgDate]').text(strDate);
-			    			    
-			    //선택이 되어 있을 때만 추가한다.
-			    if(currRoomId == roomId)
-			    {
-			    	chatMsgGup.before(oNode);
-					$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
-			    }
+			    
 			    
 			    if(roomId && !roomList[roomId])
 			    {
@@ -167,13 +145,15 @@ $(() => {
 		    	{
 		    		let tmpUser = chatUserNode.clone();
 		    		
+		    		tmpUser.attr('chat-room-id', key);
 		    		tmpUser.find('div[name=chatUserAvatar] > img').remove();
 		    		tmpUser.find('div[name=chatUserAvatar]').append($('<i class="bi bi-person-bounding-box"></i>'));
 		    		tmpUser.find('div[name=chatUserId]').text(senderId);
-		    		tmpUser.find('div[name=chatUserOnline]').removeClass('invisible');
-		    		
+		    		tmpUser.find('span[name=chatUserOnline]').removeClass('invisible');	    			
+	    					    		
 		    		tmpUser.bind('click', function() {
 		    			currRoomId = key;
+		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
 		    			
 		    			$("#chatList > div[name=chatMsg]").remove();
 		    			
@@ -185,11 +165,35 @@ $(() => {
 
 					    	chatMsgGup.before(chatData);
 		    			}
+		    			
+		    			$("#chatMsgGup").removeClass('invisible');
+		    			$("#chatMsgStart").addClass('invisible');
 		    		});
 		    		
 		    		chatUserSearchGup.after(tmpUser);
 		    	}
-		    	
+			    
+			    //선택(대화 중인 유저)이 되어 있을 때만 대화를 추가한다.
+			    if(currRoomId == roomId)
+			    {
+			    	chatMsgGup.before(oNode);
+					$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
+			    }
+			    else
+			    {
+			    	let chatUsers = $("div[name=chatUser]");
+			    	for(let i = 0; i<chatUsers.length; i++)
+			    	{
+			    		let chatUser = $(chatUsers[i]);
+			    		
+			    		if(chatUser.attr('chat-room-id') == roomId)
+			    		{
+			    			chatUser.find('span[name=chatUserAlert]').removeClass('invisible');
+			    			break;
+			    		}
+			    	}
+			    }
+			    
 		    	/*  
 			    
 			    let isChatUser = false;
@@ -213,24 +217,40 @@ $(() => {
 			    //*/
 			    
 		    }
-		    else if(data.code = INIT_SUCCESS)
+		    else if(data.code == INIT_SUCCESS)
 	    	{
 		    	
 	    	}
-		    else if(data.code = ENTRY_ROOM_SUCCESS)
+		    else if(data.code == ENTRY_ROOM_SUCCESS)
 	    	{
 		    	
 	    	} 		    
-		    else if(data.code = CREATE_ROOM_SUCCESS)
+		    else if(data.code == CREATE_ROOM_SUCCESS)
 	    	{
 		    	
 	    	}
-		    else if(data.code = CLOSE_USER)
+		    else if(data.code == CLOSE_USER)
 		    {
 		    	//var closeId = data.id;
 		    	//왼쪽 사용자 목록에서 offline으로 변경한다.
-		    	console.log("사용자가 접속을 종료함: ", data);
+
+		    	//sendData.put("closeId", userId);
+				//sendData.put("roomId", this.roomId);
 		    	
+		    	console.log(data);
+		    	
+		    	let chatUsers = $("div[name=chatUser]");
+		    	for(let i = 0; i<chatUsers.length; i++)
+		    	{
+		    		let chatUser = $(chatUsers[i]);
+		    		
+		    		if(chatUser.attr('chat-room-id') == data.roomId)
+		    		{
+		    			chatUser.find('span[name=chatUserOnline]').addClass('invisible');
+		    			chatUser.find('span[name=chatUserOffline]').removeClass('invisible');
+		    			break;
+		    		}
+		    	}
 		    }
 		    else
 		    {
@@ -300,6 +320,23 @@ $(() => {
 				sendMessage();
 			}
 		});
+		
+
+		$(window).on("beforeunload", function() {
+			if(wSocket)
+			{
+				wSocket.close();
+				wSocket = null;
+			}
+		});
+		$(window).on("unload", function() {
+			if(wSocket)
+			{
+				wSocket.close();
+				wSocket = null;
+			}
+		});
+		
 	}
 	catch(exp)
 	{

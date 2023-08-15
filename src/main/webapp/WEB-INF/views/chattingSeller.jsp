@@ -171,11 +171,14 @@
 									
 									
 									
-									<div class="flex-grow-0 py-3 px-4 border-top sticky-bottom bg-light" id="chatMsgGup">
+									<div class="flex-grow-0 py-3 px-4 border-top sticky-bottom bg-light invisible" id="chatMsgGup">
 										<div class="input-group">
 											<input type="text" class="form-control" placeholder="대화를 입력해주세요">
 											<button class="btn btn-primary">보내기</button>
 										</div>
+									</div>
+									<div class="flex-grow-0 py-3 px-4 border-top sticky-bottom bg-light text-center" id="chatMsgStart">
+										대화를 시작하려면 왼쪽 목록에서 사용자를 선택해주세요
 									</div>
 									
 								</div>

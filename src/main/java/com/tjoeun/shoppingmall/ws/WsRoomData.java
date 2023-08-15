@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,12 +83,11 @@ public class WsRoomData
 			
 			if(id != null && id.equals(wsInfo.getUserInfo().getId()))
 			{
-				// 자신한테는 보내지 않는다.
+				// 자신한테는 보내지 않는다.	
 			}
 			else
 			{
 				wsInfo.getSocket().getBasicRemote().sendText(msg);				
-				logger.info("call sendMessage: 주체 => " + id);
 			}
 		}
 	}
@@ -95,16 +95,43 @@ public class WsRoomData
 	
 	public void leaveUserRoom(String userId)
 	{
+		int removeIndex = -1;
+		
 		for(int i = 0; i<this.users.size(); i++)
 		{			
 			WsInfoData wsInfo = this.users.get(i);				
 			
 			if(userId != null && userId.equals(wsInfo.getUserInfo().getId()))
 			{
-				this.users.remove(i);
-				break;
+				removeIndex = i;
+				//this.users.remove(i);
+				//break;
+			}
+			else
+			{
+				JSONObject sendData = new JSONObject();
+
+				sendData.put("code", ChattingServer.ResponseCode.CLOSE_USER.getCode());
+				sendData.put("closeId", userId);
+				sendData.put("roomId", this.roomId);
+				
+				try 
+				{
+					logger.info("call leaveUserRoom: " + sendData + " >>> " + wsInfo.getSocket().getId() + ", " + wsInfo.getUserInfo().getId());
+					
+					wsInfo.getSocket().getBasicRemote().sendText(sendData.toJSONString());
+				}
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 		}
+		
+		if(removeIndex != -1)
+			this.users.remove(removeIndex);
+		
+		
 	}
 	
 	

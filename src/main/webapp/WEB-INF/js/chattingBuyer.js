@@ -200,7 +200,20 @@ $(() => {
 				sendMessage();
 			}
 		});
-		
-		
 	}
+	
+	$(window).on("beforeunload", function() {
+		if(wSocket)
+		{
+			wSocket.close();
+			wSocket = null;
+		}
+	});
+	$(window).on("unload", function() {
+		if(wSocket)
+		{
+			wSocket.close();
+			wSocket = null;
+		}
+	});
 });	

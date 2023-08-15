@@ -1,26 +1,26 @@
 package com.tjoeun.shoppingmall.ws;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.websocket.*;
-import javax.websocket.server.*;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.tjoeun.helper.UsersType;
 import com.tjoeun.helper.Util;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
@@ -115,6 +115,7 @@ public class ChattingServer
 	@OnOpen // 클라이언트 접속 시 실행
 	public void onOpen(Session session) 
 	{
+		logger.info("call onOpen => 접속(Session): " + session.getId());
 		clients.put(session, null);
 	}
 
@@ -137,9 +138,7 @@ public class ChattingServer
 	public void onMessage(String message, Session session) throws IOException 
 	{		
 		JSONObject retval = new JSONObject();
-		
-		logger.info("받음: " + message);
-		
+				
 		try 
 		{
 			JSONObject jMsg = (JSONObject)parser.parse(message);
@@ -252,7 +251,9 @@ public class ChattingServer
 						if(userInfo != null)
 						{
 							WsInfoData wsInfo = new WsInfoData(session, userInfo);
-														
+							
+							logger.info("call onMessage => INIT: " + session.getId() + ", " + userInfo);
+							
 							clients.put(session, wsInfo);	
 							retval.put("code", ResponseCode.INIT_SUCCESS.getCode());
 							retval.put("msg", ResponseCode.INIT_SUCCESS.getMsg());
@@ -296,8 +297,8 @@ public class ChattingServer
 							sendMsg.put("msg", msg);
 							sendMsg.put("roomId", roomId);
 							sendMsg.put("code", ResponseCode.SENDER_SUCCESS.getCode());
-							
-							logger.info(sendMsg.toJSONString());
+
+							logger.info("call onMessage => SENDER: " + session.getId() + ", " + wsInfo.getUserInfo());
 							
 							room.sendMessage(id, sendMsg.toJSONString());
 							
@@ -343,7 +344,6 @@ public class ChattingServer
 		
 		if(retval != null)
 		{
-			logger.info("보냄: " + retval.toJSONString());
 			session.getBasicRemote().sendText(retval.toJSONString());
 		}
 	}
@@ -359,9 +359,9 @@ public class ChattingServer
 			String id = wsInfo.getUserInfo().getId();
 			
 			try 
-			{
-				logger.info("웹 소켓 종료: " + wsInfo.getUserInfo());
-				
+			{		
+				/*
+			}
 				JSONObject senderData = new JSONObject();
 				
 				senderData.put("closedId", id);				
@@ -370,6 +370,10 @@ public class ChattingServer
 				
 				//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
 				wsInfo.sendAllRoomMessage(id, senderData);
+								
+				//*/
+				
+				logger.info("call onClose => " + session.getId() + ", " + wsInfo.getUserInfo());
 				
 				wsInfo.leaveRooms();
 			}
