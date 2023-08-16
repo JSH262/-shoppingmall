@@ -118,7 +118,7 @@ public class WsInfoData
 		}
 	}
 	
-	public void leaveRooms()
+	public void leaveRooms(JSONObject sendMsg)
 	{
 		Set<String> keys = this.rooms.keySet();
 		Iterator<String> iter = keys.iterator();
@@ -127,7 +127,7 @@ public class WsInfoData
 		{
 			WsRoomData room = this.rooms.get(iter.next());
 			
-			room.leaveUserRoom(this.userInfo.getId());				
+			room.leaveUserRoom(this.userInfo.getId(), sendMsg);				
 		}
 	}
 	

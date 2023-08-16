@@ -93,7 +93,7 @@ public class WsRoomData
 	}
 	
 	
-	public void leaveUserRoom(String userId)
+	public void leaveUserRoom(String userId, JSONObject sendMsg)
 	{
 		int removeIndex = -1;
 		
@@ -109,17 +109,13 @@ public class WsRoomData
 			}
 			else
 			{
-				JSONObject sendData = new JSONObject();
-
-				sendData.put("code", ChattingServer.ResponseCode.CLOSE_USER.getCode());
-				sendData.put("closeId", userId);
-				sendData.put("roomId", this.roomId);
+				sendMsg.put("roomId", this.roomId);
 				
 				try 
 				{
-					logger.info("call leaveUserRoom: " + sendData + " >>> " + wsInfo.getSocket().getId() + ", " + wsInfo.getUserInfo().getId());
+					logger.info("call leaveUserRoom: " + sendMsg + " >>> " + wsInfo.getSocket().getId() + ", " + wsInfo.getUserInfo().getId());
 					
-					wsInfo.getSocket().getBasicRemote().sendText(sendData.toJSONString());
+					wsInfo.getSocket().getBasicRemote().sendText(sendMsg.toJSONString());
 				}
 				catch (IOException e) 
 				{

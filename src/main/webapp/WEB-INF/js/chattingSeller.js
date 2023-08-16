@@ -67,7 +67,6 @@ $(() => {
 	let roomList = {};
 	let chatMsgGup = $("#chatMsgGup");
 	let chatUserSearchGup = $("#chatUserSearchGup");
-	let selectedChatUser = null;
 	
 	try
 	{
@@ -180,7 +179,7 @@ $(() => {
 		    		tmpUser.find('div[name=chatUserId]').text(tmpSenderId);
 		    		tmpUser.find('span[name=chatUserOnline]').removeClass('invisible');	
 
-		    		if(isNewMsg)
+		    		if(isNewMsg && key != currRoomId)
 		    		{
 		    			tmpUser.find('span[name=chatUserAlert]').removeClass('invisible');   
 		    		}
@@ -189,26 +188,41 @@ $(() => {
 		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
 		    		}
 		    		
-		    		/*
+		    		//*
 		    		if(currRoomId)
 		    		{
 		    			if(key != currRoomId)
 	    				{
-	    					tmpUser.removeClass('bg-secondary');
-	    					tmpUser.css('--bs-bg-opacity', 1.0);
+	    					tmpUser.removeClass('bg-secondary bg-opacity-25');
 	    				}
 		    			else
 		    			{
-		    				tmpUser.addClass('bg-secondary');
-	    					tmpUser.css('--bs-bg-opacity', .3);
+		    				tmpUser.addClass('bg-secondary bg-opacity-25');
 		    			}
 		    		}
 		    		//*/
 		    		
 	    			
 		    		tmpUser.bind('click', function() {
-		    			currRoomId = key;
-		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
+		    			
+		    			// 이전에 선택된 유저(room id)의 html의 class를 수정한다.
+		    			if(currRoomId != null)
+		    			{		    		
+		    				let chatUsers = $("div[name=chatUser]");
+		    		    	for(let i = 0; i<chatUsers.length; i++)
+		    		    	{
+		    		    		let chatUser = $(chatUsers[i]);
+		    		    		
+		    		    		if(chatUser.attr('chat-room-id') == currRoomId)
+		    		    		{
+		    		    			chatUser.removeClass('bg-secondary bg-opacity-25');
+		    		    			break;
+		    		    		}
+		    		    	}
+		    			}
+		    					    			
+		    			currRoomId = $(this).attr('chat-room-id');
+		    			$(this).find('span[name=chatUserAlert]').addClass('invisible');
 		    			
 		    			$("#chatList > div[name=chatMsg]").remove();
 		    			
@@ -222,19 +236,7 @@ $(() => {
 		    			
 		    			$("#chatMsgGup").removeClass('invisible');
 		    			$("#chatMsgStart").addClass('invisible');
-		    			
-		    			// 기존에 선택한 유저 노드의 class를 제거하고 css 수정한다.
-		    			if(selectedChatUser && selectedChatUser != tmpUser)
-		    			{		    				
-		    				selectedChatUser.removeClass('bg-secondary');
-		    				selectedChatUser.css('--bs-bg-opacity', 1.0);
-		    			}
-		    			
-
-		    			tmpUser.addClass('bg-secondary');
-	    				tmpUser.css('--bs-bg-opacity', .3);
-	    				
-		    			selectedChatUser = tmpUser;
+		    			$(this).addClass('bg-secondary bg-opacity-25');
 		    		});
 		    		
 		    		/*

@@ -369,13 +369,13 @@ public class ChattingServer
 				senderData.put("msg", ResponseCode.CLOSE_USER.getMsg());
 				
 				//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
-				wsInfo.sendAllRoomMessage(id, senderData);
+				//wsInfo.sendAllRoomMessage(id, senderData);
 								
 				//*/
 				
 				logger.info("call onClose => " + session.getId() + ", " + wsInfo.getUserInfo());
 				
-				//wsInfo.leaveRooms();
+				wsInfo.leaveRooms(senderData);
 			}
 			catch (Exception e) 
 			{
