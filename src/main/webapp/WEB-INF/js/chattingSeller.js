@@ -190,21 +190,18 @@ $(() => {
 		    		}
 		    		
 		    		/*
-		    		if(key != currRoomId)
+		    		if(currRoomId)
 		    		{
-		    			if(currRoomId)
+		    			if(key != currRoomId)
 	    				{
 	    					tmpUser.removeClass('bg-secondary');
 	    					tmpUser.css('--bs-bg-opacity', 1.0);
 	    				}
-		    		}
-		    		else
-		    		{
-		    			if(currRoomId)
+		    			else
 		    			{
 		    				tmpUser.addClass('bg-secondary');
 	    					tmpUser.css('--bs-bg-opacity', .3);
-	    				}
+		    			}
 		    		}
 		    		//*/
 		    		
