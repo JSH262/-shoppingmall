@@ -58,8 +58,6 @@ $(() => {
 		// 웹소켓 서버에 연결됐을 때 실행
 		wSocket.onopen = function(event) 
 		{
-		    console.log("웹소켓 서버에 연결되었습니다.");
-		    
 			let connectData = {
 				"code": INIT,
 				"id": userId
@@ -103,10 +101,31 @@ $(() => {
 		    else if(data.code == CREATE_ROOM_SUCCESS)
 		    {
 		    	currRoomId = data.roomId;
+		    	let roomUserList = data.entryUserList;
+		    	let isSeller = false;
+		    	
+		    	for(let i = 0; i<roomUserList.length; i++)
+		    	{
+		    		if(roomUserList[i] == sellerId)
+		    		{
+		    			isSeller = true;
+		    			break;
+		    		}
+		    	}
+		    	
+		    	if(!isSeller)
+		    	{
+		    		alert('판매자가 접속을 하지 않았습니다.');
+		    	}		    	
 		    }
 		    else if(data.code == CLOSE_USER)
 		    {
-		    	console.log(data.closedId, "가 접속을 종료했습니다.")
+		    	if(data.closedId == sellerId)
+		    	{
+		    		alert('판매자가 대화를 종료했습니다.');
+		    	}
+		    	
+		    	console.log(data.closedId, "가 접속을 종료했습니다.");
 		    }		    
 		    else if(data.code == SENDER_SUCCESS)
 		    {
@@ -116,6 +135,7 @@ $(() => {
 			    var msg = data.msg;
 			    var roomId = data.roomId;
 			    
+			    // 현재 생성한 방에서 대화를 하고 있을 때만 처리한다.
 			    if(currRoomId == roomId)
 	    		{
 				    let oNode = chatOrtherNode.clone();

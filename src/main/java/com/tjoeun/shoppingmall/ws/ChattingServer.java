@@ -360,8 +360,8 @@ public class ChattingServer
 			
 			try 
 			{		
-				/*
-			}
+				//*
+			
 				JSONObject senderData = new JSONObject();
 				
 				senderData.put("closedId", id);				
@@ -375,7 +375,7 @@ public class ChattingServer
 				
 				logger.info("call onClose => " + session.getId() + ", " + wsInfo.getUserInfo());
 				
-				wsInfo.leaveRooms();
+				//wsInfo.leaveRooms();
 			}
 			catch (Exception e) 
 			{

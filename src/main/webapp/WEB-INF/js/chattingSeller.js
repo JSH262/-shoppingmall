@@ -67,6 +67,7 @@ $(() => {
 	let roomList = {};
 	let chatMsgGup = $("#chatMsgGup");
 	let chatUserSearchGup = $("#chatUserSearchGup");
+	let selectedChatUser = null;
 	
 	try
 	{
@@ -111,7 +112,7 @@ $(() => {
 		    else if(data.code == SENDER_SUCCESS)
 		    {
 		    	let senderId = data.id;
-		    	let roomId = data.roomId;
+		    	const roomId = data.roomId;
 			    let msg = data.msg;			    
 				let now = new Date();
 				let strTime = now.getHours() + ":" + now.getMinutes();
@@ -127,7 +128,6 @@ $(() => {
 			    oNode.find('div[name=chatMsgTime]').text(strTime);
 				//oNode.find('div[name=chatMsgDate]').text(strDate);
 			    
-			    
 			    if(roomId && !roomList[roomId])
 			    {
 			    	roomList[roomId] = {
@@ -137,50 +137,20 @@ $(() => {
 			    
 		    	roomList[roomId].chatList.push(oNode);
 		    	roomList[roomId].readerId = senderId;
-		    	
-		    	$("div[name=chatUser]").remove();
-		    	
-		    	// 지금까지 생성되 모든 방을 순회하면서 유저 목록을 새롭게 만들고 click 이벤트를 부여한다.
-		    	for(let key in roomList)
-		    	{
-		    		let tmpUser = chatUserNode.clone();
-		    		
-		    		tmpUser.attr('chat-room-id', key);
-		    		tmpUser.find('div[name=chatUserAvatar] > img').remove();
-		    		tmpUser.find('div[name=chatUserAvatar]').append($('<i class="bi bi-person-bounding-box"></i>'));
-		    		tmpUser.find('div[name=chatUserId]').text(senderId);
-		    		tmpUser.find('span[name=chatUserOnline]').removeClass('invisible');	    			
-	    					    		
-		    		tmpUser.bind('click', function() {
-		    			currRoomId = key;
-		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
-		    			
-		    			$("#chatList > div[name=chatMsg]").remove();
-		    			
-		    			// 화면에 뿌리기
-		    			for(let i = 0; i<roomList[currRoomId].chatList.length; i++)
-		    			{
-		    				let chatData = roomList[currRoomId].chatList[i];
-		    				
 
-					    	chatMsgGup.before(chatData);
-		    			}
-		    			
-		    			$("#chatMsgGup").removeClass('invisible');
-		    			$("#chatMsgStart").addClass('invisible');
-		    		});
-		    		
-		    		chatUserSearchGup.after(tmpUser);
-		    	}
-			    
-			    //선택(대화 중인 유저)이 되어 있을 때만 대화를 추가한다.
 			    if(currRoomId == roomId)
 			    {
+			    	roomList[roomId].isNewMsg = false; // 새로운 문자열을 받음 여부
+			    	
+				    //선택(대화 중인 유저)이 되어 있을 때만 대화를 추가한다.
 			    	chatMsgGup.before(oNode);
 					$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 			    }
 			    else
 			    {
+			    	roomList[roomId].isNewMsg = true; // 새로운 문자열을 받음 여부
+			    	/*
+			    	//선택(대화 중인 유저)이 되지 않았을 때 왼쪽 유저 목록에서 알림 아이콘을 띄운다.
 			    	let chatUsers = $("div[name=chatUser]");
 			    	for(let i = 0; i<chatUsers.length; i++)
 			    	{
@@ -192,30 +162,104 @@ $(() => {
 			    			break;
 			    		}
 			    	}
+			    	//*/
 			    }
-			    
-		    	/*  
-			    
-			    let isChatUser = false;
-			    let chatUserList = $("div[name=chatUser]");
-			    for(let i = 0; i<chatUserList.length; i++)
+		    	
+		    	$("div[name=chatUser]").remove();
+		    	
+		    	// 지금까지 생성되 모든 방을 순회하면서 유저 목록을 새롭게 만들고 click 이벤트를 부여한다.
+		    	for(let key in roomList)
 		    	{
-			    	let chatUser = chatUserList[i];
-			    			    	
-			    	if(chatUser.data('roomId') == roomId && chatUser.data('senderId') == senderId)
+		    		let tmpUser = chatUserNode.clone();
+		    		let tmpSenderId = roomList[key].readerId;
+		    		let isNewMsg = roomList[key].isNewMsg;
+
+		    		tmpUser.attr('chat-room-id', key);
+		    		tmpUser.find('div[name=chatUserAvatar] > img').remove();
+		    		tmpUser.find('div[name=chatUserAvatar]').append($('<i class="bi bi-person-bounding-box"></i>'));
+		    		tmpUser.find('div[name=chatUserId]').text(tmpSenderId);
+		    		tmpUser.find('span[name=chatUserOnline]').removeClass('invisible');	
+
+		    		if(isNewMsg)
 		    		{
-			    		isChatUser = true;
-			    		break;
+		    			tmpUser.find('span[name=chatUserAlert]').removeClass('invisible');   
 		    		}
+		    		else
+		    		{
+		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
+		    		}
+		    		
+		    		/*
+		    		if(key != currRoomId)
+		    		{
+		    			if(currRoomId)
+	    				{
+	    					tmpUser.removeClass('bg-secondary');
+	    					tmpUser.css('--bs-bg-opacity', 1.0);
+	    				}
+		    		}
+		    		else
+		    		{
+		    			if(currRoomId)
+		    			{
+		    				tmpUser.addClass('bg-secondary');
+	    					tmpUser.css('--bs-bg-opacity', .3);
+	    				}
+		    		}
+		    		//*/
+		    		
+	    			
+		    		tmpUser.bind('click', function() {
+		    			currRoomId = key;
+		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
+		    			
+		    			$("#chatList > div[name=chatMsg]").remove();
+		    			
+		    			// 화면에 뿌리기
+		    			for(let i = 0; i<roomList[currRoomId].chatList.length; i++)
+		    			{
+		    				let chatData = roomList[currRoomId].chatList[i];
+
+					    	chatMsgGup.before(chatData);
+		    			}
+		    			
+		    			$("#chatMsgGup").removeClass('invisible');
+		    			$("#chatMsgStart").addClass('invisible');
+		    			
+		    			// 기존에 선택한 유저 노드의 class를 제거하고 css 수정한다.
+		    			if(selectedChatUser && selectedChatUser != tmpUser)
+		    			{		    				
+		    				selectedChatUser.removeClass('bg-secondary');
+		    				selectedChatUser.css('--bs-bg-opacity', 1.0);
+		    			}
+		    			
+
+		    			tmpUser.addClass('bg-secondary');
+	    				tmpUser.css('--bs-bg-opacity', .3);
+	    				
+		    			selectedChatUser = tmpUser;
+		    		});
+		    		
+		    		/*
+		    		if(currRoomId)
+		    		{
+		    			if(key != currRoomId)
+		    			{
+		    				tmpUser.removeClass('bg-secondary');
+		    				tmpUser.css('--bs-bg-opacity', 1.0);
+		    			}
+		    			else
+		    			{
+			    			tmpUser.addClass('bg-secondary');
+		    				tmpUser.css('--bs-bg-opacity', .5);
+		    			}
+		    		}
+		    		//*/
+		    		
+		    		chatUserSearchGup.after(tmpUser);
 		    	}
 			    
-			    
-			    if(isChatUser == false)
-				{
-			    	
-				}
-			    //*/
-			    
+
 		    }
 		    else if(data.code == INIT_SUCCESS)
 	    	{
@@ -231,14 +275,7 @@ $(() => {
 	    	}
 		    else if(data.code == CLOSE_USER)
 		    {
-		    	//var closeId = data.id;
-		    	//왼쪽 사용자 목록에서 offline으로 변경한다.
-
-		    	//sendData.put("closeId", userId);
-				//sendData.put("roomId", this.roomId);
-		    	
-		    	console.log(data);
-		    	
+		    	// 대화방에서 나간 사용자 정보를 사용해서 왼쪽 목록에서 변화를 준다.
 		    	let chatUsers = $("div[name=chatUser]");
 		    	for(let i = 0; i<chatUsers.length; i++)
 		    	{
