@@ -27,10 +27,12 @@ $(() => {
 			function(resp)
 			{
 				if(resp.code == 0)
-				{
+				{					
 					let sellProductList = resp.result.sellList;
 					let newProductList = resp.result.newList;
 
+
+					$("div[name=carousel-loading]").remove();
 					for(let i = 0; i<sellProductList.length; i++)
 					{
 						let indicatorTmp = ciNode.clone();
@@ -56,6 +58,7 @@ $(() => {
 						$("#carousel-indicator").append(indicatorTmp);
 					}
 					
+					$("div[name=newProductLoading]").remove()
 					for(let i = 0; i<newProductList.length; i++)
 					{
 						let item = newProductList[i];

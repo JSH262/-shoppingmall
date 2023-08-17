@@ -90,6 +90,17 @@ public class ProductService
 				
 		return retval;
 	}
+	
+	public ProductVO select(Long id)
+	{
+		ProductVO params = new ProductVO();
+		
+		params.setId(id);
+		
+		return this.select(params);
+	}
+	
+	
 	public ProductVO select(ProductVO params)
 	{
 		ProductVO retval = null;

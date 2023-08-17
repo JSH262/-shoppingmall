@@ -4,19 +4,23 @@ $(() => {
 	const SENDER = "2";
 	const CREATE_ROOM = "3";
 	const ENTRY_ROOM = "4";
+	const PRODUCT_DATA = "5";
 	
 	const INIT_SUCCESS = "1";
 	const SENDER_SUCCESS = "2";
 	const ENTRY_ROOM_SUCCESS = "3";
 	const CREATE_ROOM_SUCCESS = "4";	
-	const CLOSE_USER = "5";
+	const CLOSE_USER = "6";
+	const PRODUCT_DATA_SUCCESS = "7";
+	
+	
 
 	let currRoomId = null;
 	let chatMsgGup = $("#chatMsgGup");
 	let CONTEXT_PATH = getContextPath();
 	let wSocket = null;
 	let chatTitle = $("#chatTitle");
-	let productId = document.pId;
+	let productId = parseInt(document.pId);
 	let sellerId = document.sId;
 	let userId = document.id;
 	let chatMeNode =  $(`
@@ -88,15 +92,15 @@ $(() => {
 		    else if(data.code == INIT_SUCCESS)
 		    {
 		    	// CREATE_ROOM을 한다.
-		    	let sendData = {
+		    	let sendRoomData = {
 					"code": CREATE_ROOM,
 					"id": userId,
 					entryUsers: [
 						sellerId, userId
 					]
 				};
-
-				wSocket.send(JSON.stringify(sendData));
+		    	
+				wSocket.send(JSON.stringify(sendRoomData));
 		    }
 		    else if(data.code == CREATE_ROOM_SUCCESS)
 		    {
@@ -113,10 +117,23 @@ $(() => {
 		    		}
 		    	}
 		    	
-		    	if(!isSeller)
+		    	if(isSeller)
+		    	{
+		    		let sendRoomData = {
+						"code": PRODUCT_DATA,
+						"id": userId,
+						"roomId": currRoomId,
+						"productId": productId
+		    		};
+
+					wSocket.send(JSON.stringify(sendRoomData));
+		    	}	
+		    	else
 		    	{
 		    		alert('판매자가 접속을 하지 않았습니다.');
-		    	}		    	
+		    	}
+		    	
+		    	
 		    }
 		    else if(data.code == CLOSE_USER)
 		    {
@@ -199,7 +216,6 @@ $(() => {
 				chatMsgGup.before(mNode);
 				
 				$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
-				
 			}
 			else
 			{

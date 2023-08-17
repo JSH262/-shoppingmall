@@ -63,6 +63,9 @@
 			
 			<%-- 이미지들 --%>
 			<div class="carousel-inner" id="carousel-body">
+				<div class="carousel-item active placeholder-glow" name="carousel-loading">
+					<img class="placeholder col-12 ratio ratio-21x9 mx-auto d-block d-block w-100" src="">
+				</div>
 				<%--
 				<div class="carousel-item active" data-bs-interval="3000">
 					<img class="ratio ratio-21x9 mx-auto d-block" src="<%=request.getContextPath() %>/image/11ee340654fc4111b956dd7a96c7332c" class="d-block w-100" alt="...">
@@ -97,30 +100,132 @@
 		<div>
 			<h1>신상품</h1>
 		</div>
+		
+		
 		<div class="row row-cols-1 row-cols-md-3 g-4" id="newProductsBody">
 		
-			<%-- 상품 로딩중 표시
-			<div class="row" name="newProductLoading">			
-				<div class="col-4">
-					<div class="card" aria-hidden="true">
-						<img src="<%=request.getContextPath() %>/resources/default/gray.png" class="card-img-top img-fluid">
-						<div class="card-body">
-							<h5 class="card-title placeholder-glow">
-								<span class="placeholder col-6"></span>
-							</h5>
-							<p class="card-text placeholder-glow">
-								<span class="placeholder col-7"></span> 
-								<span class="placeholder col-4"></span> 
-								<span class="placeholder col-4"></span> 
-								<span class="placeholder col-6"></span> 
-								<span class="placeholder col-8"></span>
-							</p>
-							<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
-						</div>
+			<%-- 상품 로딩중 표시 --%>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="">
+					</div>					
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
 					</div>
 				</div>
 			</div>
-			 --%>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="">
+					</div>					
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="" />
+					</div>
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="">
+					</div>					
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="">
+					</div>					
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+					</div>
+				</div>
+			</div>
+			<div class="col" name="newProductLoading">
+				<div class="card" aria-hidden="true">
+					<div class="carousel-item active placeholder-glow" name="carousel-loading">
+						<img class="placeholder col-12 ratio ratio-1x1 mx-auto d-block d-block w-100" src="">
+					</div>					
+					<div class="card-body">
+						<h5 class="card-title placeholder-glow">
+							<span class="placeholder col-6"></span>
+						</h5>
+						<p class="card-text placeholder-glow">
+							<span class="placeholder col-7"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-4"></span> 
+							<span class="placeholder col-6"></span> 
+							<span class="placeholder col-8"></span>
+						</p>
+						<a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 	
 		<hr />

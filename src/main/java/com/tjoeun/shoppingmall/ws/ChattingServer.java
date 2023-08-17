@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tjoeun.helper.Util;
+import com.tjoeun.shoppingmall.service.ProductService;
+import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
@@ -42,6 +44,7 @@ public class ChattingServer
 		SENDER("2", "대화 전송"),
 		CREATE_ROOM("3", "방 생성"),
 		ENTRY_ROOM("4", "방 참여"),
+		PRODUCT_DATA("5", "상품 정보"),
 		
 		NONE("0", "알수없음");
 		
@@ -75,7 +78,8 @@ public class ChattingServer
 		CREATE_ROOM_SUCCESS("4", "방 생성 성공"),
 		SEND_SUCCESS("5", "전송 성공"),
 		
-		CLOSE_USER("5", "유저 접속 종료"),
+		CLOSE_USER("6", "유저 접속 종료"),
+		PRODUCT_DATA_SUCCESS("7", "유저 접속 종료"),
 		
 		
 		CREATE_ROOM_FAIL_AUTH("-998", "잚못된 사용자로 인한 방 생성 실패"),
@@ -146,6 +150,35 @@ public class ChattingServer
 			
 			switch(code)
 			{
+			case PRODUCT_DATA:
+				{
+					String id = (String)jMsg.get("id");	
+					String roomId = (String)jMsg.get("roomId");
+					Long productId = (Long)jMsg.get("productId");
+					WsInfoData wsInfo = clients.get(session);
+					ProductVO productInfo = ProductService.getInstance().select(productId);
+					JSONObject sendMsg = new JSONObject();
+					
+					/*
+					sendMsg.put("deliveryPrice", productInfo.getDeliveryPrice());
+					sendMsg.put("discount", productInfo.getDiscount());
+					sendMsg.put("price", productInfo.getPrice());
+					sendMsg.put("amount", productInfo.getAmount());
+					*/
+					
+					sendMsg.put("id", id);
+					sendMsg.put("roomId", roomId);
+					sendMsg.put("link", "/product/detail?id=" + productId);
+					sendMsg.put("name", productInfo.getName());
+					sendMsg.put("code", ResponseCode.PRODUCT_DATA_SUCCESS.getCode());
+					wsInfo.sendAllRoomMessage(id, sendMsg);
+					
+					logger.info(sendMsg.toJSONString());
+					
+					retval = null;
+				}
+				break;
+			
 			case ENTRY_ROOM:
 				{
 					String id = (String)jMsg.get("id");	

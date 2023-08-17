@@ -108,7 +108,9 @@ public class WsInfoData
 			{
 				WsRoomData room = this.rooms.get(iter.next());
 				
-				msg.put("roomId", room.getRoomId());					
+				if(msg.get("roomId") == null)
+					msg.put("roomId", room.getRoomId());
+				
 				room.sendMessage(id, msg.toJSONString());
 			}
 			catch (IOException e) 
@@ -142,7 +144,7 @@ public class WsInfoData
 			
 			if(roomId.equals(room.getRoomId()))
 			{
-				room.leaveUserRoom(this.userInfo.getId());	
+				room.leaveUserRoom(this.userInfo.getId(), null);	
 				break;
 			}				
 		}

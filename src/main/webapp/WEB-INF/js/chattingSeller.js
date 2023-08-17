@@ -9,12 +9,14 @@ $(() => {
 	const SENDER = "2";
 	const CREATE_ROOM = "3";
 	const ENTRY_ROOM = "4";
+	const PRODUCT_DATA = "5";
 	
 	const INIT_SUCCESS = "1";
 	const SENDER_SUCCESS = "2";
 	const ENTRY_ROOM_SUCCESS = "3";
 	const CREATE_ROOM_SUCCESS = "4";	
-	const CLOSE_USER = "5";
+	const CLOSE_USER = "6";
+	const PRODUCT_DATA_SUCCESS = "7";
 	
 	
 	let chatUserNode = $(`
@@ -70,7 +72,6 @@ $(() => {
 	
 	try
 	{
-		
 		//*
 		let url = "ws://" + location.host + CONTEXT_PATH + '/chatting';
 
@@ -103,6 +104,7 @@ $(() => {
 		// 메시지를 받았을 때 실행
 		wSocket.onmessage = function(event) { 
 		    var data = JSON.parse(event.data);
+		    console.log(data);
 		    
 		    if(data.code <= 0)
 	    	{
@@ -188,7 +190,6 @@ $(() => {
 		    			tmpUser.find('span[name=chatUserAlert]').addClass('invisible');
 		    		}
 		    		
-		    		//*
 		    		if(currRoomId)
 		    		{
 		    			if(key != currRoomId)
@@ -199,9 +200,7 @@ $(() => {
 		    			{
 		    				tmpUser.addClass('bg-secondary bg-opacity-25');
 		    			}
-		    		}
-		    		//*/
-		    		
+		    		}		    		
 	    			
 		    		tmpUser.bind('click', function() {
 		    			
@@ -238,27 +237,55 @@ $(() => {
 		    			$("#chatMsgStart").addClass('invisible');
 		    			$(this).addClass('bg-secondary bg-opacity-25');
 		    		});
-		    		
-		    		/*
-		    		if(currRoomId)
-		    		{
-		    			if(key != currRoomId)
-		    			{
-		    				tmpUser.removeClass('bg-secondary');
-		    				tmpUser.css('--bs-bg-opacity', 1.0);
-		    			}
-		    			else
-		    			{
-			    			tmpUser.addClass('bg-secondary');
-		    				tmpUser.css('--bs-bg-opacity', .5);
-		    			}
-		    		}
-		    		//*/
-		    		
+		    				    		
 		    		chatUserSearchGup.after(tmpUser);
 		    	}
 			    
 
+		    }
+		    else if(data.code == PRODUCT_DATA_SUCCESS)
+		    {
+		    	/*				
+				retval.put("roomId", roomId);
+				retval.put("link", "/product/detail?id=" + productId);
+				retval.put("name", productInfo.getName());
+				retval.put("code", ResponseCode.PRODUCT_DATA_SUCCESS);	
+				*/
+		    	
+		    	const senderId = data.id;
+		    	const roomId = data.roomId
+		    	const link = data.link
+		    	const productName = data.name;
+		    	let now = new Date();
+				let strTime = now.getHours() + ":" + now.getMinutes();
+				//let strDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
+			    let oNode = chatOrtherNode.clone();
+			    let productLinkItem = $(`<button class="btn btn-outline-primary">${productName}</button>`);
+			    let productLink = $(`<div><div>상품정보</div></div>`);
+			    
+			    productLinkItem.bind('click', function(){
+			    	let moveProductUrl = `${CONTEXT_PATH}${link}`;
+			    	
+			    	window.open(moveProductUrl);
+			    });
+			    
+			    productLink.append(productLinkItem);
+			    
+				oNode.find('div[name=chatUserAvatar] > img').remove();				
+				oNode.find('div[name=chatUserAvatar]').prepend($('<i class="bi bi-person-fill"></i>'));				    
+			    oNode.find('div[name=chatId]').text(senderId);
+			    oNode.find('div[name=chatMsg]').append(productLink);			    
+			    oNode.find('div[name=chatMsgTime]').text(strTime);
+				//oNode.find('div[name=chatMsgDate]').text(strDate);
+
+		    	if(roomId && !roomList[roomId])
+			    {
+			    	roomList[roomId] = {
+		    			chatList: []
+			    	};
+			    }
+			    
+		    	roomList[roomId].chatList.push(oNode);
 		    }
 		    else if(data.code == INIT_SUCCESS)
 	    	{

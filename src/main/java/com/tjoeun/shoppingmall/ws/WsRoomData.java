@@ -109,13 +109,15 @@ public class WsRoomData
 			}
 			else
 			{
-				sendMsg.put("roomId", this.roomId);
+				if(sendMsg != null)
+					sendMsg.put("roomId", this.roomId);
 				
 				try 
 				{
 					logger.info("call leaveUserRoom: " + sendMsg + " >>> " + wsInfo.getSocket().getId() + ", " + wsInfo.getUserInfo().getId());
 					
-					wsInfo.getSocket().getBasicRemote().sendText(sendMsg.toJSONString());
+					if(sendMsg != null)
+						wsInfo.getSocket().getBasicRemote().sendText(sendMsg.toJSONString());
 				}
 				catch (IOException e) 
 				{
