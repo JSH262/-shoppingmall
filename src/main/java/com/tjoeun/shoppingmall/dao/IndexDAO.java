@@ -25,4 +25,10 @@ public class IndexDAO
 	{
 		return mapper.selectList("Index.newProductList");
 	}
+	
+
+	public List<ProductVO> productRndList(SqlSession mapper, ProductVO params) 
+	{
+		return mapper.selectList("Index.productRndList", params);
+	}
 }

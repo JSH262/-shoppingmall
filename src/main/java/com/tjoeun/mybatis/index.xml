@@ -18,7 +18,6 @@
                                 having sum(product_amount) >= 50)
                         order by id desc) t)
         where rnum <![CDATA[ <= ]]>  5	
-		
 	</select>
 		
 	<!-- 신상품 목록(1개월 이내) -->
@@ -29,11 +28,22 @@
 						from product
 						where to_char(create_date, 'yyyy/mm/dd hh24:mi:ss') >= to_char(add_months(sysdate, -1), 'yyyy/mm/dd hh24:mi:ss')
 						order by create_date desc) t)
-		where rnum <![CDATA[ <= ]]> 5
-	
-			
+		where rnum <![CDATA[ <= ]]> 6
 	</select>
 	
+	
+	<select id="productRndList" parameterType="ProductVO" resultType="ProductVO">
+		select *
+		from (  select rownum rnum, t1.*
+		        from (  select id, name, discount, price, thumbnail
+		                from product
+		                order by id desc) t1)
+		<where>
+			<foreach item="item" index="index" collection="rowList" open="rnum in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
 	
 	
 	

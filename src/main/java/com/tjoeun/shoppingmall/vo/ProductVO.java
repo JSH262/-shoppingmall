@@ -1,5 +1,7 @@
 package com.tjoeun.shoppingmall.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
@@ -30,6 +32,8 @@ public class ProductVO extends BaseVO
 	Integer discountPrice;		//상품의 할인율이 적용된 상품의 가격(00000)
 	String companyName;			//상품의 업체명
 	String categoryName;
+	
+	List<Long> rowList;
 	
 	public ProductVO()
 	{}
@@ -186,10 +190,22 @@ public class ProductVO extends BaseVO
 		this.categoryName = categoryName;
 	}
 
+	public List<Long> getRowList() {
+		return rowList;
+	}
+
+	public void setRowList(List<Long> rowList) {
+		this.rowList = rowList;
+	}
+	
+
 	@Override
 	public String toString()
 	{
 		return new Gson().toJson(this);
 	}
+
+	
+	
 	
 }

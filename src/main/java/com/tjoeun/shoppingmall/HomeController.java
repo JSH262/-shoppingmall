@@ -2,8 +2,10 @@ package com.tjoeun.shoppingmall;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.service.IndexService;
+import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
@@ -50,8 +53,23 @@ public class HomeController {
 		try
 		{
 			JSONObject result = new JSONObject();		
-			IndexService indexService = IndexService.getInstance();
+			IndexService indexService = IndexService.getInstance();			
+			int productTotalCount = ProductService.getInstance().totalCount(null); 
+			ArrayList<Long> rows = new ArrayList<Long>(); 
 			
+			
+			
+			for(int i = 0; i<5; i++)
+			{
+				Long tmp = (long)(Math.random() * productTotalCount);
+				
+				if(rows.contains(tmp))
+					i -= 1;
+				else
+					rows.add(tmp);
+			}
+			
+			result.put("rndList", indexService.productRndList(rows));
 			result.put("sellList", indexService.lotSellProductList());
 			result.put("newList", indexService.newProductList());
 			retval.put("result", result);
