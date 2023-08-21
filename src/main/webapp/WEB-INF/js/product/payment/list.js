@@ -191,7 +191,7 @@ $(() => {
 					//배송중, 배송완료
 					else if(item.status >= 3)
 					{
-						btnReview.addClass("invisible");
+						btnReview.removeClass("invisible");
 						btnOrderCancel.addClass("invisible");					
 						btnProductExchange.bind('click', function()
 						{
@@ -221,6 +221,8 @@ $(() => {
 											productDeliveryComplete();
 											setStatusName("거래완료");
 											alert('구매결정 완료');
+											
+											
 										}
 										else
 										{

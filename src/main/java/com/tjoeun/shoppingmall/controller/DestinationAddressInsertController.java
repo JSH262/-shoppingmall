@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,7 +29,7 @@ public class DestinationAddressInsertController
 
 	
 	@RequestMapping(value="/destaddr/insert", method=RequestMethod.POST)
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response, @RequestBody DestinationAddressVO params) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
 		DestinationAddressService service = DestinationAddressService.getInstance(); 
@@ -38,7 +39,7 @@ public class DestinationAddressInsertController
 		{
 			if(user != null)
 			{			
-				DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
+				//DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
 							
 				params.setUserId(user.getId());
 				

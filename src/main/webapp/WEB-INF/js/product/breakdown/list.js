@@ -147,26 +147,37 @@ $(() => {
 												{	
 													if(resp.code == 0)
 													{
+														let selectedWehgit = 1;
+														
 														//ajax 통신이 성공하면 선택한 상태로 변경한다.		
 														node.find("td:eq(9)").text(NORMAL_STATUS[selectedValue]);
 																						
 														selectNode.find('option').remove();
+									
+														// 상태 목록에서 배송완료, 거래완료를 제외시킨다.
+														if(selectedValue == 1 || selectedValue == 2)
+														{
+															selectedWehgit = 2;
+														}
 														
-														for(let z = selectedValue; z<NORMAL_STATUS.length - 1; z++)
+														
+														for(let z = selectedValue; z<NORMAL_STATUS.length - selectedWehgit; z++)
 														{
 															selectNode.append(`<option value="${z}">${NORMAL_STATUS[z]}</option>`);	
 														}
-																								
-														
-														//상품을 배송해야할 때는 배경색을 초록색으로 변경한다.
-														if(selectedValue >= 1 && selectedValue <= 3)
+																												
+														//배송중 이후의 값에 대해서 배경을 기본색으로 변경한다.
+														if(selectedValue >= 3 && selectedValue <= 5)
 														{
 															node.removeClass("bg-success bg-gradient text-white");
 														}
-														else if(selectedValue == 3)
+														
+														if(selectedValue == 3)
 														{
-															selectNode.attr("disabled", true).addClass("invisible");
-															selectedBtnNode.attr("disabled", true).addClass("invisible");
+															selectNode.attr("disabled", true);
+															selectNode.addClass("invisible");
+															selectedBtnNode.attr("disabled", true);
+															selectedBtnNode.addClass("invisible");
 														}
 													}
 												},
