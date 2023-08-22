@@ -27,13 +27,13 @@ public class DestinationAddressSelectedController
 	private static final long serialVersionUID = 1L;
 
 	@RequestMapping(value="/destaddr/selected", method=RequestMethod.POST)
-	protected void doPost(HttpServletRequest request, HttpServletResponse response, @RequestBody DestinationAddressVO params) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
 		
 		try 
 		{
-			//DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
+			DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
 			
 			if(params.getId() != null && params.getId() > 0 )
 			{

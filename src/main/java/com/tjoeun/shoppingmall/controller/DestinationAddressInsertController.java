@@ -1,16 +1,20 @@
 package com.tjoeun.shoppingmall.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.tjoeun.helper.AttributeName;
@@ -18,6 +22,8 @@ import com.tjoeun.helper.Util;
 import com.tjoeun.shoppingmall.service.DestinationAddressService;
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
+
+import jdk.internal.org.jline.utils.Log;
 
 /**
  * Servlet implementation class ImageController
@@ -27,19 +33,21 @@ public class DestinationAddressInsertController
 {
 	private static final long serialVersionUID = 1L;
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	@RequestMapping(value="/destaddr/insert", method=RequestMethod.POST)
-	protected void doPost(HttpServletRequest request, HttpServletResponse response, @RequestBody DestinationAddressVO params) throws ServletException, IOException 
+	
+	@RequestMapping(value="/destaddr/insert", method=RequestMethod.POST, consumes="application/json")
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
 		DestinationAddressService service = DestinationAddressService.getInstance(); 
 		UsersVO user = AttributeName.getUserData(request);
-		
+				
 		try
 		{
 			if(user != null)
 			{			
-				//DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
+				DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
 							
 				params.setUserId(user.getId());
 				

@@ -8,7 +8,10 @@ function Ajax(url, method, data, success, fail, complete)
 		data: data,
 		success: success,
 		error: fail,
-		complete: complete 
+		complete: complete,
+		headers :{
+			"Content-Type": "application/json"
+		}
 	});
 	/*
 	let formData = new FormData();

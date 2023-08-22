@@ -29,7 +29,7 @@ public class DestinationAddressRemoveController
 	SettingVO setting = null;
 
 	@RequestMapping(value="/destaddr/remove", method=RequestMethod.POST)
-	protected void doPost(HttpServletRequest request, HttpServletResponse response, @RequestBody DestinationAddressVO params) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
 		DestinationAddressService service = DestinationAddressService.getInstance(); 
@@ -37,7 +37,7 @@ public class DestinationAddressRemoveController
 		
 		try 
 		{
-			//DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
+			DestinationAddressVO params = new Gson().fromJson(Util.toBody(request), DestinationAddressVO.class);
 			if(service.delete(params) == 1)
 			{
 				retval.put("code", 0);
