@@ -13,6 +13,26 @@ public class CategoryVO
 	String type;
 	Integer pid;
 	
+	
+	
+	
+	
+	
+	
+	
+	public CategoryVO() {
+		
+	}
+	
+	public CategoryVO(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+
+
+
+
 	public Integer getId() {
 		return id;
 	}

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +16,7 @@ import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.PaymentService;
 import com.tjoeun.shoppingmall.vo.CartVO;
+import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @Controller
@@ -22,8 +24,23 @@ public class ProductPaymentController {
 	private static final long serialVersionUID = 1L;
 
 	@RequestMapping(value="/product/payment", method=RequestMethod.GET)
-	public String productPaymentList(HttpServletRequest request, HttpServletResponse response)
-	{
+	public String productPaymentList(HttpServletRequest request, HttpServletResponse response, Model model)
+	{		
+		CategoryVO[] cardList = {
+				new CategoryVO(10000, "현대카드"),
+				new CategoryVO(10001, "삼성카드"),
+				new CategoryVO(10002, "비씨카드"),
+				new CategoryVO(10003, "KB국민"),
+				new CategoryVO(10004, "신한카드"),
+				new CategoryVO(10005, "롯데카드"),
+				new CategoryVO(10006, "NH농협"),
+				new CategoryVO(10007, "하나카드"),
+				new CategoryVO(10008, "SC제일"),
+				new CategoryVO(10008, "우리카드")
+		};
+		
+		model.addAttribute("cardList", cardList);
+		
 		return "product/payment";
 	}
 	
