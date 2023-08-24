@@ -36,7 +36,7 @@ public class ProductPaymentController {
 				new CategoryVO(10006, "NH농협"),
 				new CategoryVO(10007, "하나카드"),
 				new CategoryVO(10008, "SC제일"),
-				new CategoryVO(10008, "우리카드")
+				new CategoryVO(10009, "우리카드")
 		};
 		
 		model.addAttribute("cardList", cardList);
