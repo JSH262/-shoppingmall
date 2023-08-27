@@ -1,50 +1,25 @@
-<%@page import="com.tjoeun.helper.AttributeName"%>
+<%@page import="com.tjoeun.shoppingmall.vo.CategoryVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
     
-    
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
+<%
+	CategoryVO[] cardList = {
+			new CategoryVO(10000, "현대카드"),
+			new CategoryVO(10001, "삼성카드"),
+			new CategoryVO(10002, "비씨카드"),
+			new CategoryVO(10003, "KB국민"),
+			new CategoryVO(10004, "신한카드"),
+			new CategoryVO(10005, "롯데카드"),
+			new CategoryVO(10006, "NH농협"),
+			new CategoryVO(10007, "하나카드"),
+			new CategoryVO(10008, "SC제일"),
+			new CategoryVO(10009, "우리카드")
+	};
+%>
+	<c:set var="cardList" value="<%=cardList %>" ></c:set>
 	
-		<script>
-			document.contextPath = '<%=request.getContextPath() %>';
-			document.id = '<%=AttributeName.getUserData(request).getId() %>';
-		</script>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/payment.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-		
-		<style>
-			
-			.hide-node {
-				display: none;
-			}
-			#paymentPrice {
-				font-size: x-large;
-				color: crimson;
-			}
-			#paymentPrice:after {
-				content: '원';
-				font-size: medium;
-				color: black;
-			}
-			
-		</style>
-		
-	</head>
-	<body>
-	
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentSelectModal">
-		테스트
-	</button>
-
-
 	<%-- 신용카드 선택
 	https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=bootpay&logNo=221220922083 
 	--%>
@@ -349,58 +324,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="paymentInputModalNext">다음</button>
+					<button type="button" class="btn btn-primary" id="paymentInputModalNext">결제</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<%-- 입력한 정보확인 --%>
-	<div class="modal fade" id="paymentPayModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentPayModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content" style="font-size:small;">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="paymentPayModalLabel">최종 확인 및 결제</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" id="paymentPayModalClose" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">결제</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-
-
-
-	<div style="width: 90%; margin:0px auto; text-align: center;">
-			<div>
-				<div>결제할 금액은 총 <span id="paymentPrice"></span>입니다. 결제를 하시려면 결제하기 버튼을 눌러주세요.</div>
-				<div>&nbsp;</div>
-				<div>
-					<input type="button" id="payment" name="payment" value="결제하기" />
-					<input type="button" id="paymentCancel" name="paymentCancel" value="결제취소" />
-				</div>
-			</div>			
-			
-			<div id="nextButton" class="hide-node">
-				<span><input type="button" value="홈으로" onclick="location.href='<%=request.getContextPath() %>/';"></span>
-				<span><input type="button" value="상품목록" onclick="location.href='<%=request.getContextPath() %>/product/list';"></span>				
-				<span><input type="button" value="결제목록" onclick="location.href='<%=request.getContextPath() %>/product/payment/list';"></span>
-			</div>
-		</div>
-	
-	
-		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
-		<input type="hidden" id="currentPage" name="currentPage" value="" />
-		<input type="hidden" id="pageSize" name="pageSize" value="" />
-		
-	</body>
-</html>

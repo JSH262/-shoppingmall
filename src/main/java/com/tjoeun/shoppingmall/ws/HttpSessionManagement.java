@@ -99,28 +99,31 @@ public class HttpSessionManagement
 			UsersVO userInfo = AttributeName.getUserData(se);
 			if(userInfo != null)
 			{
+
 				// 기존에 생성된 유저의 세션 정보를 제거한다.
 				Iterator<HttpSession> iter = clients.iterator();
 				while(iter.hasNext())
 				{
 					HttpSession tmpSession = iter.next();
-					UsersVO tmpUserInfo = AttributeName.getUserData(tmpSession);
 					
-					if(tmpUserInfo.getId().equals(userInfo.getId()))
+					try
 					{
-						try
-						{
-							tmpSession.invalidate();
-						}
-						catch(IllegalStateException exp)
-						{
+						UsersVO tmpUserInfo = AttributeName.getUserData(tmpSession);
 						
+						if(tmpUserInfo.getId().equals(userInfo.getId()))
+						{
+								tmpSession.invalidate();
+							
+							clients.remove(tmpSession);
+							break;
 						}
-						
-						clients.remove(tmpSession);
-						break;
+					}
+					catch(IllegalStateException exp)
+					{
+						clients.remove(tmpSession);	
 					}
 				}
+				
 			}
 			
 			clients.add(se);	

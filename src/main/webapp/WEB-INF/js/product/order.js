@@ -1,6 +1,6 @@
 
 $(() => {
-	const CONTEXT_PATH = $("#contextPath").val();
+	const CONTEXT_PATH = getContextPath();
 	const MANUAL_DELIVERY_MSG_CODE = '999';
 	const DEFAULT_DELIVERY_MSG_CODE = '1';
 	const productNode = $("div[name=product]").clone();
@@ -37,7 +37,8 @@ $(() => {
 	$("div[name=product]").remove();
 	
 	
-	
+
+	const paymentSelectModal = new bootstrap.Modal(document.getElementById('paymentSelectModal'));
 	let isExecPay = false;
 	$("#pay").bind('click', function()
 	{
@@ -65,19 +66,24 @@ $(() => {
 						{
 							if(resp.code == 0)
 							{
-								location.href=`${CONTEXT_PATH}/product/payment`;
+								// 모달 열기
+								payment.init(function(){
+									payment.openStartPayment();
+								});
+								
+								
+								//location.href=`${CONTEXT_PATH}/product/payment`;
 							}
 							else
 								alert(resp.code + ": " + resp.msg);
-								
-							isExecPay = false;			
 						},
 						function(err)
 						{
 							console.error(err);
+						},
+						function(){
 							isExecPay = false;
-						}
-					);
+						});
 				}
 				else
 				{
