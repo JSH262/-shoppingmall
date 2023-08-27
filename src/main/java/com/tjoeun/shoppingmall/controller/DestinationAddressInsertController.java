@@ -23,7 +23,6 @@ import com.tjoeun.shoppingmall.service.DestinationAddressService;
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
-import jdk.internal.org.jline.utils.Log;
 
 /**
  * Servlet implementation class ImageController

@@ -44,7 +44,8 @@ public class ProductListController
 		String retval = "product/list/buyer";
 		
 		model.addAttribute("currentPage", Util.toPosNum(request.getParameter("currentPage"), 1));
-		model.addAttribute("pageSize", Util.toPosNum(request.getParameter("pageSize"), 15));
+		model.addAttribute("pageSize", Util.toPosNum(request.getParameter("pageSize"), 15));		
+		model.addAttribute("productCategoryId", Util.toLong(request.getParameter("productCategoryId"), null));
 
 		if(vo != null && UsersType.SELLER.equals(vo.getType()))
 		{
@@ -63,7 +64,7 @@ public class ProductListController
 		{
 			final String USERS_TYPE_SELLER = UsersType.SELLER;
 			final String USERS_TYPE_BUYER = UsersType.BUYER;
-			UsersVO user = (UsersVO) request.getSession().getAttribute("user");
+			UsersVO user =  AttributeName.getUserData(request);
 			String sellerId = null;
 			String type = null;
 			
@@ -74,7 +75,7 @@ public class ProductListController
 			}
 			
 			
-			HashMap<String, Object> serviceParams = new HashMap<>();
+			ProductVO serviceParams = new ProductVO();
 			ProductService service = ProductService.getInstance();
 			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
 			long currentPage = 1;
@@ -83,6 +84,17 @@ public class ProductListController
 			if (params != null) 
 			{
 				// POST
+				currentPage = (long) params.get("currentPage");
+				pageSize = (long) params.get("pageSize");
+				String productName = (String)params.get("productName");
+				Integer productCategoryId = Util.toInt((String)params.get("productCategoryId"), null);
+				
+				serviceParams.setName(productName);
+				serviceParams.setCategoryId(productCategoryId);
+				
+				
+				
+				/*
 				currentPage = (long) params.get("currentPage");
 				pageSize = (long) params.get("pageSize");
 				String searchValue = (String) params.get("searchValue");
@@ -106,6 +118,7 @@ public class ProductListController
 					searchValue = null;
 					searchCategory = null;
 				}
+				//*/
 			} 
 			else 
 			{
@@ -127,21 +140,22 @@ public class ProductListController
 			// 판매자
 			if (USERS_TYPE_SELLER.equals(type)) 
 			{
-				serviceParams.put("choose", "list");
-				serviceParams.put("sellerId", sellerId);
+				serviceParams.setChoose("list");
+				serviceParams.setSellerId(sellerId);
 			}
 
 			// 구매자
 			else if (USERS_TYPE_BUYER.equals(type)) 
 			{
-				serviceParams.put("choose", "detail");
+				serviceParams.setChoose("detail");
 			}
 
 			// 로그인을 하지 않은 사용자
 			else 
 			{
-				serviceParams.put("choose", "detail");
+				serviceParams.setChoose("detail");
 			}
+			
 
 			int totalCount = service.totalCount(serviceParams);
 			ProductPagingVO page = new ProductPagingVO((int) currentPage, totalCount, (int) pageSize);

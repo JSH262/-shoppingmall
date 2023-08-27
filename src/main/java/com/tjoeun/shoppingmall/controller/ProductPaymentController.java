@@ -1,6 +1,7 @@
 package com.tjoeun.shoppingmall.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.PaymentService;
 import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
+import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @Controller
@@ -74,9 +76,9 @@ public class ProductPaymentController {
 					{
 						JSONObject result = new JSONObject();
 						DecimalFormat numFormat = new DecimalFormat("#,###");
-						
 						long totalDiscountPrice = 0L;
 						int totalDevliveryPrice = 0;
+						String productNames = "";
 						
 						for(CartVO item : productIds)
 						{
@@ -85,13 +87,16 @@ public class ProductPaymentController {
 								int discountPrice = item.getAmount() * item.getDiscountPrice();
 								int deliveryPrice = item.getDeliveryPrice();
 								
+								productNames += ", " + item.getProductName();
 								totalDiscountPrice += discountPrice;
 								totalDevliveryPrice += deliveryPrice;	
 							}
+							
 						}
 						
 						long paymentPrice = totalDiscountPrice + totalDevliveryPrice;
 						
+						result.put("productNames", productNames.substring(2));
 						result.put("paymentPrice", paymentPrice); // 가격
 						result.put("fmtPaymentPrice", numFormat.format(paymentPrice)); // 가격(#,###원)
 						retval.put("result", result);
@@ -105,8 +110,37 @@ public class ProductPaymentController {
 				}
 				else if(PAYMENT_PROCESS_PAY_BEFORE.equals(status))
 				{
+					CartVO params = new CartVO();
+					ArrayList<ProductVO> cartProductList = new ArrayList<>();
+					
+					params.setUserId(user.getId());
+					
+					List<CartVO> productIds = CartService.getInstance().selectList(params);
+					if(productIds != null)
+					{					
+						for(CartVO item : productIds)
+						{
+
+							if(item.getProductAmount() >= item.getAmount() && item.getProductAmount() > 0)
+							{
+								ProductVO tmpProductVO = new ProductVO();
+								
+								tmpProductVO.setId(item.getProductId());
+								tmpProductVO.setName(item.getProductName());
+								tmpProductVO.setSellerId(item.getSellerId());
+								
+								cartProductList.add(tmpProductVO);
+							}
+						}
+					}
+					
 					if(PaymentService.getInstance().pay(user, AttributeName.getDestAddr(request)))
 					{
+						JSONObject result = new JSONObject();
+						
+						result.put("list", cartProductList);
+						
+						retval.put("result", result);
 						retval.put("code", 0);
 						retval.put("msg", "결제가 완료되었습니다.");	
 					}

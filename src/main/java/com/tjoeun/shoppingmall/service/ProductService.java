@@ -45,6 +45,7 @@ public class ProductService
 		return retval;
 	}
 	
+	/*
 	public List<ProductVO> selectList(HashMap<String, Object> params, ProductPagingVO page)
 	{
 		List<ProductVO> retval = null;
@@ -71,8 +72,50 @@ public class ProductService
 				
 		return retval;
 	}
+	//*/
+	public List<ProductVO> selectList(ProductVO params, ProductPagingVO page)
+	{
+		List<ProductVO> retval = null;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			params.setStartNo(page.getStartNo());
+			params.setEndNo(page.getEndNo());
+			
+			retval = ProductDAO.getInstance().selectList(mapper, params);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
 	
+	/*
 	public int totalCount(java.util.HashMap<String, Object> params)
+	{
+		int retval = 0;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = ProductDAO.getInstance().totalCount(mapper, params);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
+	//*/
+	public int totalCount(ProductVO params)
 	{
 		int retval = 0;
 		SqlSession mapper = MySession.getSession();

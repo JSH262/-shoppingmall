@@ -8,7 +8,7 @@
 		values(product_seq_id.nextval, #{categoryId}, #{name}, #{amount}, #{price}, #{discount}, #{deliveryPrice}, #{contents}, #{thumbnail}, #{sellerId})
 	</insert>
 	
-	<select id="selectList" parameterType="java.util.HashMap" resultType="ProductVO">
+	<select id="selectList" parameterType="ProductVO" resultType="ProductVO">
 		select 
 			<if test="choose != null and choose == 'list'">
 				id, rnum, category_id, name, amount,
@@ -61,11 +61,17 @@
 						</if>
 						<if test="categoryId != null">
 							and (category_id = #{categoryId}
-									or 	category_id in (select c.id
-										from category c 
-										where type = 'P'
-										start with id = #{categoryId}
-										connect by prior id = gup))
+									or 	
+								category_id in (
+									select t1.id
+									from (  select SYS_CONNECT_BY_PATH(c.name, '>') as path, CONNECT_BY_ROOT(id) as root, c.id
+									        from category c 
+									        start with pid is null
+									        connect by prior id = pid) t1
+									where path like concat(concat('%', (
+									                select concat('>', name)
+									                from category c 
+									                where id = #{categoryId})), '%')))
 							
 						</if>
 						<if test="sellerId != null">
@@ -83,7 +89,7 @@
 	</select>
 	
 	
-	<select id="totalCount" parameterType="java.util.HashMap" resultType="int">
+	<select id="totalCount" parameterType="ProductVO" resultType="int">
 		select count(*)
 		from product
 		where 1 = 1
@@ -91,7 +97,18 @@
 			and name like '%' || '${name}' || '%'
 		</if>
 		<if test="categoryId != null">
-			and category_id = #{categoryId}
+			and (category_id = #{categoryId}
+					or 	
+				category_id in (										
+					select t1.id
+					from (  select SYS_CONNECT_BY_PATH(c.name, '>') as path, CONNECT_BY_ROOT(id) as root, c.id
+					        from category c 
+					        start with pid is null
+					        connect by prior id = pid) t1
+					where path like concat(concat('%', (
+					                select concat('>', name)
+					                from category c 
+						                where id = #{categoryId})), '%')))
 		</if>
 		<if test="sellerId != null">
 			and seller_id = #{sellerId}

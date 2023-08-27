@@ -121,13 +121,14 @@
 			<div class="row justify-content-center">
 				<div class="col-sm-6">
 					<div class="input-group">
-						<select class="form-select" id="searchCategory" aria-label="">
+						<%--
+						<select class="form-select" id="searchCategoryId" aria-label="">
 						    <option selected>선택</option>
-						    <option value="name">이름</option>
-							<option value="categoryId">종류</option>
+						    <option value="1">의류</option>
+							<option value="2">과일</option>
 					  	</select>
-	
-						<input type="text" id="searchValue" class="form-control" aria-label="Text input with dropdown button">
+	 				--%>
+						<input type="text" id="searchProductName" class="form-control" aria-label="Text input with dropdown button">
 						<button type="button" class="btn btn-outline-info" id="searchProduct" name="searchProduct">🔍</button>
 					</div>
 				</div>
@@ -184,7 +185,8 @@
 		<div id="pagination">
 						
 		</div>
-		 
+		
+		<input type="hidden" id="productCategoryId" name="productCategoryId" value="${productCategoryId }" /> 
 		<input type="hidden" id="contextPath" name="contextPath" value="${pageContext.request.contextPath }" />
 		<input type="hidden" id="currentPage" name="currentPage" value="${currentPage }" />
 		<input type="hidden" id="pageSize" name="pageSize" value="${pageSize }" />

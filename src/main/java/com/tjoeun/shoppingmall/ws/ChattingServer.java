@@ -45,6 +45,7 @@ public class ChattingServer
 		CREATE_ROOM("3", "방 생성"),
 		ENTRY_ROOM("4", "방 참여"),
 		PRODUCT_DATA("5", "상품 정보"),
+		UPDATE("6", "갱신"),
 		
 		NONE("0", "알수없음");
 		
@@ -118,9 +119,13 @@ public class ChattingServer
 	
 	@OnOpen // 클라이언트 접속 시 실행
 	public void onOpen(Session session) 
-	{
+	{		
+		synchronized (clients) 
+		{			
+			clients.put(session, null);	
+		}
+		
 		logger.info("call onOpen => 접속(Session): " + session.getId());
-		clients.put(session, null);
 	}
 
 	static public RequestCode StringToRequestCode(String strCode)
@@ -150,6 +155,14 @@ public class ChattingServer
 			
 			switch(code)
 			{
+			case UPDATE:
+				{
+					String id = (String)jMsg.get("id");
+					
+					HttpSessionManagement.getInstance().update(id, 0);
+				}
+				break;
+			
 			case PRODUCT_DATA:
 				{
 					String id = (String)jMsg.get("id");	
@@ -245,18 +258,21 @@ public class ChattingServer
 							Iterator<Session> iter = keys.iterator();
 							while(iter.hasNext())
 							{
-								WsInfoData entryUserData = clients.get(iter.next());
-								UsersVO entryUserInfo = entryUserData.getUserInfo();
-								
-								if(
-									entryUserId.equals(entryUserInfo.getId())
-								)
-								{
-									// 방에 참여할 다른 사용자를 방에 참여한다.
-									room.entryRoom(entryUserData);
-									entryUserData.addRoom(room);
-									enterUsers.add(entryUserId);
-									break;
+								synchronized (clients) 
+								{	
+									WsInfoData entryUserData = clients.get(iter.next());
+									UsersVO entryUserInfo = entryUserData.getUserInfo();
+									
+									if(
+										entryUserId.equals(entryUserInfo.getId())
+									)
+									{
+										// 방에 참여할 다른 사용자를 방에 참여한다.
+										room.entryRoom(entryUserData);
+										entryUserData.addRoom(room);
+										enterUsers.add(entryUserId);
+										break;
+									}
 								}
 							}
 						}
@@ -287,8 +303,14 @@ public class ChattingServer
 							
 							logger.info("call onMessage => INIT: " + session.getId() + ", " + userInfo);
 							
-							clients.put(session, wsInfo);	
+
+							synchronized (clients) 
+							{	
+								clients.put(session, wsInfo);	
+							}
+								
 							retval.put("code", ResponseCode.INIT_SUCCESS.getCode());
+							retval.put("interval", HttpSessionManagement.getInstance().getMaxInterval(id));
 							retval.put("msg", ResponseCode.INIT_SUCCESS.getMsg());
 							
 							
@@ -384,36 +406,39 @@ public class ChattingServer
 	@OnClose
 	public void onClose(Session session) 
 	{
-		WsInfoData wsInfo = clients.get(session);		
-		clients.remove(session);
-		
-		if(wsInfo != null)
+		synchronized (clients) 
 		{
-			String id = wsInfo.getUserInfo().getId();
+			WsInfoData wsInfo = clients.get(session);		
+			clients.remove(session);
 			
-			try 
-			{		
-				//*
-			
-				JSONObject senderData = new JSONObject();
-				
-				senderData.put("closedId", id);				
-				senderData.put("code", ResponseCode.CLOSE_USER.getCode());
-				senderData.put("msg", ResponseCode.CLOSE_USER.getMsg());
-				
-				//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
-				//wsInfo.sendAllRoomMessage(id, senderData);
-								
-				//*/
-				
-				logger.info("call onClose => " + session.getId() + ", " + wsInfo.getUserInfo());
-				
-				wsInfo.leaveRooms(senderData);
-			}
-			catch (Exception e) 
+			if(wsInfo != null)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				String id = wsInfo.getUserInfo().getId();
+				
+				try 
+				{		
+					//*
+				
+					JSONObject senderData = new JSONObject();
+					
+					senderData.put("closedId", id);				
+					senderData.put("code", ResponseCode.CLOSE_USER.getCode());
+					senderData.put("msg", ResponseCode.CLOSE_USER.getMsg());
+					
+					//방에 참여한 모든 인원에게 종료한 사용자를 알려주기(전송)
+					//wsInfo.sendAllRoomMessage(id, senderData);
+									
+					//*/
+					
+					logger.info("call onClose => " + session.getId() + ", " + wsInfo.getUserInfo());
+					
+					wsInfo.leaveRooms(senderData);
+				}
+				catch (Exception e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		

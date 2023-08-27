@@ -22,12 +22,12 @@ public class ProductDAO {
 		return mapper.insert("Product.insert", item);
 	}
 	
-	public List<ProductVO> selectList(SqlSession mapper, HashMap<String, Object> params)
+	public List<ProductVO> selectList(SqlSession mapper, ProductVO params)
 	{
 		return mapper.selectList("Product.selectList", params);
 	}
 
-	public int totalCount(SqlSession mapper, java.util.HashMap<String, Object> params)
+	public int totalCount(SqlSession mapper, ProductVO params)
 	{
 		return (int)mapper.selectOne("Product.totalCount", params);
 	}

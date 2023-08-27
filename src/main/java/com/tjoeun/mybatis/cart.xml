@@ -18,7 +18,7 @@
 			(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
 			p.delivery_price,
 			
-			p.amount as product_amount,			
+			p.amount as product_amount,
 			p.price,
 			to_char(c.amount, 'FM999,999,999') fmt_amount,
 			to_char(p.price, 'FM999,999,999') fmt_price,
@@ -28,7 +28,7 @@
 				else to_char(p.delivery_price, 'FM999,999,999')
 			end fmt_delivery_price,			
 			to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') fmt_discount_price
-						
+									
 			
 		FROM cart c JOIN product p ON c.product_id = p.id
 		where c.user_id = #{userId}

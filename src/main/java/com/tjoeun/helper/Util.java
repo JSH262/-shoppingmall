@@ -87,6 +87,19 @@ public class Util
 		
 		return defaultValue;
 	}
+	static public Long toLong(String item, Long defaultValue)
+	{
+		try
+		{
+			return Long.parseLong(item.trim());
+		}
+		catch(Exception exp)
+		{
+			
+		}
+		
+		return defaultValue;
+	}
 	
 	/**
 	 * 문자를 정수로 바꿔주지만 양수만 허용하는 함수

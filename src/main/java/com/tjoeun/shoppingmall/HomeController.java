@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -37,8 +38,19 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-	public String homePage(Locale locale, Model model) 
+	public String homePage(Locale locale, Model model, HttpSession session) 
 	{
+		/*
+		UsersVO userInfo = AttributeName.getUserData(session);
+		
+		if(userInfo != null && userInfo.getType().equals(UsersType.SELLER))
+		{
+			return "redirect:/product/list";
+		}
+		else		
+			return "index";
+		//*/
+		
 		return "index";
 	}
 	
@@ -101,6 +113,21 @@ public class HomeController {
 		
 		return "redirect:/";
 	}
-	
+	@RequestMapping(value="/alert", method=RequestMethod.GET)
+	public String alert(HttpSession session)
+	{
+		/*
+		UsersVO userInfo = AttributeName.getUserData(session);
+		
+		if(userInfo != null && userInfo.getType().equals(UsersType.SELLER))
+		{
+			return "realtimeAlert";
+		}
+		
+		return "redirect:/";
+		*/
+		
+		return "realtimeAlert";
+	}
 	
 }

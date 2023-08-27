@@ -8,13 +8,13 @@ $(() => {
 		const CONTEXT_PATH = $("#contextPath").val();
 		const CURRENT_PAGE =  parseInt($("#currentPage").val());
 		const PAGE_SIZE = parseInt($("#pageSize").val());
-		let searCat = $("#searchCategory").val(); 
-		let searVal = $("#searchValue").val();
+		let searCategoryId = $("#productCategoryId").val(); 
+		let searProductName = $("#searchProductName").val();
 		
 		const productNode = $("div[name=product]").clone();
 		$("div[name=product]").remove();
 		
-		let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
+		let successSearchData = function(nCurrentPage, nPageSize, searchCategoryId, searchProductName) 
 		{
 			if(!nCurrentPage)
 				nCurrentPage = CURRENT_PAGE;
@@ -22,11 +22,17 @@ $(() => {
 			if(!nPageSize)
 				nPageSize = PAGE_SIZE;
 			
+			if(!searchCategoryId)
+				searchCategoryId = null;
+			
+			if(!searchProductName)
+				searchProductName = null;
+			
 			let data = {
-				searchCategory: searchCategory,
-				searchValue: searchValue,
-				currentPage: nCurrentPage,
-				pageSize: nPageSize	 
+				'productCategoryId': searchCategoryId,
+				'productName': searchProductName,
+				'currentPage': nCurrentPage,
+				'pageSize': nPageSize	 
 			};
 	
 			Ajax(`${CONTEXT_PATH}/product/list`, "POST", JSON.stringify(data), 
@@ -121,7 +127,7 @@ $(() => {
 					{
 						prevNode = $(`<span class="page-number">이전</span>`);
 						prevNode.bind('click', function() {
-							successSearchData(pagination.startPage - 1, pageSize, searCat, searVal);
+							successSearchData(pagination.startPage - 1, pageSize, searchCategoryId, searchProductName);
 						});
 					}
 					$("#pagination").append(prevNode);
@@ -139,7 +145,7 @@ $(() => {
 						{
 							node = $(`<span class="page-number">${i}</span>`);		
 							node.bind('click', function() {
-								successSearchData(i, pageSize, searCat, searVal);
+								successSearchData(i, pageSize, searchCategoryId, searchProductName);
 							});	
 						}
 						
@@ -152,7 +158,7 @@ $(() => {
 					{
 						nextNode = $(`<span class="page-number">다음</span>`);
 						nextNode.bind('click', function() {
-							successSearchData(pagination.endPage + 1, pageSize, searCat, searVal);
+							successSearchData(pagination.endPage + 1, pageSize, searchCategoryId, searchProductName);
 						});
 					}
 					else
@@ -175,13 +181,13 @@ $(() => {
 		};//let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 		
 		
-		successSearchData(CURRENT_PAGE, PAGE_SIZE, null, null);
+		successSearchData(CURRENT_PAGE, PAGE_SIZE, searCategoryId, null);
 		
 		$("#searchProduct").bind('click', function() {
-			searVal = $("#searchValue").val();
+			searVal = $("#searchProductName").val();
 			if(searVal)
 			{
-				searCat = $("#searchCategory").val();	
+				searCat = $("#searCategoryId").val();	
 			}
 			else
 			{
@@ -193,7 +199,7 @@ $(() => {
 		});	
 		
 		
-		$("#searchValue").bind('keyup', function(e)	{
+		$("#searchProductName").bind('keyup', function(e)	{
 			
 			//Enter
 			if(e.keyCode == 13)

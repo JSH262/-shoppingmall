@@ -1,3 +1,4 @@
+<%@page import="com.tjoeun.helper.AttributeName"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
@@ -9,6 +10,10 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 	
+		<script>
+			document.contextPath = '<%=request.getContextPath() %>';
+			document.id = '<%=AttributeName.getUserData(request).getId() %>';
+		</script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/payment.js"></script>

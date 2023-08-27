@@ -56,6 +56,37 @@ public class HttpSessionManagement
 		return retval;
 	}
 	
+	public int getMaxInterval(String id)
+	{
+		int retval = 0;
+		
+		synchronized (clients) 
+		{
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
+			{
+				try
+				{
+					HttpSession session = iter.next();
+					UsersVO vo = AttributeName.getUserData(session);
+					
+					if(vo.getId().equals(id))
+					{
+						retval = session.getMaxInactiveInterval();
+						break;
+					}
+				}
+				catch(Exception exp)
+				{
+					exp.printStackTrace();
+				}
+			}
+		}
+		
+		return retval;
+	}
+	
+	
 	public boolean isUser(String id)
 	{
 		return getUserData(id) != null;
@@ -63,49 +94,112 @@ public class HttpSessionManagement
 	
 	public void sessionCreated(HttpSession se) 
 	{
-		clients.add(se);
+		synchronized (clients) 
+		{
+			UsersVO userInfo = AttributeName.getUserData(se);
+			if(userInfo != null)
+			{
+				// 기존에 생성된 유저의 세션 정보를 제거한다.
+				Iterator<HttpSession> iter = clients.iterator();
+				while(iter.hasNext())
+				{
+					HttpSession tmpSession = iter.next();
+					UsersVO tmpUserInfo = AttributeName.getUserData(tmpSession);
+					
+					if(tmpUserInfo.getId().equals(userInfo.getId()))
+					{
+						try
+						{
+							tmpSession.invalidate();
+						}
+						catch(IllegalStateException exp)
+						{
+						
+						}
+						
+						clients.remove(tmpSession);
+						break;
+					}
+				}
+			}
+			
+			clients.add(se);	
+		}
 	}
 	
 	public void sessionDestroyed(HttpSession se) 
 	{
-		clients.remove(se);	
+		synchronized (clients) {
+			clients.remove(se);	
+		}
 	}
 	public void sessionDestroyed(String id)
 	{
-		Iterator<HttpSession> iter = clients.iterator();
-		while(iter.hasNext())
-		{
-			try
+		synchronized (clients) 
+		{	
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
 			{
-				HttpSession session = iter.next();
-				UsersVO vo = AttributeName.getUserData(session);
-				
-				if(vo.getId().equals(id))
+				try
 				{
-					clients.remove(session);
+					HttpSession session = iter.next();
+					UsersVO vo = AttributeName.getUserData(session);
+					
+					if(vo.getId().equals(id))
+					{
+						clients.remove(session);
+						break;
+					}
+				}
+				catch(Exception exp)
+				{
+					exp.printStackTrace();
+				}
+			}
+		}
+	}
+	static final int ADD_INTERVAL = 60 * 60 * 1000;
+	public int update(String id, int interval)
+	{
+		if(interval <= 0)
+			interval = ADD_INTERVAL;
+		
+		int resultInterval = 0;
+		synchronized (clients) 
+		{
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
+			{
+				HttpSession tmp = iter.next();				
+				UsersVO userInfo = AttributeName.getUserData(tmp);
+				if(userInfo.getId().equals(id))
+				{
+					resultInterval = tmp.getMaxInactiveInterval() + interval;
+					
+					tmp.setMaxInactiveInterval(resultInterval); 
 					break;
 				}
 			}
-			catch(Exception exp)
-			{
-				exp.printStackTrace();
-			}
 		}
-	
+		
+		return resultInterval;
 	}
-	
 	
 	public void releases()
 	{
-		Iterator<HttpSession> iter = clients.iterator();
-		while(iter.hasNext())
+		synchronized (clients) 
 		{
-			HttpSession tmp = iter.next();
-			long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
-			
-			if(System.currentTimeMillis() >= time)
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
 			{
-				clients.remove(tmp);
+				HttpSession tmp = iter.next();
+				//tmp.getCreationTime();
+				long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
+				
+				if(System.currentTimeMillis() >= time)
+				{
+					clients.remove(tmp);
+				}
 			}
 		}
 	}

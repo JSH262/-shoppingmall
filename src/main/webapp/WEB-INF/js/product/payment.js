@@ -2,6 +2,8 @@
 
 $(() => {
 	const CONTEXT_PATH = $("#contextPath").val();
+	const ID = document.id;
+	const PRODUCT_BUY = "02";
 	
 	let data = {
 		"status":"pay_after"
@@ -12,8 +14,12 @@ $(() => {
 		Ajax(`${CONTEXT_PATH}/product/payment`, "POST", JSON.stringify(data), 
 			function(resp)
 			{
+				console.log(resp.result);
+			
 				if(resp.code == 0)
+				{
 					$("#paymentPrice").text(resp.result.fmtPaymentPrice);
+				}
 				else
 					alert(resp.msg);
 			},
@@ -37,9 +43,51 @@ $(() => {
 			Ajax(`${CONTEXT_PATH}/product/payment`, "POST", JSON.stringify(data), 
 				function(resp)
 				{
-					alert(resp.msg);
+					let productList = [];
+
+					for(let i = 0; i<resp.result.list.length; i++)
+					{
+						const item = resp.result.list[i];
+												
+						productList.push({
+							'productId': item.id,
+							'sellerId': item.sellerId
+						});
+					}
+				
+					const url = "ws://" + location.host + CONTEXT_PATH + '/alert';
 					
-					location.href = `${CONTEXT_PATH}/product/payment/list`;
+					wSocket = new WebSocket(url);
+					
+					// 웹소켓 서버에 연결됐을 때 실행
+					wSocket.onopen = function(event) 
+					{
+						
+						let sendData = {
+							'code': PRODUCT_BUY,
+							'id':ID,
+							'productList': productList
+						};
+						
+						wSocket.send(JSON.stringify(sendData));
+						wSocket.close();
+						
+						alert(resp.msg);					
+						location.href = `${CONTEXT_PATH}/product/payment/list`;
+					};
+				
+					wSocket.onclose = function(event) 
+					{
+						console.log("웹소켓 서버가 종료되었습니다.", event.data);
+					};
+				
+					wSocket.onerror = function(event) {
+						console.error(event.data);
+					}; 
+				
+					wSocket.onmessage = function(event) { 
+					   
+					};
 				},
 				function(err)
 				{
