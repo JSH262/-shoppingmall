@@ -34,7 +34,7 @@ public class ProductModifyController {
     
     
 
-	@RequestMapping(value="/product/modify/", method=RequestMethod.POST)
+	@RequestMapping(value="/product/modify", method=RequestMethod.POST)
 	protected void doPost(MultipartHttpServletRequest request, HttpServletResponse response, ProductVO params) throws ServletException, IOException 
 	{
 				

@@ -289,24 +289,7 @@
 
 	
 
-	<div>
-		<h1>채팅 테스트</h1>
-		<div style="position: fixed; bottom:30px; right: 30px;">
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-info" id="btnStartChatting">
-				<i class="bi bi-chat-right-text-fill"></i>
-			</button>
-		</div>
-		
-		<script>
-			$(() => {
-				$("#btnStartChatting").bind('click', () => {
-					window.open(getContextPath() + '/chatting', '채팅', "width=995,height=850,resizable=no");
-				});			
-			});
-		</script>
-	</div>
-
+	<%@ include file="/WEB-INF/component/startChatting.jsp" %>
 
 
 </body>

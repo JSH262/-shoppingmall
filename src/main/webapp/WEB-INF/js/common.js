@@ -77,7 +77,7 @@ function getContextPath()
 		}
 		else
 		{
-			return null;
+			return '';
 		}
 	}
 }

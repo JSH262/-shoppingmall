@@ -182,7 +182,7 @@ $(() => {
 		
 		
 		$("#save").bind('click', function() {	
-			let url = contextPath + "/product/modify/";
+			let url = contextPath + "/product/modify";
 			let id = $("#id").val();
 			let name = $("#name").val();
 			let file = document.getElementById("file");

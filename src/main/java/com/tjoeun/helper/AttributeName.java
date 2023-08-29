@@ -46,6 +46,18 @@ public class AttributeName {
 	 {
 		return getDestAddr(request.getSession()); 		 
 	 }
-	 
+	 static public String getUserId(HttpServletRequest request)
+	 {
+		 try
+		 {
+			 return getUserData(request).getId();
+		 }
+		 catch(Exception exp)
+		 {
+			 
+		 }
+		 
+		 return null;
+	 }
 	 
 }

@@ -2,14 +2,14 @@ $(() => {
 	
 	const alertContentsNode = $(`
 	<div class="list-group w-auto" >
-		<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" id="realtimeAlertContentsLink">
+		<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" name="realtimeAlertContentsLink">
 			<i class="bi bi-info-circle text-primary" style="font-size:2rem;"></i>
 			<div class="d-flex gap-2 w-100 justify-content-between">
 				<div>
-					<h6 class="mb-0" id="realtimeAlertContentsTitle">알림</h6>
-					<p class="mb-0 opacity-75" id="realtimeAlertContentsBody"></p>
+					<h6 class="mb-0" name="realtimeAlertContentsTitle">알림</h6>
+					<p class="mb-0 opacity-75" name="realtimeAlertContentsBody"></p>
 				</div>
-				<small class="opacity-50 text-nowrap" id="realtimeAlertContentsTime"></small>
+				<small class="opacity-50 text-nowrap" name="realtimeAlertContentsTime"></small>
 			</div>
 		</a>			
 	</div>`);
@@ -87,8 +87,8 @@ $(() => {
 			    	let tmpNode = alertContentsNode.clone();
 			    	let tmpMsg = `현재 판매중인 "${data.productNames}"을(를) 누군가가 구입했어요`;
 			    	
-			    	tmpNode.find('#realtimeAlertContentsBody').text(tmpMsg);
-			    	tmpNode.find('#realtimeAlertContentsLink').attr('href', data.link);
+			    	tmpNode.find('p[name=realtimeAlertContentsBody]').text(tmpMsg);
+			    	tmpNode.find('a[name=realtimeAlertContentsLink]').attr('href', data.link);
 			    	
 			    	alertContents.append(tmpNode);
 			    	

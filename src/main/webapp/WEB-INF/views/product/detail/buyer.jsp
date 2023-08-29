@@ -1,3 +1,4 @@
+<%@page import="com.tjoeun.helper.AttributeName"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -11,6 +12,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script>
+			document.id="<%=AttributeName.getUserId(request) %>";
+			document.contextPath = "<%=request.getContextPath() %>";
+			document.pId = "${product.id }";
+			document.sId = "${product.sellerId }";
+		</script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/detail/buyer.js"></script>
@@ -202,17 +209,11 @@
 		</div>
 		
 		
-		<div>
-			<h1>채팅 테스트</h1>
-			<div style="position: fixed; bottom:30px; right: 30px;">
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-info" id="btnStartChatting">
-					<i class="bi bi-chat-right-text-fill"></i>
-				</button>
-			</div>
-			
+		<div style="position: fixed; bottom:30px; right: 30px;">
+			<button type="button" class="btn btn-info" id="btnStartChatting">
+				<i class="bi bi-chat-right-text-fill"></i>
+			</button>
 		</div>
-			
 		
 		<input type="hidden" id="sellerId" name="sellerId" value="${product.sellerId }" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />

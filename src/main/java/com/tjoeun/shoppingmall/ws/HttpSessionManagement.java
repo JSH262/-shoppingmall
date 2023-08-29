@@ -32,26 +32,28 @@ public class HttpSessionManagement
 	{
 		UsersVO retval = null;
 		
-		Iterator<HttpSession> iter = clients.iterator();
-		while(iter.hasNext())
-		{
-			try
+		synchronized (clients) {
+		
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
 			{
-				HttpSession session = iter.next();
-				UsersVO vo = AttributeName.getUserData(session);
-				
-				if(vo.getId().equals(id))
+				try
 				{
-					retval = vo;
-					break;
+					HttpSession session = iter.next();
+					UsersVO vo = AttributeName.getUserData(session);
+					
+					if(vo.getId().equals(id))
+					{
+						retval = vo;
+						break;
+					}
+				}
+				catch(Exception exp)
+				{
+					exp.printStackTrace();
 				}
 			}
-			catch(Exception exp)
-			{
-				exp.printStackTrace();
-			}
 		}
-	
 		
 		return retval;
 	}

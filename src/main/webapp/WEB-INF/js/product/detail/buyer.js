@@ -13,7 +13,19 @@ $(() => {
 			</span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>`);
-	
+	$("#btnStartChatting").bind('click', () => {
+		
+		let url = getContextPath() + '/chatting';
+		const SID = document.sId;
+		const PID = document.pId;		
+		
+		if(SID && PID)
+		{
+			url = `${url}?sellerId=${SID}&productId=${PID}`;
+		}
+		
+		window.open(url, '1:1 채팅', "width=995,height=850,resizable=no");
+	});		
 	
 	$("#amountMinus").bind('click', function() {
 		let value = parseInt($("#amount").val()) - 1;

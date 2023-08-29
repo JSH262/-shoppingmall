@@ -309,8 +309,10 @@ public class ChattingServer
 								clients.put(session, wsInfo);	
 							}
 								
+							int interval = (int)(HttpSessionManagement.getInstance().getMaxInterval(id) * 0.9);
+							
 							retval.put("code", ResponseCode.INIT_SUCCESS.getCode());
-							retval.put("interval", HttpSessionManagement.getInstance().getMaxInterval(id));
+							retval.put("interval", interval);
 							retval.put("msg", ResponseCode.INIT_SUCCESS.getMsg());
 							
 							

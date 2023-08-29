@@ -113,7 +113,7 @@ public class HomeController {
 		
 		return "redirect:/";
 	}
-	@RequestMapping(value="/alert", method=RequestMethod.GET)
+	@RequestMapping(value="/alertTest", method=RequestMethod.GET)
 	public String alert(HttpSession session)
 	{
 		/*
@@ -127,7 +127,7 @@ public class HomeController {
 		return "redirect:/";
 		*/
 		
-		return "realtimeAlert";
+		return "realtimeAlertTest";
 	}
 	
 }
