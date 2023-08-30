@@ -11,7 +11,7 @@
 	if(userInfo != null)
 	{
 		String userType = userInfo.getType();
-		if(userType == UsersType.SELLER)
+		if(userType.equals(UsersType.SELLER))
 		{	
 %>
 		    <%-- 판매자의 채팅용 버튼 --%>

@@ -97,7 +97,7 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/chatting", method = RequestMethod.GET)
+	@RequestMapping(value = "/chatting", method = {RequestMethod.GET, RequestMethod.POST})
 	public String chatting(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		UsersVO userInfo = AttributeName.getUserData(request);
@@ -111,7 +111,7 @@ public class HomeController {
 			return "chattingSeller";
 		}
 		
-		return "redirect:/";
+		return null;
 	}
 	@RequestMapping(value="/alertTest", method=RequestMethod.GET)
 	public String alert(HttpSession session)

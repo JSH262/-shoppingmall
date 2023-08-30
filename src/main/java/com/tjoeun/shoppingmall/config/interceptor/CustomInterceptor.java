@@ -24,32 +24,9 @@ public class CustomInterceptor implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception 
 	{
+		log.info("{} => {}", request.getRequestURL(), LoginChkUrl.isCheck(request));
+	
 		
-		String contextPath = request.getContextPath();			
-		String uri = request.getRequestURI();
-		String value = uri.replace(contextPath, "");		
-		UsersVO userInfo = AttributeName.getUserData(request);
-			
-		log.info("---------------------------");
-		if(userInfo != null)
-		{
-			log.info("로그인 함");
-		}
-		else
-		{
-			log.info("로그인 안함");			
-			
-		}
-		
-
-		
-		
-		log.info(request.getMethod());
-		log.info(contextPath);
-		log.info(uri);
-		log.info(value);
-		log.info("---------------------------");
-	 
 		return true;
 	}
 

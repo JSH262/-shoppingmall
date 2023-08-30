@@ -13,6 +13,7 @@ $(() => {
 			</span>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>`);
+	/*
 	$("#btnStartChatting").bind('click', () => {
 		
 		let url = getContextPath() + '/chatting';
@@ -25,7 +26,19 @@ $(() => {
 		}
 		
 		window.open(url, '1:1 채팅', "width=995,height=850,resizable=no");
-	});		
+		
+	});	
+	
+	$("#btnStartChatting").bind('click', () => {
+		window.open(`${CONTEXT_PATH}/chatting?productId=${ID}&sellerId=${$('#sellerId').val()}`, '채팅', "width=995,height=850,resizable=no");
+	});	
+	*/	
+	$("#startChattingForm").bind('submit', function(){
+
+		window.open('about:blank', '1:1 대화', "width=995,height=850,resizable=no");
+		
+		return true;
+	});
 	
 	$("#amountMinus").bind('click', function() {
 		let value = parseInt($("#amount").val()) - 1;
@@ -85,10 +98,7 @@ $(() => {
 	$("#return").bind('click', function() {
 		location.href= `${CONTEXT_PATH}/product/list?currentPage=${CURRENT_PAGE}&pageSize=${PAGE_SIZE}`;		
 	});
-	
-	$("#btnStartChatting").bind('click', () => {
-		window.open(`${CONTEXT_PATH}/chatting?productId=${ID}&sellerId=${$('#sellerId').val()}`, '채팅', "width=995,height=850,resizable=no");
-	});		
+		
 
 });
 

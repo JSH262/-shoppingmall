@@ -15,8 +15,6 @@
 		<script>
 			document.id="<%=AttributeName.getUserId(request) %>";
 			document.contextPath = "<%=request.getContextPath() %>";
-			document.pId = "${product.id }";
-			document.sId = "${product.sellerId }";
 		</script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
@@ -208,12 +206,15 @@
 		 	</div>
 		</div>
 		
-		
-		<div style="position: fixed; bottom:30px; right: 30px;">
-			<button type="button" class="btn btn-info" id="btnStartChatting">
-				<i class="bi bi-chat-right-text-fill"></i>
-			</button>
-		</div>
+		<form action="<%=request.getContextPath() %>/chatting" method="POST" target="1:1 대화" id="startChattingForm">
+			<div style="position: fixed; bottom:30px; right: 30px;">
+				<button type="submit" class="btn btn-info" id="btnStartChatting">
+					<i class="bi bi-chat-right-text-fill"></i>
+				</button>
+			</div>
+			<input type="hidden" name="sellerId" value="${product.sellerId }">
+			<input type="hidden" name="productId" value="${product.id }">
+		</form>
 		
 		<input type="hidden" id="sellerId" name="sellerId" value="${product.sellerId }" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />

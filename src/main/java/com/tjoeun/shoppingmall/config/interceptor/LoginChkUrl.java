@@ -5,48 +5,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+import jdk.internal.org.jline.utils.Log;
+
 public class LoginChkUrl 
 {
-	static private final String[] URL = {
-		"/", 
-		"/index", 
-		"/chatting", 
-		"/login", 
-		"/UserLogin", 
-		"/CompanyInsert", 
-		"/product/payment/list", 
-		"/product/payment", 
-		"/product/order", 
-		"/product/modify", 
-		"/product/list", 
-		"/product/insert", 
-		"/product/detail", 
-		"/product/breakdown/modify", 
-		"/product/breakdown/list", 
-		"/logout", 
-		"/destaddr/selected", 
-		"/destaddr/remove", 
-		"/destaddr/list", 
-		"/destaddr/insert", 
-		"/cart/list", 
-		"/cart/insert", 
-		"/cart/updateAmount", 
-		"/cart/deleteProduct", 
-		"/join", 
-		"/joinType", 
-		"/companyInsert", 
-		"/UserJoin", 
-		"/userIdCheck",
-		"/image"//POST만 검사
-	}; 
+	static private Logger log = LoggerFactory.getLogger(LoginChkUrl.class);
 	
-	
-	final static private List<LoginChkUrlData> urls = Arrays.asList(
-		new LoginChkUrlData("/", null, null), 		// 누구나 이용할 수 있다.
+	final static private LoginChkUrlData[] permissions = {
 		new LoginChkUrlData("/index", null, null), 	// 누구나 이용할 수 있다.
 		new LoginChkUrlData("/chatting", null, new String[] {UsersType.BUYER, UsersType.SELLER}),
 		new LoginChkUrlData("/login", null, null),
@@ -79,23 +51,23 @@ public class LoginChkUrl
 		
 		new LoginChkUrlData("/image", "GET", null),
 		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER})//POST만 검사
-	);
+	};
 	
 	static private class LoginChkUrlData
 	{
-		private String url;
+		private String uri;
 		private String method;
 		private String[] userType;
 			
-		private LoginChkUrlData(String url, String method, String[] userType)
+		private LoginChkUrlData(String uri, String method, String[] userType)
 		{
-			this.url = url;
+			this.uri = uri;
 			this.method = method;
 			this.userType = userType;
 		}
 
-		public String getUrl() {
-			return url;
+		public String getUri() {
+			return uri;
 		}
 
 		public String getMethod() {
@@ -105,14 +77,23 @@ public class LoginChkUrl
 		public String[] getUserType() {
 			return userType;
 		}
+
+		@Override
+		public String toString() {
+			return "LoginChkUrlData [url=" + uri + ", method=" + method + ", userType=" + Arrays.toString(userType)
+					+ "]";
+		}
+		
+		
 	}
 	
 	static public String getUri(HttpServletRequest request)
 	{
 		String contextPath = request.getContextPath();			
 		String uri = request.getRequestURI();
+		String value = uri.replace(contextPath, "");
 		
-		return uri.replace(contextPath, "");
+		return value;
 	}
 	
 	static public boolean isCheck(HttpServletRequest request)
@@ -122,64 +103,55 @@ public class LoginChkUrl
 		UsersVO userInfo = AttributeName.getUserData(request);
 		String userType = userInfo != null ? userInfo.getType() : null;
 		
-		for(int i = 0; i<urls.size(); i++)
+		for(int i = 0; i<permissions.length; i++)
 		{
-			LoginChkUrlData data = urls.get(i);
-			String tmpMethod = data.getMethod();
+			LoginChkUrlData uriData = permissions[i];
+			int findUriIndex = uri.indexOf(uriData.getUri());
+			String uriMethod = uriData.getMethod();
+					
 			
-			// method가 문제라서 이렇게 하면 오류가 발생한다. => 오류는 항상 GET만 검사하고 post는 검사하지 않음
-			if(data.getUrl().equals(uri) && tmpMethod == null)
+			if(findUriIndex != -1 && uriMethod == null)
 			{
-				boolean isUserType = false;
-				String[] tmpType = data.getUserType();
-			
-				if(tmpType != null)
+				if(uriData.getUserType() == null)
 				{
-					if(userType != null)
-					{
-						for(int q = 0; q<tmpType.length; q++)
-						{
-							if(userType.equals(tmpType[q]))
-							{
-								isUserType = true;
-								break;
-							}						
-						}	
-					}
-					else
-					{
-						isUserType = false;
-					}
-									
+					return true;
 				}
 				else
 				{
-					isUserType = true;
-				}
-				
-				
-				return isUserType;
-			}
-			else if(data.getUrl().equals(uri) && tmpMethod != null)
-			{
-				if(tmpMethod.equals(method)) 
-				{
-					String[] tmpType = data.getUserType();
-					if(tmpType != null && userType != null)
+					if(userType == null)
+						return false;
+					
+					for(String uriUserType : uriData.getUserType())
 					{
-						boolean isUserType = false;
-						for(int q = 0; q<tmpType.length; q++)
+						if(uriUserType.equals(userType)) 
 						{
-							if(userType.equals(tmpType[q]))
+							return true;
+						}
+					}
+				}
+			}
+			else if(findUriIndex != -1 && uriMethod != null)
+			{
+				if(uriMethod.equals(method))
+				{
+					if(uriData.getUserType() == null)
+					{
+						return true;
+					}
+					else
+					{
+						if(userType == null)
+							return false;
+						
+						for(String uriUserType : uriData.getUserType())
+						{
+							if(uriUserType.equals(userType)) 
 							{
-								isUserType = true;
-								break;
+								return true;
 							}
 						}
-						
-						return isUserType;
-					}
-				}	
+					}		
+				}
 			}
 		}
 		
