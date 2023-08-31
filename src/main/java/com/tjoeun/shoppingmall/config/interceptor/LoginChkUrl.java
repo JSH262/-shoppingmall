@@ -1,5 +1,6 @@
 package com.tjoeun.shoppingmall.config.interceptor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,8 +19,7 @@ public class LoginChkUrl
 {
 	static private Logger log = LoggerFactory.getLogger(LoginChkUrl.class);
 	
-	final static private LoginChkUrlData[] permissions = {
-		new LoginChkUrlData("/index", null, null), 	// 누구나 이용할 수 있다.
+	final static private List<LoginChkUrlData> permissions = Arrays.asList(
 		new LoginChkUrlData("/chatting", null, new String[] {UsersType.BUYER, UsersType.SELLER}),
 		new LoginChkUrlData("/login", null, null),
 		new LoginChkUrlData("/UserLogin", null, null),
@@ -51,7 +51,7 @@ public class LoginChkUrl
 		
 		new LoginChkUrlData("/image", "GET", null),
 		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER})//POST만 검사
-	};
+	);
 	
 	static private class LoginChkUrlData
 	{
@@ -103,9 +103,9 @@ public class LoginChkUrl
 		UsersVO userInfo = AttributeName.getUserData(request);
 		String userType = userInfo != null ? userInfo.getType() : null;
 		
-		for(int i = 0; i<permissions.length; i++)
+		for(int i = 0; i<permissions.size(); i++)
 		{
-			LoginChkUrlData uriData = permissions[i];
+			LoginChkUrlData uriData = permissions.get(i);
 			int findUriIndex = uri.indexOf(uriData.getUri());
 			String uriMethod = uriData.getMethod();
 					

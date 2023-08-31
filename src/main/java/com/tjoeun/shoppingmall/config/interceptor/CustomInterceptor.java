@@ -24,10 +24,11 @@ public class CustomInterceptor implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception 
 	{
-		log.info("{} => {}", request.getRequestURL(), LoginChkUrl.isCheck(request));
-	
+		boolean isRetval = LoginChkUrl.isCheck(request);
+		if(!isRetval)
+			response.sendError(404);
 		
-		return true;
+		return isRetval;
 	}
 
 	@Override
