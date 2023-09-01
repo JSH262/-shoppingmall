@@ -24,9 +24,13 @@ public class CustomInterceptor implements HandlerInterceptor
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception 
 	{
-		boolean isRetval = LoginChkUrl.isCheck(request);
+		LoginChkData checkData = LoginChkUrl.isCheck(request);
+		boolean isRetval = checkData.isCheck();
 		if(!isRetval)
-			response.sendError(404);
+		{
+						
+			response.sendRedirect(request.getContextPath() + checkData.getRedirectUrl());
+		}
 		
 		return isRetval;
 	}

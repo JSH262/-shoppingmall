@@ -20,37 +20,37 @@ public class LoginChkUrl
 	static private Logger log = LoggerFactory.getLogger(LoginChkUrl.class);
 	
 	final static private List<LoginChkUrlData> permissions = Arrays.asList(
-		new LoginChkUrlData("/chatting", null, new String[] {UsersType.BUYER, UsersType.SELLER}),
-		new LoginChkUrlData("/login", null, null),
-		new LoginChkUrlData("/UserLogin", null, null),
-		new LoginChkUrlData("/CompanyInsert", null, null),
-		new LoginChkUrlData("/product/payment/list", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/product/payment", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/product/order", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/product/modify", null, new String[] {UsersType.SELLER}),
-		new LoginChkUrlData("/product/list", null, null),
-		new LoginChkUrlData("/product/insert", null, new String[] {UsersType.SELLER}),
-		new LoginChkUrlData("/product/detail", null, null),
-		new LoginChkUrlData("/product/breakdown/modify", null, new String[] {UsersType.SELLER}),
-		new LoginChkUrlData("/product/breakdown/list", null, new String[] {UsersType.SELLER}),
-		new LoginChkUrlData("/logout", null, null),
-		new LoginChkUrlData("/destaddr/selected", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/destaddr/remove", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/destaddr/list", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/destaddr/insert", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/cart/list", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/cart/insert", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/cart/updateAmount", null, new String[] {UsersType.BUYER}),
-		new LoginChkUrlData("/cart/deleteProduct", null, new String[] {UsersType.BUYER}),
+		new LoginChkUrlData("/chatting", null, new String[] {UsersType.BUYER, UsersType.SELLER}, "/login"),
+		new LoginChkUrlData("/login", null, null, null),
+		new LoginChkUrlData("/UserLogin", null, null, null),
+		new LoginChkUrlData("/CompanyInsert", null, null, null),
+		new LoginChkUrlData("/product/payment/list", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/product/payment", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/product/order", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/product/modify", null, new String[] {UsersType.SELLER}, "/login"),
+		new LoginChkUrlData("/product/list", null, null, null),
+		new LoginChkUrlData("/product/insert", null, new String[] {UsersType.SELLER}, "/login"),
+		new LoginChkUrlData("/product/detail", null, null, null),
+		new LoginChkUrlData("/product/breakdown/modify", null, new String[] {UsersType.SELLER}, "/login"),
+		new LoginChkUrlData("/product/breakdown/list", null, new String[] {UsersType.SELLER}, "/login"),
+		new LoginChkUrlData("/logout", null, null, null),
+		new LoginChkUrlData("/destaddr/selected", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/destaddr/remove", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/destaddr/list", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/destaddr/insert", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/cart/list", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/cart/insert", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/cart/updateAmount", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/cart/deleteProduct", null, new String[] {UsersType.BUYER}, "/login"),
 		
-		new LoginChkUrlData("/join", null, null),
-		new LoginChkUrlData("/joinType", null, null),
-		new LoginChkUrlData("/companyInsert", null, null),
-		new LoginChkUrlData("/UserJoin", null, null),
-		new LoginChkUrlData("/userIdCheck",null, null),
+		new LoginChkUrlData("/join", null, null, null),
+		new LoginChkUrlData("/joinType", null, null, null),
+		new LoginChkUrlData("/companyInsert", null, null, null),
+		new LoginChkUrlData("/UserJoin", null, null, null),
+		new LoginChkUrlData("/userIdCheck",null, null, null),
 		
-		new LoginChkUrlData("/image", "GET", null),
-		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER})//POST만 검사
+		new LoginChkUrlData("/image", "GET", null, null),
+		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER}, null)//POST만 검사
 	);
 	
 	static private class LoginChkUrlData
@@ -58,12 +58,14 @@ public class LoginChkUrl
 		private String uri;
 		private String method;
 		private String[] userType;
+		private String redirectUrl;
 			
-		private LoginChkUrlData(String uri, String method, String[] userType)
+		private LoginChkUrlData(String uri, String method, String[] userType, String redirectUrl)
 		{
 			this.uri = uri;
 			this.method = method;
 			this.userType = userType;
+			this.redirectUrl = redirectUrl;
 		}
 
 		public String getUri() {
@@ -77,11 +79,15 @@ public class LoginChkUrl
 		public String[] getUserType() {
 			return userType;
 		}
+		
+		public String getRedirectUrl() {
+			return redirectUrl;
+		}
 
 		@Override
 		public String toString() {
-			return "LoginChkUrlData [url=" + uri + ", method=" + method + ", userType=" + Arrays.toString(userType)
-					+ "]";
+			return "LoginChkUrlData [uri=" + uri + ", method=" + method + ", userType=" + Arrays.toString(userType)
+					+ ", redirectUrl=" + redirectUrl + "]";
 		}
 		
 		
@@ -96,7 +102,7 @@ public class LoginChkUrl
 		return value;
 	}
 	
-	static public boolean isCheck(HttpServletRequest request)
+	static public LoginChkData isCheck(HttpServletRequest request)
 	{
 		String uri = getUri(request);
 		String method = request.getMethod();
@@ -114,18 +120,21 @@ public class LoginChkUrl
 			{
 				if(uriData.getUserType() == null)
 				{
-					return true;
+					//return true;
+					return new LoginChkData(null, true);
 				}
 				else
 				{
 					if(userType == null)
-						return false;
+						//return false;
+						return new LoginChkData(uriData.getRedirectUrl(), false);
 					
 					for(String uriUserType : uriData.getUserType())
 					{
 						if(uriUserType.equals(userType)) 
 						{
-							return true;
+							//return true;
+							return new LoginChkData(null, true);
 						}
 					}
 				}
@@ -136,18 +145,18 @@ public class LoginChkUrl
 				{
 					if(uriData.getUserType() == null)
 					{
-						return true;
+						return new LoginChkData(null, true);
 					}
 					else
 					{
 						if(userType == null)
-							return false;
+							return new LoginChkData(uriData.getRedirectUrl(), false);
 						
 						for(String uriUserType : uriData.getUserType())
 						{
 							if(uriUserType.equals(userType)) 
 							{
-								return true;
+								return new LoginChkData(null, true);
 							}
 						}
 					}		
@@ -156,6 +165,6 @@ public class LoginChkUrl
 		}
 		
 		
-		return false;
+		return new LoginChkData("/index", false);
 	}
 }
