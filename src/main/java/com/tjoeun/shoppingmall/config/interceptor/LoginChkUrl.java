@@ -13,7 +13,6 @@ import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
-import jdk.internal.org.jline.utils.Log;
 
 public class LoginChkUrl 
 {
