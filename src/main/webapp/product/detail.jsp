@@ -38,7 +38,7 @@
 			
 		}
 		
-		int id = Integer.parseInt(request.getParameter("id"));
+		Long id = Long.parseLong(request.getParameter("id"));
 		ProductVO params = new ProductVO();
 		
 		params.setId(id);
