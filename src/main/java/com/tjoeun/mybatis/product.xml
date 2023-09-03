@@ -190,7 +190,7 @@
 			<if test="thumbnail != null">
 				, thumbnail = #{thumbnail}
 			</if>
-		where id = #{id}
+		where id = #{id} and seller_id = #{sellerId}
 	</update>
 		
 		

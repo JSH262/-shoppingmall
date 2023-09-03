@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
+
+<%@ include file="/WEB-INF/component/header/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/insert.js"></script>
 
 <link href="<%=request.getContextPath() %>/summernote/summernote-lite.min.css" rel="stylesheet">
@@ -25,6 +25,9 @@
 
 </head>
 <body>
+	<%@ include file="/WEB-INF/component/header.jsp" %>
+
+
 	<form id="form" method="POST" action="<%=request.getContextPath() %>">
 		<table border="1" align="center" cellpadding="5" cellspacing="0" style="margin-top:50px;">
 			<tr>
@@ -114,6 +117,10 @@
 	</form>
 	<input type="hidden" id="currentPage" name="currentPage" value="<%=request.getParameter("currentPage") %>">
 	<input type="hidden" id="pageSize" name="pageSize" value="<%=request.getParameter("pageSize") %>">
+	
+	
+	
+	<%@ include file="/WEB-INF/component/footer.jsp" %>	
 	
 </body>
 </html>

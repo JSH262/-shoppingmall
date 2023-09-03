@@ -45,7 +45,7 @@
 			</style>
 		</head>
 		<body>
-
+	<%@ include file="/WEB-INF/component/header.jsp" %>
 	<c:choose>
 		<c:when test="${product != null }">
 			<form id="form" action="<%=request.getContextPath()%>">
@@ -184,6 +184,6 @@
 				value="${currentPage}" />
 		</c:otherwise>
 	</c:choose>
-
+	<%@ include file="/WEB-INF/component/footer.jsp" %>
 </body>
 </html>

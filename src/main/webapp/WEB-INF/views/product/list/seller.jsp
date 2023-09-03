@@ -5,9 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-		
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-		<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
+		<%@ include file="/WEB-INF/component/header/common.jsp" %>		
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/list/seller.js"></script>
 		
 		<title>판매자</title>
@@ -43,6 +41,8 @@
 		</style>
 	</head>
 	<body>
+		<%@ include file="/WEB-INF/component/header.jsp" %>
+	
 		<table border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;">
 			<thead>
 				<tr>
@@ -91,5 +91,6 @@
 		<input type="hidden" id="contextPath" name="contextPath" value="${pageContext.request.contextPath }" />
 		<input type="hidden" id="currentPage" name="currentPage" value="${currentPage }" />
 		<input type="hidden" id="pageSize" name="pageSize" value="${pageSize }" />
+		<%@ include file="/WEB-INF/component/footer.jsp" %>
 	</body>
 </html>	

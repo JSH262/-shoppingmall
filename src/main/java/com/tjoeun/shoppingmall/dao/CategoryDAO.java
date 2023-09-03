@@ -21,7 +21,14 @@ public class CategoryDAO
 		return mapper.selectList("Category.selectList", vo);
 	}
 	
-	
-	
+	public List<CategoryVO> menu(SqlSession mapper) 
+	{
+		return mapper.selectList("Category.menu");
+	}
+	public List<CategoryVO> selectedMenu(SqlSession mapper, CategoryVO vo) 
+	{
+		return mapper.selectList("Category.selectedMenu", vo);
+	}
+
 
 }

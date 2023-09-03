@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
+import com.tjoeun.shoppingmall.service.CategoryService;
 import com.tjoeun.shoppingmall.service.IndexService;
 import com.tjoeun.shoppingmall.service.ProductService;
+import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
@@ -40,7 +46,7 @@ public class HomeController {
 	@RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
 	public String homePage(Locale locale, Model model, HttpSession session) 
 	{
-		/*
+		//*
 		UsersVO userInfo = AttributeName.getUserData(session);
 		
 		if(userInfo != null && userInfo.getType().equals(UsersType.SELLER))
@@ -48,10 +54,50 @@ public class HomeController {
 			return "redirect:/product/list";
 		}
 		else		
+		{
+			if(session.getAttribute("categoryList") == null)
+			{
+				CategoryService categoryService = CategoryService.getInstance();
+				List<CategoryVO> catMenu = categoryService.menu();
+				HashMap<Integer, List<CategoryVO>> catDownList1 = new HashMap<Integer, List<CategoryVO>>();
+				HashMap<Integer, List<CategoryVO>> catDownList2 = new HashMap<Integer, List<CategoryVO>>();
+				
+				for(int i = 0; i<catMenu.size(); i++)
+				{
+					CategoryVO tmp = catMenu.get(i);					
+					List<CategoryVO> tmpValue = categoryService.selectedMenu(tmp);
+					
+					catDownList1.put(tmp.getId(), tmpValue);
+					
+					
+					
+					for(int q = 0; q<tmpValue.size(); q++)
+					{
+						CategoryVO tmp2 = tmpValue.get(q);
+						List<CategoryVO> tmp2Value = categoryService.selectedMenu(tmp2);
+												
+						catDownList2.put(tmp2.getId(), tmp2Value);
+					}
+					
+					
+				}
+				
+				
+				
+				
+				
+				String retval = new Gson().toJson(catDownList1);				
+				session.setAttribute("categoryDownList", retval);
+				session.setAttribute("categoryDownList2", new Gson().toJson(catDownList2));
+				
+				session.setAttribute("categoryList", catMenu);
+			}
+			
 			return "index";
+		}
 		//*/
 		
-		return "index";
+		//return "index";
 	}
 	
 	//consumes: mime를 지정해서 요청에 대한 데이터를 고정시킬 수 있다.
@@ -128,6 +174,19 @@ public class HomeController {
 		*/
 		
 		return "realtimeAlertTest";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/error/login", produces="application/json;charset=UTF-8")
+	public String error()
+	{
+		JSONObject retval = new JSONObject();
+		
+		retval.put("msg", "로그인이 필요합니다.");
+		retval.put("code", -10000);
+		
+		
+		return retval.toJSONString();
 	}
 	
 }

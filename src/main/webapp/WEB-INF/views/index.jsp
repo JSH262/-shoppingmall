@@ -292,5 +292,9 @@
 	<%@ include file="/WEB-INF/component/startChatting.jsp" %>
 
 
+
+	<%@ include file="/WEB-INF/component/footer.jsp" %>
+
+
 </body>
 </html>

@@ -59,5 +59,18 @@ public class AttributeName {
 		 
 		 return null;
 	 }
+	 static public String getUserType(HttpServletRequest request)
+	 {
+		 try
+		 {
+			 return getUserData(request).getType();
+		 }
+		 catch(Exception exp)
+		 {
+			 
+		 }
+		 
+		 return null;
+	 }
 	 
 }

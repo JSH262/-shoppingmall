@@ -1,5 +1,7 @@
 package com.tjoeun.shoppingmall.vo;
 
+import com.google.gson.Gson;
+
 public class CategoryVO 
 {
 	Integer id;
@@ -96,8 +98,6 @@ public class CategoryVO
 	
 	@Override
 	public String toString() {
-		return "CategoryVO [id=" + id + ", name=" + name + ", lev=" + lev + ", gup=" + gup + ", seq=" + seq + ", useYn="
-				+ useYn + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", type=" + type + ", pid="
-				+ pid + "]";
+		return new Gson().toJson(this);
 	}
 }

@@ -52,6 +52,11 @@ public class ProductListController
 			retval = "product/list/seller";
 		}
 		
+		Integer productCategoryId = Util.toInt(request.getParameter("productCategoryId"), null);
+		
+		model.addAttribute("productCategoryId", productCategoryId);
+		
+		
 		return retval;
 	}
 

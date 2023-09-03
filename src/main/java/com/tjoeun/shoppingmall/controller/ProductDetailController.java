@@ -76,21 +76,33 @@ public class ProductDetailController
 		if(vo.getDeliveryPrice() == 0)
 			delivery = "";
 		
+		
+		if(user != null && user.getType().equals(UsersType.SELLER))
+		{
+			if(vo.getSellerId().equals(user.getId()))
+			{
+				List<CategoryVO> catList = ProductService.getInstance().selectProductCatList(null);
+				
+				model.addAttribute("catList", catList);			
+				model.addAttribute("product", vo);
+				model.addAttribute("delivery", delivery);
+				model.addAttribute("pageSize", pageSize);
+				model.addAttribute("currentPage", currentPage);
+			
+				return "product/detail/seller";	
+			}
+			else
+			{
+				return "redirect:/";
+			}
+		}
+		
+
 		model.addAttribute("product", vo);
 		model.addAttribute("delivery", delivery);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("currentPage", currentPage);
 		
-		
-		if(user != null && user.getType().equals(UsersType.SELLER))
-		{
-			List<CategoryVO> catList = ProductService.getInstance().selectProductCatList(null);
-			
-			model.addAttribute("catList", catList);
-			
-			
-			return "product/detail/seller";	
-		}
 		
 		return "product/detail/buyer";
 	}

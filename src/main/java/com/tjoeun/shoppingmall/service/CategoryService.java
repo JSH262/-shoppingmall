@@ -39,4 +39,42 @@ public class CategoryService
 				
 		return retval;
 	}
+	
+	public List<CategoryVO> menu()
+	{
+		List<CategoryVO> retval = null;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = CategoryDAO.getInstance().menu(mapper);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}
+	
+	public List<CategoryVO> selectedMenu(CategoryVO vo)
+	{
+		List<CategoryVO> retval = null;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = CategoryDAO.getInstance().selectedMenu(mapper, vo);
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+		}
+		
+		mapper.close();
+				
+		return retval;
+	}	
 }
