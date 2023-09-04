@@ -22,6 +22,7 @@
 		<typeAlias type="com.tjoeun.shoppingmall.vo.PaymentVO" alias="PaymentVO" />
 		<typeAlias type="com.tjoeun.shoppingmall.vo.ProductOrderVO" alias="ProductOrderVO" />
 		<typeAlias type="com.tjoeun.shoppingmall.vo.DestinationAddressVO" alias="DestinationAddressVO" />
+		<typeAlias type="com.tjoeun.shoppingmall.vo.ReviewVO" alias="ReviewVO" />
 	</typeAliases>
 	
 	<environments default="development">
@@ -46,6 +47,7 @@
 		<mapper resource="com/tjoeun/mybatis/productOrder.xml" />
 		<mapper resource="com/tjoeun/mybatis/payment.xml" />
 		<mapper resource="com/tjoeun/mybatis/destinationAddress.xml" />
+		<mapper resource="com/tjoeun/mybatis/review.xml" />
 
 	</mappers>
 	

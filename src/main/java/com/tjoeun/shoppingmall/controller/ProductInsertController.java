@@ -77,14 +77,14 @@ public class ProductInsertController {
 								
 					if(jUploadResult.get("code").equals(0) || jUploadResult.get("code").equals(0L))
 					{
-						// 3. 상품 정보를 저장한다.
+						// 3. �긽�뭹 �젙蹂대�� ���옣�븳�떎.
 						JSONArray arrResult = (JSONArray)jUploadResult.get("result");
 						item.setThumbnail((String)arrResult.get(0));		
 						retval.put("uploadCode", 0);
 					}
 					else
 					{
-						//업로드 실패
+						//�뾽濡쒕뱶 �떎�뙣
 						retval.put("uploadCode", jUploadResult.get("code"));
 						retval.put("uploadMsg", jUploadResult.get("msg"));
 						item.setThumbnail("");
@@ -100,19 +100,19 @@ public class ProductInsertController {
 				if(ProductService.getInstance().insert(item) == 1)
 				{
 					retval.put("code", 0);
-					retval.put("msg", "상품등록 성공");
+					retval.put("msg", "�긽�뭹�벑濡� �꽦怨�");
 					retval.put("result", request.getContextPath() + "/product/list");
 				}
 				else
 				{
 					retval.put("code", -3);
-					retval.put("msg", "상품등록 실패");
+					retval.put("msg", "�긽�뭹�벑濡� �떎�뙣");
 				}
 			}
 			else
 			{
 				retval.put("code", -99);
-				retval.put("msg", "잘못된 접근입니다.");
+				retval.put("msg", "�옒紐삳맂 �젒洹쇱엯�땲�떎.");
 			}
 			
 		}
