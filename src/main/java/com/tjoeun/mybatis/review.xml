@@ -3,33 +3,20 @@
 <mapper namespace="Review">
 
 	<insert id="insert" parameterType="ReviewVO">		
-		insert into review(user_id, product_id, score, contents)
-		values(#{userId}, #{productId}, #{score}, #{contents})
+		insert into review(id, user_id, product_id, score, contents)
+		values(review_seq_id.nextval, #{userId}, #{productId}, #{score}, #{contents})
 	</insert>
-	
-	<update id="update" parameterType="ReviewVO">
-		update cart
-		set	amount = nvl(amount, 0) + #{amount}
-		where user_id = #{userId} and product_id = #{productId}
-	</update>
 		
-	<delete id="delete" parameterType="ReviewVO">
-		delete 
-		from cart
-		where
-			<if test="userId != null"> 
-				user_id = #{userId}
-			</if>
-			<if test="productId != null"> 
-				and product_id = #{productId}
-			</if>  
-			
-	</delete>
+	<update id="delete" parameterType="ReviewVO">
+		update review
+		set	use_yn = "N"
+		where id = #{Id}
+	</update>
 	
 	
-	<select id="productIds" parameterType="ReviewVO" resultType="ReviewVO">
-		select product_id
-		from cart
+	<select id="reviewIds" parameterType="ReviewVO" resultType="ReviewVO">
+		select id
+		from review
 		where user_id = #{userId}
 	</select>
 	

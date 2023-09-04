@@ -19,7 +19,7 @@ function reviewInsert() {
 					$('#messageContent').html('리뷰등록에 성공했습니다.');
 					$('#errorMessage').html('리뷰등록에 성공했습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-success');
-					location.href="index";
+					location.href="/shoppingmall/product/payment/list";
 					break;
 				case '2':
 					$('#messageType').html('에러 메시지');
