@@ -108,6 +108,12 @@ $(() => {
 		const ocCatDn = new bootstrap.Offcanvas('#offcanvasCategoryDown');
 		const ocCatDn2 = new bootstrap.Offcanvas('#offcanvasCategoryDown2');
 		
+		const ocCategory = document.getElementById('offcanvasCategory')
+		ocCategory.addEventListener('hide.bs.offcanvas', function() {
+			ocCatDn.hide();
+			ocCatDn2.hide();
+		})
+		
 		$("#offcanvasCategory").find('div[name=offcanvasCategoryDownShow]').bind('click', function() {
 			let catId = parseInt($(this).attr('data-bs-category-id'));
 			const catData = catDnList[catId];
@@ -122,7 +128,6 @@ $(() => {
 				cdNode.find('div[name=offcanvasCategoryDownShow]').attr('data-bs-category-id', catData[i].id);
 				cdNode.find('div[name=offcanvasCategoryDownShow]').bind('click', function() {					
 					let cd2Id = parseInt($(this).attr('data-bs-category-id'));
-					let cd2Data = catDn2List[cd2Id];
 					let cd2Body = $('ul[name=offcanvasCategoryDown2List]');
 					
 					cd2Body.empty();
