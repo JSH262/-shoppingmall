@@ -13,25 +13,22 @@
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
 			
+			<%--
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item dropend">
-					<button class="btn nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategory" aria-controls="offcanvasCategory" id="categoryList">
-						<i class="bi bi-list" style="font-size:2em;"></i>
-					</button>
-					<%--
-					<ul class="dropdown-menu" id="categoryMenu">
-						<c:forEach var="item" items="${categoryList }">
-							<a class="dropdown-item" href="<%=request.getContextPath() %>/product/list?productCategoryId=${item.id}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								${item.name }
-							</a>
-						</c:forEach>
-					</ul>
-					 --%>
-				</li>
+					<li class="nav-item dropend">
+						<button class="btn nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategory" aria-controls="offcanvasCategory" id="categoryList">
+							<i class="bi bi-list" style="font-size:2em;"></i>
+						</button>
+					</li>
 				</ul>
 			</div>
-			
+			 --%>
+			 
+			<button class="btn nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategory" aria-controls="offcanvasCategory" id="categoryList">
+				<i class="bi bi-list" style="font-size:2em;"></i>
+			</button>
+			<div>&nbsp;</div>
 			<a class="navbar-brand" href="<%=request.getContextPath() %>/index">쇼핑몰</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -99,9 +96,11 @@
 
 
 				</ul>
-				<form class="d-flex" role="search" style="width: 40%">
-					<input class="form-control me-2" type="search" placeholder="검색할 내용을 입력하세요" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">검색</button>
+				<form>
+					<div class="input-group">
+						<input type="text" class="form-control" style="width:300px;" placeholder="검색할 내용을 입력하세요">
+						<button class="btn btn-outline-success" type="submit">검색</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -144,7 +143,7 @@
 	</div>
 </div>
 
-<div class="offcanvas offcanvas-start" style="margin-left: 645px;width:300px" tabindex="-1" id="offcanvasCategoryDown2" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown2">
+<div class="offcanvas offcanvas-start" style="margin-left: 600px;width:300px" tabindex="-1" id="offcanvasCategoryDown2" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown2">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="offcanvasCategoryDown2Label"></h5>
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

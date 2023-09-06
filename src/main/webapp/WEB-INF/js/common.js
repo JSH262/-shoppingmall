@@ -117,7 +117,7 @@ $(() => {
 		$("#offcanvasCategory").find('div[name=offcanvasCategoryDownShow]').bind('click', function() {
 			let catId = parseInt($(this).attr('data-bs-category-id'));
 			const catData = catDnList[catId];
-			let cdBody = $("ul[name=offcanvasCategoryDownList]");
+			let cdBody = $("#offcanvasCategoryDown ul[name=offcanvasCategoryDownList]");
 
 			cdBody.empty();
 			for(let i = 0; i<catData.length; i++)
