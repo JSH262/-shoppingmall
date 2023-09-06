@@ -216,7 +216,7 @@
 	            <input type="hidden" id="userId" name="userId" value="<%= user.getId() %>">
 	            <input type="hidden" id="productId" name="productId" value="<%= productId %>">
 	            <input class="btn btn-primary" type="button" value="적용하기" onclick="updateAmount(this)" />
-	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct()" />
+	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct(this)" />
             </span>
         </div>
         <div class="col-md-1">                  
@@ -315,7 +315,12 @@
 		</div>
 	</div>
 </div>
- 
+
+<script>
+    $('#messageModal').on('hidden.bs.modal', function () {
+        location.reload(); // 모달이 닫힐 때 페이지 리프레시
+    });
+</script>
 
 </body>
 </html>
