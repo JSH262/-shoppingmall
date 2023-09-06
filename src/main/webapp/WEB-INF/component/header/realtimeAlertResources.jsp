@@ -5,7 +5,7 @@
 
 
 <%
-	if(UsersType.SELLER.equals(AttributeName.getUserType(request)))
+	if(AttributeName.getUserType(request).equals(UsersType.SELLER))
 	{
 %>
 <script>
