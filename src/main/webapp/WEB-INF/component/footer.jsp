@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%@ include file="/WEB-INF/component/realtimeAlert.jsp" %>
+
 <footer>
 	<div class="container" style="background: #000000; color: #FFFFFF;">
 		<div class="row">

@@ -18,8 +18,6 @@ import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Servlet implementation class ProductController
  */

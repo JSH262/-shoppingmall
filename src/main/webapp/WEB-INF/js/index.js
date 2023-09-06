@@ -31,7 +31,7 @@ $(() => {
 					</div>`);
 	
 	
-	let createNewProductList = function(list) {
+	let createSellProductList = function(list) {
 		for(let i = 0; i<list.length; i++)
 		{
 			let indicatorTmp = ciNode.clone();
@@ -58,6 +58,42 @@ $(() => {
 		}
 	}
 	
+	let createNewProductList = function(list) {
+		if(list && list.length > 0)
+		{
+			for(let i = 0; i<list.length; i++)
+			{
+				let item = list[i];
+				let npTmp = newProductNode.clone();
+				let discountPrice = item.price - (item.discount / 100 * item.price);
+				
+				//id, name, discount, price, thumbnail
+				npTmp.find('img').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);
+				npTmp.find('.card-title').text(item.name);
+				npTmp.find('.card-text').html(`<span class="fs-6 text-danger">${item.discount}% </span>${discountPrice.toLocaleString()}<span class="fs-6">원</span>`);
+				npTmp.bind('click', function() 
+				{
+					let parent = $(this);
+					$(this).find('div[name=overlayContents]').removeClass('invisible');
+					$(this).find('div[name=card-body]').addClass('opacity-25');
+					
+					window.addEventListener('beforeunload', function(event) {
+						
+						// 명세에 따라 preventDefault는 호출해야하며, 기본 동작을 방지합니다.
+						event.preventDefault();
+						
+						parent.find('div[name=overlayContents]').addClass('invisible');
+						parent.find('div[name=card-body]').removeClass('opacity-25');
+					});
+					
+					location.href= `${CONTEXT_PATH}/product/detail?id=${item.id}`;
+				});
+				
+				$("#newProductsBody").append(npTmp);
+			}
+		}
+	};
+	
 	
 	Ajax(`${CONTEXT_PATH}/index`, "POST", null, 
 			function(resp)
@@ -67,23 +103,28 @@ $(() => {
 					let sellProductList = resp.result.sellList;
 					let newProductList = resp.result.newList;
 					let rndList = resp.result.rndList;
+					let rndList2 = resp.result.rndList2;
 
 					$("div[name=carousel-loading]").remove();
 					
-					if(sellProductList.length > 0)
+					if(sellProductList && sellProductList.length > 0)
 					{
-						createNewProductList(sellProductList);
+						createSellProductList(sellProductList);
 					}
 					else
 					{
 						$("#carouselLotSellTitle").text("오늘의 상품");
-						createNewProductList(rndList);
+						createSellProductList(rndList);
 					}
 				
 					
+					
 					$("div[name=newProductLoading]").remove();
-					if(newProductList.length > 0)
+					if(newProductList && newProductList.length > 0)
 					{
+						createNewProductList(newProductList)
+						
+						/*
 						for(let i = 0; i<newProductList.length; i++)
 						{
 							let item = newProductList[i];
@@ -96,17 +137,31 @@ $(() => {
 							npTmp.find('.card-text').html(`<span class="fs-6 text-danger">${item.discount}% </span>${discountPrice.toLocaleString()}<span class="fs-6">원</span>`);
 							npTmp.bind('click', function() 
 							{
+								let parent = $(this);
 								$(this).find('div[name=overlayContents]').removeClass('invisible');
 								$(this).find('div[name=card-body]').addClass('opacity-25');
+								
+								window.addEventListener('beforeunload', function(event) {
+									
+									// 명세에 따라 preventDefault는 호출해야하며, 기본 동작을 방지합니다.
+									event.preventDefault();
+									
+									parent.find('div[name=overlayContents]').addClass('invisible');
+									parent.find('div[name=card-body]').removeClass('opacity-25');
+								});
+								
 								location.href= `${CONTEXT_PATH}/product/detail?id=${item.id}`;
 							});
 							
 							$("#newProductsBody").append(npTmp);
 						}
+						//*/
 					}
 					else
 					{
-						$("#newProductGup").addClass("invisible");
+						createNewProductList(rndList2)
+						$("#newProductTitle").text('오늘의 상품');
+						//$("#newProductGup").addClass("invisible");
 					}
 					
 				}

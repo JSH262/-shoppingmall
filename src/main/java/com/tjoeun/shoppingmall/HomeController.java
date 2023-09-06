@@ -30,6 +30,7 @@ import com.tjoeun.shoppingmall.service.CategoryService;
 import com.tjoeun.shoppingmall.service.IndexService;
 import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
+import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
@@ -113,23 +114,49 @@ public class HomeController {
 			JSONObject result = new JSONObject();		
 			IndexService indexService = IndexService.getInstance();			
 			int productTotalCount = ProductService.getInstance().totalCount(null); 
-			ArrayList<Long> rows = new ArrayList<Long>(); 
 			
 			
-			
-			for(int i = 0; i<5; i++)
+			List<ProductVO> sellList = indexService.lotSellProductList();
+			if(sellList.size() > 0)
+				result.put("sellList", sellList);
+			else
 			{
-				Long tmp = (long)(Math.random() * productTotalCount);
+				ArrayList<Long> rows = new ArrayList<Long>(); 
 				
-				if(rows.contains(tmp))
-					i -= 1;
-				else
-					rows.add(tmp);
+				for(int i = 0; i<5; i++)
+				{
+					Long tmp = (long)(Math.random() * productTotalCount);
+					
+					if(rows.contains(tmp))
+						i -= 1;
+					else
+						rows.add(tmp);
+				}
+				
+				result.put("rndList", indexService.productRndList(rows));
 			}
 			
-			result.put("rndList", indexService.productRndList(rows));
-			result.put("sellList", indexService.lotSellProductList());
-			result.put("newList", indexService.newProductList());
+			List<ProductVO> newList = indexService.newProductList();
+			if(newList.size() > 0)
+				result.put("newList", newList);
+			else
+			{
+				ArrayList<Long> rows = new ArrayList<Long>(); 
+				
+				for(int i = 0; i<6; i++)
+				{
+					Long tmp = (long)(Math.random() * productTotalCount);
+					
+					if(rows.contains(tmp))
+						i -= 1;
+					else
+						rows.add(tmp);
+				}
+				
+				result.put("rndList2", indexService.productRndList(rows));
+			}
+			
+			
 			retval.put("result", result);
 			retval.put("code", "0");
 		}

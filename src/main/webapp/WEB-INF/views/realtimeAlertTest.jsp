@@ -21,8 +21,6 @@
 		
 	</head>
 	<body>
-		<div id="realtimeAlertContents" class="position-absolute top-0 end-0 mt-3 me-3">
-			
-		</div>
+		<%@ include file="/WEB-INF/component/realtimeAlert.jsp" %>
 	</body>
 </html>

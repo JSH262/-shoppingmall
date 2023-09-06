@@ -43,13 +43,13 @@
 	<body>
 		<%@ include file="/WEB-INF/component/header.jsp" %>
 	
-		<table border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;">
+		<%--https://getbootstrap.kr/docs/5.2/content/tables/ --%>
+		<table class="table table-striped" <%-- border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;" --%>>
 			<thead>
 				<tr>
 					<th colspan="8">
 						등록한 상품 목록
 					</th>
-					
 				</tr>
 				<tr>
 					<td colspan="8" align="right">
