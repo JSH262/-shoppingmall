@@ -1,13 +1,10 @@
 package com.tjoeun.shoppingmall.service;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSession;
-
-import com.tjoeun.dao.UserDAO;
 import com.tjoeun.mybatis.MySession;
 import com.tjoeun.shoppingmall.dao.ReviewDAO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
-import com.tjoeun.shoppingmall.vo.UsersVO;
-import com.tjoeun.vo.CompanyVO;
 
 public class ReviewService {
 	
@@ -24,15 +21,32 @@ public class ReviewService {
 	    try {
 	        dao.insert(mapper, vo);
 	        mapper.commit();
-	        result = 1; // 성공 시 1 할당
+	        result = 1; // �꽦怨� �떆 1 �븷�떦
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        result = 2; // 실패 시 2 할당
+	        result = 2; // �떎�뙣 �떆 2 �븷�떦
 	        mapper.rollback();
 	    } finally {
 	        mapper.close();
 	    }
 	    return result;
+	}
+	public static List<Object> selectByUserId(String userId) {
+		ReviewDAO dao2 = ReviewDAO.getInstance();
+		SqlSession mapper = MySession.getSession();
+		
+		List<Object> list = null;  
+		try {
+			list = dao2.selectByUserId(mapper, userId);
+	        mapper.commit();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mapper.rollback();
+	    } finally {
+	        mapper.close();
+	    }
+		
+		return list;
 	}
 
 

@@ -1,16 +1,16 @@
 <%@page import="com.tjoeun.helper.AttributeName"%>
 <%@page import="com.tjoeun.helper.UsersType"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>		
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
 <%
-
 	UsersVO vo = AttributeName.getUserData(request);
-
-
 %>
 		<head>
 			<meta charset="UTF-8">
@@ -18,9 +18,9 @@
 			
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-			<script type="text/javascript" src="<%=request.getContextPath() %>/js/reviewList.js"></script>
+			<%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/reviewList.js"></script> --%>
 			
-			<title>판매자</title>
+			<title>My 리뷰</title>
 			
 			
 			<style type="text/css">
@@ -57,45 +57,39 @@
 				<thead>
 					<tr>
 						<th colspan="8">
-							등록한 상품 목록
+							리뷰 목록
 						</th>
-						
 					</tr>
 					<tr>
-						<td colspan="8" align="right">
-							<input type="button" id="registerProduct" value="상품 등록하기" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="8" align="right">
-							<select id="searchCategory">
-								<option value="name">상품 이름</option>
-								<option value="categoryId">상품 종류</option>
-							</select>
-							<input type="text" id="searchValue" />
-							<input type="button" id="searchProduct" value="검색" />
-						</td>
-					</tr>
-					<tr>
-						<th>순번</th>
-						<th>카테고리</th>
-						<th>이름</th>
-						<th>남은 수량</th>
-						<th>가격</th>
-						<th>할인률</th>
-						<th>배송비</th>
-						<th>등록일</th>
+						<th style="width: 50px;">별점</th>
+						<th style="width: 500px;">내용</th>
+						<th style="width: 100px;">등록일</th>
 					</tr>
 				</thead>
 				<tbody id="list">
+				
+					<c:if test="${list.size() == 0}">
+						<tr>
+							<td colspan="5">
+								<marquee>작성한 리뷰가 없습니다.</marquee>
+							</td>
+						</tr>
+					</c:if>
+					
+					<c:forEach var="vo" items="${list}">
+						<c:set var="intScore" value="${fn:substringBefore(vo.score, '.')}"/>
+						<tr>
+							<td align="center">
+								<c:forEach begin="1" end="${intScore}">★</c:forEach>
+							</td>
+							<td align="center">${vo.contents}</td>
+							<td align="center">
+								<fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>
+							</td>
+						</tr>
+					</c:forEach>
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="8" align="center" id="pagination" height="50px">
-							
-						</td>
-					</tr>
-				</tfoot>			
+					<input type="button" onclick="location.href='/shoppingmall/product/payment/list'" value="돌아가기"/>
 			</table>
 		</body>
 </html>	

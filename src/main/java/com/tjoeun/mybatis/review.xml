@@ -13,13 +13,11 @@
 		where id = #{Id}
 	</update>
 	
-	
-	<select id="reviewIds" parameterType="ReviewVO" resultType="ReviewVO">
-		select id
+	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">
+		select *
 		from review
 		where user_id = #{userId}
 	</select>
-	
 	
 </mapper>
 

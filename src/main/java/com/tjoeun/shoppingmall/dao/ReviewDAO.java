@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 public class ReviewDAO 
@@ -32,6 +30,11 @@ public class ReviewDAO
 	public int update(SqlSession mapper, ReviewVO vo) 
 	{
 		return mapper.update("Review.update", vo);
+	}
+
+	public List<Object> selectByUserId(SqlSession mapper, String userId) {
+		
+		return mapper.selectList("Review.selectByUserId", userId);
 	}
 
 	

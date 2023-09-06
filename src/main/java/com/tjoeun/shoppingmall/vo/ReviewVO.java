@@ -13,6 +13,10 @@ public class ReviewVO {
     
     public ReviewVO() {	}
     
+    public ReviewVO(String userId) {
+    	this.userId = userId;
+    }
+
     public ReviewVO(int id, String userId, String contents, int productId, float score, char useYn,
 			Timestamp createDate) {
 		super();

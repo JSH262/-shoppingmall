@@ -1,14 +1,18 @@
 package com.tjoeun.shoppingmall.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tjoeun.shoppingmall.service.ReviewService;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
@@ -58,11 +62,25 @@ public class ReviewController {
 		}
    		
    		if (result == 1) {
-   			response.getWriter().write("1"); // ②
+   			response.getWriter().write("1"); // �몼
    		} else {
    			System.out.println(result);
-   			response.getWriter().write("3"); // ②
+   			response.getWriter().write("3"); // �몼
    		}
+   	}
+    
+    @RequestMapping(value="/reviewList.do", method=RequestMethod.GET)
+   	protected String reviewDo(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response, Model model) throws ServletException, IOException {
+   		request.setCharacterEncoding("UTF-8");
+   		response.setContentType("text/html; charset=UTF-8");
+   		
+   		System.out.println("userId: " + userId);
+
+   		List<Object> list = ReviewService.selectByUserId(userId);
+   		
+   		model.addAttribute("list", list);
+   		
+   		return "reviewList";
    	}
 	
 }
