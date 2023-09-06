@@ -73,4 +73,22 @@ public class AttributeName {
 		 return null;
 	 }
 	 
+	 static public Boolean isUserType(HttpSession session, String userType)
+	 {
+		 try
+		 {
+			 UsersVO userInfo = getUserData(session);
+			 
+			 return userType.equals(userInfo.getType());
+		 }
+		 catch(Exception exp)
+		 {
+			 return false;
+		 }
+	 }
+	 
+	 static public Boolean isUserType(HttpServletRequest request, String userType)
+	 {
+		 return isUserType(request.getSession(), userType);
+	 }
 }
