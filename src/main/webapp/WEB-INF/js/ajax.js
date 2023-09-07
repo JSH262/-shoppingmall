@@ -202,6 +202,13 @@ function UserLogin() {
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
 					$('#id').val('');
 					break;
+				case '2':
+					$('#messageType').html('에러 메시지');
+					$('#messageContent').html('탈퇴한 아이디 입니다.');
+					$('#errorMessage').html('로그인 하실수 없습니다.');
+					$('#messageCheck').attr('class', 'modal-content panel-warning');
+					$('#id').val('');
+					break;
 			}
 		},
 		error: e => console.log('요청 실패:', e.status)

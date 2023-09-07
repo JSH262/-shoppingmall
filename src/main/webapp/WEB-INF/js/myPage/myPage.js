@@ -46,7 +46,7 @@ function unregister() {
 			case '0':
 				$('#messageType').html('성공 메시지');
 				$('#messageContent').html('탈퇴완료.');
-				$('#errorMessage').html('탈퇴 되었습니다.');
+				$('#errorMessage').html('탈퇴 되었습니다. 감사합니다.');
 				$('#messageCheck').attr('class', 'modal-content panel-success');
 				break;
 			case '1':

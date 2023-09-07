@@ -39,7 +39,10 @@ public class MyPageService
 		int res = 0;
 		try {
 			res = dao.passwordCheck(mapper, vo);
+			mapper.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
+			mapper.rollback();
 		}
 		mapper.close();
 		return res;
@@ -49,7 +52,10 @@ public class MyPageService
 		int res = 0;
 		try {
 			res = dao.passwordUpdate(mapper, vo);
+			mapper.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
+			mapper.rollback();
 		}
 		mapper.close();
 		return res;
@@ -59,7 +65,9 @@ public class MyPageService
 		int res = 0;
 		try {
 			res = dao.unregister(mapper, vo);
+			mapper.commit();
 		} catch (Exception e) {
+			mapper.rollback();
 		}
 		mapper.close();
 		return res;
@@ -69,7 +77,10 @@ public class MyPageService
 		int res = 0;
 		try {
 			res = dao.userUpdate(mapper, vo);
+			mapper.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
+			mapper.rollback();
 		}
 		mapper.close();
 		return res;

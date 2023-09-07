@@ -1,5 +1,6 @@
 package com.tjoeun.shoppingmall.controller;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,7 +63,7 @@ public class myPageController
 		return "myPage/unregister";
 	}
 	
-	@RequestMapping("/myPage/passwordCheckF")
+	@RequestMapping(value="/myPage/passwordCheckF", method=RequestMethod.POST)
 	protected void myPagePasswordCheckF(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -77,22 +78,23 @@ public class myPageController
 		}
 
 		UsersVO vo = new UsersVO(id, password);
+		System.out.println(vo);
 		int res = service.passwordCheck(vo);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("2"); // ②
+			response.getWriter().write("2"); // �몼
 		}
 
 	}
 	
-	@RequestMapping("/myPage/passwordUpdate")
+	@RequestMapping(value="/myPage/passwordUpdate", method=RequestMethod.POST)
 	protected void myPagePasswordUpdate(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		String id = request.getParameter("userId");
+		String id = request.getParameter("id");
 		String password1 = request.getParameter("password1");
 		String password2 = request.getParameter("password2");
 		
@@ -118,11 +120,13 @@ public class myPageController
 	    }
 			
 		UsersVO vo = new UsersVO(id, password1);
+		System.out.println(vo);
 		int res = service.passwordUpdate(vo);
+		System.out.println(res);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("3"); // ②
+			response.getWriter().write("3"); // �몼
 		}
 		
 	}
@@ -133,15 +137,15 @@ public class myPageController
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		String id = request.getParameter("userId");
+		String id = request.getParameter("id");
 		
 		UsersVO vo = new UsersVO();
 		vo.setId(id);
 		int res = service.unregister(vo);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("1"); // ②
+			response.getWriter().write("1"); // �몼
 		}
 		
 	}
@@ -152,7 +156,7 @@ public class myPageController
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		String id = request.getParameter("userId");
+		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
@@ -162,11 +166,12 @@ public class myPageController
 		vo.setName(name);
 		vo.setEmail(email);
 		vo.setPhone(phone);
+		System.out.println(vo);
 		int res = service.userUpdate(vo);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("1"); // ②
+			response.getWriter().write("1"); // �몼
 		}
 		
 	}

@@ -1,5 +1,6 @@
 <%@page import="com.tjoeun.helper.AttributeName"%>
 <%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,6 @@
 	</form>
 </div>
 
-
 <div id="messageModal" class="modal fade" role="dialog" aria-hidden="true">
     <div class="vertical-alignment-helper">
         <div class="modal-dialog vertical-align-center">
@@ -73,8 +73,9 @@
                     <%-- ${messageContent} --%>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button" data-dismiss="modal" 
-                            onclick="location.href='<%= request.getContextPath() %>/myPage/<%=action %>'">확인</button>
+                    	<button id="success" class="btn btn-primary" type="button" data-dismiss="modal" 
+                        	    onclick="location.href='<%= request.getContextPath() %>/myPage/<%=action %>'">확인</button>
+                        <button id="warning" class="btn btn-primary" type="button" data-dismiss="modal">돌아가기</button>
                 </div>
             </div>
         </div>

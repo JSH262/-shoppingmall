@@ -15,18 +15,24 @@ function passwordCheck() {
 					$('#messageContent').html('비밀번호 인증성공.');
 					$('#errorMessage').html('비밀번호 인증에 성공했습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-success');
+					$('#success').prop('disabled', false);
+					$('#warning').prop('disabled', true);
 					break;
 				case '1':
 					$('#messageType').html('에러 메시지');
 					$('#messageContent').html('값을 입력해주세요');
 					$('#errorMessage').html('값을 입력하고 버튼을 눌러주세요.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
+					$('#warning').prop('disabled', false);
+					$('#success').prop('disabled', true);
 					break;
 				case '2':
 					$('#messageType').html('에러 메시지');
 					$('#messageContent').html('인증 실패.');
 					$('#errorMessage').html('비밀번호가 일치하지 않습니다.');
 					$('#messageCheck').attr('class', 'modal-content panel-warning');
+					$('#warning').prop('disabled', false);
+					$('#success').prop('disabled', true);
 					break;
 			}
 			$('#messageModal').modal('show');

@@ -24,26 +24,26 @@ public class UserDAO {
 	public void insert(SqlSession mapper, UsersVO vo) {
 		mapper.insert("com.tjoeun.vo.MvcBoardVO.insert", vo);
 	}
-	// 1이상이면 존재하는 아이디
+	// 1�씠�긽�씠硫� 議댁옱�븯�뒗 �븘�씠�뵒
 	public int IDCheck(SqlSession mapper, String id) {
 		int result = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", id);
 		return result;
 
 	}
-	// 0: 성공, 1: 아이디 없음, 2: 비밀번호 불일치
+	// 0: �꽦怨�, 1: �븘�씠�뵒 �뾾�쓬, 2: 鍮꾨�踰덊샇 遺덉씪移�
 	public int userLogin(SqlSession mapper, UsersVO vo) {
 	    int result = 0;
 	    
-	    // 아이디 존재 여부 확인
+	    // �븘�씠�뵒 議댁옱 �뿬遺� �솗�씤
 	    int idCount = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.checkUserId", vo.getId());
 	    if (idCount == 0) {
-	        // 아이디가 존재하지 않는 경우
+	        // �븘�씠�뵒媛� 議댁옱�븯吏� �븡�뒗 寃쎌슦
 	        result = 1;
 	    } else {
-	        // 아이디가 존재하는 경우 비밀번호 확인
+	        // �븘�씠�뵒媛� 議댁옱�븯�뒗 寃쎌슦 鍮꾨�踰덊샇 �솗�씤
 	        int passwordCount = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.passwordCheck", vo);
 	        if (passwordCount == 0) {
-	            // 비밀번호가 일치하지 않는 경우
+	            // 鍮꾨�踰덊샇媛� �씪移섑븯吏� �븡�뒗 寃쎌슦
 	            result = 2;
 	        }
 	    }
@@ -56,6 +56,10 @@ public class UserDAO {
 	}
 	public UsersVO selectVO(SqlSession mapper, String id) {
 		return (UsersVO) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.selectVO", id);
+	}
+	public int use_yn(SqlSession mapper, UsersVO vo) {
+		int result = (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.use_yn", vo);
+		return result;
 	}
 
 }

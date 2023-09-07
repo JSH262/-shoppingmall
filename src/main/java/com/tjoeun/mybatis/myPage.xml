@@ -4,27 +4,29 @@
 	
 	<select id="passwordCheck" parameterType="vo" resultType="int">
 	    SELECT COUNT(*) FROM users
-	    WHERE id = #{id} password = #{password}
+  		WHERE id = #{id} AND password = #{password}
 	</select>
 	
-	<update id="updatePassword" parameterType="vo">
+	<update id="passwordUpdate" parameterType="vo">
 	    UPDATE users
-	    SET password = #{Password}
+	    SET password = #{password},
+	        modify_date = SYSDATE
 	    WHERE id = #{id}
 	</update>
 	
-	<!-- 이거 왜 N으로 안들어가지.. -->
 	<update id="unregister" parameterType="vo">
 	    UPDATE users
-	    SET USE_YN = 'N'
+	    SET use_yn = 'N',
+	        modify_date = SYSDATE
 	    WHERE id = #{id}
 	</update>
 	
 	<update id="userUpdate" parameterType="vo">
 	    UPDATE users
-	    SET password = #{password},
+	    SET name = #{name},
 	        email = #{email},
-	        phone = #{phone}
+	        phone = #{phone},
+	        modify_date = SYSDATE
 	    WHERE id = #{id}
 	</update>
 
