@@ -33,7 +33,7 @@ public class myPageController
 	private static final long serialVersionUID = 1L;
 	MyPageService service = MyPageService.getInstance();
 	
-	@RequestMapping(value="/myPage/list", method=RequestMethod.GET)
+	@RequestMapping(value="/myPage", method=RequestMethod.GET)
 	protected String myPageList(HttpServletRequest request)
 	{
 		return "myPage/list";

@@ -26,7 +26,7 @@
 			<input type="button" value="상품구입 목록" onclick="location.href='<%=request.getContextPath() %>/product/payment/list'" />
 			<input type="button" value="장바구니" onclick="location.href='<%=request.getContextPath() %>/cart/list'" />
 			<input type="button" value="상품관리" onclick="location.href='<%=request.getContextPath() %>/product/breakdown/list'" />
-			<input type="button" value="마이페이지" onclick="location.href='<%=request.getContextPath() %>/myPage/list'" />
+			<input type="button" value="마이페이지" onclick="location.href='<%=request.getContextPath() %>/myPage'" />
 	<%
 		}
 		else
