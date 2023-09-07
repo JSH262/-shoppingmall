@@ -58,10 +58,12 @@
 				</tr>
 				<tr>
 					<td colspan="8" align="right">
+						<%--
 						<select id="searchCategory">
 							<option value="name">상품 이름</option>
 							<option value="categoryId">상품 종류</option>
 						</select>
+						 --%>
 						<input type="text" id="searchValue" />
 						<input type="button" id="searchProduct" value="검색" />
 					</td>

@@ -26,10 +26,10 @@ $(() => {
 			nPageSize = PAGE_SIZE;
 		
 		let data = {
-			searchCategory: searchCategory,
-			searchValue: searchValue,
-			currentPage: nCurrentPage,
-			pageSize: nPageSize	 
+			'productCategoryId': searchCategory,
+			'productName': searchValue,
+			'currentPage': nCurrentPage,
+			'pageSize': nPageSize	 
 		};
 				
 		Ajax(`${CONTEXT_PATH}/product/list`, "POST", JSON.stringify(data), 
@@ -155,7 +155,7 @@ $(() => {
 		//Enter
 		if(e.keyCode == 13)
 		{
-			$("#search").trigger('click');
+			$("#searchProduct").trigger('click');
 		}
 		
 	});
