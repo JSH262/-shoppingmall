@@ -96,12 +96,22 @@
 
 
 				</ul>
+				
+				
+				<%
+					if(UsersType.BUYER.equals(AttributeName.getUserType(request)))
+					{
+				%>
+								
 				<form action="<%=request.getContextPath() %>/product/list" method="GET">
 					<div class="input-group">
 						<input type="text" class="form-control" id="productName" name="productName" style="width:300px;" placeholder="검색할 내용을 입력하세요">
 						<button class="btn btn-outline-success" type="submit">검색</button>
 					</div>
 				</form>
+				<%
+					}
+				%>
 			</div>
 		</div>
 	</nav>

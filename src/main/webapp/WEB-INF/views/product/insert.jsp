@@ -29,7 +29,7 @@
 
 
 	<form id="form" method="POST" action="<%=request.getContextPath() %>">
-		<table border="1" align="center" cellpadding="5" cellspacing="0" style="margin-top:50px;">
+		<table class="table table-striped" <%-- border="1" align="center" cellpadding="5" cellspacing="0" style="margin-top:50px;" --%>>
 			<tr>
 				<th colspan="2">
 					<h1>상품 등록하기</h1>
