@@ -114,6 +114,8 @@
 	<body>
 		<%@ include file="/WEB-INF/component/header.jsp" %>
 	
+		
+		<%--
 		<h1 style="text-align:center;">구매자 페이지</h1>
 		<div class="container">
 			<div class="row justify-content-center">
@@ -126,13 +128,14 @@
 							<option value="2">과일</option>
 					  	</select>
 	 				--%>
+	 				<%--
 						<input type="text" id="searchProductName" class="form-control" aria-label="Text input with dropdown button">
 						<button type="button" class="btn btn-outline-info" id="searchProduct" name="searchProduct">🔍</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+		 --%>
 		<%-- 참고 사이트: https://www.11st.co.kr/category/DisplayCategory.tmall?method=getDisplayCategory2Depth&dispCtgrNo=1001473 --%>
 		<div id="list">
 			<div name="product">
@@ -184,6 +187,7 @@
 						
 		</div>
 		
+		<input type="hidden" id="searchProductName" name="searchProductName" value="${productName }" /> 
 		<input type="hidden" id="productCategoryId" name="productCategoryId" value="${productCategoryId }" /> 
 		<input type="hidden" id="contextPath" name="contextPath" value="${pageContext.request.contextPath }" />
 		<input type="hidden" id="currentPage" name="currentPage" value="${currentPage }" />

@@ -11,9 +11,16 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	
+	<!-- mybatis의 쿼리와 파라미터를 볼려면 xml 파일의 namepsace와 id를 넘겨준다. 예> Product.selectList 또는 Product
+	<logger name="Product">
+		<level value="trace" />
+	</logger>
+	 -->
 	<logger name="com.tjoeun">
 		<level value="info" />
 	</logger>
+	
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

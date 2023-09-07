@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 @Controller
 public class ProductListController 
 {
+	static final Logger log = LoggerFactory.getLogger(ProductListController.class);
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -45,17 +49,20 @@ public class ProductListController
 		
 		model.addAttribute("currentPage", Util.toPosNum(request.getParameter("currentPage"), 1));
 		model.addAttribute("pageSize", Util.toPosNum(request.getParameter("pageSize"), 15));		
-		model.addAttribute("productCategoryId", Util.toLong(request.getParameter("productCategoryId"), null));
+		//model.addAttribute("productCategoryId", Util.toLong(request.getParameter("productCategoryId"), null));
+		
 
 		if(vo != null && UsersType.SELLER.equals(vo.getType()))
 		{
 			retval = "product/list/seller";
 		}
+		else		
+		{
+			Long productCategoryId = Util.toLong(request.getParameter("productCategoryId"), null);
 		
-		Integer productCategoryId = Util.toInt(request.getParameter("productCategoryId"), null);
-		
-		model.addAttribute("productCategoryId", productCategoryId);
-		
+			model.addAttribute("productCategoryId", productCategoryId);
+			model.addAttribute("productName", Util.toString(request.getParameter("productName"), null));
+		}
 		
 		return retval;
 	}
@@ -96,8 +103,6 @@ public class ProductListController
 				
 				serviceParams.setName(productName);
 				serviceParams.setCategoryId(productCategoryId);
-				
-				
 				
 				/*
 				currentPage = (long) params.get("currentPage");

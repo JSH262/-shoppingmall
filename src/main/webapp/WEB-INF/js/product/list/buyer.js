@@ -3,8 +3,6 @@ $(() => {
 	
 	try
 	{
-		
-		
 		const CONTEXT_PATH = $("#contextPath").val();
 		const CURRENT_PAGE =  parseInt($("#currentPage").val());
 		const PAGE_SIZE = parseInt($("#pageSize").val());
@@ -169,6 +167,8 @@ $(() => {
 					$("#pagination").append(nextNode);
 					$("#currentPage").val(currentPage);
 					$("#pageSize").val(pageSize);
+					
+					$("#productName").val(searchProductName);					
 				},
 				function(err)
 				{
@@ -181,7 +181,7 @@ $(() => {
 		};//let successSearchData = function(nCurrentPage, nPageSize, searchCategory, searchValue) 
 		
 		
-		successSearchData(CURRENT_PAGE, PAGE_SIZE, searCategoryId, null);
+		successSearchData(CURRENT_PAGE, PAGE_SIZE, searCategoryId, searProductName);
 		
 		$("#searchProduct").bind('click', function() {
 			searVal = $("#searchProductName").val();
