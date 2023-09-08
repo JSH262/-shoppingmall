@@ -25,7 +25,7 @@
 	</select>
 	
 	<!-- passwordCheck 매퍼 -->
-	<select id="passwordCheck" parameterType="vo" resultType="int">
+	<select id="userLogin" parameterType="vo" resultType="int">
 	    SELECT COUNT(*) FROM users
 	    WHERE id = #{id} AND password = #{password}
 	</select>

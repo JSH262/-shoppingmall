@@ -33,14 +33,11 @@ public class UserLogin {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		// String id = request.getParameter("id").trim();
 		String id = request.getParameter("id");
-		// String password1 = request.getParameter("password").trim();
 		String password1 = request.getParameter("password");
 		System.out.println(id);
 		System.out.println(password1);
 
-		// 占쎌뿯占쎌젾 筌ｋ똾寃� (占쎌뿯占쎌젾占쎌뵠 占쎈씨椰꾧퀡援� �⑤벉媛�)
 		if (id == null || id.equals("") || password1 == null || password1.equals("")) {
 			response.getWriter().write("1");
 			return;
@@ -53,14 +50,15 @@ public class UserLogin {
 		 */
 		
 		int res = service.userLogin(vo);
-		if (res == 0) {
-
+		// 1 넘어오면 id에 해당하는 password가 있음
+		if (res == 1) {
+			// 로그인 성공
 			UsersVO svo = service.selectVO(id);
 			AttributeName.setUserData(request, svo);
-			// 嚥≪뮄�젃占쎌뵥 占쎄쉐�⑤벏釉� 野껋럩�뒭 筌ｌ꼶�봺占쎈막 嚥≪뮇彛� 占쎌삂占쎄쉐
-			response.getWriter().write("0"); // 占쎈ぜ
+			response.getWriter().write("0"); 
 		} else {
-			response.getWriter().write("1"); // 占쎈ぜ
+			// 로그인 실패
+			response.getWriter().write("1");
 		}
 
 	}

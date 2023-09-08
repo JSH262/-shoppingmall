@@ -36,11 +36,9 @@ public class ProductDAO {
 		return (ProductVO)mapper.selectOne("Product.select", params);
 	}
 	
-	
 	public int update(SqlSession mapper, ProductVO item) {
 		return mapper.update("Product.update", item);
 	}
-	
 	
 	public List<CategoryVO> selectProductCatList(SqlSession mapper, CategoryVO params)
 	{
