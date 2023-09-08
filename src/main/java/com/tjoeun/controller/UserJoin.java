@@ -66,7 +66,7 @@ public class UserJoin {
 		System.out.println("phone: " + phone);
 		System.out.println("companyId: " + companyId);
 		
-		// 입력 체크
+		// �엯�젰 泥댄겕
 		if (id == null || id.equals("") ||  
 				password1 == null || password1.equals("") ||
 				password2 == null || password2.equals("") ||
@@ -83,11 +83,11 @@ public class UserJoin {
 			return;
 		}
 		
-		// 비밀번호 체크
+		// 鍮꾨�踰덊샇 泥댄겕
 		if (!password1.equals(password2)) {
-			response.getWriter().write("3"); // ②
+			response.getWriter().write("3"); // �몼
 			
-			return; // 입력 데이터에 오류가 있으므로 서블릿을 종료한다.
+			return; // �엯�젰 �뜲�씠�꽣�뿉 �삤瑜섍� �엳�쑝誘�濡� �꽌釉붾┸�쓣 醫낅즺�븳�떎.
 		}
 		
 		if (!isValidpassword(password1)) {
@@ -118,31 +118,31 @@ public class UserJoin {
 		System.out.println(vo);
 		
 		
-		// 테이블에 회원 정보를 저장하는 메소드를 실행한다.
+		// �뀒�씠釉붿뿉 �쉶�썝 �젙蹂대�� ���옣�븯�뒗 硫붿냼�뱶瑜� �떎�뻾�븳�떎.
 		int result = service.UserInsert(vo);
 		
-		// 저장 체크
+		// ���옣 泥댄겕
 		if (result == 1) {
-			response.getWriter().write("8"); // ②
+			response.getWriter().write("8"); // �몼
 		} else {
 			System.out.println(result);
-			response.getWriter().write("9"); // ②
+			response.getWriter().write("9"); // �몼
 		}
 	}
 
-	// 핸드폰 번호가 유효한지 확인하는 메소드
+	// �빖�뱶�룿 踰덊샇媛� �쑀�슚�븳吏� �솗�씤�븯�뒗 硫붿냼�뱶
 	private boolean isValidPhoneNumber(String phoneNumber) {
 	    String phoneNumberRegex = "^[0-9]{1,11}$";
 	    return phoneNumber.matches(phoneNumberRegex);
 	}
 	
-	// 비밀번호가 유효한지 확인하는 메소드 (대문자 소문자 특수문자 숫자 각각 1개 이상 포함)
+	// 鍮꾨�踰덊샇媛� �쑀�슚�븳吏� �솗�씤�븯�뒗 硫붿냼�뱶 (��臾몄옄 �냼臾몄옄 �듅�닔臾몄옄 �닽�옄 媛곴컖 1媛� �씠�긽 �룷�븿)
 	private boolean isValidpassword(String password) {
 	    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*_])[a-zA-Z\\d!@#$%^&*_]{8,30}$";
 	    return password.matches(passwordRegex);
 	}
 
-	// 이메일 형식이 유효한지 확인하는 메소드
+	// �씠硫붿씪 �삎�떇�씠 �쑀�슚�븳吏� �솗�씤�븯�뒗 硫붿냼�뱶
 	private boolean isValidEmailFormat(String email) {
 	    String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
 	    return email.matches(emailRegex);
@@ -153,7 +153,7 @@ public class UserJoin {
 	    return !name.matches(regex);
 	}
 
-	// 아이디가 유효한지 확인하는 메소드 (언더바 포함)
+	// �븘�씠�뵒媛� �쑀�슚�븳吏� �솗�씤�븯�뒗 硫붿냼�뱶 (�뼵�뜑諛� �룷�븿)
 	private boolean isValidid(String id) {
 	    String idRegex = "^[a-zA-Z0-9_]{4,20}$";
 	    return id.matches(idRegex);

@@ -24,7 +24,7 @@ public class CompanyInsert {
 	
 	@RequestMapping("/CompanyInsert")
 	public void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("액션두");
+		System.out.println("�븸�뀡�몢");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
@@ -40,7 +40,7 @@ public class CompanyInsert {
 		System.out.println(Address2);
 		System.out.println(Stamp);
 		
-		// 입력 체크
+		// �엯�젰 泥댄겕
 		if (Name == null || Name.equals("") ||  
 				Id == null || Id.equals("") ||
 				Address1 == null || Address1.equals("") ||
@@ -54,10 +54,10 @@ public class CompanyInsert {
 		
 		int result = service.CompanyInsert(vo);
 		if (result == 1) {
-			response.getWriter().write("1"); // ②
+			response.getWriter().write("1"); // �몼
 		} else {
 			System.out.println(result);
-			response.getWriter().write("2"); // ②
+			response.getWriter().write("2"); // �몼
 		}
 	}
 }

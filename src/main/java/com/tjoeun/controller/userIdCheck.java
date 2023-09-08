@@ -21,14 +21,14 @@ public class userIdCheck {
 
 	@RequestMapping("/userIdCheck")
 	protected void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// System.out.println("UserRegisterCheck 서블릿의 actionDo() 메소드 실행");
+		// System.out.println("UserRegisterCheck �꽌釉붾┸�쓽 actionDo() 硫붿냼�뱶 �떎�뻾");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		String id = request.getParameter("id").trim();
 		System.out.println(id);
 		
-		// 회원 가입하려는 아이디가 테이블에 존재하는가 판단하는 메소드를 실행한다.
+		// �쉶�썝 媛��엯�븯�젮�뒗 �븘�씠�뵒媛� �뀒�씠釉붿뿉 議댁옱�븯�뒗媛� �뙋�떒�븯�뒗 硫붿냼�뱶瑜� �떎�뻾�븳�떎.
 		int result = service.IDCheck(id);
 		if (id.trim().equals("")) {
 			result = 3;

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.service.UserService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
-import com.tjoeun.shoppingmall.ws.HttpSessionManagement;
 
 @Controller
 public class UserLogin {
@@ -34,32 +33,28 @@ public class UserLogin {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		// String id = request.getParameter("id").trim();
 		String id = request.getParameter("id");
-		// String password1 = request.getParameter("password").trim();
 		String password1 = request.getParameter("password");
 		System.out.println(id);
 		System.out.println(password1);
 
-		// ì…ë ¥ ì²´í¬ (ì…ë ¥ì´ ì—†ê±°ë‚˜ ê³µë°±)
 		if (id == null || id.equals("") || password1 == null || password1.equals("")) {
 			response.getWriter().write("1");
 			return;
 		}
 
 		UsersVO vo = new UsersVO(id, password1);
+		
 		int res = service.userLogin(vo);
-		if (res == 0) {
-
+		// 1 ³Ñ¾î¿À¸é id¿¡ ÇØ´çÇÏ´Â password°¡ ÀÖÀ½
+		if (res == 1) {
+			// ·Î±×ÀÎ ¼º°ø
 			UsersVO svo = service.selectVO(id);
 			AttributeName.setUserData(request, svo);
-			
-			HttpSessionManagement.getInstance().sessionCreated(request.getSession());
-			
-			// ë¡œê·¸ì¸ ì„±ê³µí•œ ê²½ìš° ì²˜ë¦¬í•  ë¡œì§ ì‘ì„±
-			response.getWriter().write("0"); // â‘¡
+			response.getWriter().write("0"); 
 		} else {
-			response.getWriter().write("1"); // â‘¡
+			// ·Î±×ÀÎ ½ÇÆĞ
+			response.getWriter().write("1");
 		}
 
 	}
