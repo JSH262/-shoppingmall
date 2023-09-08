@@ -1,8 +1,14 @@
+<%@page import="com.tjoeun.helper.AttributeName"%>
+<%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@page import="com.tjoeun.helper.Util"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<%
+	UsersVO vo = AttributeName.getUserData(request);
+	String userId = vo.getId();
+%>
 <head>
 <meta charset="UTF-8">
 <title>My Page</title>
@@ -19,6 +25,7 @@
 	    <button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=userUpdate'">회원정보 수정</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=passwordUpdate'">비밀번호 변경</button>
 		<button type="button" class="btn btn-primary" onclick="location.href='<%=request.getContextPath() %>/myPage/passwordCheck?action=unregister'">회원 탈퇴</button>
+		<button type="button" class="btn btn-primary"  onclick="location.href='<%= request.getContextPath() %>/reviewList.do?userId=<%=userId %>'">내가 작성한 리뷰</button>
     </div>
     
 <!-- 모달로 구현 시도 -->

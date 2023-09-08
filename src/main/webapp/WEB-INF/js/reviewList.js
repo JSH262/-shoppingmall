@@ -1,6 +1,5 @@
 function deleteReview(event) {
-	var button = $(event.target);
-	var id = button.siblings("input[name='id']").val();
+	var id = $('#id').val();
 	$.ajax({
 		type: 'POST',
 		url: './deleteReview',

@@ -16,7 +16,7 @@
 	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">
 		select *
 		from review
-		where user_id = #{userId}
+		where user_id = #{userId} AND use_yn = 'Y'
 	</select>
 	
 </mapper>
