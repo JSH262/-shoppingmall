@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+
+	<!-- <typeAlias type="com.tjoeun.vo.MvcBoardVO" alias="MvcBoardVO" /> -->
+	<insert id="insert" parameterType="ProductVO">		
+		insert into product(id, category_id, name, amount, price, discount, delivery_price, contents, thumbnail, seller_id)
+		values(product_seq_id.nextval, #{categoryId}, #{name}, #{amount}, #{price}, #{discount}, #{deliveryPrice}, #{contents}, #{thumbnail}, #{sellerId})
+	</insert>
+	
+	<select id="selectList" parameterType="ProductVO" resultType="ProductVO">
+		select 
+			<if test="choose != null and choose == 'list'">
+				id, rnum, category_id, name, amount,
+				to_char(amount, 'FM999,999,999') fmt_amount,
+				to_char(price, 'FM999,999,999') fmt_price,
+				discount || '%' fmt_discount,
+				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price,
+				to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
+				seller_id,				
+				(	select name
+					from category c 
+					where type = 'P' and id = category_id
+					start with pid is null
+					connect by prior id = pid) category_name	
+			</if>
+			<if test="choose != null and choose == 'detail'">
+				rnum, id, name, discount, price, category_id, 
+				to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
+				delivery_price, amount,
+				thumbnail,
+				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
+				to_char(price, 'FM999,999,999') || '원' fmt_price,
+				discount || '%' fmt_discount,
+				
+				case delivery_price
+					when 0 then '무료배송'
+					else to_char(delivery_price, 'FM999,999,999') || '원'
+				end fmt_delivery_price,
+				
+				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				
+				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name,
+				
+				(	select substr(SYS_CONNECT_BY_PATH(name, ' > '), 4)
+					from category c 
+					where type = 'P' and id = category_id
+					start with pid is null
+					connect by prior id = pid) category_name,
+				seller_id		
+			</if>
+			<if test="choose == null or choose == 'all'">
+				*
+			</if>
+		from (	select t1.*, rownum rnum
+				from (	select *
+						from product
+						where 1 = 1
+						<if test="name != null">
+							and name like '%' || #{name} || '%'
+						</if>
+						<if test="categoryId != null">
+							and (category_id = #{categoryId}
+									or 	
+								category_id in (
+									select t1.id
+									from (  select SYS_CONNECT_BY_PATH(c.name, '>') as path, CONNECT_BY_ROOT(id) as root, c.id
+									        from category c 
+									        start with pid is null
+									        connect by prior id = pid) t1
+									where path like concat(concat('%', (
+									                select concat('>', name)
+									                from category c 
+									                where id = #{categoryId})), '%')))
+							
+						</if>
+						<if test="sellerId != null">
+							and seller_id = #{sellerId}
+						</if>
+						<if test="useYn != null">
+							and use_yn = #{useYn}
+						</if>
+						<if test="useYn == null">
+							and use_yn = 'Y'
+						</if>
+						order by id desc) t1
+				where rownum <![CDATA[ <= ]]> #{endNo})
+		where rnum <![CDATA[ >= ]]> #{startNo}
+	</select>
+	
+	
+	<select id="totalCount" parameterType="ProductVO" resultType="int">
+		select count(*)
+		from product
+		where 1 = 1
+		<if test="name != null">
+			and name like '%' || #{name} || '%'
+		</if>
+		<if test="categoryId != null">
+			and (category_id = #{categoryId}
+					or 	
+				category_id in (										
+					select t1.id
+					from (  select SYS_CONNECT_BY_PATH(c.name, '>') as path, CONNECT_BY_ROOT(id) as root, c.id
+					        from category c 
+					        start with pid is null
+					        connect by prior id = pid) t1
+					where path like concat(concat('%', (
+					                select concat('>', name)
+					                from category c 
+						                where id = #{categoryId})), '%')))
+		</if>
+		<if test="sellerId != null">
+			and seller_id = #{sellerId}
+		</if>
+		<if test="useYn != null">
+			and use_yn = #{useYn}
+		</if>
+		<if test="useYn == null">
+			and use_yn = 'Y'
+		</if>
+	</select>	
+	
+	<select id="select" parameterType="ProductVO" resultType="ProductVO">
+		select
+			<if test="choose == null">
+				*
+			</if>
+			<if test="choose != null and choose == 'detail'">
+				id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
+				contents,
+				thumbnail,
+				
+				price - price * (discount / 100) as discount_price,				
+				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
+				to_char(price, 'FM999,999,999') || '원' fmt_price,
+				discount || '%' fmt_discount,
+				
+				case delivery_price
+					when 0 then '무료배송'
+					else to_char(delivery_price, 'FM999,999,999') || '원'
+				end fmt_delivery_price,
+				
+				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				seller_id,
+				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name
+			</if>
+		from product
+		where id = #{id} 
+			<if test="useYn != null">
+				and use_yn = #{useYn}
+			</if>
+			<if test="useYn == null">
+				and use_yn = 'Y'
+			</if>
+	</select>
+	
+	<update id="update" parameterType="ProductVO">
+		update product
+		set	modify_date = sysdate
+			<if test="name != null">
+				, name = #{name}
+			</if>
+			<if test="categoryId != null">
+				, category_id = #{categoryId}
+			</if>
+			<if test="amount != null">
+				<if test="choose != null and choose == 'amount+=n'">
+					, amount = amount + #{amount}
+				</if>
+				<if test="choose != null and choose == 'amount-=n'">
+					, amount = amount - #{amount}
+				</if>				
+			</if>
+			<if test="price != null">
+				, price = #{price}
+			</if>
+			<if test="discount != null">
+				, discount = #{discount}
+			</if>
+			<if test="deliveryPrice != null">
+				, delivery_price = #{deliveryPrice}
+			</if>
+			<if test="useYn != null">
+				, use_yn = #{useYn}
+			</if>
+			<if test="contents != null">
+				, contents = #{contents}
+			</if>
+			<if test="thumbnail != null">
+				, thumbnail = #{thumbnail}
+			</if>
+		where id = #{id} and seller_id = #{sellerId}
+	</update>
+		
+		
+	<select id="selectProductCatList" parameterType="CategoryVO" resultType="CategoryVO">
+	
+		select *
+		from (	select substr(SYS_CONNECT_BY_PATH(name, ' > '), 4) name, c.id, c.lev, c.gup, c.seq, CONNECT_BY_ISLEAF as ISLEAF
+				from category c 
+				where type = 'P'
+				start with pid is null
+				connect by prior id = pid
+				order SIBLINGS by lev)
+		where ISLEAF = 1
+		
+	</select>
+		
+	<update id="updateDecrement" parameterType="ProductVO">
+		update product
+		set amount = amount - #{amount}
+		where id = #{id} and amount >= #{amount}
+	</update>		
+		
+		
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Category">
+
+	<select id="selectList" resultType="CategoryVO">
+		select *
+		from category
+		where gup desc, seq asc
+	</select>
+	
+	
+	<select id="menu" resultType="CategoryVO">
+		select id, name
+		from category
+		where pid is null
+	</select>
+	
+	<select id="selectedMenu" parameterType="CategoryVO" resultType="CategoryVO">
+	
+	
+		select t1.id, t1.name
+		from (  select SYS_CONNECT_BY_PATH(c.name, '>') as path, CONNECT_BY_ROOT(id) as root, c.id, c.name, c.pid
+		        from category c 
+		        start with pid is null
+		        connect by prior id = pid) t1
+		where path like concat(concat('%', (
+		                select concat('>', name)
+		                from category c 
+		                where id = #{id})), '%') and t1.pid is not null
+	</select>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
