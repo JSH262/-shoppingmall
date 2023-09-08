@@ -7,10 +7,10 @@
 		values(review_seq_id.nextval, #{userId}, #{productId}, #{score}, #{contents})
 	</insert>
 		
-	<update id="delete" parameterType="ReviewVO">
+	<update id="deleteReview" parameterType="ReviewVO">
 		update review
-		set	use_yn = "N"
-		where id = #{userId}
+		set	use_yn = 'N'
+		where id = #{id}
 	</update>
 	
 	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">

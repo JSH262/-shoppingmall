@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.ReviewService;
+import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 
@@ -82,5 +84,26 @@ public class ReviewController {
    		
    		return "reviewList";
    	}
+    
+	@RequestMapping(value="/deleteReview", method=RequestMethod.POST)
+	protected void deletReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		System.out.println("딜리트 넘어옴");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		int id = Integer.parseInt(request.getParameter("id"));
+
+		ReviewVO vo = new ReviewVO();
+		vo.setId(id);
+		System.out.println(vo.getId());
+		int res = ReviewService.deleteReview(vo);
+		System.out.println("딜리트 실행완료");
+		if (res == 1) {
+			response.getWriter().write("0"); // �몼
+		} else {
+			response.getWriter().write("1"); // �몼
+		}
+	}
+
 	
 }

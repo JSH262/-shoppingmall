@@ -1,4 +1,34 @@
+function deleteReview(event) {
+	var button = $(event.target);
+	var id = button.siblings("input[name='id']").val();
+	$.ajax({
+		type: 'POST',
+		url: './deleteReview',
+		data: {
+			id: id
+		},
+		success: function(res) {
+			switch (res) {
+			case '0':
+				$('#messageType').html('성공 메시지');
+				$('#messageContent').html('삭제 성공.');
+				$('#errorMessage').html('삭제 되었습니다.');
+				$('#messageCheck').attr('class', 'modal-content panel-success');
+				break;
+			case '1':
+				$('#messageType').html('에러 메시지');
+				$('#messageContent').html('삭제 실패.');
+				$('#errorMessage').html('삭제에 실패했습니다. 잠시 후 다시 시도해 주십시오.');
+				$('#messageCheck').attr('class', 'modal-content panel-warning');
+				break;
+			}
+			$('#messageModal').modal('show');
+		},
+		error: e => console.log('요청 실패:', e.status)
+	});
+}
 
+/*
 $(() => {
 	let successSearchData = function() 
 	{
@@ -31,6 +61,5 @@ $(() => {
 	};
 
 	successSearchData();
-	
-		
 });
+*/

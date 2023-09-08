@@ -21,9 +21,9 @@ public class ReviewDAO
 		return mapper.insert("Review.insert", vo);
 	}
 	
-	public int delete(SqlSession mapper, ReviewVO vo) 
+	public int deleteReview(SqlSession mapper, ReviewVO vo) 
 	{
-		return mapper.delete("Review.delete", vo);
+		return mapper.update("Review.deleteReview", vo);
 	}
 	
 	public List<Object> selectByUserId(SqlSession mapper, String userId) 

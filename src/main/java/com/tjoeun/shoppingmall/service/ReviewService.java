@@ -3,6 +3,7 @@ package com.tjoeun.shoppingmall.service;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import com.tjoeun.mybatis.MySession;
+import com.tjoeun.shoppingmall.dao.CartDAO;
 import com.tjoeun.shoppingmall.dao.ReviewDAO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
@@ -47,6 +48,25 @@ public class ReviewService {
 	    }
 		
 		return list;
+	}
+	public static int deleteReview(ReviewVO vo) {
+		int retval = 0;
+		SqlSession mapper = MySession.getSession();
+		
+		try
+		{
+			retval = ReviewDAO.getInstance().deleteReview(mapper, vo);
+			mapper.commit();
+		}
+		catch(Exception exp)
+		{
+			exp.printStackTrace();
+			mapper.rollback();
+		}
+		
+		mapper.close();
+				
+		return retval;
 	}
 
 
