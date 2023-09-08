@@ -79,7 +79,7 @@ public class myPageController
 
 		UsersVO vo = new UsersVO(id, password);
 		int res = service.passwordCheck(vo);
-		if (res == 0) {
+		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
 			response.getWriter().write("2"); // �몼
@@ -122,7 +122,7 @@ public class myPageController
 		System.out.println(vo);
 		int res = service.passwordUpdate(vo);
 		System.out.println(res);
-		if (res == 0) {
+		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
 			response.getWriter().write("3"); // �몼
@@ -141,7 +141,7 @@ public class myPageController
 		UsersVO vo = new UsersVO();
 		vo.setId(id);
 		int res = service.unregister(vo);
-		if (res == 0) {
+		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
 			response.getWriter().write("1"); // �몼
@@ -167,7 +167,7 @@ public class myPageController
 		vo.setPhone(phone);
 		System.out.println(vo);
 		int res = service.userUpdate(vo);
-		if (res == 0) {
+		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
 			response.getWriter().write("1"); // �몼
