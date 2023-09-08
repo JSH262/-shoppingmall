@@ -70,7 +70,6 @@
 <body>
 	<%@ include file="/WEB-INF/component/header.jsp" %>
 
-
 	<div class="p-5">
 		<div id="carouselLotSellGup">
 			<div id="carouselLotSellTitle" class="fs-1">
@@ -287,14 +286,7 @@
 
 
 
-	
-
-	<%@ include file="/WEB-INF/component/startChatting.jsp" %>
-
-
-
 	<%@ include file="/WEB-INF/component/footer.jsp" %>
-
 
 </body>
 </html>

@@ -9,6 +9,15 @@
 	document.catDownList2 = ${categoryDownList2};
 </script>
 
+
+<%--
+
+/****************************************************************************************/
+
+ 판매자 로그아웃 추가하기
+
+ --%>
+
 <header style="z-index: 1000;">
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
