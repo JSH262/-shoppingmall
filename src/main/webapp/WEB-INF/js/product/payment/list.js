@@ -40,7 +40,7 @@ $(() => {
 					<input type="button" name="complete" value="구매확정" />
 				</div>
 				<div>
-					<input type="button" name="review" value="리뷰작성" />
+					<input type="button" name="review" value="리뷰작성"/>
 				</div>							
 			</td>
 		</tr>
@@ -87,10 +87,11 @@ $(() => {
 					btnProductExchange.addClass("invisible");
 					btnProductReturns.addClass("invisible");
 					btnComplete.addClass("invisible");
-					btnReview.bind('click', function()
-					{
-						alert('리뷰작성하기');
-					});
+					btnReview.bind('click', function () {
+						console.log(item.productId);
+                        const reviewUrl = `${CONTEXT_PATH}/review?productId=${item.productId}&id=${item.id}`;
+                        window.location.href = reviewUrl;
+                    });
 				};
 				
 				let setStatusName = function(tmpStatusName) {
@@ -221,8 +222,6 @@ $(() => {
 											productDeliveryComplete();
 											setStatusName("거래완료");
 											alert('구매결정 완료');
-											
-											
 										}
 										else
 										{

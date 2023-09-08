@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+
+	<insert id="insert" parameterType="ReviewVO">		
+		insert into review(id, user_id, product_id, product_order_id, score, contents)
+		values(review_seq_id.nextval, #{userId}, #{productId}, #{orderId}, #{score}, #{contents})
+	</insert>
+		
+	<update id="deleteReview" parameterType="ReviewVO">
+		update review
+		set	use_yn = 'N'
+		where id = #{id}
+	</update>
+	
+	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">
+		select *
+		from review
+		where user_id = #{userId} AND use_yn = 'Y'
+	</select>
+	
+	<select id="already" parameterType="java.lang.Integer" resultType="int">
+	    SELECT COUNT(*) FROM review
+  		WHERE product_order_id = #{orderId}
+	</select>
+	
+</mapper>
+
+
+
+
