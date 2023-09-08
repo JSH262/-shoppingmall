@@ -47,7 +47,7 @@
 		<mapper resource="com/tjoeun/mybatis/payment.xml" />
 		<mapper resource="com/tjoeun/mybatis/destinationAddress.xml" />
 		<mapper resource="com/tjoeun/mybatis/index.xml" />
-
+		<mapper resource="com/tjoeun/mybatis/myPage.xml" />
 	</mappers>
 	
 </configuration>

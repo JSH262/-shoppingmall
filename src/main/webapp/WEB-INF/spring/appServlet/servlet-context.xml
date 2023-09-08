@@ -47,6 +47,9 @@
 	
 	
 	 -->
+	 
+	 <!-- 병합을 위해 주석처리 -->
+	 <!-- 
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
@@ -60,7 +63,7 @@
 			<beans:bean id="commonInterceptor" class="com.tjoeun.shoppingmall.config.interceptor.CustomInterceptor"/>
         </interceptor>
     </interceptors>
- 
+  -->
 		
 		
  	<!-- 
