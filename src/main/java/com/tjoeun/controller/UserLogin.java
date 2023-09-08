@@ -45,10 +45,6 @@ public class UserLogin {
 
 		UsersVO vo = new UsersVO(id, password1);
 		
-		/*
-		 * if (service.use_yn(vo) == 1) { response.getWriter().write("2"); return; }
-		 */
-		
 		int res = service.userLogin(vo);
 		// 1 넘어오면 id에 해당하는 password가 있음
 		if (res == 1) {

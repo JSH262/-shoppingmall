@@ -47,11 +47,6 @@ public class UserDAO {
 		return (UsersVO) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.selectVO", id);
 	}
 	
-	public int use_yn(SqlSession mapper, UsersVO vo) 
-	{
-		return (int) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.use_yn", vo);
-	}
-
 }
 
 
