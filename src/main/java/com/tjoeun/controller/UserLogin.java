@@ -40,26 +40,27 @@ public class UserLogin {
 		System.out.println(id);
 		System.out.println(password1);
 
-		// �엯�젰 泥댄겕 (�엯�젰�씠 �뾾嫄곕굹 怨듬갚)
+		// 占쎌뿯占쎌젾 筌ｋ똾寃� (占쎌뿯占쎌젾占쎌뵠 占쎈씨椰꾧퀡援� �⑤벉媛�)
 		if (id == null || id.equals("") || password1 == null || password1.equals("")) {
 			response.getWriter().write("1");
 			return;
 		}
 
 		UsersVO vo = new UsersVO(id, password1);
-		if (service.use_yn(vo) == 1) {
-			response.getWriter().write("2");
-			return;
-		}
+		
+		/*
+		 * if (service.use_yn(vo) == 1) { response.getWriter().write("2"); return; }
+		 */
+		
 		int res = service.userLogin(vo);
 		if (res == 0) {
 
 			UsersVO svo = service.selectVO(id);
 			AttributeName.setUserData(request, svo);
-			// 濡쒓렇�씤 �꽦怨듯븳 寃쎌슦 泥섎━�븷 濡쒖쭅 �옉�꽦
-			response.getWriter().write("0"); // �몼
+			// 嚥≪뮄�젃占쎌뵥 占쎄쉐�⑤벏釉� 野껋럩�뒭 筌ｌ꼶�봺占쎈막 嚥≪뮇彛� 占쎌삂占쎄쉐
+			response.getWriter().write("0"); // 占쎈ぜ
 		} else {
-			response.getWriter().write("1"); // �몼
+			response.getWriter().write("1"); // 占쎈ぜ
 		}
 
 	}

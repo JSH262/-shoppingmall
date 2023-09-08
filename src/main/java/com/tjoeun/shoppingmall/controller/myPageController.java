@@ -78,7 +78,6 @@ public class myPageController
 		}
 
 		UsersVO vo = new UsersVO(id, password);
-		System.out.println(vo);
 		int res = service.passwordCheck(vo);
 		if (res == 0) {
 			response.getWriter().write("0"); // �몼

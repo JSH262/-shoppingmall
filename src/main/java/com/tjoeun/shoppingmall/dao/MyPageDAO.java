@@ -20,7 +20,7 @@ public class MyPageDAO
 		return g_inst;
 	}
 	
-	// �씤利앹씠 臾댁“嫄� �꽦怨듯븿 �닔�젙�븘�슂 ##################################################
+	// 占쎌뵥筌앹빘�뵠 �눧�똻�쒎쳞占� 占쎄쉐�⑤벏釉� 占쎈땾占쎌젟占쎈툡占쎌뒄 ##################################################
 	public int passwordCheck(SqlSession mapper, UsersVO vo) {
 		int result;
 		
@@ -35,14 +35,12 @@ public class MyPageDAO
 
 
 	public int passwordUpdate(SqlSession mapper, UsersVO vo) {
-		System.out.println("password update DAO");
 		int result = 0;
 
 	    int passwordCount = (int) mapper.update("MyPage.passwordUpdate", vo);
         if (passwordCount == 0) {
             result = 3;
         }
-        System.out.println("password update DAO END");
 	    return result;
 	}
 
