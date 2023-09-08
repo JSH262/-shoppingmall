@@ -24,14 +24,6 @@
 
 <title>My 리뷰</title>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("input[name^='button']").on("click", function(e) {
-            deleteReview($(this));
-        });
-    });
-</script>
-
 <style type="text/css">
 	.page-number {
 		border: 1px solid black;
@@ -98,9 +90,9 @@
 					<fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>
 				</td>
 				<td>
-					<input type="text" id="id" name="id" value="${vo.id}"/>
-					<input type="button" id="button_${vs.index}" name="button_${vs.index}" value="삭제하기"/>
-					<!-- <input type="button" id="button" name="button" value="삭제하기" onclick="deleteReview(this)" /> -->
+					<%-- <input type="text" id="id" name="id" value="${vo.id}"/> --%>
+					<%-- <input type="button" id="button_${vs.index}" name="button_${vs.index}" value="삭제하기"/> --%>
+					<input type="button" value="삭제하기" onclick="deleteReview('${vo.id}')" />
 				</td>
 			</tr>
 		</c:forEach>

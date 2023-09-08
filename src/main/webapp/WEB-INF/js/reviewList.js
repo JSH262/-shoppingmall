@@ -1,5 +1,4 @@
-function deleteReview(event) {
-	var id = $('#id').val();
+function deleteReview(id) {
 	$.ajax({
 		type: 'POST',
 		url: './deleteReview',
