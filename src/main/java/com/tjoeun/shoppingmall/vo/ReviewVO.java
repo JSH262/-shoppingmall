@@ -7,6 +7,7 @@ public class ReviewVO {
     String userId;
     String contents;
     int productId;
+    int orderId;
     float score;
     char useYn;
     Timestamp createDate;
@@ -17,23 +18,25 @@ public class ReviewVO {
     	this.userId = userId;
     }
 
-    public ReviewVO(int id, String userId, String contents, int productId, float score, char useYn,
+    public ReviewVO(int id, String userId, String contents, int productId, int orderId, float score, char useYn,
 			Timestamp createDate) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.contents = contents;
 		this.productId = productId;
+		this.orderId = orderId;
 		this.score = score;
 		this.useYn = useYn;
 		this.createDate = createDate;
 	}
     
-    public ReviewVO(String userId, String contents, int productId, float score) {
+    public ReviewVO(String userId, String contents, int productId, int orderId, float score) {
     	super();
     	this.userId = userId;
     	this.contents = contents;
     	this.productId = productId;
+    	this.orderId = orderId;
     	this.score = score;
     }
 
@@ -69,6 +72,14 @@ public class ReviewVO {
     public void setProductId(int productId) {
         this.productId = productId;
     }
+    
+    public int getOrderId() {
+    	return orderId;
+    }
+    
+    public void setOrderId(int orderId) {
+    	this.orderId = orderId;
+    }
 
     public float getScore() {
         return score;
@@ -97,7 +108,8 @@ public class ReviewVO {
 	@Override
 	public String toString() {
 		return "ReviewVO [id=" + id + ", userId=" + userId + ", contents=" + contents + ", productId=" + productId
-				+ ", score=" + score + ", useYn=" + useYn + ", createDate=" + createDate + "]";
+				+ ", orderId=" + orderId + ", score=" + score + ", useYn=" + useYn + ", createDate=" + createDate + "]";
 	}
+
     
 }

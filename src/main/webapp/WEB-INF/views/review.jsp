@@ -16,7 +16,8 @@
 <%
 	UsersVO user = AttributeName.getUserData(request);
 	String userId = user.getId();
-	String productId = request.getParameter("productId");	
+	String productId = request.getParameter("productId");
+	String orderId = request.getParameter("id");
 %>
 
 <body>
@@ -50,6 +51,7 @@
 						<textarea id="contents" name="contents" class="form-control" rows="10" placeholder="리뷰를 작성하세요" autocomplete="off"></textarea>
 						<input type="hidden" id="userId" name="userId" value="<%=userId %>">
 						<input type="hidden" id="productId" name="productId" value="<%=productId %>">
+						<input type="hidden" id="orderId" name="orderId" value="<%=orderId %>">
 					</td>
 				</tr>
 				<tr>

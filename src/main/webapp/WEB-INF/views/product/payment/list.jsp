@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,6 +31,11 @@
 		
 	</head>
 	<body>
+	<c:if test="${not empty message}">
+	    <div class="alert alert-info">
+	        ${message}
+	    </div>
+	</c:if>
 		<h1 style="text-align: center;margin-top:30px;">결제목록</h1>
 		<table border="1" align="center">
 			<tr id="tableHeader" align="center">

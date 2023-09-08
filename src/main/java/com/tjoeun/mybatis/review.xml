@@ -3,8 +3,8 @@
 <mapper namespace="Review">
 
 	<insert id="insert" parameterType="ReviewVO">		
-		insert into review(id, user_id, product_id, score, contents)
-		values(review_seq_id.nextval, #{userId}, #{productId}, #{score}, #{contents})
+		insert into review(id, user_id, product_id, product_order_id, score, contents)
+		values(review_seq_id.nextval, #{userId}, #{productId}, #{orderId}, #{score}, #{contents})
 	</insert>
 		
 	<update id="deleteReview" parameterType="ReviewVO">
@@ -17,6 +17,11 @@
 		select *
 		from review
 		where user_id = #{userId} AND use_yn = 'Y'
+	</select>
+	
+	<select id="already" parameterType="java.lang.Integer" resultType="int">
+	    SELECT COUNT(*) FROM review
+  		WHERE product_order_id = #{orderId}
 	</select>
 	
 </mapper>

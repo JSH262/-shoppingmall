@@ -68,6 +68,19 @@ public class ReviewService {
 				
 		return retval;
 	}
+	public int already(int orderId) {
+		SqlSession mapper = MySession.getSession();
+		int res = 0;
+		try {
+			res = dao.already(mapper, orderId);
+			mapper.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			mapper.rollback();
+		}
+		mapper.close();
+		return res;
+	}
 
 
 

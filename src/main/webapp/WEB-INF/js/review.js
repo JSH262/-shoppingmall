@@ -1,6 +1,7 @@
 function reviewInsert() {
 	let userId = $('#userId').val();
 	let productId = $('#productId').val();
+	let orderId = $('#orderId').val();
 	let score = $('#score').val();
 	let contents = $('#contents').val();
 	$.ajax({
@@ -9,6 +10,7 @@ function reviewInsert() {
 		data: {
 			userId: userId,
 			productId: productId,
+			orderId: orderId,
 			score: score,
 			contents: contents
 		},

@@ -89,7 +89,7 @@ $(() => {
 					btnComplete.addClass("invisible");
 					btnReview.bind('click', function () {
 						console.log(item.productId);
-                        const reviewUrl = `${CONTEXT_PATH}/review?productId=${item.productId}`;
+                        const reviewUrl = `${CONTEXT_PATH}/review?productId=${item.productId}&id=${item.id}`;
                         window.location.href = reviewUrl;
                     });
 				};

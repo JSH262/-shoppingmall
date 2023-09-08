@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.ReviewService;
@@ -29,8 +30,13 @@ public class ReviewController {
     }
     
     @RequestMapping(value="/review", method=RequestMethod.GET)
-    public String review()
+    public String review(@RequestParam String id, RedirectAttributes redirectAttributes)
     {
+    	int orderId = Integer.parseInt(id);
+    	if (service.already(orderId) == 1) {
+    		redirectAttributes.addFlashAttribute("message", "이미 작성한 리뷰가 있습니다.");
+    		return "/product/payment/list";
+    	}
     	return "review";
     }
     
@@ -41,17 +47,19 @@ public class ReviewController {
    		
    		String userId = request.getParameter("userId");
    		int productId = Integer.parseInt(request.getParameter("productId"));
+   		int orderId = Integer.parseInt(request.getParameter("orderId"));
    		float score = Float.parseFloat(request.getParameter("score"));
    		String contents = request.getParameter("contents").trim();
    		
 
    		System.out.println("userId: " + userId);
    		System.out.println("productId: " + productId);
+   		System.out.println("orderId: " + orderId);
    		System.out.println("score: " + score);
    		System.out.println("contents: " + contents);
 
    		
-   		ReviewVO vo = new ReviewVO(userId, contents, productId, score);
+   		ReviewVO vo = new ReviewVO(userId, contents, productId, orderId, score);
    		System.out.println(vo);
    		
    		
@@ -88,7 +96,6 @@ public class ReviewController {
 	@RequestMapping(value="/deleteReview", method=RequestMethod.POST)
 	protected void deletReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("딜리트 넘어옴");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -97,7 +104,6 @@ public class ReviewController {
 		vo.setId(id);
 		System.out.println(vo.getId());
 		int res = ReviewService.deleteReview(vo);
-		System.out.println("딜리트 실행완료");
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {

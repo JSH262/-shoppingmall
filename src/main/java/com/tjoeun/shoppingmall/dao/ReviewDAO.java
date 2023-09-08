@@ -31,5 +31,9 @@ public class ReviewDAO
 		return mapper.selectList("Review.selectByUserId", userId);
 	}
 
+	public int already(SqlSession mapper, int orderId) {
+		return mapper.selectOne("Review.already", orderId);
+	}
+
 	
 }
