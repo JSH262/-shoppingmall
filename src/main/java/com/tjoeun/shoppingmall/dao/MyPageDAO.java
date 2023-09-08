@@ -20,48 +20,20 @@ public class MyPageDAO
 		return g_inst;
 	}
 	
-	// 占쎌뵥筌앹빘�뵠 �눧�똻�쒎쳞占� 占쎄쉐�⑤벏釉� 占쎈땾占쎌젟占쎈툡占쎌뒄 ##################################################
 	public int passwordCheck(SqlSession mapper, UsersVO vo) {
-		int result;
-		
-	    int passwordCount = mapper.selectOne("MyPage.passwordCheck", vo);
-	    if (passwordCount > 0) {
-	        result = 0;
-	    } else {
-	        result = 2;
-	    }
-	    return result;
+	    return mapper.selectOne("MyPage.passwordCheck", vo);
 	}
 
-
 	public int passwordUpdate(SqlSession mapper, UsersVO vo) {
-		int result = 0;
-
-	    int passwordCount = (int) mapper.update("MyPage.passwordUpdate", vo);
-        if (passwordCount == 0) {
-            result = 3;
-        }
-	    return result;
+	    return mapper.update("MyPage.passwordUpdate", vo);
 	}
 
 	public int unregister(SqlSession mapper, UsersVO vo) {
-		int result = 0;
-		
-		int count = (int) mapper.delete("MyPage.unregister", vo);
-		if (count == 0) {
-			result = 1;
-		}
-		return result;
+		return mapper.update("MyPage.unregister", vo);
 	}
 
 	public int userUpdate(SqlSession mapper, UsersVO vo) {
-		int result = 0;
-
-	    int count = (int) mapper.update("MyPage.userUpdate", vo);
-        if (count == 0) {
-            result = 1;
-        }
-	    return result;
+	    return mapper.update("MyPage.userUpdate", vo);
 	}
 	
 	
