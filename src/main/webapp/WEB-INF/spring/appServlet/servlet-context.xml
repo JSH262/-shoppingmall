@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/css/**" location="/WEB-INF/css/" />
+	<resources mapping="/js/**" location="/WEB-INF/js/" />
+	<resources mapping="/images/**" location="/WEB-INF/images/" />
+	<resources mapping="/summernote/**" location="/WEB-INF/summernote/" />
+	
+	
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.tjoeun.shoppingmall,com.tjoeun.controller" />
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
+		<beans:property name="maxUploadSize" value="1024000"></beans:property>
+		<!-- 
+		<beans:property name="maxUploadSize" value="20971520"></beans:property>
+		 -->
+		<beans:property name="maxInMemorySize" value="10485760"></beans:property> 
+	</beans:bean>
+			
+			<!-- 
+			
+	
+	
+	
+	
+	 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/index"/>
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/css/**"/>
+			<exclude-mapping path="/js/**"/>
+			<exclude-mapping path="/images/**"/>			
+			<exclude-mapping path="/summernote/**"/>
+			<beans:bean id="commonInterceptor" class="com.tjoeun.shoppingmall.config.interceptor.CustomInterceptor"/>
+        </interceptor>
+    </interceptors>
+ 
+		
+		
+ 	<!-- 
+ 	
+	<util:properties id="db" location="classpath:/com/tjoeun/mybatis/db.properties" />
+ 
+	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="#{db['driver']}"/>
+		<beans:property name="url" value="#{db['url']}"/>
+		<beans:property name="username" value="#{db['username']}"/>
+		<beans:property name="password" value="#{db['password']}"/>
+	</beans:bean>		
+	
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		  <beans:constructor-arg name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"></beans:property> 
+		<beans:property name="mapperLocations" value="classpath:com/tjoeun/mybatis/*.xml"></beans:property>
+		<beans:property name="configLocation" value="classpath:com/tjoeun/mybatis/SqlConfig.xml"></beans:property>
+	</beans:bean>
+		
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
+	</beans:bean>
+ 	 -->
+	
+</beans:beans>
