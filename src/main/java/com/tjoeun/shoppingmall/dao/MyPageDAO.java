@@ -20,19 +20,23 @@ public class MyPageDAO
 		return g_inst;
 	}
 	
-	public int passwordCheck(SqlSession mapper, UsersVO vo) {
+	public int passwordCheck(SqlSession mapper, UsersVO vo) 
+	{
 	    return mapper.selectOne("MyPage.passwordCheck", vo);
 	}
 
-	public int passwordUpdate(SqlSession mapper, UsersVO vo) {
+	public int passwordUpdate(SqlSession mapper, UsersVO vo) 
+	{
 	    return mapper.update("MyPage.passwordUpdate", vo);
 	}
 
-	public int unregister(SqlSession mapper, UsersVO vo) {
+	public int unregister(SqlSession mapper, UsersVO vo) 
+	{
 		return mapper.update("MyPage.unregister", vo);
 	}
 
-	public int userUpdate(SqlSession mapper, UsersVO vo) {
+	public int userUpdate(SqlSession mapper, UsersVO vo) 
+	{
 	    return mapper.update("MyPage.userUpdate", vo);
 	}
 	

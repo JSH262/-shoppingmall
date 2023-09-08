@@ -10,7 +10,7 @@
 	<update id="delete" parameterType="ReviewVO">
 		update review
 		set	use_yn = "N"
-		where id = #{Id}
+		where id = #{userId}
 	</update>
 	
 	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">

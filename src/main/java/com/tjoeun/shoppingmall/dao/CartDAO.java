@@ -44,7 +44,8 @@ public class CartDAO
 		return mapper.update("Cart.update", vo);
 	}
 
-	public int count(SqlSession mapper, String userId) {
+	public int count(SqlSession mapper, String userId)
+	{
 		return (int) mapper.selectOne("Cart.count", userId);
 	}
 	
@@ -54,11 +55,13 @@ public class CartDAO
 		return mapper.selectList("Cart.productIds", item);
 	}
 
-	public int updateAmount(SqlSession mapper, CartVO co) {
+	public int updateAmount(SqlSession mapper, CartVO co)
+	{
 		return mapper.update("Cart.updateAmount", co);
 	}
 
-	public int deleteProduct(SqlSession mapper, CartVO co) {
+	public int deleteProduct(SqlSession mapper, CartVO co)
+	{
 		return mapper.delete("Cart.delete", co);
 	}
 }
