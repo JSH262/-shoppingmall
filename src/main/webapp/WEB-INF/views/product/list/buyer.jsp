@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0" />		
 		
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/list/buyer.js"></script>		

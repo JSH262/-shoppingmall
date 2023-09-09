@@ -2,13 +2,14 @@ package com.tjoeun.shoppingmall.service;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tjoeun.helper.PaymentStatus;
 import com.tjoeun.helper.ProductOrderStatus;
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.CartDAO;
 import com.tjoeun.shoppingmall.dao.DestinationAddressDAO;
 import com.tjoeun.shoppingmall.dao.PaymentDAO;
@@ -21,79 +22,78 @@ import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Service
 public class PaymentService 
 {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static PaymentService g_inst = new PaymentService();
-	PaymentService() {}
-	
-	static public PaymentService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
 
 	public List<PaymentVO> selectList(PaymentVO vo)
 	{
 		List<PaymentVO> retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = PaymentDAO.getInstance().selectList(mapper, vo);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			PaymentDAO dao = th.getMapper(PaymentDAO.class);
+			
+			retval = dao.selectList(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			logger.error("", exp);
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public int insert(PaymentVO vo)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = PaymentDAO.getInstance().insert(mapper, vo);
-			mapper.commit();
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			PaymentDAO dao = th.getMapper(PaymentDAO.class);
+			
+			retval = dao.insert(vo);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			logger.error("", exp);
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	
 	
 	public boolean pay(UsersVO user, DestinationAddressVO destAddrVO)
 	{
-		SqlSession mapper = MySession.getSession();
-		CartDAO cartDAO = CartDAO.getInstance();
-		ProductOrderDAO poDAO = ProductOrderDAO.getInstance();
-		PaymentDAO paymentDAO = PaymentDAO.getInstance();
 		boolean retval = false;
-		ProductDAO productDAO = ProductDAO.getInstance();
-		DestinationAddressDAO destAddrDAO = DestinationAddressDAO.getInstance();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try
 		{
+
+			PaymentDAO dao = th.getMapper(PaymentDAO.class);
+			CartDAO cartDAO = th.getMapper(CartDAO.class);
+			ProductOrderDAO poDAO = th.getMapper(ProductOrderDAO.class);
+			ProductDAO productDAO = th.getMapper(ProductDAO.class);
+			DestinationAddressDAO destAddrDAO = th.getMapper(DestinationAddressDAO.class);
+			
 			ProductOrderVO poVO = new ProductOrderVO();
 			CartVO cart = new CartVO();
-			destAddrVO = destAddrDAO.select(mapper, destAddrVO);
+			destAddrVO = destAddrDAO.select(destAddrVO);
 						
 			cart.setUserId(user.getId());			
 			poVO.setUserId(user.getId());
 			
-			List<CartVO> productIds = cartDAO.selectList(mapper, cart);
-			Long poId = poDAO.selectId(mapper, poVO);
+			List<CartVO> productIds = cartDAO.selectList(cart);
+			Long poId = poDAO.selectId(poVO);
 						
 			if(productIds != null)
 			{
@@ -109,7 +109,7 @@ public class PaymentService
 						pVO.setAmount(item.getAmount());
 												
 						//상품의 재고 개수를 감소시킨다.
-						if(productDAO.updateDecrement(mapper, pVO) == 1)
+						if(productDAO.updateDecrement(pVO) == 1)
 						{						
 							ProductOrderVO params = new ProductOrderVO();
 							
@@ -129,12 +129,12 @@ public class PaymentService
 							params.setDeliveryRequestMsg(destAddrVO.getReqMsg());
 							params.setSellerId(item.getSellerId());
 							
-							poDAO.insert(mapper, params);
+							poDAO.insert(params);
 												
 							paymentPrice += item.getAmount() * item.getDiscountPrice();
 							paymentPrice += item.getDeliveryPrice();
 							
-							cartDAO.delete(mapper, item);
+							cartDAO.delete(item);
 						}
 					}
 				}
@@ -148,20 +148,18 @@ public class PaymentService
 				pVo.setProductOrderId(poId);
 				pVo.setPaymentPrice(paymentPrice);
 				
-				paymentDAO.insert(mapper, pVo);
+				dao.insert(pVo);
 
 				retval = true;
 			}
 			
-			mapper.commit();
+			th.commit();
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			logger.error("", exp);
+			th.rollback();
+			log.error("", exp);
 		}
-		
-		mapper.close();
 		
 		return retval;
 	}

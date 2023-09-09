@@ -1,94 +1,90 @@
 package com.tjoeun.shoppingmall.service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tjoeun.helper.AttributeName;
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.CartDAO;
-import com.tjoeun.shoppingmall.dao.CategoryDAO;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Service
 public class CartService 
-{
-	static CartService g_inst = new CartService();
-	CartService() {}
+{	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public CartService getInstance()
-	{
-		return g_inst;
-	}
-	
-	static CartDAO dao = CartDAO.getInstance();
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+		
 	public List<CartVO> selectList(CartVO vo)
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<CartVO> retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = CartDAO.getInstance().selectList(mapper, vo);
+			CartDAO dao = th.getMapper(CartDAO.class);
+			
+			retval = dao.selectList(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
-		
-		mapper.close();
 				
 		return retval;
 	}
 	
 	public int count(String userId) 
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		
 		try
 		{
-			retval = CartDAO.getInstance().count(mapper, userId);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			retval = dao.count(userId);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
-		mapper.close();
+		
 		return retval;
 	}
 	
 	public int insert(CartVO vo) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = CartDAO.getInstance().insert(mapper, vo);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			retval = dao.insert(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
-		
-		mapper.close();
-				
+						
 		return retval;
 	}
 	
@@ -96,20 +92,17 @@ public class CartService
 	public int delete(CartVO vo) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = CartDAO.getInstance().delete(mapper, vo);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			retval = dao.delete(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
-		
-		mapper.close();
 				
 		return retval;
 	}
@@ -117,114 +110,104 @@ public class CartService
 	public int update(CartVO vo) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = CartDAO.getInstance().update(mapper, vo);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			retval = dao.update(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 
 	public int insert(HttpServletRequest request) throws JsonSyntaxException, IOException, ParseException 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
 		UsersVO user = AttributeName.getUserData(request);
 		String userId = user.getId();
 		CartVO vo = new Gson().fromJson(com.tjoeun.helper.Util.toBody(request), CartVO.class);
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			
+			CartDAO dao = th.getMapper(CartDAO.class);
 			ProductVO pVo = new ProductVO();			
 			pVo.setId(vo.getProductId());
 			vo.setUserId(userId);
 			
-			if(CartDAO.getInstance().isRow(mapper, vo) > 0)
+			if(dao.isRow(vo) > 0)
 			{
-				retval = CartDAO.getInstance().update(mapper, vo);
+				retval = dao.update(vo);
 			}
 			else				
 			{
-
-				String sellerId = ProductDAO.getInstance().select(mapper, pVo).getSellerId();
+				ProductDAO productDao = th.getMapper(ProductDAO.class);
+				String sellerId = productDao.select(pVo).getSellerId();
 		
 				vo.setSellerId(sellerId);
 				
-				retval = CartDAO.getInstance().insert(mapper, vo);
+				retval = dao.insert(vo);
 			}
 			
-			mapper.commit();
+			th.commit();
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			th.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public List<CartVO> productIds(CartVO item)
 	{
 		List<CartVO> retval = null;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = CartDAO.getInstance().productIds(mapper, item);
+			CartDAO dao = th.getMapper(CartDAO.class);
+			retval = dao.productIds(item);
 		}
 		catch(Exception exp)
 		{
 			exp.printStackTrace();
 		}
-		
-		mapper.close();
-				
+						
 		return retval;
 	}
 
-	public static int updateAmount(CartVO co) {
-		SqlSession mapper = MySession.getSession();
+	public int updateAmount(CartVO co) {
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 0;
 		try {
-			dao.updateAmount(mapper, co);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			dao.updateAmount(co);
 			result = 0;
 		} catch (Exception e) {
-			e.printStackTrace();
 			result = 1;
-			mapper.rollback();
+			log.error("", e);
 		} finally {
-			mapper.close();
 		}
 		return result;
 	}
 
-	public static int deleteProduct(CartVO co) {
-		SqlSession mapper = MySession.getSession();
+	public int deleteProduct(CartVO co) {
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 0;
 		try {
-			dao.deleteProduct(mapper, co);
-			mapper.commit();
+			CartDAO dao = th.getMapper(CartDAO.class);
+			dao.deleteProduct(co);
 			result = 0;
 		} catch (Exception e) {
-			e.printStackTrace();
 			result = 1;
-			mapper.rollback();
+			log.error("", e);
 		} finally {
-			mapper.close();
 		}
 		return result;
 	}

@@ -10,6 +10,17 @@ import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+public interface MyPageDAO 
+{
+	public int passwordCheck(UsersVO vo);
+	public int passwordUpdate(UsersVO vo);
+	public int unregister(UsersVO vo);
+	public int userUpdate(UsersVO vo);
+}
+
+
+/*
+
 public class MyPageDAO 
 {
 	static MyPageDAO g_inst = new MyPageDAO();
@@ -42,3 +53,6 @@ public class MyPageDAO
 	
 	
 }
+
+
+//*/

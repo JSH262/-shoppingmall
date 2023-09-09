@@ -1,88 +1,90 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tjoeun.helper.AttributeName;
-import com.tjoeun.mybatis.MySession;
-import com.tjoeun.shoppingmall.dao.CartDAO;
-import com.tjoeun.shoppingmall.dao.CategoryDAO;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.MyPageDAO;
-import com.tjoeun.shoppingmall.dao.ProductDAO;
-import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
-import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Service
 public class MyPageService 
 {
-	static MyPageService g_inst = new MyPageService();
-	MyPageService() {}
-	static public MyPageService getInstance()
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+		
+	public int passwordCheck(UsersVO vo) 
 	{
-		return g_inst;
-	}
-	
-	static MyPageDAO dao = MyPageDAO.getInstance();
-	
-	public int passwordCheck(UsersVO vo) {
-		SqlSession mapper = MySession.getSession();
 		int res = 0;
-		try {
-			res = dao.passwordCheck(mapper, vo);
-			mapper.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			mapper.rollback();
+		try 
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			MyPageDAO dao = th.getMapper(MyPageDAO.class);
+			res = dao.passwordCheck(vo);
 		}
-		mapper.close();
+		catch (Exception e) 
+		{
+			log.error("", e);
+		}
+		
 		return res;
 	}
-	public int passwordUpdate(UsersVO vo) {
-		SqlSession mapper = MySession.getSession();
+	public int passwordUpdate(UsersVO vo) 
+	{
 		int res = 0;
-		try {
-			res = dao.passwordUpdate(mapper, vo);
-			mapper.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			mapper.rollback();
+		try 
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			MyPageDAO dao = th.getMapper(MyPageDAO.class);
+			
+			res = dao.passwordUpdate(vo);
+		} 
+		catch (Exception e) 
+		{
+			log.error("", e);
 		}
-		mapper.close();
+		
 		return res;
 	}
-	public int unregister(UsersVO vo) {
-		SqlSession mapper = MySession.getSession();
+	public int unregister(UsersVO vo) 
+	{
 		int res = 0;
-		try {
-			res = dao.unregister(mapper, vo);
-			mapper.commit();
-		} catch (Exception e) {
-			mapper.rollback();
+		try 
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			MyPageDAO dao = th.getMapper(MyPageDAO.class);
+			
+			res = dao.unregister(vo);			
 		}
-		mapper.close();
+		catch (Exception e) 
+		{
+			log.error("", e);
+		}
+		
 		return res;
 	}
-	public int userUpdate(UsersVO vo) {
-		SqlSession mapper = MySession.getSession();
+	public int userUpdate(UsersVO vo) 
+	{
 		int res = 0;
-		try {
-			res = dao.userUpdate(mapper, vo);
-			mapper.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			mapper.rollback();
+		try 
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			MyPageDAO dao = th.getMapper(MyPageDAO.class);
+			
+			res = dao.userUpdate(vo);
+		} 
+		catch (Exception e) 
+		{
+			log.error("", e);
 		}
-		mapper.close();
+		
 		return res;
 	}
 	

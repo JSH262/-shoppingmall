@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +29,14 @@ public class DestinationAddressRemoveController
 	private static final long serialVersionUID = 1L;
 	SettingVO setting = null;
 
+	@Autowired
+	DestinationAddressService destinationAddressService;
+	
 	@RequestMapping(value="/destaddr/remove", method=RequestMethod.POST)
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
-		DestinationAddressService service = DestinationAddressService.getInstance(); 
-		
+		DestinationAddressService service = destinationAddressService; 
 		
 		try 
 		{

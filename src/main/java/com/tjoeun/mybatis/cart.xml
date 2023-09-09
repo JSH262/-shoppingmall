@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Cart">
+<mapper namespace="com.tjoeun.shoppingmall.dao.CartDAO">
 
 	<insert id="insert" parameterType="CartVO">		
 		insert into cart(user_id, product_id, amount, seller_id)
@@ -9,10 +9,9 @@
 	
 	<select id="selectList" parameterType="CartVO" resultType="CartVO">
 	    SELECT 
-	    	c.user_id, c.product_id, c.seller_id,
-	    	
+	    	c.user_id, c.product_id, c.seller_id,	    	
 	    	c.amount,
-	    	p.thumbnail,
+	    	nvl2(p.thumbnail, concat('/image/', p.thumbnail), '/resources/default/noimg.png') thumbnail,
 	    	p.name as product_Name,
 	    	p.price - p.price * (p.discount / 100) as discount_price,
 			(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,

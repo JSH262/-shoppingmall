@@ -29,7 +29,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.tjoeun.shoppingmall,com.tjoeun.controller" />
+	<context:component-scan base-package="com.tjoeun.shoppingmall,com.tjoeun.controller, com.tjoeun.service" />
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
@@ -55,7 +55,33 @@
         </interceptor>
     </interceptors>
  
+ 	<util:properties id="db" location="classpath:com/tjoeun/mybatis/db.properties" />
+ 
+	<beans:bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="#{db['driver']}"/>
+		<beans:property name="url" value="#{db['url']}"/>
+		<beans:property name="username" value="#{db['username']}"/>
+		<beans:property name="password" value="#{db['password']}"/>
+	</beans:bean>		
+	
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		  <beans:constructor-arg name="dataSource" ref="dataSource" />
+	</beans:bean>
+	 
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"></beans:property> 
+		<beans:property name="mapperLocations" value="classpath*:/com/tjoeun/mybatis/*.xml"></beans:property>
+		<beans:property name="configLocation" value="classpath:/SqlConfig.xml"></beans:property>
+		<!-- 	
+		<beans:property name="transactionFactory">
+	    	<beans:bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" />
+	  	</beans:property>
+	  	 -->	
+	</beans:bean>
 		
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
+	</beans:bean>
 		
  	<!-- 
  	

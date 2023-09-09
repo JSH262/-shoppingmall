@@ -6,6 +6,15 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
 
+public interface DestinationAddressDAO 
+{
+	public List<DestinationAddressVO> selectList(DestinationAddressVO vo);
+	public int insert(DestinationAddressVO vo);
+	public DestinationAddressVO select(DestinationAddressVO vo);
+	public int update(DestinationAddressVO vo);	
+	public int delete(DestinationAddressVO vo);
+}
+/*
 public class DestinationAddressDAO 
 {
 	static DestinationAddressDAO g_inst = new DestinationAddressDAO();
@@ -42,3 +51,5 @@ public class DestinationAddressDAO
 	
 }
 
+
+//*/

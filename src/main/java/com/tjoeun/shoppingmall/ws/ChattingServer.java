@@ -20,6 +20,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.tjoeun.helper.Util;
 import com.tjoeun.shoppingmall.service.ProductService;
@@ -29,7 +31,7 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
 
-
+@Controller
 @ServerEndpoint("/chatting")
 public class ChattingServer 
 {
@@ -37,6 +39,8 @@ public class ChattingServer
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Autowired
+	ProductService productService;
 	
 	public static enum RequestCode
 	{
@@ -169,7 +173,7 @@ public class ChattingServer
 					String roomId = (String)jMsg.get("roomId");
 					Long productId = (Long)jMsg.get("productId");
 					WsInfoData wsInfo = clients.get(session);
-					ProductVO productInfo = ProductService.getInstance().select(productId);
+					ProductVO productInfo = productService.select(productId);
 					JSONObject sendMsg = new JSONObject();
 					
 					/*

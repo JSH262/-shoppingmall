@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,8 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 @Controller
 public class ProductDetailController 
 {
-	
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping(value="/product/detail")
 	public String productDetail(HttpServletRequest request, Model model)
@@ -51,7 +53,7 @@ public class ProductDetailController
 		params.setId(id);
 		params.setChoose("detail");
 		
-		ProductVO vo = ProductService.getInstance().select(params);
+		ProductVO vo = productService.select(params);
 		//String name = vo.getName();
 		//String fmtPrice = vo.getFmtPrice();
 		//String fmtDiscountPrice = vo.getFmtDiscountPrice();
@@ -81,7 +83,7 @@ public class ProductDetailController
 		{
 			if(vo.getSellerId().equals(user.getId()))
 			{
-				List<CategoryVO> catList = ProductService.getInstance().selectProductCatList(null);
+				List<CategoryVO> catList = productService.selectProductCatList(null);
 				
 				model.addAttribute("catList", catList);			
 				model.addAttribute("product", vo);

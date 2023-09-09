@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,13 @@ import com.tjoeun.shoppingmall.vo.SettingVO;
 public class ImageController {
 	private static final long serialVersionUID = 1L;
 	SettingVO setting = null;
-    
+	
+	@Autowired
+	SettingService settingService;
+	
     @PostConstruct
 	public void init() throws ServletException {
-		this.setting = SettingService.getInstance().select();
+		this.setting = settingService.select();
     }
 
 	@RequestMapping(value = "/image/{id}", method = RequestMethod.GET)

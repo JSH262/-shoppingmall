@@ -8,6 +8,18 @@ import org.apache.ibatis.session.SqlSession;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
+public interface ProductDAO {
+	public int insert(ProductVO item);
+	public List<ProductVO> selectList(ProductVO params);
+	public int totalCount(ProductVO params);
+	public ProductVO select(ProductVO params);
+	public int update(ProductVO item);
+	public List<CategoryVO> selectProductCatList(CategoryVO params);
+	public int updateDecrement(ProductVO item);
+}
+
+
+/*
 public class ProductDAO {
 	static ProductDAO g_inst = new ProductDAO();
 	ProductDAO() {}
@@ -52,3 +64,4 @@ public class ProductDAO {
 		return mapper.update("Product.updateDecrement", item);
 	}
 }
+//*/

@@ -47,6 +47,11 @@ public class LoginChkUrl
 		new LoginChkUrlData("/companyInsert", null, null, null),
 		new LoginChkUrlData("/UserJoin", null, null, null),
 		new LoginChkUrlData("/userIdCheck",null, null, null),
+		new LoginChkUrlData("/userIdCheck",null, null, null),
+		new LoginChkUrlData("/myPage",null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/reviewList.do",null, new String[] {UsersType.BUYER}, "/login"),
+		
+		
 		
 		new LoginChkUrlData("/image", "GET", null, null),
 		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER}, null)//POST만 검사

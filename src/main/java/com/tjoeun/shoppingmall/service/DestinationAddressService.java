@@ -1,140 +1,118 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tjoeun.helper.AttributeName;
-import com.tjoeun.mybatis.MySession;
-import com.tjoeun.shoppingmall.dao.CartDAO;
-import com.tjoeun.shoppingmall.dao.CategoryDAO;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.DestinationAddressDAO;
-import com.tjoeun.shoppingmall.dao.ProductDAO;
-import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
-import com.tjoeun.shoppingmall.vo.ProductVO;
-import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Service
 public class DestinationAddressService 
 {
-	static DestinationAddressService g_inst = new DestinationAddressService();
-	DestinationAddressService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public DestinationAddressService getInstance()
-	{
-		return g_inst;
-	}
-	
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+		
 	
 	
 	public int insert(DestinationAddressVO vo) 
 	{
+		
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
-		DestinationAddressDAO dao = DestinationAddressDAO.getInstance();
 		
 		try
 		{
-			retval = dao.insert(mapper, vo);
-			mapper.commit();
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
+		
+			retval = dao.insert(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public List<DestinationAddressVO> selectList(DestinationAddressVO vo) 
 	{
 		List<DestinationAddressVO> retval = null;
-		SqlSession mapper = MySession.getSession();
-		DestinationAddressDAO dao = DestinationAddressDAO.getInstance();
 		
 		try
 		{
-			retval = dao.selectList(mapper, vo);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
+		
+			retval = dao.selectList(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public DestinationAddressVO select(DestinationAddressVO vo) 
 	{
 		DestinationAddressVO retval = null;
-		SqlSession mapper = MySession.getSession();
-		DestinationAddressDAO dao = DestinationAddressDAO.getInstance();
 		
 		try
 		{
-			retval = dao.select(mapper, vo);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
+		
+			retval = dao.select(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public int update(DestinationAddressVO vo) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
-		DestinationAddressDAO dao = DestinationAddressDAO.getInstance();
 		
 		try
 		{
-			retval = dao.update(mapper, vo);
-			mapper.commit();
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
+		
+			retval = dao.update(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public int delete(DestinationAddressVO vo) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
-		DestinationAddressDAO dao = DestinationAddressDAO.getInstance();
 		
 		try
 		{
-			retval = dao.delete(mapper, vo);
-			mapper.commit();
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
+		
+			retval = dao.delete(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 }

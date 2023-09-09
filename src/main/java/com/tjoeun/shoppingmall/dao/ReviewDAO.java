@@ -6,6 +6,16 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
+public interface ReviewDAO 
+{
+	public int insert(ReviewVO vo);
+	public int deleteReview(ReviewVO vo);
+	public List<Object> selectByUserId(String userId);
+	public int already(int orderId);
+}
+/*
+
+
 public class ReviewDAO 
 {
 	static ReviewDAO g_inst = new ReviewDAO();
@@ -37,3 +47,5 @@ public class ReviewDAO
 
 	
 }
+
+//*/

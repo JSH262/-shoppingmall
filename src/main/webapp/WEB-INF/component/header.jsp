@@ -69,7 +69,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="<%=request.getContextPath() %>/product/list"> 상품조회 </a>						
 					</li>
-					
+					<li class="nav-item">
+						<a class="nav-link" href="<%=request.getContextPath() %>/logout"> 로그아웃 </a>						
+					</li>
 <%
 				}
 				else if(userType.equals(UsersType.BUYER))

@@ -1,48 +1,81 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.IndexDAO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
+
+@Service
 public class IndexService 
 {
-	static IndexService g_inst = new IndexService();
-	IndexService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public IndexService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+		
+	
 	public List<ProductVO> lotSellProductList() 
 	{
-		SqlSession mapper = MySession.getSession();
-		IndexDAO dao = IndexDAO.getInstance(); 
+		try
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			IndexDAO dao = th.getMapper(IndexDAO.class);
 		
-		return dao.lotSellProductList(mapper);
+			return dao.lotSellProductList();
+		}
+		catch(Exception exp)
+		{
+			log.error("", exp);
+		}
+		
+		return null;
 	}
 
 	public List<ProductVO> newProductList() 
 	{
-		SqlSession mapper = MySession.getSession();
-		IndexDAO dao = IndexDAO.getInstance(); 
+		try
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
-		return dao.newProductList(mapper);
+			IndexDAO dao = th.getMapper(IndexDAO.class);
+		
+			return dao.newProductList();
+		}
+		catch(Exception exp)
+		{
+			log.error("", exp);
+		}
+		
+		return null;
 	}
 	
 	public List<ProductVO> productRndList(List<Long> rowList) 
 	{
-		SqlSession mapper = MySession.getSession();
-		IndexDAO dao = IndexDAO.getInstance();
-		ProductVO params = new ProductVO();
-				
-		params.setRowList(rowList);
-				
-		return dao.productRndList(mapper, params);
+		try
+		{
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			IndexDAO dao = th.getMapper(IndexDAO.class);
+			ProductVO params = new ProductVO();
+					
+			params.setRowList(rowList);
+					
+			return dao.productRndList(params);
+		}
+		catch(Exception exp)
+		{
+			log.error("", exp);
+		}
+		
+		return null;
 	}
 }

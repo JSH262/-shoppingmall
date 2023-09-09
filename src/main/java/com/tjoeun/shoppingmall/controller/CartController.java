@@ -1,19 +1,23 @@
 package com.tjoeun.shoppingmall.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.vo.CartVO;
+import com.tjoeun.shoppingmall.vo.UsersVO;
 
 /**
  * Servlet implementation class ImageController
@@ -23,9 +27,37 @@ public class CartController
 {
 	private static final long serialVersionUID = 1L;
 	
+	
+	@Autowired
+	CartService cartService;
+	
 	@RequestMapping(value="/cart/list", method=RequestMethod.GET)
-	protected String cartList(HttpServletRequest request, HttpServletResponse response)
+	protected String cartList(Model model, HttpServletRequest request, HttpServletResponse response)
 	{
+		UsersVO user = AttributeName.getUserData(request);
+		CartVO params = new CartVO();
+		
+		
+		params.setUserId(user.getId());
+
+		List<CartVO> cartList = cartService.selectList(params);
+		StringBuilder productIdsBuilder = new StringBuilder();
+		int cartCnt = cartList.size();
+	    for (int i = 0; i < cartCnt; i++) 
+	    {
+	        // 이전 코드 내용
+	        Long productId = cartList.get(i).getProductId();
+	        productIdsBuilder.append(productId);
+	        if (i != cartCnt - 1) 
+	        {
+	            productIdsBuilder.append(",");
+	        }
+	    }
+		
+		model.addAttribute("productIds", productIdsBuilder.toString());
+		model.addAttribute("cartList", cartList);
+		model.addAttribute("userId", user.getId());
+		
 		return "cart/list";
 	}
 	
@@ -38,7 +70,7 @@ public class CartController
 		{
 			if(AttributeName.getUserData(request) != null)
 			{			
-				if(CartService.getInstance().insert(request) == 1)
+				if(cartService.insert(request) == 1)
 				{
 					retval.put("code", 0);
 				}
@@ -80,7 +112,7 @@ public class CartController
 		co.setUserId(userId);
 		co.setProductId(productId);
 		
-		int res = CartService.updateAmount(co);
+		int res = cartService.updateAmount(co);
 		if (res == 0) {
 			response.getWriter().write("0"); // ②
 		} else {
@@ -100,7 +132,7 @@ public class CartController
 		co.setUserId(userId);
 		co.setProductId(productId);
 		
-		int res = CartService.deleteProduct(co);
+		int res = cartService.deleteProduct(co);
 		if (res == 0) {
 			response.getWriter().write("0"); // ②
 		} else {

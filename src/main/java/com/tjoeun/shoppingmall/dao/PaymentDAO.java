@@ -6,6 +6,14 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.PaymentVO;
 
+public interface PaymentDAO 
+{
+	public List<PaymentVO> selectList(PaymentVO vo);
+	public int insert(PaymentVO vo);
+}
+
+
+/*
 public class PaymentDAO 
 {
 	static PaymentDAO g_inst = new PaymentDAO();
@@ -25,4 +33,8 @@ public class PaymentDAO
 		return mapper.insert("Payment.insert", vo);
 	}
 }
+
+
+//*/
+
 

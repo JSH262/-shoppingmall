@@ -9,6 +9,19 @@ import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.PaymentVO;
 import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 
+public interface ProductOrderDAO 
+{
+	public int insert(ProductOrderVO item);
+	public long selectId(ProductOrderVO item);
+	public List<ProductOrderVO> selectList(ProductOrderVO item);
+	public int update(ProductOrderVO item);
+	public int totalCount(ProductOrderVO item);
+	public ProductOrderVO select(ProductOrderVO item);
+}
+
+
+/*
+
 public class ProductOrderDAO 
 {
 	static ProductOrderDAO g_inst = new ProductOrderDAO();
@@ -50,3 +63,4 @@ public class ProductOrderDAO
 		return (ProductOrderVO) mapper.selectOne("ProductOrder.select", item);
 	}
 }
+//*/

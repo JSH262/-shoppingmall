@@ -2,11 +2,23 @@ package com.tjoeun.shoppingmall.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-
 import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
 
+
+public interface CartDAO 
+{
+	public List<CartVO> selectList(CartVO vo);
+	public int isRow(CartVO vo);
+	public int insert(CartVO vo);
+	public int delete(CartVO vo);
+	public int update(CartVO vo);
+	public int count(String userId);
+	public List<CartVO> productIds(CartVO item);
+	public int updateAmount(CartVO co);
+	public int deleteProduct(CartVO co);
+}
+
+/*
 public class CartDAO 
 {
 	static CartDAO g_inst = new CartDAO();
@@ -65,3 +77,4 @@ public class CartDAO
 		return mapper.delete("Cart.delete", co);
 	}
 }
+//*/

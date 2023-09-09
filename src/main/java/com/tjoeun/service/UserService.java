@@ -1,79 +1,83 @@
 package com.tjoeun.service;
 
-import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tjoeun.dao.UserDAO;
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 import com.tjoeun.vo.CompanyVO;
 
+@Service
 public class UserService {
 	
-	private static UserService instance = new UserService();
-	private UserService() { }
-	public static UserService getInstance() {
-		return instance;
-	}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	private UserDAO dao = UserDAO.getInstance();
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+	
 	public int UserInsert(UsersVO vo) {
-	    SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 	    int result = 0;
 	    try {
-	        dao.insert(mapper, vo);
-	        mapper.commit();
+	    	UserDAO dao = th.getMapper(UserDAO.class);
+	        dao.insert(vo);
 	        result = 1; // 성공 시 1 할당
 	    } catch (Exception e) {
-	        e.printStackTrace();
+			log.error("", e);
 	        result = 2; // 실패 시 2 할당
-	        mapper.rollback();
 	    } finally {
-	        mapper.close();
 	    }
 	    return result;
 	}
 
 	// 1 이상이 넘어오면 사용불가 2는 dao 오류
 	public int IDCheck(String id) {
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 2;
 		try {
-			result = dao.IDCheck(mapper, id);
+	    	UserDAO dao = th.getMapper(UserDAO.class);
+			result = dao.checkUserId(id);
 		} catch (Exception e) {
-			 e.printStackTrace();
+			log.error("", e);
 		}
-		mapper.close();
 		return result;
 	}
 	public int userLogin(UsersVO vo) {
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int res = 0;
 		try {
-			res = dao.userLogin(mapper, vo);
+	    	UserDAO dao = th.getMapper(UserDAO.class);
+			res = dao.userLogin(vo);
 		} catch (Exception e) {
+			log.error("", e);
 		}
-		mapper.close();
 		return res;
 	}
-	public int CompanyInsert(CompanyVO co) {
-		SqlSession mapper = MySession.getSession();
+	public int companyInsert(CompanyVO co) {
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 0;
 	    try {
-	        dao.Companyinsert(mapper, co);
-	        mapper.commit();
+	    	UserDAO dao = th.getMapper(UserDAO.class);
+	        dao.companyInsert(co);
 	        result = 1; // 성공 시 1 할당
 	    } catch (Exception e) {
-	        e.printStackTrace();
 	        result = 2; // 실패 시 2 할당
-	        mapper.rollback();
+			log.error("", e);
 	    } finally {
-	        mapper.close();
 	    }
 	    return result;
 	}
 	public UsersVO selectVO(String id) {
-		SqlSession mapper = MySession.getSession();
-		return dao.selectVO(mapper, id);
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+    	UserDAO dao = th.getMapper(UserDAO.class);
+    	
+		return dao.selectVO(id);
 	}
 	
 

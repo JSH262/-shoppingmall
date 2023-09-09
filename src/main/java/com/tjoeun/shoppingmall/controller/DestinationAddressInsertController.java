@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,15 +32,16 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 public class DestinationAddressInsertController 
 {
 	private static final long serialVersionUID = 1L;
-
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	DestinationAddressService destinationAddressService;
 	
 	
 	@RequestMapping(value="/destaddr/insert", method=RequestMethod.POST, consumes="application/json")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
-		DestinationAddressService service = DestinationAddressService.getInstance(); 
 		UsersVO user = AttributeName.getUserData(request);
 				
 		try
@@ -73,7 +75,7 @@ public class DestinationAddressInsertController
 				}
 				else 
 				{
-					if(service.insert(params) == 1)
+					if(this.destinationAddressService.insert(params) == 1)
 					{
 						retval.put("code", 0);				
 					}
@@ -92,7 +94,7 @@ public class DestinationAddressInsertController
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 			retval.put("code", -999);
 			retval.put("msg", exp.getMessage());
 		}

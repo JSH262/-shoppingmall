@@ -1,80 +1,80 @@
 package com.tjoeun.shoppingmall.service;
 
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.CategoryDAO;
-import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
-import com.tjoeun.shoppingmall.vo.ProductVO;
 
+
+@Service
 public class CategoryService 
 {
-	static CategoryService g_inst = new CategoryService();
-	CategoryService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public CategoryService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+		
 
 	public List<CategoryVO> selectList(CategoryVO vo)
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<CategoryVO> retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = CategoryDAO.getInstance().selectList(mapper, vo);
+			CategoryDAO dao = th.getMapper(CategoryDAO.class);
+			retval = dao.selectList(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	
 	public List<CategoryVO> menu()
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<CategoryVO> retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = CategoryDAO.getInstance().menu(mapper);
+			CategoryDAO dao = th.getMapper(CategoryDAO.class);
+			retval = dao.menu();
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
-		
-		mapper.close();
-				
+
 		return retval;
 	}
 	
 	public List<CategoryVO> selectedMenu(CategoryVO vo)
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<CategoryVO> retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = CategoryDAO.getInstance().selectedMenu(mapper, vo);
+			CategoryDAO dao = th.getMapper(CategoryDAO.class);
+			retval = dao.selectedMenu(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}	
 }

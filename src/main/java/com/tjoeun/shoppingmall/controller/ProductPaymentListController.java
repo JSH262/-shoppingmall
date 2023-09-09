@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,8 @@ public class ProductPaymentListController
 {
 	private static final long serialVersionUID = 1L;
     
+	@Autowired
+	ProductOrderService productOrderService;
 	
 	@RequestMapping(value="/product/payment/list", method=RequestMethod.GET)
 	public String productPaymentList()
@@ -48,7 +51,7 @@ public class ProductPaymentListController
 			totalItem.setUserId(user.getId());
 			
 			
-			int totalCount = ProductOrderService.getInstance().totalCount(totalItem);
+			int totalCount = productOrderService.totalCount(totalItem);
 			page.calPage(totalCount);
 			ProductOrderVO params = new ProductOrderVO();
 			
@@ -57,7 +60,7 @@ public class ProductPaymentListController
 			params.setStartNo(page.getStartNo());
 			params.setEndNo(page.getEndNo());
 
-			List<ProductOrderVO> list = ProductOrderService.getInstance().selectList(params);
+			List<ProductOrderVO> list = productOrderService.selectList(params);
 			
 			
 			result.put("list", list);

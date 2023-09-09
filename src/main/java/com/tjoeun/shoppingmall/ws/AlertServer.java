@@ -12,10 +12,13 @@ import java.util.Set;
 import javax.websocket.*;
 import javax.websocket.server.*;
 
+import org.apache.hc.core5.annotation.Contract;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
@@ -25,11 +28,16 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
 @ServerEndpoint("/alert")
+@Controller
 public class AlertServer 
 {
 	JSONParser parser = new JSONParser();
 	private static Map<Session, String> clients = Collections.synchronizedMap(new HashMap<Session, String>());
 
+	
+	@Autowired
+	ProductService productService;
+	
 	public static enum RequestCode
 	{
 		INIT("01", "초기화"),
@@ -197,7 +205,6 @@ public class AlertServer
 									if(tmpUserId.equals(sellerId))
 									{
 										JSONObject send = new JSONObject();	
-										ProductService productService = ProductService.getInstance();
 										ArrayList<Long> tmpProductIdList = productInfoList.get(sellerId);
 										String productNames = "";
 										

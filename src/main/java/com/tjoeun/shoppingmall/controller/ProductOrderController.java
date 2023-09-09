@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,9 @@ public class ProductOrderController
 {
 	private static final long serialVersionUID = 1L;
 
+	
+	@Autowired
+	CartService cartService;
 	
 	@RequestMapping(value="/product/order", method=RequestMethod.GET)
 	protected String productOrderList(HttpServletRequest request, HttpServletResponse response)
@@ -93,7 +97,7 @@ public class ProductOrderController
 			
 			params.setUserId(user.getId());
 			
-			List<CartVO> productIds = CartService.getInstance().selectList(params);
+			List<CartVO> productIds = cartService.selectList(params);
 			
 			if(productIds != null)
 			{

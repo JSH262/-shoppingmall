@@ -6,6 +6,14 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 
+public interface CategoryDAO 
+{
+	public List<CategoryVO> selectList(CategoryVO vo);
+	public List<CategoryVO> menu();
+	public List<CategoryVO> selectedMenu(CategoryVO vo);
+}
+
+/*
 public class CategoryDAO 
 {
 	static CategoryDAO g_inst = new CategoryDAO();
@@ -32,3 +40,4 @@ public class CategoryDAO
 
 
 }
+//*/

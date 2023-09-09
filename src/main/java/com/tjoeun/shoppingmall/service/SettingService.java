@@ -1,57 +1,61 @@
 package com.tjoeun.shoppingmall.service;
 
-import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.SettingDAO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 
+@Service
 public class SettingService {
-	static SettingService g_inst = new SettingService();
-	SettingService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public SettingService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+
 	
 	public int insert(ProductVO item)
 	{
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int retval = 0;
 		
 		try
 		{
-			retval = SettingDAO.getInstance().insert(mapper, item);
-			mapper.commit();
+			SettingDAO dao = th.getMapper(SettingDAO.class);
+			
+			retval = dao.insert(item);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			log.error("", exp);
 		}
-		
-		mapper.close();
 		
 		return retval;
 	}
 	
 	public SettingVO select()
 	{
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		SettingVO retval = null;
 		
 		try
 		{
-			retval = SettingDAO.getInstance().select(mapper);
+			SettingDAO dao = th.getMapper(SettingDAO.class);
+			
+			retval = dao.select();
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		
 		return retval;
 	}

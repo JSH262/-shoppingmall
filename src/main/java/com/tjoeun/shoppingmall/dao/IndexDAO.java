@@ -6,6 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
+public interface IndexDAO 
+{
+	public List<ProductVO> lotSellProductList();
+	public List<ProductVO> newProductList();
+	public List<ProductVO> productRndList(ProductVO params);
+}
+/*
 public class IndexDAO 
 {
 	static IndexDAO g_inst = new IndexDAO();
@@ -32,3 +39,5 @@ public class IndexDAO
 		return mapper.selectList("Index.productRndList", params);
 	}
 }
+
+//*/

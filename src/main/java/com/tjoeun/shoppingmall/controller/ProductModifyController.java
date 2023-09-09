@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +28,16 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 public class ProductModifyController {
 	private static final long serialVersionUID = 1L;    
     SettingVO setting = null;
-    
+
+	@Autowired
+	SettingService settingService;
+	
+	@Autowired
+	ProductService productService;
+	
     @PostConstruct
   	public void init() throws ServletException {
-  		this.setting = SettingService.getInstance().select();		
+  		this.setting = settingService.select();		
   	}
     
     
@@ -44,7 +51,7 @@ public class ProductModifyController {
 		String fileUploadUrl = setting.getUploadPath() + "/image/";
 		org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 		JSONObject retval = new JSONObject();
-		ProductService service = ProductService.getInstance();
+		ProductService service = productService;
 		DecimalFormat numFormat = new DecimalFormat("###,###,###");
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E) H:m:s");
 		String thumbnailUrl = null;

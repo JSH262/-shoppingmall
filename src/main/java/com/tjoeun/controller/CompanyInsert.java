@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,7 +16,9 @@ import com.tjoeun.vo.CompanyVO;
 @Controller
 public class CompanyInsert {
 	private static final long serialVersionUID = 1L;
-	private UserService service = UserService.getInstance();
+	
+	@Autowired
+	private UserService userService;
 	
     public CompanyInsert() {
         super();
@@ -52,7 +55,7 @@ public class CompanyInsert {
 		
 		CompanyVO vo = new CompanyVO(Name, Id, Address1, Address2, Stamp);
 		
-		int result = service.CompanyInsert(vo);
+		int result = userService.companyInsert(vo);
 		if (result == 1) {
 			response.getWriter().write("1"); // ②
 		} else {

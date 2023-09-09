@@ -1,84 +1,85 @@
 package com.tjoeun.shoppingmall.service;
 
 import java.util.List;
-import org.apache.ibatis.session.SqlSession;
-import com.tjoeun.mybatis.MySession;
-import com.tjoeun.shoppingmall.dao.CartDAO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.ReviewDAO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
+@Service
 public class ReviewService {
 	
-	private static ReviewService instance = new ReviewService();
-	private ReviewService() { }
-	public static ReviewService getInstance() {
-		return instance;
-	}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	private ReviewDAO dao = ReviewDAO.getInstance();
-	public int ReviewInsert(ReviewVO vo) {
-	    SqlSession mapper = MySession.getSession();
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+
+	
+	public int ReviewInsert(ReviewVO vo) 
+	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 	    int result = 0;
+	    
 	    try {
-	        dao.insert(mapper, vo);
-	        mapper.commit();
+	    	ReviewDAO dao = th.getMapper(ReviewDAO.class);
+	        dao.insert(vo);
 	        result = 1; // �꽦怨� �떆 1 �븷�떦
 	    } catch (Exception e) {
-	        e.printStackTrace();
+			log.error("", e);
 	        result = 2; // �떎�뙣 �떆 2 �븷�떦
-	        mapper.rollback();
-	    } finally {
-	        mapper.close();
 	    }
+	    
 	    return result;
 	}
-	public static List<Object> selectByUserId(String userId) {
-		ReviewDAO dao2 = ReviewDAO.getInstance();
-		SqlSession mapper = MySession.getSession();
-		
+	public List<Object> selectByUserId(String userId) {
+
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<Object> list = null;  
-		try {
-			list = dao2.selectByUserId(mapper, userId);
-	        mapper.commit();
+		try 
+		{
+			ReviewDAO dao = th.getMapper(ReviewDAO.class);
+			list = dao.selectByUserId(userId);
 	    } catch (Exception e) {
-	        e.printStackTrace();
-	        mapper.rollback();
+			log.error("", e);
 	    } finally {
-	        mapper.close();
 	    }
 		
 		return list;
 	}
-	public static int deleteReview(ReviewVO vo) {
+	public int deleteReview(ReviewVO vo) {
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ReviewDAO.getInstance().deleteReview(mapper, vo);
-			mapper.commit();
+			ReviewDAO dao = th.getMapper(ReviewDAO.class);
+			retval = dao.deleteReview(vo);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
-			mapper.rollback();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public int already(int orderId) {
-		SqlSession mapper = MySession.getSession();
 		int res = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try {
-			res = dao.already(mapper, orderId);
-			mapper.commit();
+			ReviewDAO dao = th.getMapper(ReviewDAO.class);
+			res = dao.already(orderId);
 		} catch (Exception e) {
-			e.printStackTrace();
-			mapper.rollback();
+			log.error("", e);
 		}
-		mapper.close();
 		return res;
 	}
 

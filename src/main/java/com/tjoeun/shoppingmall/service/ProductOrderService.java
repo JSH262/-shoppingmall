@@ -3,202 +3,198 @@ package com.tjoeun.shoppingmall.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.google.gson.Gson;
 import com.tjoeun.helper.ProductOrderStatus;
-import com.tjoeun.helper.Util;
-import com.tjoeun.mybatis.MySession;
-import com.tjoeun.shoppingmall.dao.CartDAO;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.dao.ProductOrderDAO;
-import com.tjoeun.shoppingmall.vo.CartVO;
-import com.tjoeun.shoppingmall.vo.CategoryVO;
-import com.tjoeun.shoppingmall.vo.PaymentVO;
 import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Service
 public class ProductOrderService 
 {
-	static ProductOrderService g_inst = new ProductOrderService();
-	ProductOrderService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public ProductOrderService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
 
 	public int insert(ProductOrderVO item)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
-		ProductOrderDAO service = ProductOrderDAO.getInstance();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			if(item.getId() == null)
 			{
 				// item에서 user_id가 필수이다.
-				Long id = service.selectId(mapper, item);
+				Long id = dao.selectId(item);
 				
 				//PK 생성
 				item.setId(id);
 			}
 						
-			retval = service.insert(mapper, item);
-			mapper.commit();
+			retval = dao.insert(item);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	
 	public long selectId(String userId)
 	{
 		long retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			ProductOrderVO item = new ProductOrderVO();
 			
 			item.setUserId(userId);
 			
-			retval = ProductOrderDAO.getInstance().selectId(mapper, item);
+			retval = dao.selectId(item);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	public long selectId(ProductOrderVO item)
 	{
 		long retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ProductOrderDAO.getInstance().selectId(mapper, item);
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
+			retval = dao.selectId(item);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	
 	public List<ProductOrderVO> selectList(ProductOrderVO item)
 	{
 		List<ProductOrderVO> retval = new ArrayList<>();
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = ProductOrderDAO.getInstance().selectList(mapper, item);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
+			
+			retval = dao.selectList(item);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	
 	public int update(ProductOrderVO item)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = ProductOrderDAO.getInstance().update(mapper, item);
-			mapper.commit();
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
+		
+			retval = dao.update(item);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	
 	public int totalCount(ProductOrderVO item)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = ProductOrderDAO.getInstance().totalCount(mapper, item);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
+			
+			retval = dao.totalCount(item);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 	
 	public ProductOrderVO select(ProductOrderVO item)
 	{
 		ProductOrderVO retval = null;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
-			retval = ProductOrderDAO.getInstance().select(mapper, item);
+			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
+			
+			retval = dao.select(item);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
 		return retval;
 	}
 
 	public boolean productOrderCancel(ProductOrderVO params, UsersVO user) 
 	{
 		boolean retval = false;
-		SqlSession mapper = MySession.getSession();
-		ProductOrderDAO poDAO = ProductOrderDAO.getInstance();
-		ProductDAO pDAO = ProductDAO.getInstance();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		ProductOrderDAO poDAO = th.getMapper(ProductOrderDAO.class);
+		ProductDAO pDAO = th.getMapper(ProductDAO.class);
 		
 		try
 		{
 			params.setUserId(user.getId());
 		
 			
-			if(poDAO.update(mapper, params) == 1)
+			if(poDAO.update(params) == 1)
 			{
 				if(params.getStatus().equals(ProductOrderStatus.CANCEL.getCode()))
 				{
-					ProductOrderVO poVO = poDAO.select(mapper, params);
+					ProductOrderVO poVO = poDAO.select(params);
 					ProductVO updateParams = new ProductVO();
 					
 					updateParams.setId(poVO.getProductId());
 					updateParams.setChoose("amount+=n");
 					updateParams.setAmount(poVO.getProductAmount());
 					
-					if(pDAO.update(mapper, updateParams) == 1)
+					if(pDAO.update(updateParams) == 1)
 					{
+						th.commit();
 						retval = true;
 					}
 					else
@@ -212,15 +208,12 @@ public class ProductOrderService
 				throw new Exception();
 			}
 			
-			mapper.commit();
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			th.rollback();
+			log.error("", exp);			
 		}
-		
-		mapper.close();
 		
 		return retval;
 	}

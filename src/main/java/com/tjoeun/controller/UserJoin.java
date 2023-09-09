@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,10 +17,10 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 @Controller
 public class UserJoin {
 	private static final long serialVersionUID = 1L;
-	private UserService service = UserService.getInstance();
-    public UserJoin() {
-        super();
-    }
+	
+	@Autowired
+	private UserService userService;
+	
 	
     @RequestMapping(value="/join", method=RequestMethod.GET)
     public String join()
@@ -119,7 +120,7 @@ public class UserJoin {
 		
 		
 		// 테이블에 회원 정보를 저장하는 메소드를 실행한다.
-		int result = service.UserInsert(vo);
+		int result = userService.UserInsert(vo);
 		
 		// 저장 체크
 		if (result == 1) {

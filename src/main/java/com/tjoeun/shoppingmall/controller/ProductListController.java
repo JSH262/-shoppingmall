@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +32,9 @@ public class ProductListController
 	
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ProductListController() {
-		super();
-	}
-
-	 
+	@Autowired
+	ProductService productService;
+	
 	
 	
 	@RequestMapping(value="/product/list", method=RequestMethod.GET)
@@ -88,7 +84,7 @@ public class ProductListController
 			
 			
 			ProductVO serviceParams = new ProductVO();
-			ProductService service = ProductService.getInstance();
+			ProductService service = productService;
 			JSONObject params = com.tjoeun.helper.Util.toJSONObject(request);
 			long currentPage = 1;
 			long pageSize = 15;

@@ -5,6 +5,12 @@ import org.apache.ibatis.session.SqlSession;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 
+public interface SettingDAO {
+	public int insert(ProductVO item);	
+	public SettingVO select();
+}
+
+/*
 public class SettingDAO {
 	static SettingDAO g_inst = new SettingDAO();
 	SettingDAO() {}
@@ -24,3 +30,5 @@ public class SettingDAO {
 		return (SettingVO)mapper.selectOne("Setting.select");
 	}
 }
+
+//*/

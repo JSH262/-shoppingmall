@@ -28,7 +28,8 @@ public class CustomInterceptor implements HandlerInterceptor
 		boolean isRetval = checkData.isCheck();
 		if(!isRetval)
 		{
-						
+			// 로그인이 필요한 서비스에서 사용자가 마지막에 접속한 URL로 오류가 발생곳
+			request.setAttribute("rejectLastAccessUrl", LoginChkUrl.getUri(request));
 			response.sendRedirect(request.getContextPath() + checkData.getRedirectUrl());
 		}
 		

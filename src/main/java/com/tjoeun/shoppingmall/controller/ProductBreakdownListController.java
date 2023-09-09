@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ public class ProductBreakdownListController
 {
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	ProductOrderService productOrderService;
 	
 	@RequestMapping(value="/product/breakdown/list", method=RequestMethod.GET)
 	protected String productBreakdownList(HttpServletRequest request, HttpServletResponse response) {
@@ -36,7 +39,7 @@ public class ProductBreakdownListController
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		JSONObject retval = new JSONObject();
-		ProductOrderService poService = ProductOrderService.getInstance();
+		ProductOrderService poService = productOrderService;
 		
 		try 
 		{

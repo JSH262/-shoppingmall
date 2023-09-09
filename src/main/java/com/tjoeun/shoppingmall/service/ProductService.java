@@ -1,46 +1,46 @@
 package com.tjoeun.shoppingmall.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.tjoeun.mybatis.MySession;
+import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
 import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 
+@Service
 public class ProductService 
 {
-	static ProductService g_inst = new ProductService();
-	ProductService() {}
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	static public ProductService getInstance()
-	{
-		return g_inst;
-	}
+	@Autowired
+	org.mybatis.spring.SqlSessionTemplate sqlSession;
+
+	@Autowired
+	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
 
 	public int insert(ProductVO item) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ProductDAO.getInstance().insert(mapper, item);
+			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
-			mapper.commit();
+			retval = dao.insert(item);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			log.error("", exp);
 		}
-		
-		mapper.close();
 				
 		return retval;
 	}
@@ -76,22 +76,22 @@ public class ProductService
 	public List<ProductVO> selectList(ProductVO params, ProductPagingVO page)
 	{
 		List<ProductVO> retval = null;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
 			params.setStartNo(page.getStartNo());
 			params.setEndNo(page.getEndNo());
 			
-			retval = ProductDAO.getInstance().selectList(mapper, params);
+			retval = dao.selectList(params);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	
@@ -99,7 +99,6 @@ public class ProductService
 	public int totalCount(java.util.HashMap<String, Object> params)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
 		
 		try
 		{
@@ -118,19 +117,19 @@ public class ProductService
 	public int totalCount(ProductVO params)
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ProductDAO.getInstance().totalCount(mapper, params);
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.totalCount(params);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	
@@ -147,39 +146,37 @@ public class ProductService
 	public ProductVO select(ProductVO params)
 	{
 		ProductVO retval = null;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ProductDAO.getInstance().select(mapper, params);
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.select(params);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	public int update(ProductVO item) 
 	{
 		int retval = 0;
-		SqlSession mapper = MySession.getSession();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = ProductDAO.getInstance().update(mapper, item);
-			mapper.commit();
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.update(item);
 		}
 		catch(Exception exp)
 		{
-			mapper.rollback();
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 		
 	}
@@ -187,8 +184,8 @@ public class ProductService
 	public List<ProductVO> selectList(List<CartVO> productIds) 
 	{
 		List<ProductVO> retval = new ArrayList<>();
-		SqlSession mapper = MySession.getSession();
 		ProductVO params = new ProductVO();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
@@ -197,9 +194,10 @@ public class ProductService
 			{
 				try
 				{
+					ProductDAO dao = th.getMapper(ProductDAO.class);
 					params.setId(productIds.get(i).getProductId());
 					
-					ProductVO result = ProductDAO.getInstance().select(mapper, params);
+					ProductVO result = dao.select(params);
 					
 					retval.add(result);
 				}
@@ -211,31 +209,28 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	
 	public List<CategoryVO> selectProductCatList(CategoryVO params)
 	{
 		List<CategoryVO> retval = new ArrayList<>();
-		SqlSession mapper = MySession.getSession();
-		ProductDAO dao = ProductDAO.getInstance(); 
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			retval = dao.selectProductCatList(mapper, params);
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.selectProductCatList(params);
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			log.error("", exp);
 		}
 		
-		mapper.close();
-				
 		return retval;
 	}
 	

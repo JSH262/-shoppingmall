@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,12 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 public class ProductPaymentController {
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	CartService cartService;
+	
+	@Autowired
+	PaymentService paymentService;
+	
 	@RequestMapping(value="/product/payment", method=RequestMethod.GET)
 	public String productPaymentList(HttpServletRequest request, HttpServletResponse response, Model model)
 	{		
@@ -70,7 +77,7 @@ public class ProductPaymentController {
 					
 					params.setUserId(user.getId());
 					
-					List<CartVO> productIds = CartService.getInstance().selectList(params);
+					List<CartVO> productIds = cartService.selectList(params);
 					
 					if(productIds != null)
 					{
@@ -115,7 +122,7 @@ public class ProductPaymentController {
 					
 					params.setUserId(user.getId());
 					
-					List<CartVO> productIds = CartService.getInstance().selectList(params);
+					List<CartVO> productIds = cartService.selectList(params);
 					if(productIds != null)
 					{					
 						for(CartVO item : productIds)
@@ -134,7 +141,7 @@ public class ProductPaymentController {
 						}
 					}
 					
-					if(PaymentService.getInstance().pay(user, AttributeName.getDestAddr(request)))
+					if(paymentService.pay(user, AttributeName.getDestAddr(request)))
 					{
 						JSONObject result = new JSONObject();
 						

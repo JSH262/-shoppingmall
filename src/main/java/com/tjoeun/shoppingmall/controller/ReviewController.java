@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,15 @@ import com.tjoeun.shoppingmall.vo.ReviewVO;
 @Controller
 public class ReviewController {
 	private static final long serialVersionUID = 1L;
-	private ReviewService service = ReviewService.getInstance();
-    public ReviewController() {
-        super();
-    }
-    
+	
+	@Autowired
+	private ReviewService reviewService;
+	
     @RequestMapping(value="/review", method=RequestMethod.GET)
     public String review(@RequestParam String id, RedirectAttributes redirectAttributes)
     {
     	int orderId = Integer.parseInt(id);
-    	if (service.already(orderId) == 1) {
+    	if (reviewService.already(orderId) == 1) {
     		redirectAttributes.addFlashAttribute("message", "이미 작성한 리뷰가 있습니다.");
     		return "/product/payment/list";
     	}
@@ -63,7 +63,7 @@ public class ReviewController {
    		System.out.println(vo);
    		
    		
-   		int result = service.ReviewInsert(vo);
+   		int result = reviewService.ReviewInsert(vo);
    		
    		if (contents.length() < 5) {
 			response.getWriter().write("2");
@@ -86,7 +86,7 @@ public class ReviewController {
    		
    		System.out.println("userId: " + userId);
 
-   		List<Object> list = ReviewService.selectByUserId(userId);
+   		List<Object> list = reviewService.selectByUserId(userId);
    		
    		model.addAttribute("list", list);
    		
@@ -103,7 +103,7 @@ public class ReviewController {
 		ReviewVO vo = new ReviewVO();
 		vo.setId(id);
 		System.out.println(vo.getId());
-		int res = ReviewService.deleteReview(vo);
+		int res = reviewService.deleteReview(vo);
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {

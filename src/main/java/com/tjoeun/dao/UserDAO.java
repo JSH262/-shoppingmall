@@ -1,19 +1,19 @@
 package com.tjoeun.dao;
 
-import org.apache.ibatis.session.SqlSession;
-
 import com.tjoeun.shoppingmall.vo.UsersVO;
 import com.tjoeun.vo.CompanyVO;
 
-/*
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import oracle.net.aso.f;
-*/
 
+public interface UserDAO 
+{
+	public int insert(UsersVO vo);
+	public int checkUserId(String id);
+	public int userLogin(UsersVO vo);
+	public int companyInsert(CompanyVO co);
+	public UsersVO selectVO(String id);
+}
+
+/*
 public class UserDAO {
 
 	private static UserDAO instance = new UserDAO();
@@ -49,9 +49,7 @@ public class UserDAO {
 		return (UsersVO) mapper.selectOne("com.tjoeun.vo.MvcBoardVO.selectVO", id);
 	}
 }
-
-
-
+//*/
 
 
 

@@ -8,8 +8,10 @@
 		<head>
 			<meta charset="UTF-8">
 			<title>Insert title here</title>
-			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-			<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
+			
+			
+			<%@ include file="/WEB-INF/component/header/common.jsp" %>	
+			
 			<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/detail/seller.js"></script>
 			
 			<link href="<%=request.getContextPath() %>/summernote/summernote-lite.min.css" rel="stylesheet">
@@ -44,12 +46,12 @@
 				
 			</style>
 		</head>
-		<body>
+	<body>
 	<%@ include file="/WEB-INF/component/header.jsp" %>
 	<c:choose>
 		<c:when test="${product != null }">
 			<form id="form" action="<%=request.getContextPath()%>">
-				<table border="1" cellpadding="5" cellspacing="1" style="margin: 0px auto;">
+				<table class="table" border="1" cellpadding="5" cellspacing="1" style="margin: 0px auto;">
 					<tr>
 						<th>상품 이름</th>
 						<td>

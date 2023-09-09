@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,9 @@ public class myPageController
 {	
 	private static final Logger logger = LoggerFactory.getLogger(MyPageDAO.class);
 	private static final long serialVersionUID = 1L;
-	MyPageService service = MyPageService.getInstance();
+	
+	@Autowired
+	MyPageService myPageservice;
 	
 	@RequestMapping(value="/myPage", method=RequestMethod.GET)
 	protected String myPageList(HttpServletRequest request)
@@ -78,7 +81,7 @@ public class myPageController
 		}
 
 		UsersVO vo = new UsersVO(id, password);
-		int res = service.passwordCheck(vo);
+		int res = myPageservice.passwordCheck(vo);
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
@@ -120,7 +123,7 @@ public class myPageController
 			
 		UsersVO vo = new UsersVO(id, password1);
 		System.out.println(vo);
-		int res = service.passwordUpdate(vo);
+		int res = myPageservice.passwordUpdate(vo);
 		System.out.println(res);
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
@@ -140,7 +143,7 @@ public class myPageController
 		
 		UsersVO vo = new UsersVO();
 		vo.setId(id);
-		int res = service.unregister(vo);
+		int res = myPageservice.unregister(vo);
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {
@@ -166,7 +169,7 @@ public class myPageController
 		vo.setEmail(email);
 		vo.setPhone(phone);
 		System.out.println(vo);
-		int res = service.userUpdate(vo);
+		int res = myPageservice.userUpdate(vo);
 		if (res == 1) {
 			response.getWriter().write("0"); // �몼
 		} else {

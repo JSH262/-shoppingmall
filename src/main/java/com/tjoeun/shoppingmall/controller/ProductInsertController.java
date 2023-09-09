@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,17 +37,22 @@ public class ProductInsertController {
     SettingVO setting = null;
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
+	@Autowired
+	SettingService settingService;
+	
+	@Autowired
+	ProductService productService;
     
     @PostConstruct
 	public void init() throws ServletException {
-		this.setting = SettingService.getInstance().select();		
+		this.setting = settingService.select();		
 	}
     
     @RequestMapping(value="/product/insert", method=RequestMethod.GET)
     public String productInsertView(Model model)
     {
-		List<CategoryVO> catList = ProductService.getInstance().selectProductCatList(null);
+		List<CategoryVO> catList = productService.selectProductCatList(null);
 	
 		
 		model.addAttribute("catList", catList);
@@ -97,7 +103,7 @@ public class ProductInsertController {
 				
 				item.setSellerId(sellerId);
 							
-				if(ProductService.getInstance().insert(item) == 1)
+				if(productService.insert(item) == 1)
 				{
 					retval.put("code", 0);
 					retval.put("msg", "상품등록 성공");

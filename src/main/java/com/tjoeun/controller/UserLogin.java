@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,7 +18,9 @@ import com.tjoeun.shoppingmall.ws.HttpSessionManagement;
 @Controller
 public class UserLogin {
 	private static final long serialVersionUID = 1L;
-	private UserService service = UserService.getInstance();
+	
+	@Autowired
+	private UserService userService;
 
 	public UserLogin() {
 		super();
@@ -46,11 +49,11 @@ public class UserLogin {
 
 		UsersVO vo = new UsersVO(id, password1);
 		
-		int res = service.userLogin(vo);
+		int res = userService.userLogin(vo);
 		// 1 �Ѿ���� id�� �ش��ϴ� password�� ����
 		if (res == 1) {
 			// �α��� ����
-			UsersVO svo = service.selectVO(id);
+			UsersVO svo = userService.selectVO(id);
 			AttributeName.setUserData(request, svo);
 			HttpSessionManagement.getInstance().sessionCreated(request.getSession());
 			

@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,18 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	@Autowired
+	IndexService indexService;
+	
+	@Autowired
+	ProductService productService;
+
+	
+
+	@Autowired	
+	CategoryService categoryService;
+	
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -58,7 +71,6 @@ public class HomeController {
 		{
 			if(session.getAttribute("categoryList") == null)
 			{
-				CategoryService categoryService = CategoryService.getInstance();
 				List<CategoryVO> catMenu = categoryService.menu();
 				HashMap<Integer, List<CategoryVO>> catDownList1 = new HashMap<Integer, List<CategoryVO>>();
 				HashMap<Integer, List<CategoryVO>> catDownList2 = new HashMap<Integer, List<CategoryVO>>();
@@ -111,9 +123,8 @@ public class HomeController {
 		
 		try
 		{
-			JSONObject result = new JSONObject();		
-			IndexService indexService = IndexService.getInstance();			
-			int productTotalCount = ProductService.getInstance().totalCount(null); 
+			JSONObject result = new JSONObject();				
+			int productTotalCount = productService.totalCount(null); 
 			
 			
 			List<ProductVO> sellList = indexService.lotSellProductList();
