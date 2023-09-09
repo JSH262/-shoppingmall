@@ -34,32 +34,30 @@ public class UserLogin {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		// String id = request.getParameter("id").trim();
 		String id = request.getParameter("id");
-		// String password1 = request.getParameter("password").trim();
 		String password1 = request.getParameter("password");
 		System.out.println(id);
 		System.out.println(password1);
 
-		// 입력 체크 (입력이 없거나 공백)
 		if (id == null || id.equals("") || password1 == null || password1.equals("")) {
 			response.getWriter().write("1");
 			return;
 		}
 
 		UsersVO vo = new UsersVO(id, password1);
+		
 		int res = service.userLogin(vo);
-		if (res == 0) {
-
+		// 1 �Ѿ���� id�� �ش��ϴ� password�� ����
+		if (res == 1) {
+			// �α��� ����
 			UsersVO svo = service.selectVO(id);
 			AttributeName.setUserData(request, svo);
-			
 			HttpSessionManagement.getInstance().sessionCreated(request.getSession());
 			
-			// 로그인 성공한 경우 처리할 로직 작성
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); 
 		} else {
-			response.getWriter().write("1"); // ②
+			// �α��� ����
+			response.getWriter().write("1");
 		}
 
 	}
