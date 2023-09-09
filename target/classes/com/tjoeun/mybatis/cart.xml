@@ -28,7 +28,7 @@
 				else to_char(p.delivery_price, 'FM999,999,999')
 			end fmt_delivery_price,			
 			to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') fmt_discount_price
-						
+									
 			
 		FROM cart c JOIN product p ON c.product_id = p.id
 		where c.user_id = #{userId}
