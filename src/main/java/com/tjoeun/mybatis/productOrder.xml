@@ -64,15 +64,16 @@
    				select t2.*
 				from (	select t1.*, rownum rnum
 						from (	select 
-									id, product_id, product_amount, product_price, product_delivery_price, product_name, 
-									status, product_thumbnail, to_char(create_date, 'YYYY-MM-DD') as create_date,
-									to_char(product_amount, 'FM999,999,999') fmt_product_amount,
-									to_char(product_delivery_price, 'FM999,999,999') fmt_product_delivery_price,
-									to_char(product_price, 'FM999,999,999') fmt_product_price,
-									to_char(product_amount * product_price + product_delivery_price, 'FM999,999,999') fmt_total_product_price
-								from product_order
-								where user_id = #{userId}								
-								order by id desc, product_id desc, product_name asc) t1
+								    po.id, po.product_id, po.product_amount, po.product_price, po.product_delivery_price, po.product_name, 
+								    po.status, po.product_thumbnail, to_char(po.create_date, 'YYYY-MM-DD') as create_date,
+								    to_char(po.product_amount, 'FM999,999,999') fmt_product_amount,
+								    to_char(po.product_delivery_price, 'FM999,999,999') fmt_product_delivery_price,
+								    to_char(po.product_price, 'FM999,999,999') fmt_product_price,
+								    to_char(po.product_amount * po.product_price + po.product_delivery_price, 'FM999,999,999') fmt_total_product_price,
+								    nvl2(r.id, 'false', 'true') is_review
+								from product_order po left join review r on po.id = r.product_order_id
+								where po.user_id = #{userId}								
+								order by po.id desc, po.product_id desc, po.product_name asc) t1
 						where rownum <![CDATA[ <= ]]> #{endNo}) t2
 				where rnum <![CDATA[ >= ]]> #{startNo}
 		    </otherwise>

@@ -31,6 +31,8 @@ public class SettingService {
 			SettingDAO dao = th.getMapper(SettingDAO.class);
 			
 			retval = dao.insert(item);
+			
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -50,6 +52,7 @@ public class SettingService {
 			SettingDAO dao = th.getMapper(SettingDAO.class);
 			
 			retval = dao.select();
+			th.commit();
 		}
 		catch(Exception exp)
 		{

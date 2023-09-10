@@ -10,14 +10,6 @@
 </script>
 
 
-<%--
-
-/****************************************************************************************/
-
- 판매자 로그아웃 추가하기
-
- --%>
-
 <header style="z-index: 1000;">
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
@@ -85,6 +77,9 @@
 						<a class="nav-link" href="<%=request.getContextPath() %>/product/payment/list"> 주문/배송조회 </a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" href="<%=request.getContextPath() %>/myPage"> 마이페이지 </a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="<%=request.getContextPath() %>/logout"> 로그아웃 </a>						
 					</li>
 <%
@@ -97,7 +92,7 @@
 						<a class="nav-link" href="<%=request.getContextPath() %>/login"> 로그인 </a>						
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="<%=request.getContextPath() %>/join"> 회원가입 </a>						
+						<a class="nav-link" href="<%=request.getContextPath() %>/joinType"> 회원가입 </a>						
 					</li>
 <%
 			}

@@ -30,8 +30,9 @@ public class ReviewService {
 	    
 	    try {
 	    	ReviewDAO dao = th.getMapper(ReviewDAO.class);
-	        dao.insert(vo);
-	        result = 1; // �꽦怨� �떆 1 �븷�떦
+	        result = dao.insert(vo); // �꽦怨� �떆 1 �븷�떦
+	        
+	        th.commit();
 	    } catch (Exception e) {
 			log.error("", e);
 	        result = 2; // �떎�뙣 �떆 2 �븷�떦
@@ -47,6 +48,7 @@ public class ReviewService {
 		{
 			ReviewDAO dao = th.getMapper(ReviewDAO.class);
 			list = dao.selectByUserId(userId);
+			th.commit();
 	    } catch (Exception e) {
 			log.error("", e);
 	    } finally {
@@ -62,6 +64,7 @@ public class ReviewService {
 		{
 			ReviewDAO dao = th.getMapper(ReviewDAO.class);
 			retval = dao.deleteReview(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -77,6 +80,7 @@ public class ReviewService {
 		try {
 			ReviewDAO dao = th.getMapper(ReviewDAO.class);
 			res = dao.already(orderId);
+			th.commit();
 		} catch (Exception e) {
 			log.error("", e);
 		}

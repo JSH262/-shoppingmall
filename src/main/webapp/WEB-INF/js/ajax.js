@@ -188,6 +188,25 @@ function UserLogin() {
 	},
 	success: function(res) {
 		switch (res) {
+		case '0':
+			customAlert.show('로그인에 성공했습니다.', null, 1, function(){
+				location.href="index";	
+			});
+			break;
+		case '1':
+			customAlert.show('아이디 또는 비밀번호를 잘못 입력했습니다.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+				$('#id').val('');	
+			});
+			break;
+		case '2':
+			customAlert.show('탈퇴한 아이디 입니다.', '로그인 하실수 없습니다.', 1, function(){
+				$('#id').val('');	
+			});
+			break;
+		}
+		
+		/*
+		switch (res) {
 				case '0':
 					$('#messageType').html('성공 메시지');
 					$('#messageContent').html('로그인 성공.');
@@ -210,6 +229,7 @@ function UserLogin() {
 					$('#id').val('');
 					break;
 			}
+		//*/
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});

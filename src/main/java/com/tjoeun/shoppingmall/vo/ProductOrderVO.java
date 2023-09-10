@@ -31,6 +31,10 @@ public class ProductOrderVO extends BaseVO
 	String deliveryPhone;
 	String deliveryRequestMsg;
 	
+	/**
+	 * 리뷰를 작성할 수 있으면 true
+	 */
+	Boolean isReview;
 	
 	public ProductOrderVO() {
 	}
@@ -164,7 +168,13 @@ public class ProductOrderVO extends BaseVO
 	public void setSellerId(String sellerId) {
 		this.sellerId = sellerId;
 	}
-	
+	public Boolean getIsReview() {
+		return isReview;
+	}
+
+	public void setIsReview(Boolean isReview) {
+		this.isReview = isReview;
+	}
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);

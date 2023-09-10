@@ -4,10 +4,6 @@ function updateAmount(button) {
     var productId = parentSpan.find('input[name=productId]').val();
     var userId = $('#userId').val();
     
-    console.log('userId:', userId);
-    console.log('amount:', amount);
-    console.log('productId:', productId);
-    
     $.ajax({
         type: 'POST',
         url: './updateAmount',

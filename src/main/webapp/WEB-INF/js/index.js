@@ -175,4 +175,21 @@ $(() => {
 		);
 	
 	
+	$("#testCustom1").bind('click', function(){
+		customAlert.show("제목 1", "내용 1", 1, function(){
+			alert('ok 1');
+		},
+		function(){
+			alert('cancel 1');
+		}, "확인 1", "취소 1");
+	});
+	$("#testCustom2").bind('click', function(){
+		customAlert.show("제목 2", "내용 2", 2, function(){
+			alert('ok 2');
+		},
+		function(){
+			alert('cancel 2');
+		}, "확인 2", "취소 2");
+	});
+	
 });

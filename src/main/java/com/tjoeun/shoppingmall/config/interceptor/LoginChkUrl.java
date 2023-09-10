@@ -30,7 +30,7 @@ public class LoginChkUrl
 		new LoginChkUrlData("/product/list", null, null, null),
 		new LoginChkUrlData("/product/insert", null, new String[] {UsersType.SELLER}, "/login"),
 		new LoginChkUrlData("/product/detail", null, null, null),
-		new LoginChkUrlData("/product/breakdown/modify", null, new String[] {UsersType.SELLER}, "/error/login"),
+		new LoginChkUrlData("/product/breakdown/modify", null, new String[] {UsersType.SELLER, UsersType.BUYER}, "/error/login"),
 		new LoginChkUrlData("/product/breakdown/list", null, new String[] {UsersType.SELLER}, "/error/login"),
 		new LoginChkUrlData("/logout", null, null, null),
 		new LoginChkUrlData("/destaddr/selected", null, new String[] {UsersType.BUYER}, "/error/login"),
@@ -46,12 +46,13 @@ public class LoginChkUrl
 		new LoginChkUrlData("/joinType", null, null, null),
 		new LoginChkUrlData("/companyInsert", null, null, null),
 		new LoginChkUrlData("/UserJoin", null, null, null),
-		new LoginChkUrlData("/userIdCheck",null, null, null),
-		new LoginChkUrlData("/userIdCheck",null, null, null),
-		new LoginChkUrlData("/myPage",null, new String[] {UsersType.BUYER}, "/login"),
-		new LoginChkUrlData("/reviewList.do",null, new String[] {UsersType.BUYER}, "/login"),
-		
-		
+		new LoginChkUrlData("/userIdCheck", null, null, null),
+		new LoginChkUrlData("/userIdCheck", null, null, null),
+		new LoginChkUrlData("/myPage", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/reviewList.do", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/ReviewInsert", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/review", null, new String[] {UsersType.BUYER}, "/login"),
+		new LoginChkUrlData("/deleteReview", null, new String[] {UsersType.BUYER}, "/login"),
 		
 		new LoginChkUrlData("/image", "GET", null, null),
 		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER}, null)//POST만 검사

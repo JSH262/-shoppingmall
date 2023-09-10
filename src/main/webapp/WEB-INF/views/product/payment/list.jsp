@@ -7,6 +7,7 @@
 		<title>Insert title here</title>
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/payment/list.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 		
 		<style>
 		  table {
@@ -47,6 +48,7 @@
 		
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 		
+		<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 		<%@ include file="/WEB-INF/component/footer.jsp" %>
 		
 	</body>

@@ -4,95 +4,141 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <link rel="icon" href="./images/logo.png"/>
-<link rel="stylesheet" href="./css/bootstrap.css"/>
-<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="./js/bootstrap.js"></script>
+
+
+
+<%@ include file="/WEB-INF/component/header/common.jsp" %>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 <script type="text/javascript" src="./js/ajax.js"></script> <!-- ajax 구현 -->
-</head>
-<body>
 
-<div class="container" style="margin-top: 20px;">
-	<form>
-		<table class="table table-hover table-bordered" style="border: 1px solid #FF0000;">
-			<thead>
-				<tr class="success">
-					<th colspan="3" style="text-align: center;">
-						<h2>로그인</h2>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th class="danger" style="vertical-align: middle; width: 120px;">아이디</th>
-					<td>
-						<input id="id" class="form-control" type="text" name="id"
-							placeholder="아이디를 입력하세요" autocomplete="off"/>
-					</td>
-				</tr>
-				<tr>
-					<th class="danger" style="vertical-align: middle;">비밀번호</th>
-					<td>
-						<input id="password" class="form-control" type="password" 
-							name="password" placeholder="비밀번호를 입력하세요" 
-							autocomplete="off"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" style="text-align: center;">
-						<!-- 오류 메시지가 출력될 영역 -->
-						<h5 id="errorMessage" style="color: lime; font-weight: bold;">
-							${messageType}: ${messageContent}
-						</h5>
-						<input class="btn btn-primary" type="button" value="로그인" 
-							onclick="UserLogin()"/>
-						<input class="btn btn-primary" type="button" value="회원가입" onclick="location.href='joinType'"/>
-						<input class="btn btn-primary" type="button" value="입력된 값 확인" onclick="showInputValues()"/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-</div>
-
-
-<div id="messageModal" class="modal fade" role="dialog" aria-hidden="true">
-	<div class="vertical-alignment-helper">
-		<div class="modal-dialog vertical-align-center">
-			<!-- 모달 창의 종류(색상)를 설정한다. -->
-			<!-- messageCheck라는 id를 추가하고 class를 제거한다. -->
-			<div id="messageCheck">
-				<div class="modal-header panel-heading">
-					<button class="close" type="button" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span>
-						<span class="sr-only">Close</span>
-					</button>
-					<!-- messageType이라는 id를 추가한다. -->
-					<h4 id="messageType" class="modal-title">
-						<%-- ${messageType} --%>
-					</h4>
-				</div>
-				<!-- messageContent라는 id를 추가한다. -->
-				<div id="messageContent" class="modal-body">
-					<%-- ${messageContent} --%>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<script>
-	function showInputValues() {
-		var userID = document.getElementById("id").value;
-		var userPassword = document.getElementById("password").value;
-		
-		alert("아이디: " + id + "\n비밀번호: " + password);
+<style>
+	html,
+	body {
+	  height: 100%;
 	}
-</script>
+	
+	.form-signin {
+	  max-width: 330px;
+	  padding: 1rem;
+	}
+	
+	.form-signin .form-floating:focus-within {
+	  z-index: 2;
+	}
+	
+	.form-signin input[type="email"] {
+	  margin-bottom: -1px;
+	  border-bottom-right-radius: 0;
+	  border-bottom-left-radius: 0;
+	}
+	
+	.form-signin input[type="password"] {
+	  margin-bottom: 10px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+    </style>
+
+
+
+</head>
+<body class="d-flex align-items-center py-4" style="background-color: #f8f9fa;">
+  
+    
+<main class="form-signin w-100 m-auto">
+  <form>
+    <h1 class="h3 mb-3 fw-normal">Shoppingmall</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="id" placeholder="name@example.com">
+      <label for="floatingInput">아이디를 입력하세요</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="password" placeholder="Password">
+      <label for="floatingPassword">비밀번호를 입력하세요</label>
+    </div>
+
+    <button class="btn btn-primary w-100 py-2" type="button" onclick="UserLogin()" >로그인</button>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2023–2023</p>
+  </form>
+</main>
+
+<%@ include file="/WEB-INF/component/customAlert.jsp" %>
+	
 
 </body>
 </html>

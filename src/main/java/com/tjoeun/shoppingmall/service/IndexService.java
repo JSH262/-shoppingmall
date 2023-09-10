@@ -31,7 +31,10 @@ public class IndexService
 			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			IndexDAO dao = th.getMapper(IndexDAO.class);
 		
-			return dao.lotSellProductList();
+			List<ProductVO> retval =  dao.lotSellProductList();
+			th.commit();
+			
+			return retval;
 		}
 		catch(Exception exp)
 		{
@@ -49,7 +52,10 @@ public class IndexService
 		
 			IndexDAO dao = th.getMapper(IndexDAO.class);
 		
-			return dao.newProductList();
+			List<ProductVO> retval = dao.newProductList();
+			th.commit();
+			
+			return retval;
 		}
 		catch(Exception exp)
 		{
@@ -69,7 +75,10 @@ public class IndexService
 					
 			params.setRowList(rowList);
 					
-			return dao.productRndList(params);
+			List<ProductVO> retval =  dao.productRndList(params);
+			th.commit();
+			
+			return retval;
 		}
 		catch(Exception exp)
 		{

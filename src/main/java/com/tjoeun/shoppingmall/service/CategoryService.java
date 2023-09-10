@@ -33,6 +33,7 @@ public class CategoryService
 		{
 			CategoryDAO dao = th.getMapper(CategoryDAO.class);
 			retval = dao.selectList(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -51,6 +52,7 @@ public class CategoryService
 		{
 			CategoryDAO dao = th.getMapper(CategoryDAO.class);
 			retval = dao.menu();
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -69,6 +71,7 @@ public class CategoryService
 		{
 			CategoryDAO dao = th.getMapper(CategoryDAO.class);
 			retval = dao.selectedMenu(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{

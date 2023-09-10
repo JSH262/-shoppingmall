@@ -80,17 +80,27 @@ $(() => {
 				let btnReview = node.find('input[name=review]');
 				
 				
-				let productDeliveryComplete = function()
+				let productDeliveryComplete = function(pItem)
 				{
 					//리뷰 작성가능
 					btnOrderCancel.addClass("invisible");					
 					btnProductExchange.addClass("invisible");
 					btnProductReturns.addClass("invisible");
 					btnComplete.addClass("invisible");
-					btnReview.bind('click', function()
+					
+					
+					if(pItem.isReview)
 					{
-						alert('리뷰작성하기');
-					});
+						btnReview.bind('click', function()
+						{
+							location.href = `${CONTEXT_PATH}/review?id=${pItem.id}&productId=${pItem.productId}`
+						});	
+					}
+					else
+					{
+						btnReview.addClass('invisible');
+					}
+					
 				};
 				
 				let setStatusName = function(tmpStatusName) {
@@ -139,7 +149,7 @@ $(() => {
 					// 거래완료
 					if(item.status == 5)
 					{
-						productDeliveryComplete();
+						productDeliveryComplete(item);
 					}		
 					
 					//결제완료, 상품준비
@@ -162,7 +172,7 @@ $(() => {
 										if(resp.code == 0)
 										{
 											setStatusName("결제취소");
-											alert('주문한 상품 결제취소 완료');
+											customAlert.show("주문한 상품의 결재가 취소되었습니다.", null, 1);
 										}
 										else
 										{
@@ -218,11 +228,9 @@ $(() => {
 									{
 										if(resp.code == 0)
 										{
-											productDeliveryComplete();
+											productDeliveryComplete(item);
 											setStatusName("거래완료");
-											alert('구매결정 완료');
-											
-											
+											customAlert.show("구매결정이 완료되었습니다.", null, 1);
 										}
 										else
 										{

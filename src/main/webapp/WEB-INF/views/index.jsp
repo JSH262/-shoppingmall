@@ -9,12 +9,9 @@
 	<meta charset="UTF-8">
 	<title>shoppingmall</title>
 	
-	<script>
-		document.contextPath = '<%=request.getContextPath() %>';
-	</script>
-	
 	<%@ include file="/WEB-INF/component/header/common.jsp" %>
 	
+	<script src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/js/index.js"></script>
 	
 	<style>
@@ -285,7 +282,13 @@
 	</div>
 
 
+	
 
+	<button id="testCustom1">테스트 알림 창 1</button>
+	<button id="testCustom2">테스트 알림 창 2</button>
+
+
+	<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 
 	<%@ include file="/WEB-INF/component/footer.jsp" %>
 

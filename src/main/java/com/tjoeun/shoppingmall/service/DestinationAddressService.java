@@ -35,6 +35,7 @@ public class DestinationAddressService
 			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
 		
 			retval = dao.insert(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -53,6 +54,7 @@ public class DestinationAddressService
 			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
 		
 			retval = dao.selectList(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -71,6 +73,7 @@ public class DestinationAddressService
 			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
 		
 			retval = dao.select(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -89,6 +92,7 @@ public class DestinationAddressService
 			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
 		
 			retval = dao.update(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -107,6 +111,7 @@ public class DestinationAddressService
 			DestinationAddressDAO dao = th.getMapper(DestinationAddressDAO.class);
 		
 			retval = dao.delete(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{

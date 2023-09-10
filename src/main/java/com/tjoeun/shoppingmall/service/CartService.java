@@ -43,6 +43,7 @@ public class CartService
 			CartDAO dao = th.getMapper(CartDAO.class);
 			
 			retval = dao.selectList(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -61,6 +62,7 @@ public class CartService
 		{
 			CartDAO dao = th.getMapper(CartDAO.class);
 			retval = dao.count(userId);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -79,6 +81,7 @@ public class CartService
 		{
 			CartDAO dao = th.getMapper(CartDAO.class);
 			retval = dao.insert(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -98,6 +101,7 @@ public class CartService
 		{
 			CartDAO dao = th.getMapper(CartDAO.class);
 			retval = dao.delete(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -116,6 +120,7 @@ public class CartService
 		{
 			CartDAO dao = th.getMapper(CartDAO.class);
 			retval = dao.update(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -152,6 +157,7 @@ public class CartService
 				vo.setSellerId(sellerId);
 				
 				retval = dao.insert(vo);
+				th.commit();
 			}
 			
 			th.commit();
@@ -173,6 +179,7 @@ public class CartService
 		{
 			CartDAO dao = th.getMapper(CartDAO.class);
 			retval = dao.productIds(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -188,6 +195,7 @@ public class CartService
 		try {
 			CartDAO dao = th.getMapper(CartDAO.class);
 			dao.updateAmount(co);
+	        th.commit();
 			result = 0;
 		} catch (Exception e) {
 			result = 1;
@@ -203,6 +211,7 @@ public class CartService
 		try {
 			CartDAO dao = th.getMapper(CartDAO.class);
 			dao.deleteProduct(co);
+	        th.commit();
 			result = 0;
 		} catch (Exception e) {
 			result = 1;

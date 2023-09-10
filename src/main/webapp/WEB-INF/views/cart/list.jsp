@@ -15,15 +15,10 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
-<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/> --%>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 
-<%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script> --%>
+	<%@ include file="/WEB-INF/component/header/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/cart/cart.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
 <script>
        function productAmount(node, value)
        {
@@ -131,6 +126,7 @@
 </head>
 
 <body>
+	<%@ include file="/WEB-INF/component/header.jsp" %>
 	<c:forEach var="item" items="${cartList }">
 	
 		<div class="container gap-3 mt-5">
@@ -142,7 +138,7 @@
 		        </div>
 		         --%>
 		        <div class="col-md-5">
-		            <img style="max-width:100%" src="${item.thumbnail }" />
+		            <img style="max-width:100%" src="<%=request.getContextPath() %>${item.thumbnail }" />
 		        </div>
 		        <div class="col-md-1">
 		            &nbsp;
@@ -172,7 +168,7 @@
 		            </div>
 		            <div class="row">
 		                <div class="col-sm-12">
-		                    <span name="delivery">${item.delivery}</span>
+		                    <span name="delivery"></span>
 		                </div>
 		            </div>
 		            <div class="row">
@@ -274,6 +270,8 @@
 	</div>
 </div>
  
+
+	<%@ include file="/WEB-INF/component/footer.jsp" %>
 
 </body>
 </html>

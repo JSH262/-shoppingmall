@@ -27,6 +27,7 @@ public class UserService {
 	    try {
 	    	UserDAO dao = th.getMapper(UserDAO.class);
 	        dao.insert(vo);
+	        th.commit();
 	        result = 1; // 성공 시 1 할당
 	    } catch (Exception e) {
 			log.error("", e);
@@ -43,6 +44,7 @@ public class UserService {
 		try {
 	    	UserDAO dao = th.getMapper(UserDAO.class);
 			result = dao.checkUserId(id);
+	        th.commit();
 		} catch (Exception e) {
 			log.error("", e);
 		}
@@ -54,6 +56,7 @@ public class UserService {
 		try {
 	    	UserDAO dao = th.getMapper(UserDAO.class);
 			res = dao.userLogin(vo);
+	        th.commit();
 		} catch (Exception e) {
 			log.error("", e);
 		}
@@ -65,6 +68,7 @@ public class UserService {
 	    try {
 	    	UserDAO dao = th.getMapper(UserDAO.class);
 	        dao.companyInsert(co);
+	        th.commit();
 	        result = 1; // 성공 시 1 할당
 	    } catch (Exception e) {
 	        result = 2; // 실패 시 2 할당
@@ -77,7 +81,10 @@ public class UserService {
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
     	UserDAO dao = th.getMapper(UserDAO.class);
     	
-		return dao.selectVO(id);
+    	UsersVO retval = dao.selectVO(id);
+        th.commit();
+        
+        return retval;
 	}
 	
 

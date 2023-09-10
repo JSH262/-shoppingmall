@@ -28,6 +28,7 @@ public class MyPageService
 			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			res = dao.passwordCheck(vo);
+			th.commit();
 		}
 		catch (Exception e) 
 		{
@@ -45,6 +46,7 @@ public class MyPageService
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
 			res = dao.passwordUpdate(vo);
+	        th.commit();
 		} 
 		catch (Exception e) 
 		{
@@ -61,7 +63,8 @@ public class MyPageService
 			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
-			res = dao.unregister(vo);			
+			res = dao.unregister(vo);		
+	        th.commit();	
 		}
 		catch (Exception e) 
 		{
@@ -79,6 +82,7 @@ public class MyPageService
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
 			res = dao.userUpdate(vo);
+	        th.commit();
 		} 
 		catch (Exception e) 
 		{

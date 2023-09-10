@@ -7,9 +7,10 @@
 <title>회사 정보 입력</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" href="./images/logo.png"/>
-<link rel="stylesheet" href="./css/bootstrap.css"/>
-<script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="./js/bootstrap.js"></script>
+
+
+<%@ include file="/WEB-INF/component/header/common.jsp" %>
+
 <script type="text/javascript" src="./js/ajax.js"></script> <!-- ajax 구현 -->
 </head>
 <body>

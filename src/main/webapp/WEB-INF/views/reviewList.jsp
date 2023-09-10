@@ -15,11 +15,8 @@
 %>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
+
+<%@ include file="/WEB-INF/component/header/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/reviewList.js"></script>
 
 <title>My 리뷰</title>
@@ -54,6 +51,7 @@
 </style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/component/header.jsp" %>
 
 	<table border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;">
 	<thead>
@@ -127,6 +125,7 @@
 </div>
 
 
+	<%@ include file="/WEB-INF/component/footer.jsp" %>
 
 </body>
 </html>	

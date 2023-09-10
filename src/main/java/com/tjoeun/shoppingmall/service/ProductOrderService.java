@@ -45,6 +45,7 @@ public class ProductOrderService
 			}
 						
 			retval = dao.insert(item);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -67,6 +68,7 @@ public class ProductOrderService
 			item.setUserId(userId);
 			
 			retval = dao.selectId(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -84,6 +86,7 @@ public class ProductOrderService
 		{
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			retval = dao.selectId(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -103,6 +106,7 @@ public class ProductOrderService
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.selectList(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -122,6 +126,7 @@ public class ProductOrderService
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 		
 			retval = dao.update(item);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -141,6 +146,7 @@ public class ProductOrderService
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.totalCount(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -160,6 +166,7 @@ public class ProductOrderService
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.select(item);
+			th.commit();
 		}
 		catch(Exception exp)
 		{

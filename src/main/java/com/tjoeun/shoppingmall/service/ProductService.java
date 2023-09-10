@@ -36,6 +36,7 @@ public class ProductService
 			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
 			retval = dao.insert(item);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -86,6 +87,7 @@ public class ProductService
 			params.setEndNo(page.getEndNo());
 			
 			retval = dao.selectList(params);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -124,6 +126,7 @@ public class ProductService
 			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
 			retval = dao.totalCount(params);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -153,6 +156,7 @@ public class ProductService
 			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
 			retval = dao.select(params);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -171,6 +175,7 @@ public class ProductService
 			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
 			retval = dao.update(item);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -206,6 +211,7 @@ public class ProductService
 					
 				}
 			}
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -225,6 +231,7 @@ public class ProductService
 			ProductDAO dao = th.getMapper(ProductDAO.class);
 			
 			retval = dao.selectProductCatList(params);
+			th.commit();
 		}
 		catch(Exception exp)
 		{

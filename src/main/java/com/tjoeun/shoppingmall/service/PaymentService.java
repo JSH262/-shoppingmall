@@ -43,6 +43,7 @@ public class PaymentService
 			PaymentDAO dao = th.getMapper(PaymentDAO.class);
 			
 			retval = dao.selectList(vo);
+			th.commit();
 		}
 		catch(Exception exp)
 		{
@@ -61,6 +62,7 @@ public class PaymentService
 			PaymentDAO dao = th.getMapper(PaymentDAO.class);
 			
 			retval = dao.insert(vo);
+	        th.commit();
 		}
 		catch(Exception exp)
 		{
