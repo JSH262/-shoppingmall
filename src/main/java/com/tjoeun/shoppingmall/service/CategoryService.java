@@ -37,6 +37,7 @@ public class CategoryService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -56,6 +57,7 @@ public class CategoryService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 
@@ -75,6 +77,7 @@ public class CategoryService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		

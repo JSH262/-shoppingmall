@@ -23,15 +23,17 @@ public class MyPageService
 	public int passwordCheck(UsersVO vo) 
 	{
 		int res = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try 
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			res = dao.passwordCheck(vo);
 			th.commit();
 		}
 		catch (Exception e) 
 		{
+			th.rollback();
 			log.error("", e);
 		}
 		
@@ -40,9 +42,10 @@ public class MyPageService
 	public int passwordUpdate(UsersVO vo) 
 	{
 		int res = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try 
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
 			res = dao.passwordUpdate(vo);
@@ -50,6 +53,7 @@ public class MyPageService
 		} 
 		catch (Exception e) 
 		{
+			th.rollback();
 			log.error("", e);
 		}
 		
@@ -58,9 +62,10 @@ public class MyPageService
 	public int unregister(UsersVO vo) 
 	{
 		int res = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try 
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
 			res = dao.unregister(vo);		
@@ -68,6 +73,7 @@ public class MyPageService
 		}
 		catch (Exception e) 
 		{
+			th.rollback();
 			log.error("", e);
 		}
 		
@@ -76,9 +82,10 @@ public class MyPageService
 	public int userUpdate(UsersVO vo) 
 	{
 		int res = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try 
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			MyPageDAO dao = th.getMapper(MyPageDAO.class);
 			
 			res = dao.userUpdate(vo);
@@ -86,6 +93,7 @@ public class MyPageService
 		} 
 		catch (Exception e) 
 		{
+			th.rollback();
 			log.error("", e);
 		}
 		

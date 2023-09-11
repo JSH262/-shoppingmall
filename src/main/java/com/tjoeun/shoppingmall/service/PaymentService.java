@@ -36,10 +36,10 @@ public class PaymentService
 	public List<PaymentVO> selectList(PaymentVO vo)
 	{
 		List<PaymentVO> retval = null;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			PaymentDAO dao = th.getMapper(PaymentDAO.class);
 			
 			retval = dao.selectList(vo);
@@ -47,6 +47,7 @@ public class PaymentService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -55,10 +56,10 @@ public class PaymentService
 	public int insert(PaymentVO vo)
 	{
 		int retval = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			PaymentDAO dao = th.getMapper(PaymentDAO.class);
 			
 			retval = dao.insert(vo);
@@ -66,6 +67,7 @@ public class PaymentService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		

@@ -40,6 +40,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 				
@@ -91,6 +92,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -130,6 +132,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -160,6 +163,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -179,6 +183,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -215,6 +220,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -235,6 +241,7 @@ public class ProductService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		

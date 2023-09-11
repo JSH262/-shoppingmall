@@ -36,6 +36,7 @@ public class SettingService {
 		}
 		catch(Exception exp)
 		{
+	    	th.rollback();
 			log.error("", exp);
 		}
 		
@@ -56,6 +57,7 @@ public class SettingService {
 		}
 		catch(Exception exp)
 		{
+	    	th.rollback();
 			log.error("", exp);
 		}
 		

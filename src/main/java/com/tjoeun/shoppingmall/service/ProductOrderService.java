@@ -49,6 +49,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -72,6 +73,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -90,6 +92,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -99,10 +102,10 @@ public class ProductOrderService
 	public List<ProductOrderVO> selectList(ProductOrderVO item)
 	{
 		List<ProductOrderVO> retval = new ArrayList<>();
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.selectList(item);
@@ -110,6 +113,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -119,10 +123,10 @@ public class ProductOrderService
 	public int update(ProductOrderVO item)
 	{
 		int retval = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 		
 			retval = dao.update(item);
@@ -130,6 +134,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -139,10 +144,10 @@ public class ProductOrderService
 	public int totalCount(ProductOrderVO item)
 	{
 		int retval = 0;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.totalCount(item);
@@ -150,6 +155,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -159,10 +165,10 @@ public class ProductOrderService
 	public ProductOrderVO select(ProductOrderVO item)
 	{
 		ProductOrderVO retval = null;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			ProductOrderDAO dao = th.getMapper(ProductOrderDAO.class);
 			
 			retval = dao.select(item);
@@ -170,6 +176,7 @@ public class ProductOrderService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		

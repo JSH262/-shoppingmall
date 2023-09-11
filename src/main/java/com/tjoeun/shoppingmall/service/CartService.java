@@ -47,6 +47,7 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 				
@@ -66,6 +67,7 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -85,6 +87,7 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 						
@@ -105,6 +108,7 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 				
@@ -124,6 +128,7 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -183,7 +188,8 @@ public class CartService
 		}
 		catch(Exception exp)
 		{
-			exp.printStackTrace();
+			th.rollback();
+			log.error("", exp);
 		}
 						
 		return retval;
@@ -198,6 +204,7 @@ public class CartService
 	        th.commit();
 			result = 0;
 		} catch (Exception e) {
+			th.rollback();
 			result = 1;
 			log.error("", e);
 		} finally {
@@ -214,6 +221,7 @@ public class CartService
 	        th.commit();
 			result = 0;
 		} catch (Exception e) {
+			th.rollback();
 			result = 1;
 			log.error("", e);
 		} finally {

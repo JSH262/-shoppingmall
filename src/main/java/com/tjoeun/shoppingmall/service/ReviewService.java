@@ -34,6 +34,7 @@ public class ReviewService {
 	        
 	        th.commit();
 	    } catch (Exception e) {
+	    	th.rollback();
 			log.error("", e);
 	        result = 2; // �떎�뙣 �떆 2 �븷�떦
 	    }
@@ -50,6 +51,7 @@ public class ReviewService {
 			list = dao.selectByUserId(userId);
 			th.commit();
 	    } catch (Exception e) {
+	    	th.rollback();
 			log.error("", e);
 	    } finally {
 	    }
@@ -68,6 +70,7 @@ public class ReviewService {
 		}
 		catch(Exception exp)
 		{
+	    	th.rollback();
 			log.error("", exp);
 		}
 		
@@ -82,6 +85,7 @@ public class ReviewService {
 			res = dao.already(orderId);
 			th.commit();
 		} catch (Exception e) {
+	    	th.rollback();
 			log.error("", e);
 		}
 		return res;

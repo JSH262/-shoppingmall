@@ -26,9 +26,10 @@ public class IndexService
 	
 	public List<ProductVO> lotSellProductList() 
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			IndexDAO dao = th.getMapper(IndexDAO.class);
 		
 			List<ProductVO> retval =  dao.lotSellProductList();
@@ -38,6 +39,7 @@ public class IndexService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();	
 			log.error("", exp);
 		}
 		
@@ -46,9 +48,10 @@ public class IndexService
 
 	public List<ProductVO> newProductList() 
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
 			IndexDAO dao = th.getMapper(IndexDAO.class);
 		
@@ -59,6 +62,7 @@ public class IndexService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
@@ -67,9 +71,10 @@ public class IndexService
 	
 	public List<ProductVO> productRndList(List<Long> rowList) 
 	{
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
 		try
 		{
-			TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 			IndexDAO dao = th.getMapper(IndexDAO.class);
 			ProductVO params = new ProductVO();
 					
@@ -82,6 +87,7 @@ public class IndexService
 		}
 		catch(Exception exp)
 		{
+			th.rollback();
 			log.error("", exp);
 		}
 		
