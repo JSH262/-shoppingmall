@@ -25,7 +25,7 @@ div {
 
 <table width="1000" align="center" border="1" cellpadding="6" cellspacing="0">
 	<tr>
-		<th colspan="6">유저목록</th>
+		<th colspan="6" align="center">유저목록</th>
 	</tr>
 	<tr>
 		<td colspan="6" align="right">
@@ -52,10 +52,7 @@ div {
 	<c:if test="${list.size() != 0}">
 	<c:forEach var="vo" items="${list}">
 	<tr id="useID">
-		<%-- <c:if test="${vo.useryn} == N">
-			<c:set var="tr.id='useID'" value="style= 'hidden'">
-		</c:if> --%>
-		
+	
 		<td align="center">${vo.id}</td>
 		<td>
 			<c:set var="name" value="${fn:replace(vo.name, '<', '&lt;')}"/>
@@ -75,7 +72,17 @@ div {
 		</td>
 		<td align="center">${vo.companyId}</td>
 		<td>
-		<input type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+			<c:choose>
+	         <c:when test ="${vo.useYn == 'N'}">
+	            <input type="button" value="복구" onclick="location.href='restoreId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	         </c:when>
+	         <c:when test = "${vo.useYn == 'Y'}">
+	            <input type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	         </c:when>
+	         <c:otherwise>
+	            ${vo.useYn}
+	         </c:otherwise>
+	      </c:choose>		
 		<td>
 		</td>
 	</tr>

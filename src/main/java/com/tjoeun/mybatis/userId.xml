@@ -18,7 +18,6 @@
 		) where rnum >= #{startNo}
 		]]>
 		-->
-		
 		select * from (
 			select rownum rnum, AA.* from (
 				select * from users order by id desc
@@ -33,12 +32,25 @@
 	</select>
 	
 	<!-- 아이디 1건을 삭제한다. -->
-	<update id="delete" parameterType="String">
-		update users set use_yn = N where id = ${id}
+	<update id="deleteId" parameterType="String">
+		update users set use_yn = 'N' where id = #{id}
+	</update>
+	
+		<!-- 아이디 1건을 복구한다. -->
+	<update id="restoreId" parameterType="String">
+		update users set use_yn = 'Y' where id = #{id}
 	</update>
 		
 	<update id="updateId" parameterType="vo">
-		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{use_yn},  company_id = #{company_id} where id = #{id}
+		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{useYn}, 
+		<choose>
+			<when test = "type == 2">
+				company_id = #{companyId}
+			</when>
+			<otherwise>
+				company_id = company_id
+			</otherwise> 
+		</choose> where id = #{id}
 	</update>
 </mapper>
 

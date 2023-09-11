@@ -1,6 +1,5 @@
 package com.tjoeun.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,25 +18,30 @@ public class AdminDAO {
 	
 	public int selectCount(SqlSession mapper) {
 		
-		return mapper.selectOne("selectCount");
+		return mapper.selectOne("AdminDAO.selectCount");
 	}
 
 	public List<UsersVO> selectList(SqlSession mapper, HashMap<String, Integer> hmap){
 		
-		return mapper.selectList("selectList", hmap);
+		return mapper.selectList("AdminDAO.selectList", hmap);
 	}
 
 	public UsersVO selectById(SqlSession mapper, String id) {
 		
-		return (UsersVO) mapper.selectList("selectById", id);		
+		return (UsersVO) mapper.selectOne("AdminDAO.selectById", id);		
 	}
 
 	public void deleteId(SqlSession mapper, String id) {
-		mapper.update("deleteId", id);
+		 mapper.update("AdminDAO.deleteId", id);
 	}
 
-	public void update(SqlSession mapper, UsersVO usersVO) {
-		mapper.update("update", usersVO);
+	public void updateId(SqlSession mapper, UsersVO usersVO) {
+		System.out.println("AdminDAO usersVO: "+ usersVO);
+		mapper.update("AdminDAO.updateId", usersVO);
+	}
+	public void restoreId(SqlSession mapper, String id) {
+		mapper.update("AdminDAO.restoreId", id);
+		
 	}
 
 	

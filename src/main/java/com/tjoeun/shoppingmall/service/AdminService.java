@@ -48,14 +48,27 @@ public class AdminService
 		SqlSession mapper = MySession.getSession();
 		AdminDAO dao = AdminDAO.getInstance();
 		dao.deleteId(mapper, id);
+		mapper.commit();
+		mapper.close();
 
 	}
 
-	public void update(UsersVO usersVO) {
+	public void updateId(UsersVO usersVO) {
 		SqlSession mapper = MySession.getSession();
 		AdminDAO dao = AdminDAO.getInstance();
-		dao.update(mapper, usersVO);
+		System.out.println("AdminService usersVO" + usersVO);
+		dao.updateId(mapper, usersVO);
+		mapper.commit();
+		mapper.close();
 
+	}
+
+	public void restoreId(String id) {
+		SqlSession mapper = MySession.getSession();
+		AdminDAO dao = AdminDAO.getInstance();
+		dao.restoreId(mapper, id);
+		mapper.commit();
+		mapper.close();
 	}
 
 }

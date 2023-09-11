@@ -18,7 +18,7 @@
 		<tr>
 			<th width="170">ID</th>
 			<th width="160">이름</th>
-			<th width="150">가입일</th>
+			<th width="150">가입날짜</th>
 			<th width="120">업체아이디</th>
 		</tr>
 		<tr>
@@ -26,16 +26,16 @@
 			<td align="center">
 				<c:set var="name" value="${fn:replace(vo.name, '<', '&lt;')}"/>
 				<c:set var="name" value="${fn:replace(name, '>', '&gt;')}"/>
-				${name}
+				<input type="text" name="name" value="${name}" />
 			</td>
 			<td align="center">
-			${vo.createdate}
-				<%-- <fmt:formatDate value="${vo.createdate}" pattern="yyyy.MM.dd(E)"/> --%>
+				${vo.createDate}
+				<%-- <fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>  --%>
 			</td>
 			<td align="center">
-			<c:set var="companyId" value="${fn:replace(vo.companyId '<', '&lt;')}"/>
-				<c:set var="companyId " value="${fn:replace(companyId , '>', '&gt;')}"/>
-				<input type="text" name="companyId " value="${companyId }" />
+<%--  				<c:set var="companyId" value="${fn:replace(vo.companyId '<', '&lt;')}"/>
+				<c:set var="companyId" value="${fn:replace(companyId , '>', '&gt;')}"/>  --%>
+				<input type="text" name="companyId" value="${vo.companyId}" />
 			</td>
 		</tr>
 		<tr>
@@ -58,21 +58,42 @@
 			</td>
 			
 			<td align="center">
-			<input type="text" name="useYn" value="${vo.useYn}" />
+			<c:choose>
+			         <c:when test ="${vo.useYn == 'N'}">
+							아이디 삭제 대기중
+			         </c:when>
+			         <c:when test = "${vo.useYn == 'Y'}">
+							 아이디 사용중
+			         </c:when>
+			         <c:otherwise>
+			            ${vo.useYn}
+			         </c:otherwise>
+			      </c:choose>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
 				<input type="submit" value="수정하기"/>
-				<input type="button" value="삭제하기" 
-					onclick="location.href='deleteId?id=${vo.id}&currentPage=${currentPage}'"/>
+					<c:choose>
+			         <c:when test ="${vo.useYn == 'N'}">
+			            <input type="button" value="복구하기" 
+							onclick="location.href='restoreId?id=${vo.id}&currentPage=${currentPage}'"/>
+			         </c:when>
+			         <c:when test = "${vo.useYn == 'Y'}">
+			            <input type="button" value="삭제하기" 
+							onclick="location.href='deleteId?id=${vo.id}&currentPage=${currentPage}'"/>
+			         </c:when>
+			         <c:otherwise>
+			            ${vo.useYn}
+			         </c:otherwise>
+			      </c:choose>
 				<input type="button" value="돌아가기" 
-					onclick="location.href='list?currentPage=${currentPage}'"/>
+					onclick="location.href='adminPage?currentPage=${currentPage}'"/>
 			</td>
 		</tr>
 	</table>
-	
-	<input type="hidden" name="idx" value="${vo.idx}"/>
+ 	<input type="hidden" name="useYn" value="${vo.useYn}"/> 
+	<input type="hidden" name="id" value="${vo.id}"/>
 	<input type="hidden" name="currentPage" value="${currentPage}"/>
 				
 </form>

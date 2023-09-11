@@ -86,6 +86,12 @@ public class UsersVO {
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
 	@Override
 	public String toString() {
 		return "UsersVO [id=" + id + ", password=" + password + ", email=" + email + ", phone=" + phone + ", type="
