@@ -35,8 +35,6 @@ public class UserLogin {
 
 		String id = request.getParameter("id");
 		String password1 = request.getParameter("password");
-		System.out.println(id);
-		System.out.println(password1);
 
 		if (id == null || id.equals("") || password1 == null || password1.equals("")) {
 			response.getWriter().write("1");
