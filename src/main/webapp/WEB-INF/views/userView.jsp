@@ -7,30 +7,31 @@
 <head>
 <meta charset="UTF-8">
 <title>유저 정보</title>
+<link rel="stylesheet" href="./css/bootstrap.css"/>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
 </head>
 <body>
 
 <form action="updateId" method="post">
-	<table width="600" align="center" border="1" cellpadding="5" cellspacing="0">
+	<table class="table table-striped table-sm" width="600" align="center" border="1" cellpadding="5" cellspacing="0">
 		<tr>
-			<th colspan="4">유저 아이디</th>
+			<th class="h2 text-center" colspan="4">USER Info</th>
 		</tr>
 		<tr>
-			<th width="170">ID</th>
-			<th width="160">이름</th>
-			<th width="150">가입날짜</th>
-			<th width="120">업체아이디</th>
+			<th class="h4 text-center" width="170">ID</th>
+			<th class="h4 text-center" width="160">이름</th>
+			<th class="h4 text-center" width="150">가입날짜</th>
+			<th class="h4 text-center" width="120">업체아이디</th>
 		</tr>
 		<tr>
 			<td align="center">${vo.id}</td>
 			<td align="center">
 				<c:set var="name" value="${fn:replace(vo.name, '<', '&lt;')}"/>
 				<c:set var="name" value="${fn:replace(name, '>', '&gt;')}"/>
-				<input type="text" name="name" value="${name}" />
+				<input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" name="name" value="${name}" />
 			</td>
 			<td align="center">
 				${vo.createDate}
-				<%-- <fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>  --%>
 			</td>
 			<td align="center">
 			
@@ -38,7 +39,7 @@
 	         <c:when test ="${vo.type == '1'}">	
 	         </c:when>
 	         <c:when test = "${vo.type == '2'}">
-	            <input type="text" name="companyId" value="${vo.companyId}" />
+	            <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" name="companyId" value="${vo.companyId}" />
 	         </c:when>
 	         <c:otherwise>
 	         </c:otherwise>
@@ -47,22 +48,34 @@
 			</td>
 		</tr>
 		<tr>
-			<th width="100">분류</th>
-			<th width="200">Email</th>
-			<th width="200">핸드폰번호</th>
-			<th width="100">사용여부</th>
+			<th class="h4 text-center" width="100">분류</th> 
+			<th class="h4 text-center" width="200">Email</th>
+			<th class="h4 text-center" width="200">핸드폰번호</th>
+			<th class="h4 text-center" width="100">사용여부</th>
 		</tr>
 		<tr>
-			<td align="center">${vo.type}</td>
+			<td align="center">
+			<c:choose>
+		         <c:when test ="${vo.type == '1'}">	
+		         	구매자
+		         </c:when>
+		         <c:when test ="${vo.type == '2'}">
+		         	판매자
+		         </c:when>
+		         <c:otherwise>
+		         	관리자
+		         </c:otherwise>
+	        </c:choose>
+	         </td>
 			<td align="center">
 				<c:set var="email" value="${fn:replace(vo.email, '<', '&lt;')}"/>
 				<c:set var="email" value="${fn:replace(email, '>', '&gt;')}"/>
-				<input type="text" name="email" value="${email}" />
+				<input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" name="email" value="${email}" />
 			</td>
 			<td align="center">
 				<c:set var="phone" value="${fn:replace(vo.phone, '<', '&lt;')}"/>
 				<c:set var="phone" value="${fn:replace(phone, '>', '&gt;')}"/>
-				<input type="text" name="phone" value="${phone}" />
+				<input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" name="phone" value="${phone}" />
 			</td>
 			
 			<td align="center">
@@ -81,21 +94,35 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
-				<input type="submit" value="수정하기"/>
+				<input
+					
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					type="submit" 
+					value="수정하기"/>
 					<c:choose>
 			         <c:when test ="${vo.useYn == 'N'}">
-			            <input type="button" value="복구하기" 
+			            <input 
+			            	
+			            	class="btn btn-sm btn-outline-secondary dropdown-toggle"
+			            	type="button" 
+			            	value="복구하기" 
 							onclick="location.href='restoreId?id=${vo.id}&currentPage=${currentPage}'"/>
 			         </c:when>
 			         <c:when test = "${vo.useYn == 'Y'}">
-			            <input type="button" value="삭제하기" 
+			            <input 
+			            
+			            	class="btn btn-sm btn-outline-secondary dropdown-toggle"
+			            	type="button" 
+			            	value="삭제하기" 
 							onclick="location.href='deleteId?id=${vo.id}&currentPage=${currentPage}'"/>
 			         </c:when>
 			         <c:otherwise>
 			            ${vo.useYn}
 			         </c:otherwise>
 			      </c:choose>
-				<input type="button" value="돌아가기" 
+				<input 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					type="button" value="돌아가기" 
 					onclick="location.href='adminPage?currentPage=${currentPage}'"/>
 			</td>
 		</tr>

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tjoeun.dao.UsersList;
 import com.tjoeun.shoppingmall.service.AdminService;
@@ -92,7 +91,7 @@ public class AdminController {
 			PrintWriter out = response.getWriter();
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("text/html; charset=utf-8");
-			out.println("<script> alert('전화번호 또는 email양식이 틀렸습니다..');");
+			out.println("<script> alert('전화번호 또는 Email양식이 틀렸습니다..');");
 			out.println("history.go(-1); </script>"); 
 			out.close();
 		}

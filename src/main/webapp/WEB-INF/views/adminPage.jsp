@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="./css/bootstrap.css"/>
 <script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
-<script type="text/javascript" src="./js/ajax.js"></script>
 <title>관리자 페이지</title>
 <style type="text/css">
 div {
@@ -23,9 +22,9 @@ div {
 </head>
 <body>
 
-<table width="1000" align="center" border="1" cellpadding="6" cellspacing="0">
+<table class="table table-striped table-sm" width="1000" align="center" border="1" cellpadding="6" cellspacing="0">
 	<tr>
-		<th colspan="6" align="center">유저목록</th>
+		<th class="h2 text-center" colspan="6" align="center">유저목록</th>
 	</tr>
 	<tr>
 		<td colspan="6" align="right">
@@ -33,11 +32,11 @@ div {
 		</td>
 	</tr>
 	<tr>
-		<th style="width: 170px;">ID</th>
-		<th style="width: 110px;">이름</th>
-		<th style="width: 300px;">E-mail</th>
-		<th style="width: 250px;">핸드폰 번호</th>
-		<th style="width: 170px;">회사 ID</th>
+		<th class= "h4 text-center" style="width: 170px;">ID</th>
+		<th class= "h4 text-center" style="width: 110px;">이름</th>
+		<th class= "h4 text-center" style="width: 300px;">E-mail</th>
+		<th class= "h4 text-center" style="width: 250px;">핸드폰 번호</th>
+		<th class= "h4 text-center" style="width: 170px;">회사 ID</th>
 	</tr>
 	
 	<c:set var="list" value="${usersList.list}"/>
@@ -74,10 +73,10 @@ div {
 		<td>
 			<c:choose>
 	         <c:when test ="${vo.useYn == 'N'}">
-	            <input type="button" value="복구" onclick="location.href='restoreId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	            <input class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" value="복구" onclick="location.href='restoreId?id=${vo.id}&currentPage=${usersList.currentPage}'">
 	         </c:when>
 	         <c:when test = "${vo.useYn == 'Y'}">
-	            <input type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	            <input class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
 	         </c:when>
 	         <c:otherwise>
 	            ${vo.useYn}
@@ -93,6 +92,7 @@ div {
 		<td colspan="5" align="center">
 			<c:if test="${usersList.currentPage > 1}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					title="첫 페이지로 이동합니다." 
 					onclick="location.href='?currentPage=1'"
@@ -100,6 +100,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.currentPage <= 1}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					disabled="disabled" 
 					title="이미 첫 페이지 입니다."
@@ -108,6 +109,7 @@ div {
 			
 			<c:if test="${usersList.startPage > 1}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					title="이전 10페이지로 이동합니다." 
 					onclick="location.href='?currentPage=${usersList.startPage - 1}'"
@@ -115,6 +117,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.startPage <= 1}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					disabled="disabled" 
 					title="이미 첫 10페이지 입니다."
@@ -127,6 +130,7 @@ div {
 				</c:if>
 				<c:if test="${usersList.currentPage != i}">
 					<button 
+						class="btn btn-sm btn-outline-secondary dropdown-toggle"
 						type='button' 
 						title="${i}페이지로 이동합니다."
 						onclick="location.href='?currentPage=${i}'"
@@ -136,6 +140,7 @@ div {
 			
 			<c:if test="${usersList.endPage < usersList.totalPage}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					title="다음 10페이지로 이동합니다." 
 					onclick="location.href='?currentPage=${usersList.endPage + 1}'"
@@ -143,6 +148,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.endPage >= usersList.totalPage}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					disabled="disabled" 
 					title="이미 마지막 10페이지 입니다."
@@ -151,6 +157,7 @@ div {
 			
 			<c:if test="${usersList.currentPage < usersList.totalPage}">
 			<button
+				class="btn btn-sm btn-outline-secondary dropdown-toggle"
 				type="button" 
 				title="마지막 페이지로 이동합니다." 
 				onclick="location.href='?currentPage=${usersList.totalPage}'"
@@ -158,6 +165,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.currentPage >= usersList.totalPage}">
 				<button 
+					class="btn btn-sm btn-outline-secondary dropdown-toggle"
 					type="button" 
 					disabled="disabled" 
 					title="이미 마지막 페이지 입니다."

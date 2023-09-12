@@ -42,7 +42,7 @@
 	</update>
 		
 	<update id="updateId" parameterType="vo">
-		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{useYn}, 
+		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{useYn}, modify_date = SYSDATE ,
 		<choose>
 			<when test = "type == 2">
 				company_id = #{companyId}
