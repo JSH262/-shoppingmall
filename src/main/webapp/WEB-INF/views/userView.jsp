@@ -33,9 +33,17 @@
 				<%-- <fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>  --%>
 			</td>
 			<td align="center">
-<%--  				<c:set var="companyId" value="${fn:replace(vo.companyId '<', '&lt;')}"/>
-				<c:set var="companyId" value="${fn:replace(companyId , '>', '&gt;')}"/>  --%>
-				<input type="text" name="companyId" value="${vo.companyId}" />
+			
+			<c:choose>
+	         <c:when test ="${vo.type == '1'}">	
+	         </c:when>
+	         <c:when test = "${vo.type == '2'}">
+	            <input type="text" name="companyId" value="${vo.companyId}" />
+	         </c:when>
+	         <c:otherwise>
+	         </c:otherwise>
+	      </c:choose>
+				
 			</td>
 		</tr>
 		<tr>

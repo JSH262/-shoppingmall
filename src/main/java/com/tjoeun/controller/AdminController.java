@@ -1,8 +1,11 @@
 package com.tjoeun.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -79,12 +82,23 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/updateId", method = RequestMethod.POST)
-	public String update(HttpServletRequest request, Model model, UsersVO usersVO) {
+	public String update(HttpServletRequest request, Model model, UsersVO usersVO, HttpServletResponse response) throws IOException {
 		logger.info("컨트롤러의 update() 메소드 실행 - 커맨드 객체 사용");
 		AdminService service = AdminService.getInstance();
 		System.out.println("컨트롤러의 usersVO(): " + usersVO);
-		service.updateId(usersVO);
-		System.out.println("testtest");
+		String phoneC = "^[0-9]{1,11}$";
+		String emailC = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
+		if (!usersVO.getEmail().matches(emailC) || !usersVO.getPhone().matches(phoneC)) {
+			PrintWriter out = response.getWriter();
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("text/html; charset=utf-8");
+			out.println("<script> alert('전화번호 또는 email양식이 틀렸습니다..');");
+			out.println("history.go(-1); </script>"); 
+			out.close();
+		}
+		else {
+			service.updateId(usersVO);
+		}		
 		model.addAttribute("currentPage", request.getParameter("currentPage"));
 		return "redirect:adminPage";
 	}
