@@ -62,6 +62,11 @@
 			cursor: pointer;
 		}
 		
+		#newProductGup {
+			max-width: 1200px;
+			margin: auto;
+		}
+		
 	</style>
 </head>
 <body>
@@ -125,7 +130,7 @@
 			<div id="newProductTitle" class="fs-1">
 				신상품
 			</div>
-			<div class="row row-cols-1 row-cols-md-3 g-4" id="newProductsBody">
+			<div class="row row-cols-1 row-cols-md-4 g-4" id="newProductsBody">
 			
 				<%-- 상품 로딩중 표시 --%>
 				<div class="col" name="newProductLoading">
@@ -251,44 +256,7 @@
 				
 			</div>
 		</div>
-		<hr />
-	
-	
-		<div>	
-		<%
-			if(AttributeName.getUserData(request) != null)
-			{
-		%>
-				<input type="button" value="로그아웃" onclick="location.href='<%=request.getContextPath() %>/logout'" />
-				<%--
-				<input type="button" value="구입할 상품확인" onclick="location.href='<%=request.getContextPath() %>/product/order'" />
-				 --%>
-				<input type="button" value="상품구입 목록" onclick="location.href='<%=request.getContextPath() %>/product/payment/list'" />
-				<input type="button" value="장바구니" onclick="location.href='<%=request.getContextPath() %>/cart/list'" />
-				<input type="button" value="상품관리" onclick="location.href='<%=request.getContextPath() %>/product/breakdown/list'" />
-				<input type="button" value="마이페이지" onclick="location.href='<%=request.getContextPath() %>/myPage'" />
-		<%
-			}
-			else
-			{
-		%>
-				<input type="button" value="로그인" onclick="location.href='<%=request.getContextPath() %>/login'" />
-		<%
-			}
-		%>
-		
-			<input type="button" value="상품보기" onclick="location.href='<%=request.getContextPath() %>/product/list'" />
-		</div>
 	</div>
-
-
-	
-
-	<button id="testCustom1">테스트 알림 창 1</button>
-	<button id="testCustom2">테스트 알림 창 2</button>
-
-
-	<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 
 	<%@ include file="/WEB-INF/component/footer.jsp" %>
 

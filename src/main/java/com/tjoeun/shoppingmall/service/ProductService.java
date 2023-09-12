@@ -14,6 +14,7 @@ import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
+import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 @Service
 public class ProductService 
@@ -247,5 +248,44 @@ public class ProductService
 		
 		return retval;
 	}
-	
+	public List<ReviewVO> selectProductReview(ProductVO params)
+	{
+		List<ReviewVO> retval = null;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
+		try
+		{
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.selectProductReview(params);
+			th.commit();
+		}
+		catch(Exception exp)
+		{
+			th.rollback();
+			log.error("", exp);
+		}
+		
+		return retval;
+	}
+	public Integer selectProductReviewCount(ProductVO params)
+	{
+		Integer retval = null;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
+		try
+		{
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.selectProductReviewCount(params);
+			th.commit();
+		}
+		catch(Exception exp)
+		{
+			th.rollback();
+			log.error("", exp);
+		}
+		
+		return retval;
+	}
 }

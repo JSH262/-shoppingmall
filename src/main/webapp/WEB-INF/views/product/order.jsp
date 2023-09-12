@@ -22,6 +22,7 @@
 		</script>
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/order.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/payment.js"></script>
 		
@@ -472,7 +473,7 @@
 		    </div>
 		</div>
 		
-		
+		<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 		<%@ include file="/WEB-INF/component/payment.jsp" %>
 		<%@ include file="/WEB-INF/component/footer.jsp" %>
 	</body>

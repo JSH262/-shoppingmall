@@ -154,7 +154,7 @@ public class HomeController {
 			{
 				ArrayList<Long> rows = new ArrayList<Long>(); 
 				
-				for(int i = 0; i<6; i++)
+				for(int i = 0; i<8; i++)
 				{
 					Long tmp = (long)(Math.random() * productTotalCount);
 					

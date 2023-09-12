@@ -88,7 +88,7 @@ $(() => {
 				else
 				{
 					isExecPay = false;
-					alert('배송지를 선택해주세요');
+					customAlert.show('배송지를 선택해주세요');
 				}
 			}
 			catch(exp)
@@ -153,7 +153,7 @@ $(() => {
 									{
 										if(resp.code == 0)
 										{
-											alert('선택한 배송지가 삭제되었습니다.');
+											customAlert.show('선택한 배송지가 삭제되었습니다.');
 											
 											if(list.length - 1 == 0)											
 											{
@@ -374,7 +374,7 @@ $(() => {
 					}
 					else if(resp.code == 1)
 					{
-						alert(resp.msg);
+						customAlert.show(resp.msg);
 					}
 					else
 						alert(resp.code + ": " + resp.msg);	

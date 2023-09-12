@@ -87,11 +87,38 @@ public class Util
 		
 		return defaultValue;
 	}
+	static public Integer toInt(Integer item, Integer defaultValue)
+	{
+		try
+		{
+			return item != null ? item : defaultValue;
+		}
+		catch(Exception exp)
+		{
+			
+		}
+		
+		return defaultValue;
+	}
+	
 	static public Long toLong(String item, Long defaultValue)
 	{
 		try
 		{
 			return Long.parseLong(item.trim());
+		}
+		catch(Exception exp)
+		{
+			
+		}
+		
+		return defaultValue;
+	}
+	static public Long toLong(Long item, Long defaultValue)
+	{
+		try
+		{
+			return item != null ? item : defaultValue;
 		}
 		catch(Exception exp)
 		{

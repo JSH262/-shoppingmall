@@ -105,7 +105,7 @@
 				
 				
 				<%
-					if(UsersType.BUYER.equals(AttributeName.getUserType(request)))
+					if(!UsersType.SELLER.equals(AttributeName.getUserType(request)))
 					{
 				%>
 								

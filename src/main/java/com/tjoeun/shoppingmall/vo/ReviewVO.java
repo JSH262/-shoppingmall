@@ -3,14 +3,15 @@ package com.tjoeun.shoppingmall.vo;
 import java.sql.Timestamp;
 
 public class ReviewVO {
-    int id;
+    Integer id;
     String userId;
     String contents;
-    int productId;
-    int orderId;
-    float score;
-    char useYn;
+    Integer productId;
+    Integer orderId;
+    Float score;
+    Character useYn;
     Timestamp createDate;
+    String fmtCreateDate;
     
     public ReviewVO() {	}
     
@@ -104,6 +105,14 @@ public class ReviewVO {
     public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
+
+	public String getFmtCreateDate() {
+		return fmtCreateDate;
+	}
+
+	public void setFmtCreateDate(String fmtCreateDate) {
+		this.fmtCreateDate = fmtCreateDate;
+	}
 
 	@Override
 	public String toString() {

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
+import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 public interface ProductDAO {
 	public int insert(ProductVO item);
@@ -16,6 +17,9 @@ public interface ProductDAO {
 	public int update(ProductVO item);
 	public List<CategoryVO> selectProductCatList(CategoryVO params);
 	public int updateDecrement(ProductVO item);
+	
+	public List<ReviewVO> selectProductReview(ProductVO params);
+	public Integer selectProductReviewCount(ProductVO params);
 }
 
 

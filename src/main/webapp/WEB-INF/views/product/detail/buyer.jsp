@@ -182,6 +182,7 @@
 				</div>
 				<div class="col-md-5">
 					<span class="input-group mb-3">
+						<input class="btn btn-outline-secondary" type="button" id="showReview" name="showReview" value="리뷰" />
 						<input class="btn btn-outline-secondary" type="button" id="return" name="return" value="돌아가기" />
 						
 						<c:choose>
@@ -201,7 +202,15 @@
 		 			${product.contents }
 		 		</div>
 		 	</div>
+		 	<div class="row" id="reviewList">
+				
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-3" style="display: contents;"><span id="reviewMoreList" class="btn badge rounded-pill text-bg-info">더 보기</span></div>
+			</div>
 		</div>
+		
+		<div class="m-5"></div>
 		
 		<form action="<%=request.getContextPath() %>/chatting" method="POST" target="1:1 대화" id="startChattingForm">
 			<div style="position: fixed; bottom:30px; right: 30px;">

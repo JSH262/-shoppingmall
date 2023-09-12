@@ -13,7 +13,9 @@ $(() => {
 					<img class="card-img-top newProductImageDuration" src="">
 					<div class="card-body">
 						<h5 class="card-title"></h5>
-						<p class="card-text fs-4"></p>
+						<h6 name="review" class="card-subtitle mb-2 text-muted">
+						</h6>
+						<p name="price" class="card-text fs-4"></p>
 					</div>
 				</div>
 			</div>
@@ -66,11 +68,34 @@ $(() => {
 				let item = list[i];
 				let npTmp = newProductNode.clone();
 				let discountPrice = item.price - (item.discount / 100 * item.price);
+								
+				//avgReviewScore
+				//cntReview
+				if(item.cntReview && item.cntReview > 0)
+				{
+					let reviewNode = npTmp.find("h6[name=review]");
+					const cntMaxStar = 5;
+					let cntStarFill = parseInt(item.avgReviewScore);
+					let cntStarHalf = cntMaxStar - cntStarFill;
+					
+					for(let i = 0; i<cntStarFill; i++)
+					{
+						reviewNode.append(`<i class="bi bi-star-fill"></i>`);
+					}
+					
+					for(let i = 0; i<cntStarHalf; i++)
+					{
+						reviewNode.append(`<i class="bi bi-star-half"></i>`);
+					}
+					
+					
+					reviewNode.append(`<span class="fs-6"> (${item.cntReview})</span>`);
+				}
 				
 				//id, name, discount, price, thumbnail
 				npTmp.find('img').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);
 				npTmp.find('.card-title').text(item.name);
-				npTmp.find('.card-text').html(`<span class="fs-6 text-danger">${item.discount}% </span>${discountPrice.toLocaleString()}<span class="fs-6">원</span>`);
+				npTmp.find('p[name=price]').html(`<span class="fs-6 text-danger">${item.discount}% </span>${discountPrice.toLocaleString()}<span class="fs-6">원</span>`);
 				npTmp.bind('click', function() 
 				{
 					let parent = $(this);

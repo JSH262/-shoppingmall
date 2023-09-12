@@ -211,8 +211,27 @@
 		update product
 		set amount = amount - #{amount}
 		where id = #{id} and amount >= #{amount}
-	</update>		
+	</update>	
+	
+	
+	<select id="selectProductReview" parameterType="ProductVO" resultType="ReviewVO">
 		
+		select *
+		from (	select r.*, rownum rnum
+				from (	select id, substr(user_id, 0, 3) || '***' user_id, contents, to_char(create_date, 'YYYY-MM-DD') fmtCreateDate, score
+						from review 
+						where product_id = #{id}
+						order by create_date desc) r
+				where rownum <![CDATA[ <= ]]> #{endNo})
+		where rnum <![CDATA[ >= ]]> #{startNo}
+		
+		
+	</select>
+	<select id="selectProductReviewCount" parameterType="ProductVO" resultType="java.lang.Integer">
+		select count(*)
+		from review
+		where product_id = #{id}
+	</select>
 		
 </mapper>
 

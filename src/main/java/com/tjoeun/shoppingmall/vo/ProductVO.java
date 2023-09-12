@@ -33,6 +33,9 @@ public class ProductVO extends BaseVO
 	String companyName;			//상품의 업체명
 	String categoryName;
 	
+	Double avgReviewScore;	// 리뷰 점수의 평균 
+	Integer cntReview;			// 리뷰 개수
+	
 	List<Long> rowList;
 	
 	public ProductVO()
@@ -197,7 +200,23 @@ public class ProductVO extends BaseVO
 	public void setRowList(List<Long> rowList) {
 		this.rowList = rowList;
 	}
-	
+
+	public Integer getCntReview() {
+		return cntReview;
+	}
+
+	public void setCntReview(Integer cntReview) {
+		this.cntReview = cntReview;
+	}
+
+	public Double getAvgReviewScore() {
+		return avgReviewScore;
+	}
+
+	public void setAvgReviewScore(Double avgReviewScore) {
+		this.avgReviewScore = avgReviewScore;
+	}
+
 
 	@Override
 	public String toString()
