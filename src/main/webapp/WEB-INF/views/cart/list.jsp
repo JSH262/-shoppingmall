@@ -138,7 +138,15 @@
 		        </div>
 		         --%>
 		        <div class="col-md-5">
-		            <img style="max-width:100%" src="<%=request.getContextPath() %>${item.thumbnail }" />
+		        
+		        	<c:choose>
+		        		<c:when test="${item.thumbnail != null }">
+							<img style="max-width:100%" src="<%=request.getContextPath() %>/image/${item.thumbnail }" />
+		        		</c:when>
+		        		<c:otherwise>
+		            		<img style="max-width:100%" src="<%=request.getContextPath() %>/resources/default/noimg.png" />
+		        		</c:otherwise>
+		        	</c:choose>
 		        </div>
 		        <div class="col-md-1">
 		            &nbsp;

@@ -100,7 +100,7 @@
 					<div class="row g-0">
 						<div id="chatUserList" class="col-12 col-lg-3 col-xl-3 border-right" style="max-height:760px;overflow-y:scroll;overflow-x:hidden;">
 		
-							<div class="px-4 d-none d-md-block" id="chatUserSearchGup">
+							<div class="px-4 d-none d-md-block" id="chatUserSearchGup" style="display:none;">
 								<div class="d-flex align-items-center">
 									<div class="flex-grow-1">
 										<input type="text" class="form-control my-3"

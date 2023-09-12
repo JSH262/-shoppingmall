@@ -428,7 +428,7 @@ $(() => {
 						location.href = `${CONTEXT_PATH}/product/detail?id=${item.productId}`;
 					}
 					
-					productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}${item.thumbnail}`);				
+					productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);				
 					
 					productItem.find('img[name=thumnail]').bind('click', productDetailMove);
 					
