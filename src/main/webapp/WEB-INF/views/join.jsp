@@ -10,7 +10,7 @@
 <script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="./js/ajax.js"></script> <!-- ajax 구현 -->
 </head>
-<body>
+<body class="d-flex align-items-center py-4 bg-light" style="background-color: #f8f9fa;">
 
 <%
   String type = request.getParameter("type");

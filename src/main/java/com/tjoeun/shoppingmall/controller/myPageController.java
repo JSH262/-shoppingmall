@@ -116,6 +116,7 @@ public class myPageController
 	
 	    if (!matcher.matches()) {
 	    	response.getWriter().write("4");
+	    	return;
 	    }
 			
 		UsersVO vo = new UsersVO(id, password1);

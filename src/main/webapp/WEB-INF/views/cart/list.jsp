@@ -15,15 +15,11 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
-<%-- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/> --%>
+<%@ include file="/WEB-INF/component/header/common.jsp" %>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
-
-<%-- <script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script> --%>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/cart/cart.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.css"/>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <script>
        function productAmount(node, value)
        {
@@ -216,7 +212,7 @@
 	            <input type="hidden" id="userId" name="userId" value="<%= user.getId() %>">
 	            <input type="hidden" id="productId" name="productId" value="<%= productId %>">
 	            <input class="btn btn-primary" type="button" value="적용하기" onclick="updateAmount(this)" />
-	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct()" />
+	            <input class="btn btn-primary" type="button" value="삭제하기" onclick="deleteProduct(this)" />
             </span>
         </div>
         <div class="col-md-1">                  
@@ -234,35 +230,6 @@
 <!-- 상품 컨테이너 끝 -->
 <%
 	}
-%>
-<!-- from사용 -->
-<%-- 
-<%
-    StringBuilder productIdsBuilder = new StringBuilder();
-    for (int i = 0; i < count; i++) {
-        Integer productId = vo.get(i).getProductId();
-        productIdsBuilder.append(productId);
-        if (i != count - 1) {
-            productIdsBuilder.append(",");
-        }
-    }
-    String productIds = productIdsBuilder.toString();
-%>
-<!-- 버튼 -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form action="order.jsp" method="get">
-                <input type="hidden" name="ProductIds" value="<%= productIds %>" />
-                <input class="btn btn-primary" type="submit" value="결제하기" />
-            </form>
-        </div>
-    </div>
-</div>
- --%>
- 
- <!--  onclick 사용 -->
- <%
     // 변수를 선언하여 productid 값을 모두 저장
     StringBuilder productIdsBuilder = new StringBuilder();
     for (int i = 0; i < count; i++) {
@@ -278,7 +245,7 @@
 <!-- 선택 상품 결제하기 버튼 -->
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-bottom: 20px;">
             <input type="hidden" name="ProductIds" value="<%= productIds %>" />
             <!-- 주석부분이 실사용(경로) -->
             <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
@@ -288,34 +255,7 @@
     </div>
 </div>
 
-<div id="messageModal" class="modal fade" role="dialog" aria-hidden="true">
-	<div class="vertical-alignment-helper">
-		<div class="modal-dialog vertical-align-center">
-			<!-- 모달 창의 종류(색상)를 설정한다. -->
-			<!-- messageCheck라는 id를 추가하고 class를 제거한다. -->
-			<div id="messageCheck">
-				<div class="modal-header panel-heading">
-					<button class="close" type="button" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span>
-						<span class="sr-only">Close</span>
-					</button>
-					<!-- messageType이라는 id를 추가한다. -->
-					<h4 id="messageType" class="modal-title">
-						<%-- ${messageType} --%>
-					</h4>
-				</div>
-				<!-- messageContent라는 id를 추가한다. -->
-				<div id="messageContent" class="modal-body">
-					<%-- ${messageContent} --%>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
- 
+ <%@ include file="/WEB-INF/component/customAlert.jsp" %>
 
 </body>
 </html>

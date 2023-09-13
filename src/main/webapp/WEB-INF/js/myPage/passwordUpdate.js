@@ -14,6 +14,38 @@ function passwordUpdate() {
 	},
 	success: function(res) {
 		switch (res) {
+			case '0':
+				customAlert.show('비밀번호가 변경되었습니다.', null, 1, function(){
+					location.href="/shoppingmall/myPage/";	
+				});
+				break;
+			case '1':
+				customAlert.show('두 비밀번호의 값이 다릅니다.', '입력하신 내용을 다시 확인해주세요.',1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '2':
+				customAlert.show('값을 입력하고 버튼을 눌러주세요.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '3':
+				customAlert.show('비밀번호를 잘못 입력했습니다.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '4':
+				customAlert.show('비밀번호규칙 불이행.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			}
+		/*
+		switch (res) {
 				case '0':
 					$('#messageType').html('성공 메시지');
 					$('#messageContent').html('비밀번호 변경성공.');
@@ -46,6 +78,7 @@ function passwordUpdate() {
 					break;
 			}
 			$('#messageModal').modal('show');
+			*/
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});

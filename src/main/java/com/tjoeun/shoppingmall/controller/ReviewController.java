@@ -33,10 +33,14 @@ public class ReviewController {
     public String review(@RequestParam String id, RedirectAttributes redirectAttributes)
     {
     	int orderId = Integer.parseInt(id);
-    	if (service.already(orderId) == 1) {
-    		redirectAttributes.addFlashAttribute("message", "이미 작성한 리뷰가 있습니다.");
-    		return "/product/payment/list";
-    	}
+    	
+		
+		if (service.already(orderId) == 1) {
+			redirectAttributes.addFlashAttribute("message","이미 작성한 리뷰입니다.");
+			return "/product/payment/list";
+		}
+		 
+    	
     	return "review";
     }
     
@@ -50,32 +54,21 @@ public class ReviewController {
    		int orderId = Integer.parseInt(request.getParameter("orderId"));
    		float score = Float.parseFloat(request.getParameter("score"));
    		String contents = request.getParameter("contents").trim();
-   		
 
-   		System.out.println("userId: " + userId);
-   		System.out.println("productId: " + productId);
-   		System.out.println("orderId: " + orderId);
-   		System.out.println("score: " + score);
-   		System.out.println("contents: " + contents);
-
+   		if (contents.length() < 5) {
+   			response.getWriter().write("1");
+   			return;
+   		}
    		
    		ReviewVO vo = new ReviewVO(userId, contents, productId, orderId, score);
-   		System.out.println(vo);
-   		
-   		
+
    		int result = service.ReviewInsert(vo);
    		
-   		if (contents.length() < 5) {
-			response.getWriter().write("2");
-			
-			return;
-		}
-   		
    		if (result == 1) {
-   			response.getWriter().write("1"); // �몼
+   			response.getWriter().write("0"); // 占쎈ぜ
    		} else {
    			System.out.println(result);
-   			response.getWriter().write("3"); // �몼
+   			response.getWriter().write("2"); // 占쎈ぜ
    		}
    	}
     
@@ -102,12 +95,11 @@ public class ReviewController {
 
 		ReviewVO vo = new ReviewVO();
 		vo.setId(id);
-		System.out.println(vo.getId());
 		int res = ReviewService.deleteReview(vo);
 		if (res == 1) {
-			response.getWriter().write("0"); // �몼
+			response.getWriter().write("0"); // 占쎈ぜ
 		} else {
-			response.getWriter().write("1"); // �몼
+			response.getWriter().write("1"); // 占쎈ぜ
 		}
 	}
 
