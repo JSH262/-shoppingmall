@@ -24,11 +24,11 @@ div {
 
 <table class="table table-striped table-sm" width="1000" align="center" border="1" cellpadding="6" cellspacing="0">
 	<tr>
-		<th class="h2 text-center" colspan="6" align="center">유저목록</th>
+		<th class="h2 text-center" colspan="6" align="center">USER List</th>
 	</tr>
 	<tr>
 		<td colspan="6" align="right">
-			${usersList.totalCount}(${usersList.currentPage} / ${usersList.totalPage})
+			총 아이디 ${usersList.totalCount}개 (${usersList.currentPage} / ${usersList.totalPage})page/total
 		</td>
 	</tr>
 	<tr>
@@ -37,6 +37,7 @@ div {
 		<th class= "h4 text-center" style="width: 300px;">E-mail</th>
 		<th class= "h4 text-center" style="width: 250px;">핸드폰 번호</th>
 		<th class= "h4 text-center" style="width: 170px;">회사 ID</th>
+		<th class= "h4 " style="width: 50px;">삭제/복구</th>
 	</tr>
 	
 	<c:set var="list" value="${usersList.list}"/>
@@ -51,12 +52,11 @@ div {
 	<c:if test="${list.size() != 0}">
 	<c:forEach var="vo" items="${list}">
 	<tr id="useID">
-	
 		<td align="center">${vo.id}</td>
 		<td>
 			<c:set var="name" value="${fn:replace(vo.name, '<', '&lt;')}"/>
 			<c:set var="name" value="${fn:replace(name, '>', '&gt;')}"/>
-			<a href="userView?id=${vo.id}&currentPage=${usersList.currentPage}">
+			<a class="btn btn-light" href="userView?id=${vo.id}&currentPage=${usersList.currentPage}">
 				${vo.name}
 			</a>	
 								
@@ -73,16 +73,15 @@ div {
 		<td>
 			<c:choose>
 	         <c:when test ="${vo.useYn == 'N'}">
-	            <input class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" value="복구" onclick="location.href='restoreId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	            <input class="btn btn-sm btn-outline-secondary" type="button" value="복구" onclick="location.href='restoreId?id=${vo.id}&currentPage=${usersList.currentPage}'">
 	         </c:when>
 	         <c:when test = "${vo.useYn == 'Y'}">
-	            <input class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
+	            <input class="btn btn-sm btn-outline-secondary" type="button" value="삭제" onclick="location.href='deleteId?id=${vo.id}&currentPage=${usersList.currentPage}'">
 	         </c:when>
 	         <c:otherwise>
 	            ${vo.useYn}
 	         </c:otherwise>
 	      </c:choose>		
-		<td>
 		</td>
 	</tr>
 	</c:forEach>
@@ -92,7 +91,7 @@ div {
 		<td colspan="5" align="center">
 			<c:if test="${usersList.currentPage > 1}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					title="첫 페이지로 이동합니다." 
 					onclick="location.href='?currentPage=1'"
@@ -100,7 +99,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.currentPage <= 1}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					disabled="disabled" 
 					title="이미 첫 페이지 입니다."
@@ -109,7 +108,7 @@ div {
 			
 			<c:if test="${usersList.startPage > 1}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					title="이전 10페이지로 이동합니다." 
 					onclick="location.href='?currentPage=${usersList.startPage - 1}'"
@@ -117,7 +116,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.startPage <= 1}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					disabled="disabled" 
 					title="이미 첫 10페이지 입니다."
@@ -130,7 +129,7 @@ div {
 				</c:if>
 				<c:if test="${usersList.currentPage != i}">
 					<button 
-						class="btn btn-sm btn-outline-secondary dropdown-toggle"
+						class="btn btn-sm btn-outline-secondary"
 						type='button' 
 						title="${i}페이지로 이동합니다."
 						onclick="location.href='?currentPage=${i}'"
@@ -140,7 +139,7 @@ div {
 			
 			<c:if test="${usersList.endPage < usersList.totalPage}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					title="다음 10페이지로 이동합니다." 
 					onclick="location.href='?currentPage=${usersList.endPage + 1}'"
@@ -148,7 +147,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.endPage >= usersList.totalPage}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					disabled="disabled" 
 					title="이미 마지막 10페이지 입니다."
@@ -157,7 +156,7 @@ div {
 			
 			<c:if test="${usersList.currentPage < usersList.totalPage}">
 			<button
-				class="btn btn-sm btn-outline-secondary dropdown-toggle"
+				class="btn btn-sm btn-outline-secondary"
 				type="button" 
 				title="마지막 페이지로 이동합니다." 
 				onclick="location.href='?currentPage=${usersList.totalPage}'"
@@ -165,7 +164,7 @@ div {
 			</c:if>
 			<c:if test="${usersList.currentPage >= usersList.totalPage}">
 				<button 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" 
 					disabled="disabled" 
 					title="이미 마지막 페이지 입니다."

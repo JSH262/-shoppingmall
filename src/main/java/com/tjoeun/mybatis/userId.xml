@@ -20,7 +20,7 @@
 		-->
 		select * from (
 			select rownum rnum, AA.* from (
-				select * from users order by id desc
+				select * from users order by id asc
 			) AA
 		) where rnum between #{startNo} and #{endNo}
 	</select>

@@ -96,14 +96,14 @@
 			<td colspan="4" align="center">
 				<input
 					
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="submit" 
 					value="수정하기"/>
 					<c:choose>
 			         <c:when test ="${vo.useYn == 'N'}">
 			            <input 
 			            	
-			            	class="btn btn-sm btn-outline-secondary dropdown-toggle"
+			            	class="btn btn-sm btn-outline-secondary"
 			            	type="button" 
 			            	value="복구하기" 
 							onclick="location.href='restoreId?id=${vo.id}&currentPage=${currentPage}'"/>
@@ -111,7 +111,7 @@
 			         <c:when test = "${vo.useYn == 'Y'}">
 			            <input 
 			            
-			            	class="btn btn-sm btn-outline-secondary dropdown-toggle"
+			            	class="btn btn-sm btn-outline-secondary"
 			            	type="button" 
 			            	value="삭제하기" 
 							onclick="location.href='deleteId?id=${vo.id}&currentPage=${currentPage}'"/>
@@ -121,7 +121,7 @@
 			         </c:otherwise>
 			      </c:choose>
 				<input 
-					class="btn btn-sm btn-outline-secondary dropdown-toggle"
+					class="btn btn-sm btn-outline-secondary"
 					type="button" value="돌아가기" 
 					onclick="location.href='adminPage?currentPage=${currentPage}'"/>
 			</td>
