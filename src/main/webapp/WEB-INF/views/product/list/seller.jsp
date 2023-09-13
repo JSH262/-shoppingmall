@@ -37,6 +37,11 @@
 				background-color: crimson;
 				color: white;
 			}
+			
+			table {
+				max-width:1200px;
+				margin: auto;
+			}
 		</style>
 	</head>
 	<body>
@@ -45,14 +50,16 @@
 		<%--https://getbootstrap.kr/docs/5.2/content/tables/ --%>
 		<table class="table table-striped" <%-- border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;" --%>>
 			<thead>
+				<%--
 				<tr>
 					<th colspan="8">
 						등록한 상품 목록
 					</th>
 				</tr>
+				 --%>
 				<tr>
 					<td colspan="8" align="right">
-						<input type="button" id="registerProduct" value="상품 등록하기" />
+						<input class="btn btn-outline-primary" type="button" id="registerProduct" value="상품 등록하기" />
 					</td>
 				</tr>
 				<tr>
@@ -63,8 +70,10 @@
 							<option value="categoryId">상품 종류</option>
 						</select>
 						 --%>
-						<input type="text" id="searchValue" />
-						<input type="button" id="searchProduct" value="검색" />
+						<div class="input-group justify-content-end">
+							<input class="form-control" style="max-width:300px;" type="text" id="searchValue" />
+							<input class="btn btn-outline-info" type="button" id="searchProduct" value="검색" />
+						</div>
 					</td>
 				</tr>
 				<tr>

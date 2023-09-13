@@ -79,6 +79,19 @@ public class ProductDetailController
 			delivery = "";
 		
 		
+		if(vo.getCntReview() != null && vo.getCntReview() > 0)
+		{
+			int cntStar = (int)Math.floor(vo.getAvgReviewScore());
+			int cntHalfStar = vo.getAvgReviewScore() - cntStar > 0.0 ? 1 : 0;
+			int cntEmptyStar = 5 - cntStar - cntHalfStar;
+			
+			model.addAttribute("cntStar", cntStar);
+			model.addAttribute("cntHalfStar", cntHalfStar);
+			model.addAttribute("cntEmptyStar", cntEmptyStar);
+		}
+		
+		
+		
 		if(user != null && user.getType().equals(UsersType.SELLER))
 		{
 			if(vo.getSellerId().equals(user.getId()))

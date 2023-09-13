@@ -17,6 +17,7 @@
 			document.contextPath = "<%=request.getContextPath() %>";
 		</script>
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
+		<script src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/detail/buyer.js"></script>
 		
 		<style>
@@ -56,12 +57,7 @@
 				margin-top: 100px;
 			}
 			
-			
-			span[name=score], span[name=review] {
-				opacity: 0.0;
-			}
-			
-						
+									
 			input[name=amount] {
 				width: 40px;
 				text-align: center;
@@ -143,8 +139,25 @@
 		 			</div>
 		 			<div class="row">
 		 				<div class="col-sm-12">
-							<span name="score">★★★★☆</span>
-							<span name="review">(1,000)</span>
+							<span class="text-warning" name="score">
+								<c:forEach var="item" begin="1" end="${cntStar }" step="1">
+									<i class="bi bi-star-fill"></i>
+								</c:forEach>
+								<c:forEach var="item" begin="1" end="${cntHalfStar}" step="1">
+									<i class="bi bi-star-half"></i>
+								</c:forEach>
+								<c:forEach var="item" begin="1" end="${cntEmptyStar }" step="1">
+									<i class="bi bi-star"></i>
+								</c:forEach>
+							</span>
+							<c:choose>
+								<c:when test="${product.cntReview > 0 }">
+									<span name="review">(${product.cntReview })</span>
+								</c:when>
+								<c:otherwise>
+									<span name="review"></span>
+								</c:otherwise>
+							</c:choose>
 						</div>
 		 			</div>
 		 			<div class="row">
@@ -168,7 +181,7 @@
 					</div>
 		 		</div>
 		 	</div>
-		 	<div class="row pt-3 pb-3 bg-light" style="position: sticky; top:60px;">
+		 	<div class="row pt-3 pb-3 bg-light" name="productDetailMenu" style="position: sticky; top:60px;">
 		 		<div class="col-md-6">
 			 		<span class="input-group mb-3 justify-content-end">
 						<label class="input-group-text" for="amount">수량</label>
@@ -222,6 +235,7 @@
 			<input type="hidden" name="productId" value="${product.id }">
 		</form>
 		
+		<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 		<input type="hidden" id="sellerId" name="sellerId" value="${product.sellerId }" />
 		<input type="hidden" id="contextPath" name="contextPath" value="<%=request.getContextPath() %>" />
 		<input type="hidden" id="id" name="id" value="${product.id }" />

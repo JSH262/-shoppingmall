@@ -10,19 +10,12 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 		
 		<style>
-		  table {
-		    width: 90%;
-		    border: 1px solid #444444;
-		    border-collapse: collapse;
-		    text-align: center;
-		    margin-bottom: 30px;
-		  }
-		  th, td {
-		    border: 1px solid #444444;
-		    padding: 10px;
-		  }
 		  img {
 		  	height: 500px;
+		  }
+		  table {
+		  	max-width:1200px;
+		  	margin: auto;
 		  }
 		</style>
 		
@@ -30,18 +23,22 @@
 	<body>
 		<%@ include file="/WEB-INF/component/header.jsp" %>
 	
+		<!-- 
 		<h1 style="text-align: center;margin-top:30px;">결제목록</h1>
-		<table border="1" align="center">
-			<tr id="tableHeader" align="center">
-				<th>주문번호</th>
-				<th>주문 상품 정보</th>
-				<th>합계</th>
-				<th>상품수량</th>
-				<th>상품가격</th>
-				<th>배송비</th>
-				<th>주문상태</th>				
-			</tr>
-			<tbody id="list">
+		 -->
+		<table class="table table-sm table-hover table-bordered">
+			<thead>
+				<tr id="tableHeader" >
+					<th scope="col">주문번호</th>
+					<th scope="col">주문 상품 정보</th>
+					<th scope="col">합계</th>
+					<th scope="col">상품수량</th>
+					<th scope="col">상품가격</th>
+					<th scope="col">배송비</th>
+					<th scope="col">주문상태</th>				
+				</tr>
+			</thead>
+			<tbody id="list" class="table-group-divider">
 				
 			</tbody>
 		</table>

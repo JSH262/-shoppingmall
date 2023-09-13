@@ -8,6 +8,14 @@
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/breakdown/list.js"></script>
 							
+							
+		<style>
+			table {
+				max-width:1200px;
+				margin:auto;
+			}
+		</style>
+							
 	</head>
 	<body>
 		<%@ include file="/WEB-INF/component/header.jsp" %>
@@ -16,7 +24,7 @@
 				<thead>
 			   		<tr align="center">
 			   			<th scope="col" colspan="12">
-			   				총 판매금액: 100,000원 
+			   				총 판매금액: ${totalSellPrice}원 
 			   			</th>
 			   		</tr>
 			   		<tr>

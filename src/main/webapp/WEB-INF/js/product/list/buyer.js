@@ -109,6 +109,39 @@ $(() => {
 						else
 							productItem.find('div[name=companyName]').text('');
 						
+						
+						if(item.cntReview && item.cntReview > 0)
+						{
+							//<span name="score">★★★★☆</span>  
+							//<span name="review">1,000건</span>
+							let scoreNode = productItem.find('span[name=score]');
+							let reviewNode = productItem.find('span[name=review]');
+							
+							let cntStar = parseInt(5 - item.avgReviewScore);
+							let cntStarHalf = item.avgReviewScore - cntStar > 0 ? 1 : 0;
+							let cntStarEmpty = 5 - cntStar - cntStarHalf;
+							
+							scoreNode.addClass('text-warning');
+							
+							for(let i = 0; i<cntStar; i++)
+							{
+								scoreNode.append(`<i class="bi bi-star-fill"></i>`);
+							}
+							
+							for(let i = 0; i<cntStarHalf; i++)
+							{
+								scoreNode.append(`<i class="bi bi-star-half"></i>`);
+							}
+							
+							for(let i = 0; i<cntStarEmpty; i++)
+							{
+								scoreNode.append(`<i class="bi bi-star"></i>`);
+							}
+							
+							reviewNode.text(`${item.cntReivew} 건`);
+						}
+						
+						
 						$("#list").append(productItem);
 					}
 							
@@ -119,11 +152,19 @@ $(() => {
 					let prevNode = null;
 					if(pagination.startPage == 1)
 					{
-						prevNode = $(`<span class="page-number page-number-current">이전</span>`);
+						prevNode = $(`
+							<li class="page-item disabled">
+								<a class="page-link">이전</a>
+							</li>
+						`);
 					}
 					else
 					{
-						prevNode = $(`<span class="page-number">이전</span>`);
+						prevNode = $(`
+							<li class="page-item">
+								<a class="page-link" href="#">이전</a>
+							</li>
+						`);
 						prevNode.bind('click', function() {
 							successSearchData(pagination.startPage - 1, pageSize, searchCategoryId, searchProductName);
 						});
@@ -137,11 +178,17 @@ $(() => {
 						
 						if(i == currentPage)
 						{
-							node = $(`<span class="page-number page-number-current">${i}</span>`);	
+							//node = $(`<span class="page-number page-number-current">${i}</span>`);	
+							node = $(`
+								<li class="page-item active" aria-current="page">
+									<a class="page-link">${i}</a>
+								</li>
+							`);
 						}
 						else
 						{
-							node = $(`<span class="page-number">${i}</span>`);		
+							//node = $(`<span class="page-number">${i}</span>`);		
+							node = $(`<li class="page-item"><a class="page-link" href="#">${i}</a></li>`);
 							node.bind('click', function() {
 								successSearchData(i, pageSize, searchCategoryId, searchProductName);
 							});	
@@ -154,14 +201,22 @@ $(() => {
 					let nextNode = null;
 					if(pagination.endPage < pagination.totalPage)
 					{
-						nextNode = $(`<span class="page-number">다음</span>`);
+						nextNode = $(`
+							<li class="page-item">
+								<a class="page-link" href="#">다음</a>
+							</li>
+						`);
 						nextNode.bind('click', function() {
 							successSearchData(pagination.endPage + 1, pageSize, searchCategoryId, searchProductName);
 						});
 					}
 					else
 					{
-						nextNode = $(`<span class="page-number page-number-current">다음</span>`);
+						nextNode = $(`
+							<li class="page-item disabled">
+								<a class="page-link">다음</a>
+							</li>
+						`);
 					}
 					
 					$("#pagination").append(nextNode);

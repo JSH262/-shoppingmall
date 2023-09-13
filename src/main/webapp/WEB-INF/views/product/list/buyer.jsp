@@ -74,7 +74,15 @@
 				box-shadow: 11px 14px 20px 13px rgba(0,0,0, .2);
 			}
 			
+			<%--
+			
 			span[name=score], span[name=review], span[name=review-bookmark-bar], span[name=bookmark], span[name=bookmarkCnt] {
+				opacity: 0.0;
+			}
+			
+			--%>
+			
+			span[name=review-bookmark-bar], span[name=bookmark], span[name=bookmarkCnt] {
 				opacity: 0.0;
 			}
 
@@ -182,11 +190,12 @@
 				<hr class="h-line" />
 			</div>
 		</div>
-		<div id="pagination">
-						
-		</div>
-		
-		<input type="hidden" id="searchProductName" name="searchProductName" value="${productName }" /> 
+	<div style="display:flex; justify-content: center;">
+		<ul id="pagination" class="pagination">
+		</ul>
+	</div>
+
+	<input type="hidden" id="searchProductName" name="searchProductName" value="${productName }" /> 
 		<input type="hidden" id="productCategoryId" name="productCategoryId" value="${productCategoryId }" /> 
 		<input type="hidden" id="contextPath" name="contextPath" value="${pageContext.request.contextPath }" />
 		<input type="hidden" id="currentPage" name="currentPage" value="${currentPage }" />

@@ -76,18 +76,23 @@ $(() => {
 					let reviewNode = npTmp.find("h6[name=review]");
 					const cntMaxStar = 5;
 					let cntStarFill = parseInt(item.avgReviewScore);
-					let cntStarHalf = cntMaxStar - cntStarFill;
+					let cntStarHalf = cntMaxStar - item.avgReviewScore > 0 ? 1: 0;
+					let cntStarEmpty = 5 - cntStarFill - cntStarHalf
 					
 					for(let i = 0; i<cntStarFill; i++)
 					{
-						reviewNode.append(`<i class="bi bi-star-fill"></i>`);
+						reviewNode.append(`<i class="bi bi-star-fill text-warning"></i>`);
 					}
 					
 					for(let i = 0; i<cntStarHalf; i++)
 					{
-						reviewNode.append(`<i class="bi bi-star-half"></i>`);
+						reviewNode.append(`<i class="bi bi-star-half text-warning"></i>`);
 					}
 					
+					for(let i = 0; i<cntStarEmpty; i++)
+					{
+						reviewNode.append(`<i class="bi bi-star text-warning"></i>`);
+					}
 					
 					reviewNode.append(`<span class="fs-6"> (${item.cntReview})</span>`);
 				}

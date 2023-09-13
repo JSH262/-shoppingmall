@@ -31,7 +31,7 @@ public class LoginChkUrl
 		new LoginChkUrlData("/product/insert", null, new String[] {UsersType.SELLER}, "/login"),
 		new LoginChkUrlData("/product/detail", null, null, null),
 		new LoginChkUrlData("/product/breakdown/modify", null, new String[] {UsersType.SELLER, UsersType.BUYER}, "/error/login"),
-		new LoginChkUrlData("/product/breakdown/list", null, new String[] {UsersType.SELLER}, "/error/login"),
+		new LoginChkUrlData("/product/breakdown/list", null, new String[] {UsersType.SELLER}, "/login"),
 		new LoginChkUrlData("/product/review/list", null, null, "/index"),		
 		new LoginChkUrlData("/logout", null, null, null),
 		new LoginChkUrlData("/destaddr/selected", null, new String[] {UsersType.BUYER}, "/error/login"),

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,6 +18,7 @@ import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
 import com.tjoeun.helper.Util;
 import com.tjoeun.shoppingmall.service.ProductOrderService;
+import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 import com.tjoeun.shoppingmall.vo.ProductPagingVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
@@ -27,10 +29,19 @@ public class ProductBreakdownListController
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
+	ProductService productService;
+	
+	@Autowired
 	ProductOrderService productOrderService;
 	
 	@RequestMapping(value="/product/breakdown/list", method=RequestMethod.GET)
-	protected String productBreakdownList(HttpServletRequest request, HttpServletResponse response) {
+	protected String productBreakdownList(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		
+		String sellerId = AttributeName.getUserId(request);
+		
+		model.addAttribute("totalSellPrice", productService.totalProductSellPrice(sellerId));
+		
 		return "product/breakdown/list";
 	}
 	

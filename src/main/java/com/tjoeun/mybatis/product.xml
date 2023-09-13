@@ -124,34 +124,42 @@
 	<select id="select" parameterType="ProductVO" resultType="ProductVO">
 		select
 			<if test="choose == null">
-				*
+				p.*, r.*
 			</if>
 			<if test="choose != null and choose == 'detail'">
-				id, name, discount, price, category_id, to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, delivery_price, amount,
-				contents,
-				thumbnail,
+				p.id, p.name, p.discount, p.price, p.category_id, 
+				to_char(p.create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
+				p.delivery_price, p.amount,
+				p.contents,
+				p.thumbnail,
 				
-				price - price * (discount / 100) as discount_price,				
-				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
-				to_char(price, 'FM999,999,999') || '원' fmt_price,
-				discount || '%' fmt_discount,
+				p.price - p.price * (p.discount / 100) as discount_price,				
+				to_char(p.amount, 'FM999,999,999') || '개' fmt_amount,
+				to_char(p.price, 'FM999,999,999') || '원' fmt_price,
+				p.discount || '%' fmt_discount,
 				
-				case delivery_price
+				case p.delivery_price
 					when 0 then '무료배송'
-					else to_char(delivery_price, 'FM999,999,999') || '원'
+					else to_char(p.delivery_price, 'FM999,999,999') || '원'
 				end fmt_delivery_price,
 				
-				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
-				seller_id,
-				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name
+				to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				p.seller_id,
+				(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
+				r.cnt_review,
+				r.avg_review_score
 			</if>
-		from product
+		from 
+			product p 
+				left join 
+			(select product_id, count(id) cnt_review, avg(score) avg_review_score from review group by product_id) r 
+				on p.id = r.product_id 
 		where id = #{id} 
 			<if test="useYn != null">
-				and use_yn = #{useYn}
+				and p.use_yn = #{useYn}
 			</if>
 			<if test="useYn == null">
-				and use_yn = 'Y'
+				and p.use_yn = 'Y'
 			</if>
 	</select>
 	
@@ -232,6 +240,14 @@
 		from review
 		where product_id = #{id}
 	</select>
+
+
+	<select id="totalProductSellPrice" parameterType="ProductVO" resultType="java.lang.String">
+		select to_char(sum(product_price), 'FM999,999,999')
+		from product_order
+		where seller_id = #{sellerId}
+		group by seller_id
+	</select>	
 		
 </mapper>
 

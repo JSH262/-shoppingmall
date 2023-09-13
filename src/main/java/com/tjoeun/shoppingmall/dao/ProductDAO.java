@@ -20,6 +20,8 @@ public interface ProductDAO {
 	
 	public List<ReviewVO> selectProductReview(ProductVO params);
 	public Integer selectProductReviewCount(ProductVO params);
+
+	public String totalProductSellPrice(ProductVO params);
 }
 
 

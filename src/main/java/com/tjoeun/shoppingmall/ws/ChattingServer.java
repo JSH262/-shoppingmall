@@ -24,15 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.tjoeun.helper.Util;
+import com.tjoeun.shoppingmall.config.ServerEndpointConfigurator;
 import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
-
-
 @Controller
-@ServerEndpoint("/chatting")
+@ServerEndpoint(value="/chatting", configurator = ServerEndpointConfigurator.class)
 public class ChattingServer 
 {
 	private static Map<Session, WsInfoData> clients = Collections.synchronizedMap(new HashMap<Session, WsInfoData>());
@@ -169,30 +168,41 @@ public class ChattingServer
 			
 			case PRODUCT_DATA:
 				{
-					String id = (String)jMsg.get("id");	
-					String roomId = (String)jMsg.get("roomId");
-					Long productId = (Long)jMsg.get("productId");
-					WsInfoData wsInfo = clients.get(session);
-					ProductVO productInfo = productService.select(productId);
-					JSONObject sendMsg = new JSONObject();
 					
-					/*
-					sendMsg.put("deliveryPrice", productInfo.getDeliveryPrice());
-					sendMsg.put("discount", productInfo.getDiscount());
-					sendMsg.put("price", productInfo.getPrice());
-					sendMsg.put("amount", productInfo.getAmount());
-					*/
-					
-					sendMsg.put("id", id);
-					sendMsg.put("roomId", roomId);
-					sendMsg.put("link", "/product/detail?id=" + productId);
-					sendMsg.put("name", productInfo.getName());
-					sendMsg.put("code", ResponseCode.PRODUCT_DATA_SUCCESS.getCode());
-					wsInfo.sendAllRoomMessage(id, sendMsg);
-					
-					logger.info(sendMsg.toJSONString());
-					
-					retval = null;
+					if(this.productService != null)
+					{
+						String id = (String)jMsg.get("id");	
+						String roomId = (String)jMsg.get("roomId");
+						Long productId = (Long)jMsg.get("productId");
+						WsInfoData wsInfo = clients.get(session);
+						
+						logger.info(String.format("%s, %s, %d", id, roomId, productId));
+						
+						ProductVO productInfo = productService.select(productId);
+						JSONObject sendMsg = new JSONObject();
+						
+						/*
+						sendMsg.put("deliveryPrice", productInfo.getDeliveryPrice());
+						sendMsg.put("discount", productInfo.getDiscount());
+						sendMsg.put("price", productInfo.getPrice());
+						sendMsg.put("amount", productInfo.getAmount());
+						*/
+						
+						sendMsg.put("id", id);
+						sendMsg.put("roomId", roomId);
+						sendMsg.put("link", "/product/detail?id=" + productId);
+						sendMsg.put("name", productInfo.getName());
+						sendMsg.put("code", ResponseCode.PRODUCT_DATA_SUCCESS.getCode());
+						wsInfo.sendAllRoomMessage(id, sendMsg);
+						
+						logger.info(sendMsg.toJSONString());
+						
+						retval = null;
+					}
+					else
+					{
+						logger.error("productService is null");
+					}
 				}
 				break;
 			

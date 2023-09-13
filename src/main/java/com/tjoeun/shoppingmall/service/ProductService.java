@@ -288,4 +288,28 @@ public class ProductService
 		
 		return retval;
 	}
+	
+	public String totalProductSellPrice(String sellerId)
+	{
+		ProductVO params = new ProductVO();
+		String retval = null;
+		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
+		
+		params.setSellerId(sellerId);
+		
+		try
+		{
+			ProductDAO dao = th.getMapper(ProductDAO.class);
+			
+			retval = dao.totalProductSellPrice(params);
+			//th.commit();
+		}
+		catch(Exception exp)
+		{
+			//th.rollback();
+			log.error("", exp);
+		}
+		
+		return retval;
+	}
 }

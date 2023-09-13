@@ -76,7 +76,7 @@ $(() => {
 				let btnOrderCancel = node.find('input[name=orderCancel]');
 				let btnProductExchange = node.find('input[name=productExchange]');
 				let btnProductReturns = node.find('input[name=productReturns]');
-				let btnComplete= node.find('input[name=complete]');
+				let btnComplete = node.find('input[name=complete]');
 				let btnReview = node.find('input[name=review]');
 				
 				
@@ -231,6 +231,7 @@ $(() => {
 										if(resp.code == 0)
 										{
 											productDeliveryComplete(item);
+											btnReview.removeClass('invisible');
 											setStatusName("거래완료");
 											customAlert.show("구매결정이 완료되었습니다.", null, 1);
 										}
