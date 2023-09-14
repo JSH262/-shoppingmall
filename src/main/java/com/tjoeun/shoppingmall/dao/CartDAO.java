@@ -7,15 +7,16 @@ import com.tjoeun.shoppingmall.vo.CartVO;
 
 public interface CartDAO 
 {
+	public int insert(CartVO vo);	
 	public List<CartVO> selectList(CartVO vo);
-	public int isRow(CartVO vo);
-	public int insert(CartVO vo);
-	public int delete(CartVO vo);
-	public int update(CartVO vo);
 	public int count(String userId);
+	public int isRow(CartVO vo);
+	public int update(CartVO vo);
+	public int delete(CartVO vo);
 	public List<CartVO> productIds(CartVO item);
 	public int updateAmount(CartVO co);
-	public int deleteProduct(CartVO co);
+	
+	//public int deleteProduct(CartVO co);
 }
 
 /*

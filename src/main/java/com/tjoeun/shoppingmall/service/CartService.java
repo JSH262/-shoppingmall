@@ -217,7 +217,7 @@ public class CartService
 		int result = 0;
 		try {
 			CartDAO dao = th.getMapper(CartDAO.class);
-			dao.deleteProduct(co);
+			dao.delete(co);
 	        th.commit();
 			result = 0;
 		} catch (Exception e) {

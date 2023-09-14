@@ -25,7 +25,7 @@
 					where type = 'P' and id = p.category_id
 					start with pid is null
 					connect by prior id = pid) category_name,
-				r.avg_reivew_score,
+				r.avg_review_score,
 				r.cnt_review	
 			</if>
 			<if test="choose != null and choose == 'detail'">
@@ -96,7 +96,7 @@
 				from review 
 				group by product_id) r
 			on p.id = r.product_id
-		where rnum <![CDATA[ >= ]]> #{startNo}
+		where p.rnum <![CDATA[ >= ]]> #{startNo}
 	</select>
 	
 	

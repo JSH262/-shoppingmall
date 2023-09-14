@@ -48,20 +48,33 @@ $(() => {
 					let tr = $('<tr>');
 											
 					//tr.append(`<td>${item.id}</td>`);
-					tr.append(`<td align="center">${item.rnum}</td>`);
-					tr.append(`<td align="center">${item.categoryName}</td>`);				
-					tr.append(`<td align="center"><a href="${CONTEXT_PATH}/product/detail?id=${item.id}&pageSize=${pageSize}&currentPage=${currentPage}">${item.name}</a></td>`);				
+					tr.append(`<td align="left">${item.rnum}</td>`);
+					tr.append(`<td align="left">${item.categoryName}</td>`);
+					tr.append(`<td align="left"><a href="${CONTEXT_PATH}/product/detail?id=${item.id}&pageSize=${pageSize}&currentPage=${currentPage}">${item.name}</a></td>`);				
 					
 					if(item.amount != 0)
-						tr.append(`<td align="center">${item.fmtAmount}</td>`);
+						tr.append(`<td align="left">${item.fmtAmount}</td>`);
 					else
-						tr.append(`<td class="product-sold-out" align="center">${item.fmtAmount}</td>`);
+						tr.append(`<td class="product-sold-out" align="left">${item.fmtAmount}</td>`);
+					
+					tr.append(`<td align="left">${item.fmtPrice}</td>`);
+					tr.append(`<td align="left">${item.fmtDiscount}</td>`);
+					tr.append(`<td align="left">${item.fmtDeliveryPrice}</td>`);
+					
+					if(item.cntReview && item.cntReview > 0)
+					{
+						tr.append(`<td align="left">${item.avgReviewScore.toFixed(2)}</td>`);
+						tr.append(`<td align="left">${item.cntReview}</td>`);	
+					}
+					else
+					{
+						tr.append(`<td align="left">0</td>`);
+						tr.append(`<td align="left">0</td>`);
+					}
 					
 					
-					tr.append(`<td align="center">${item.fmtPrice}</td>`);
-					tr.append(`<td align="center">${item.fmtDiscount}</td>`);
-					tr.append(`<td align="center">${item.fmtDeliveryPrice}</td>`);
-					tr.append(`<td align="center">${item.createDate}</td>`);
+					
+					tr.append(`<td align="left">${item.createDate}</td>`);
 					
 					$("#list").append(tr);
 				}
@@ -74,11 +87,11 @@ $(() => {
 				let prevNode = null;
 				if(pagination.startPage == 1)
 				{
-					prevNode = $(`<span class="page-number page-number-current">이전</span>`);
+					prevNode = $(`<li class="page-item disabled"><span class="page-link">이전</span></li>`);
 				}
 				else
 				{
-					prevNode = $(`<span class="page-number">이전</span>`);
+					prevNode = $(`<li class="page-item"><span class="page-link">이전</span></li>`);
 					prevNode.bind('click', function() {
 						successSearchData(pagination.startPage - 1, pageSize, searchCategory, searchValue);
 					});
@@ -92,11 +105,11 @@ $(() => {
 					
 					if(i == currentPage)
 					{
-						node = $(`<span class="page-number page-number-current">${i}</span>`);	
+						node = $(`<li class="page-item active"><span class="page-link">${i}</span></li>`);	
 					}
 					else
 					{
-						node = $(`<span class="page-number">${i}</span>`);		
+						node = $(`<li class="page-item"><span class="page-link">${i}</span></li>`);		
 						node.bind('click', function() {
 							successSearchData(i, pageSize, searchCategory, searchValue);
 						});	
@@ -109,14 +122,14 @@ $(() => {
 				let nextNode = null;
 				if(pagination.endPage < pagination.totalPage)
 				{
-					nextNode = $(`<span class="page-number">다음</span>`);
+					nextNode = $(`<li class="page-item"><span class="page-link">다음</span></li>`);
 					nextNode.bind('click', function() {
 						successSearchData(pagination.endPage + 1, pageSize, searchCategory, searchValue);
 					});
 				}
 				else
 				{
-					nextNode = $(`<span class="page-number page-number-current">다음</span>`);
+					nextNode = $(`<li class="page-item disabled"><span class="page-link">다음</span></li>`);
 				}
 				$("#pagination").append(nextNode);
 								

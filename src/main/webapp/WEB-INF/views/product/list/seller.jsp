@@ -58,12 +58,12 @@
 				</tr>
 				 --%>
 				<tr>
-					<td colspan="8" align="right">
+					<td colspan="10" align="right">
 						<input class="btn btn-outline-primary" type="button" id="registerProduct" value="상품 등록하기" />
 					</td>
 				</tr>
 				<tr>
-					<td colspan="8" align="right">
+					<td colspan="10" align="right">
 						<%--
 						<select id="searchCategory">
 							<option value="name">상품 이름</option>
@@ -84,6 +84,8 @@
 					<th>가격</th>
 					<th>할인률</th>
 					<th>배송비</th>
+					<th>평균 평점</th>
+					<th>리뷰 개수</th>
 					<th>등록일</th>
 				</tr>
 			</thead>
@@ -91,8 +93,9 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="8" align="center" id="pagination" height="50px">
-						
+					<td colspan="10" align="center">
+						<ul class="pagination justify-content-center" id="pagination">
+			  			</ul>
 					</td>
 				</tr>
 			</tfoot>			
