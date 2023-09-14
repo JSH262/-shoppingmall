@@ -1,12 +1,12 @@
 <%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@page import="java.util.List"%>
 <%@page import="com.tjoeun.shoppingmall.service.CartService"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.tjoeun.shoppingmall.vo.CartVO"%>
 <%@page import="com.tjoeun.helper.UsersType"%>
 <%@page import="com.tjoeun.shoppingmall.vo.UsersVO"%>
 <%@page import="com.tjoeun.helper.AttributeName"%>
 <%@page import="com.tjoeun.shoppingmall.service.ProductService"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>   
   
@@ -155,14 +155,9 @@
 
 %>
 <body>
+
 <div class="container gap-3 mt-5">
     <div class="row justify-content-center">
-    <%-- 
-        <div class="col-md-1">
-            <!-- 체크박스 추가 -->
-            <input type="checkbox" name="selectedProduct" value="<%= productId %>" />
-        </div>
-         --%>
         <div class="col-md-5">
             <img style="max-width:100%" src="<%= thumbnail %>" />
         </div>
@@ -243,17 +238,29 @@
     String productIds = productIdsBuilder.toString();
 %>
 <!-- 선택 상품 결제하기 버튼 -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6" style="margin-bottom: 20px;">
-            <input type="hidden" name="ProductIds" value="<%= productIds %>" />
-            <!-- 주석부분이 실사용(경로) -->
-            <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
-            <!-- 테스트용 -->
-            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/order'" />
-        </div>
-    </div>
-</div>
+	<c:set var="count" value="<%=count %>"/>
+	<c:if test="${count == 0}">
+		<div class="container gap-3 mt-5">
+	    	<div class="row justify-content-center">
+	    		<h3>장바구니에 담긴 상품이 없습니다!!!</h3>
+	    	</div>
+	    		<input class="btn btn-primary" type="button" value="홈으로 이동" onclick="location.href='<%=request.getContextPath() %>/index'" />
+		</div>
+	</c:if>
+	<c:if test="${count != 0}">
+		<div class="container mt-5">
+		    <div class="row justify-content-center">
+		        <div class="col-md-6" style="margin-bottom: 20px;">
+		            <input type="hidden" name="ProductIds" value="<%= productIds %>" />
+		            <!-- 주석부분이 실사용(경로) -->
+		            <%-- <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='/product/order.jsp?ProductIds=<%= productIds %>'" /> --%>
+		            <!-- 테스트용 -->
+		            <input class="btn btn-primary" type="button" value="결제하기" onclick="location.href='<%=request.getContextPath() %>/product/order'" />
+		        </div>
+		    </div>
+		</div>
+	</c:if>
+
 
  <%@ include file="/WEB-INF/component/customAlert.jsp" %>
 

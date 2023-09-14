@@ -34,6 +34,7 @@ function updateAmount(button) {
 }
 
 function deleteProduct(button) {
+	var parentSpan = $(button).closest('.input-group');
 	var userId = $('#userId').val();
 	var productId = parentSpan.find('input[name=productId]').val();
 	$.ajax({
