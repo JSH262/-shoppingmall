@@ -117,7 +117,7 @@ $(() => {
 							let scoreNode = productItem.find('span[name=score]');
 							let reviewNode = productItem.find('span[name=review]');
 							
-							let cntStar = parseInt(5 - item.avgReviewScore);
+							let cntStar = parseInt(item.avgReviewScore);
 							let cntStarHalf = item.avgReviewScore - cntStar > 0 ? 1 : 0;
 							let cntStarEmpty = 5 - cntStar - cntStarHalf;
 							
@@ -138,7 +138,7 @@ $(() => {
 								scoreNode.append(`<i class="bi bi-star"></i>`);
 							}
 							
-							reviewNode.text(`${item.cntReivew} 건`);
+							reviewNode.text(`${item.cntReview}건`);
 						}
 						
 						

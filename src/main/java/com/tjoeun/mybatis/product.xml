@@ -8,46 +8,52 @@
 		values(product_seq_id.nextval, #{categoryId}, #{name}, #{amount}, #{price}, #{discount}, #{deliveryPrice}, #{contents}, #{thumbnail}, #{sellerId})
 	</insert>
 	
+	<!-- ***************************************************************************************************** -->
+	<!-- 리뷰 조인 -->
 	<select id="selectList" parameterType="ProductVO" resultType="ProductVO">
 		select 
 			<if test="choose != null and choose == 'list'">
-				id, rnum, category_id, name, amount,
-				to_char(amount, 'FM999,999,999') fmt_amount,
-				to_char(price, 'FM999,999,999') fmt_price,
-				discount || '%' fmt_discount,
-				to_char(delivery_price, 'FM999,999,999') fmt_delivery_price,
-				to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
-				seller_id,				
+				p.id, p.rnum, p.category_id, p.name, p.amount,
+				to_char(p.amount, 'FM999,999,999') fmt_amount,
+				to_char(p.price, 'FM999,999,999') fmt_price,
+				p.discount || '%' fmt_discount,
+				to_char(p.delivery_price, 'FM999,999,999') fmt_delivery_price,
+				to_char(p.create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
+				p.seller_id,				
 				(	select name
 					from category c 
-					where type = 'P' and id = category_id
+					where type = 'P' and id = p.category_id
 					start with pid is null
-					connect by prior id = pid) category_name	
+					connect by prior id = pid) category_name,
+				r.avg_reivew_score,
+				r.cnt_review	
 			</if>
 			<if test="choose != null and choose == 'detail'">
-				rnum, id, name, discount, price, category_id, 
-				to_char(create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
-				delivery_price, amount,
-				thumbnail,
-				to_char(amount, 'FM999,999,999') || '개' fmt_amount,
-				to_char(price, 'FM999,999,999') || '원' fmt_price,
-				discount || '%' fmt_discount,
+				p.rnum, p.id, p.name, p.discount, p.price, p.category_id, 
+				to_char(p.create_date, 'YYYY-MM-DD(DY) HH24:MI:SS ') create_date, 
+				p.delivery_price, p.amount,
+				p.thumbnail,
+				to_char(p.amount, 'FM999,999,999') || '개' fmt_amount,
+				to_char(p.price, 'FM999,999,999') || '원' fmt_price,
+				p.discount || '%' fmt_discount,
 				
-				case delivery_price
+				case p.delivery_price
 					when 0 then '무료배송'
-					else to_char(delivery_price, 'FM999,999,999') || '원'
+					else to_char(p.delivery_price, 'FM999,999,999') || '원'
 				end fmt_delivery_price,
 				
-				to_char(price - price * (discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
+				to_char(p.price - p.price * (p.discount / 100), 'FM999,999,999') || '원' fmt_discount_price,
 				
-				(select company.name from company, users where company.id = users.company_id and users.id = seller_id) as company_name,
+				(select company.name from company, users where company.id = users.company_id and users.id = p.seller_id) as company_name,
 				
 				(	select substr(SYS_CONNECT_BY_PATH(name, ' > '), 4)
 					from category c 
-					where type = 'P' and id = category_id
+					where type = 'P' and id = p.category_id
 					start with pid is null
 					connect by prior id = pid) category_name,
-				seller_id		
+				seller_id,
+				r.avg_review_score,
+				r.cnt_review
 			</if>
 			<if test="choose == null or choose == 'all'">
 				*
@@ -84,7 +90,12 @@
 							and use_yn = 'Y'
 						</if>
 						order by id desc) t1
-				where rownum <![CDATA[ <= ]]> #{endNo})
+				where rownum <![CDATA[ <= ]]> #{endNo}) p
+			left join 
+				(select product_id, avg(score) avg_review_score, count(score) cnt_review
+				from review 
+				group by product_id) r
+			on p.id = r.product_id
 		where rnum <![CDATA[ >= ]]> #{startNo}
 	</select>
 	

@@ -159,8 +159,8 @@
 							<div class="product-item">&nbsp;</div>
 							<div class="product-item">&nbsp;</div>
 							<div class="product-item">
-								<span name="score">★★★★☆</span>  
-								<span name="review">1,000건</span>
+								<span name="score"></span>  
+								<span name="review"></span>
 								<span name="review-bookmark-bar">&nbsp;｜&nbsp;</span>
 								<span>
 									<span name="bookmark">♡</span>										
