@@ -121,9 +121,8 @@
 %>
 
 <main class="form-signin w-100 m-auto">
-  <form>
-    <!--	WARN  2023-09-13 15:03:32,595: org.springframework.web.servlet.PageNotFound(1116) - No mapping found for HTTP request with URI [/shoppingmall/myPage/images/logo.png] in DispatcherServlet with name 'appServlet'
-     <img class="mb-4" src="./images/logo.png" alt="" width="72" height="57"> -->
+  <form style="text-align: center;">
+     <img class="mb-4" src="<%=request.getContextPath() %>/images/logo.png" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">비밀번호 확인</h1>
 
     <div class="form-floating">

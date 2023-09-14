@@ -34,7 +34,7 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="./images/logo.png" alt="" width="72" height="57">
+    <img class="d-block mx-auto mb-4" src="<%=request.getContextPath() %>/images/logo.png" alt="" width="72" height="57">
       <h2>회원정보 수정</h2>
     </div>
 
@@ -70,7 +70,7 @@
           </div>
 
 				<input type="hidden" id="userId" value="<%=userId %>">
-				<input class="btn btn-primary" type="button" value="적용하기" 	onclick="userUpdate()"/>
+				<input class="btn btn-primary" style="margin-top: 15px" type="button" value="적용하기" onclick="userUpdate()"/>
         </form>
       </div>
   </main>
