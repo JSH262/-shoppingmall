@@ -15,8 +15,11 @@
 %>
 <head>
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <%@ include file="/WEB-INF/component/header/common.jsp" %>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/reviewList.js"></script>
 
 <title>My 리뷰</title>
@@ -51,10 +54,9 @@
 </style>
 </head>
 <body>
-	<%@ include file="/WEB-INF/component/header.jsp" %>
-
-	<table border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;">
-	<thead>
+	<table class="table table-bordered table-hover" style="width:70%; margin: 0 auto; margin-top: 150px;">
+	<!-- <table class="table-border" border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;"> -->
+	<thead style="text-align: center;">
 		<tr>
 			<th colspan="8">
 				리뷰 목록
@@ -64,7 +66,7 @@
 			<th style="width: 50px;">별점</th>
 			<th style="width: 500px;">내용</th>
 			<th style="width: 100px;">등록일</th>
-			<th style="width: 50px;">삭제</th>
+			<th style="width: 40px;">삭제</th>
 		</tr>
 	</thead>
 	<tbody id="list">
@@ -87,45 +89,21 @@
 				<td align="center">
 					<fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>
 				</td>
-				<td>
+				<td  style="display:block">
 					<%-- <input type="text" id="id" name="id" value="${vo.id}"/> --%>
 					<%-- <input type="button" id="button_${vs.index}" name="button_${vs.index}" value="삭제하기"/> --%>
-					<input type="button" value="삭제하기" onclick="deleteReview('${vo.id}')" />
+					<input  class="btn btn-lg btn-light w-100 mx-0" type="button"  style="text-align:center; display:block; margin: 0 auto;" value="삭제하기" onclick="deleteReview('${vo.id}')" />
 				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
-		<input type="button" onclick="location.href='/shoppingmall/product/payment/list'" value="돌아가기"/>
-
-
-<div id="messageModal" class="modal fade" role="dialog" aria-hidden="true">
-    <div class="vertical-alignment-helper">
-        <div class="modal-dialog vertical-align-center">
-            <div id="messageCheck">
-                <div class="modal-header panel-heading">
-                    <button class="close" type="button" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 id="messageType" class="modal-title">
-                        <%-- ${messageType} --%>
-                    </h4>
-                </div>
-                <div id="messageContent" class="modal-body">
-                    <%-- ${messageContent} --%>
-                </div>
-                <div class="modal-footer">
-                    	<button id="success" class="btn btn-primary" type="button" data-dismiss="modal" 
-                        	    onclick="location.href='<%= request.getContextPath() %>/reviewList.do?userId=<%=userId %>'">확인</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div style="text-align: center; align-content: center; margin-top: 35px; margin-bottom: 10px;">
+		<input class="btn btn-primary" type="button" onclick="location.href='/shoppingmall/product/payment/list'" value="결제목록"/>
+		<input class="btn btn-primary" type="button" onclick="location.href='/shoppingmall/myPage'" value="My page"/>
 </div>
 
-
-	<%@ include file="/WEB-INF/component/footer.jsp" %>
+<%@ include file="/WEB-INF/component/customAlert.jsp" %>
 
 </body>
 </html>	

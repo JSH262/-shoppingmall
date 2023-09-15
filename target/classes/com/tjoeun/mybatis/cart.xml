@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Cart">
+<mapper namespace="com.tjoeun.shoppingmall.dao.CartDAO">
 
 	<insert id="insert" parameterType="CartVO">		
 		insert into cart(user_id, product_id, amount, seller_id)
 		values(#{userId}, #{productId}, #{amount}, #{sellerId})
 	</insert>
 	
+	<!-- nvl2(p.thumbnail, concat('/image/', p.thumbnail), '/resources/default/noimg.png') thumbnail, -->
 	<select id="selectList" parameterType="CartVO" resultType="CartVO">
 	    SELECT 
-	    	c.user_id, c.product_id, c.seller_id,
-	    	
+	    	c.user_id, c.product_id, c.seller_id,	    	
 	    	c.amount,
 	    	p.thumbnail,
 	    	p.name as product_Name,

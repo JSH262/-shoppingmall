@@ -14,38 +14,36 @@ function passwordUpdate() {
 	},
 	success: function(res) {
 		switch (res) {
-				case '0':
-					$('#messageType').html('성공 메시지');
-					$('#messageContent').html('비밀번호 변경성공.');
-					$('#errorMessage').html('비밀번호가 변경되었습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-success');
-					break;
-				case '1':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호 불일치.');
-					$('#errorMessage').html('두 비밀번호의 값이 다릅니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '2':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('값을 입력해주세요');
-					$('#errorMessage').html('값을 입력하고 버튼을 눌러주세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '3':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호를 잘못 입력했습니다.');
-					$('#errorMessage').html('입력하신 내용을 다시 확인해주세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '4':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호규칙 불이행.');
-					$('#errorMessage').html('입력하신 내용을 다시 확인해주세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
+			case '0':
+				customAlert.show('비밀번호가 변경되었습니다.', null, 1, function(){
+					location.href="/shoppingmall/myPage/";	
+				});
+				break;
+			case '1':
+				customAlert.show('두 비밀번호의 값이 다릅니다.', '입력하신 내용을 다시 확인해주세요.',1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '2':
+				customAlert.show('값을 입력하고 버튼을 눌러주세요.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '3':
+				customAlert.show('비밀번호를 잘못 입력했습니다.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
+			case '4':
+				customAlert.show('비밀번호규칙 불이행.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#password1').val('');
+					$('#password2').val('');
+				});
+				break;
 			}
-			$('#messageModal').modal('show');
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});
@@ -66,7 +64,6 @@ function isValidUserPassword() {
 	}
 
 
-//		비밀번호가 일치하는가 확인하는 함수
 	function passwordCheckFunction() {
 		let password1 = $('#password1').val();
 		let password2 = $('#password2').val();

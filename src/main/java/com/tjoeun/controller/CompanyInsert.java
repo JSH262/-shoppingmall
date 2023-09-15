@@ -27,7 +27,6 @@ public class CompanyInsert {
 	
 	@RequestMapping("/CompanyInsert")
 	public void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("액션두");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
@@ -37,13 +36,6 @@ public class CompanyInsert {
 		String Address2 = request.getParameter("Address2").trim();
 		String Stamp = request.getParameter("Stamp").trim();
 		
-		System.out.println(Name);
-		System.out.println(Id);
-		System.out.println(Address1);
-		System.out.println(Address2);
-		System.out.println(Stamp);
-		
-		// 입력 체크
 		if (Name == null || Name.equals("") ||  
 				Id == null || Id.equals("") ||
 				Address1 == null || Address1.equals("") ||
@@ -59,7 +51,6 @@ public class CompanyInsert {
 		if (result == 1) {
 			response.getWriter().write("1"); // ②
 		} else {
-			System.out.println(result);
 			response.getWriter().write("2"); // ②
 		}
 	}

@@ -4,11 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-
-<link rel="icon" href="./images/logo.png"/>
-
-
-
 <%@ include file="/WEB-INF/component/header/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/customAlert.js"></script>
 <script type="text/javascript" src="./js/ajax.js"></script> <!-- ajax 구현 -->
@@ -116,11 +111,12 @@
 
 
 </head>
-<body class="d-flex align-items-center py-4" style="background-color: #f8f9fa;">
+<body class="d-flex align-items-center py-4 bg-light" style="background-color: #f8f9fa;">
   
     
 <main class="form-signin w-100 m-auto">
-  <form>
+  <form style="text-align: center;">
+    <img class="mb-4" src="<%=request.getContextPath()%>/images/cat.jpg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Shoppingmall</h1>
 
     <div class="form-floating">

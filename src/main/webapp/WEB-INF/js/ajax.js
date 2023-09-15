@@ -58,67 +58,53 @@ function userReister() {
 		success: res => {
 			// 서블릿 응답에 따른 메시지를 출력한다.
 			switch (res) {
-				case '1':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('모든 내용을 입력하세요.');
-					$('#errorMessage').html('에러: 모든 내용을 입력하세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '2':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('아이디가 형식에 맞지 않습니다.');
-					$('#errorMessage').html('에러: 아이디가 형식에 맞지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '3':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호가 일치하지 않습니다.');
-					$('#errorMessage').html('에러: 비밀번호가 일치하지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '4':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('비밀번호가 형식에 맞지 않습니다.');
-					$('#errorMessage').html('에러: 비밀번호가 형식에 맞지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '5':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('이름이 형식에 맞지 않습니다.');
-					$('#errorMessage').html('에러: 이름이 형식에 맞지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '6':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('이메일이 형식에 맞지 않습니다.');
-					$('#errorMessage').html('에러: 이메일이 형식에 맞지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '7':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('전화번호가 형식에 맞지 않습니다.');
-					$('#errorMessage').html('에러: 전화번호가 형식에 맞지 않습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
-				case '8':
-					$('#messageType').html('성공 메시지');
-					$('#messageContent').html('회원 가입에 성공했습니다.');
-					$('#errorMessage').html('회원 가입에 성공했습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-success');
+			case '1':
+				$('#errorMessage').html('에러: 모든 내용을 입력하세요.');
+				customAlert.show('모든 내용을 입력하세요.', null, 1, function(){
+				});
+				break;
+			case '2':
+				$('#errorMessage').html('에러: 아이디가 형식에 맞지 않습니다.');
+				customAlert.show('아이디가 형식에 맞지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '3':
+				$('#errorMessage').html('에러: 비밀번호가 일치하지 않습니다.');
+				customAlert.show('비밀번호가 일치하지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '4':
+				$('#errorMessage').html('에러: 비밀번호가 형식에 맞지 않습니다.');
+				customAlert.show('비밀번호가 형식에 맞지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '5':
+				$('#errorMessage').html('에러: 이름이 형식에 맞지 않습니다.');
+				customAlert.show('이름이 형식에 맞지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '6':
+				$('#errorMessage').html('에러: 이메일이 형식에 맞지 않습니다.');
+				customAlert.show('이메일이 형식에 맞지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '7':
+				$('#errorMessage').html('에러: 전화번호가 형식에 맞지 않습니다.');
+				customAlert.show('전화번호가 형식에 맞지 않습니다.', null, 1, function(){
+				});
+				break;
+			case '8':
+				customAlert.show('회원 가입에 성공했습니다.', null, 1, function(){
 					location.href="index";
-					break;
-				case '9':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('이미 존재하는 회원입니다.');
-					$('#errorMessage').html('에러: 이미 존재하는 회원입니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					break;
+				});
+				break;
+			case '9':
+				$('#errorMessage').html('에러: 이미 존재하는 회원입니다.');
+				customAlert.show('이미 존재하는 회원입니다.', null, 1, function(){
+				});
+				break;
 			}
-			// 모달 창을 띄운다.
-			$('#messageModal').modal('show');
 		},
-		// ajax 요청이 실패하면 실행할 콜백 함수
-		// ajax 요청이 실패하면 에러 정보가 콜백 함수의 인수로 넘어온다.
 		error: e => console.log('요청 실패:', e.status)
 	});
 }
@@ -139,37 +125,26 @@ function registerCheckFunction() {
 		success: res => {
 			// console.log("요청 성공:", res);
 			switch (res) {
-				case '0':
-					$('#messageType').html('성공 메시지');
-					$('#messageContent').html('사용 가능한 아이디입니다.');
-					$('#errorMessage').html('사용 가능한 아이디입니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-success');
-					break;
-				case '1':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('사용중인 아이디 입니다.');
-					$('#errorMessage').html('에러: 사용중인 아이디 입니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#id').val('');
-					break;
-				case '2':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('spl 실행 오류입니다.');
-					$('#errorMessage').html('에러: spl 실행중 오류가 발생했습니다. 관리자에게 문의하세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#id').val('');
-					break;
-				case '3':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('아이디를 입력하고 중복 체크 버튼을 누르세요.');
-					$('#errorMessage').html('에러: 아이디를 입력하고 중복 체크 버튼을 누르세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#id').val('');
-					break;
-				
-				
+			case '0':
+				customAlert.show('사용 가능한 아이디입니다.', null, 1, function(){
+				});
+				break;
+			case '1':
+				customAlert.show('사용중인 아이디 입니다.', '다른 아이디를 사용해주세요.', 1, function(){
+					$('#id').val('');	
+				});
+				break;
+			case '2':
+				customAlert.show('spl 실행 오류입니다.', '잠시후 다시 시도하세요.', 1, function(){
+					$('#id').val('');	
+				});
+				break;
+			case '3':
+				customAlert.show('아이디를 입력하고 중복 체크 버튼을 누르세요.', null, 1, function(){
+					$('#id').val('');	
+				});
+				break;
 			}
-			$('#messageModal').modal('show');
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});
@@ -188,48 +163,22 @@ function UserLogin() {
 	},
 	success: function(res) {
 		switch (res) {
-		case '0':
-			customAlert.show('로그인에 성공했습니다.', null, 1, function(){
-				location.href="index";	
-			});
-			break;
-		case '1':
-			customAlert.show('아이디 또는 비밀번호를 잘못 입력했습니다.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
-				$('#id').val('');	
-			});
-			break;
-		case '2':
-			customAlert.show('탈퇴한 아이디 입니다.', '로그인 하실수 없습니다.', 1, function(){
-				$('#id').val('');	
-			});
-			break;
-		}
-		
-		/*
-		switch (res) {
-				case '0':
-					$('#messageType').html('성공 메시지');
-					$('#messageContent').html('로그인 성공.');
-					$('#errorMessage').html('로그인에 성공했습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-success');
-					location.href="index";
-					break;
-				case '1':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('아이디 또는 비밀번호를 잘못 입력했습니다.');
-					$('#errorMessage').html('입력하신 내용을 다시 확인해주세요.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#id').val('');
-					break;
-				case '2':
-					$('#messageType').html('에러 메시지');
-					$('#messageContent').html('탈퇴한 아이디 입니다.');
-					$('#errorMessage').html('로그인 하실수 없습니다.');
-					$('#messageCheck').attr('class', 'modal-content panel-warning');
-					$('#id').val('');
-					break;
+			case '0':
+				customAlert.show('로그인에 성공했습니다.', null, 1, function(){
+					location.href="index";	
+				});
+				break;
+			case '1':
+				customAlert.show('아이디 또는 비밀번호를 잘못 입력했습니다.', '입력하신 내용을 다시 확인해주세요.', 1, function(){
+					$('#id').val('');	
+				});
+				break;
+			case '2':
+				customAlert.show('탈퇴한 아이디 입니다.', '로그인 하실수 없습니다.', 1, function(){
+					$('#id').val('');	
+				});
+				break;
 			}
-		//*/
 		},
 		error: e => console.log('요청 실패:', e.status)
 	});

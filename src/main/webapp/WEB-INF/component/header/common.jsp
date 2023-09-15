@@ -3,7 +3,7 @@
 
 			
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-
+<link rel="icon" href="<%=request.getContextPath() %>/images/logo.png"/>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript" src="<%=request.getContextPath() %>/bootstrap/js/bootstrap.bundle.js" defer="defer"></script>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/bootstrap-icons-1.10.5/font/bootstrap-icons.css">
