@@ -63,167 +63,175 @@ $(() => {
 					}
 					*/
 									
-					for(let i = 0; i<list.length; i++)
-					{
-						let productItem = productNode.clone();
-						let item = list[i];
-						
-						if(item.amount == 0)
-						{
-							productItem.addClass('product-sold-out');	
-						}
-																	
-						const productDetailMove = function()
-						{
-							location.href = `${CONTEXT_PATH}/product/detail?id=${item.id}&currentPage=${currentPage}&pageSize=${pageSize}`;
-						}
-						
-						if(item.thumbnail)
-						{
-							productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);	
-						}
-						else
-						{
-							productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}/resources/default/noimg.png`);
-						}
-						
-						
-						productItem.find('img[name=thumnail]').bind('click', productDetailMove);
-						
-						productItem.find('div[name=name]').text(item.name);
-						productItem.find('div[name=name]').bind('click', productDetailMove);
-						
-						productItem.find('div[name=discountPrice]').text(item.fmtDiscountPrice);
-						productItem.find('span[name=price]').text(item.fmtPrice);
-						productItem.find('span[name=discount]').text(item.fmtDiscount);
-						
-						if(item.deliveryPrice == 0)
-						{
-							productItem.find('span[name=delivery]').text('');	
-						}
-						
-						productItem.find('span[name=deliveryPrice]').text(item.fmtDeliveryPrice);
-						
-						if(item.companyName)
-							productItem.find('div[name=companyName]').text(item.companyName);
-						else
-							productItem.find('div[name=companyName]').text('');
-						
-						
-						if(item.cntReview && item.cntReview > 0)
-						{
-							//<span name="score">★★★★☆</span>  
-							//<span name="review">1,000건</span>
-							let scoreNode = productItem.find('span[name=score]');
-							let reviewNode = productItem.find('span[name=review]');
-							
-							let cntStar = parseInt(item.avgReviewScore);
-							let cntStarHalf = item.avgReviewScore - cntStar > 0 ? 1 : 0;
-							let cntStarEmpty = 5 - cntStar - cntStarHalf;
-							
-							scoreNode.addClass('text-warning');
-							
-							for(let i = 0; i<cntStar; i++)
-							{
-								scoreNode.append(`<i class="bi bi-star-fill"></i>`);
-							}
-							
-							for(let i = 0; i<cntStarHalf; i++)
-							{
-								scoreNode.append(`<i class="bi bi-star-half"></i>`);
-							}
-							
-							for(let i = 0; i<cntStarEmpty; i++)
-							{
-								scoreNode.append(`<i class="bi bi-star"></i>`);
-							}
-							
-							reviewNode.text(`${item.cntReview}건`);
-						}
-						
-						
-						$("#list").append(productItem);
-					}
-							
-					//페이지 순번 추가
-					let pagination = resp.result.paging;		
-								
-					//이전
-					let prevNode = null;
-					if(pagination.startPage == 1)
-					{
-						prevNode = $(`
-							<li class="page-item disabled">
-								<a class="page-link">이전</a>
-							</li>
-						`);
-					}
-					else
-					{
-						prevNode = $(`
-							<li class="page-item">
-								<a class="page-link" href="#">이전</a>
-							</li>
-						`);
-						prevNode.bind('click', function() {
-							successSearchData(pagination.startPage - 1, pageSize, searchCategoryId, searchProductName);
-						});
-					}
-					$("#pagination").append(prevNode);
 					
-					//1 ~ 10	
-					for(let i = pagination.startPage; i<=pagination.endPage; i++)
+					if(list && list.length > 0)
 					{
-						let node = null;
-						
-						if(i == currentPage)
+						for(let i = 0; i<list.length; i++)
 						{
-							//node = $(`<span class="page-number page-number-current">${i}</span>`);	
-							node = $(`
-								<li class="page-item active" aria-current="page">
-									<a class="page-link">${i}</a>
+							let productItem = productNode.clone();
+							let item = list[i];
+							
+							if(item.amount == 0)
+							{
+								productItem.addClass('product-sold-out');	
+							}
+																		
+							const productDetailMove = function()
+							{
+								location.href = `${CONTEXT_PATH}/product/detail?id=${item.id}&currentPage=${currentPage}&pageSize=${pageSize}`;
+							}
+							
+							if(item.thumbnail)
+							{
+								productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}/image/${item.thumbnail}`);	
+							}
+							else
+							{
+								productItem.find('img[name=thumnail]').attr('src', `${CONTEXT_PATH}/resources/default/noimg.png`);
+							}
+							
+							
+							productItem.find('img[name=thumnail]').bind('click', productDetailMove);
+							
+							productItem.find('div[name=name]').text(item.name);
+							productItem.find('div[name=name]').bind('click', productDetailMove);
+							
+							productItem.find('div[name=discountPrice]').text(item.fmtDiscountPrice);
+							productItem.find('span[name=price]').text(item.fmtPrice);
+							productItem.find('span[name=discount]').text(item.fmtDiscount);
+							
+							if(item.deliveryPrice == 0)
+							{
+								productItem.find('span[name=delivery]').text('');	
+							}
+							
+							productItem.find('span[name=deliveryPrice]').text(item.fmtDeliveryPrice);
+							
+							if(item.companyName)
+								productItem.find('div[name=companyName]').text(item.companyName);
+							else
+								productItem.find('div[name=companyName]').text('');
+							
+							
+							if(item.cntReview && item.cntReview > 0)
+							{
+								//<span name="score">★★★★☆</span>  
+								//<span name="review">1,000건</span>
+								let scoreNode = productItem.find('span[name=score]');
+								let reviewNode = productItem.find('span[name=review]');
+								
+								let cntStar = parseInt(item.avgReviewScore);
+								let cntStarHalf = item.avgReviewScore - cntStar > 0 ? 1 : 0;
+								let cntStarEmpty = 5 - cntStar - cntStarHalf;
+								
+								scoreNode.addClass('text-warning');
+								
+								for(let i = 0; i<cntStar; i++)
+								{
+									scoreNode.append(`<i class="bi bi-star-fill"></i>`);
+								}
+								
+								for(let i = 0; i<cntStarHalf; i++)
+								{
+									scoreNode.append(`<i class="bi bi-star-half"></i>`);
+								}
+								
+								for(let i = 0; i<cntStarEmpty; i++)
+								{
+									scoreNode.append(`<i class="bi bi-star"></i>`);
+								}
+								
+								reviewNode.text(`${item.cntReview}건`);
+							}
+							
+							
+							$("#list").append(productItem);
+						}
+								
+						//페이지 순번 추가
+						let pagination = resp.result.paging;		
+									
+						//이전
+						let prevNode = null;
+						if(pagination.startPage == 1)
+						{
+							prevNode = $(`
+								<li class="page-item disabled">
+									<a class="page-link">이전</a>
 								</li>
 							`);
 						}
 						else
 						{
-							//node = $(`<span class="page-number">${i}</span>`);		
-							node = $(`<li class="page-item"><a class="page-link" href="#">${i}</a></li>`);
-							node.bind('click', function() {
-								successSearchData(i, pageSize, searchCategoryId, searchProductName);
-							});	
+							prevNode = $(`
+								<li class="page-item">
+									<a class="page-link" href="#">이전</a>
+								</li>
+							`);
+							prevNode.bind('click', function() {
+								successSearchData(pagination.startPage - 1, pageSize, searchCategoryId, searchProductName);
+							});
+						}
+						$("#pagination").append(prevNode);
+						
+						//1 ~ 10	
+						for(let i = pagination.startPage; i<=pagination.endPage; i++)
+						{
+							let node = null;
+							
+							if(i == currentPage)
+							{
+								//node = $(`<span class="page-number page-number-current">${i}</span>`);	
+								node = $(`
+									<li class="page-item active" aria-current="page">
+										<a class="page-link">${i}</a>
+									</li>
+								`);
+							}
+							else
+							{
+								//node = $(`<span class="page-number">${i}</span>`);		
+								node = $(`<li class="page-item"><a class="page-link" href="#">${i}</a></li>`);
+								node.bind('click', function() {
+									successSearchData(i, pageSize, searchCategoryId, searchProductName);
+								});	
+							}
+							
+							$("#pagination").append(node);
+						}						
+						
+						//다음
+						let nextNode = null;
+						if(pagination.endPage < pagination.totalPage)
+						{
+							nextNode = $(`
+								<li class="page-item">
+									<a class="page-link" href="#">다음</a>
+								</li>
+							`);
+							nextNode.bind('click', function() {
+								successSearchData(pagination.endPage + 1, pageSize, searchCategoryId, searchProductName);
+							});
+						}
+						else
+						{
+							nextNode = $(`
+								<li class="page-item disabled">
+									<a class="page-link">다음</a>
+								</li>
+							`);
 						}
 						
-						$("#pagination").append(node);
-					}						
-					
-					//다음
-					let nextNode = null;
-					if(pagination.endPage < pagination.totalPage)
-					{
-						nextNode = $(`
-							<li class="page-item">
-								<a class="page-link" href="#">다음</a>
-							</li>
-						`);
-						nextNode.bind('click', function() {
-							successSearchData(pagination.endPage + 1, pageSize, searchCategoryId, searchProductName);
-						});
+						$("#pagination").append(nextNode);
+						$("#currentPage").val(currentPage);
+						$("#pageSize").val(pageSize);
+						
+						$("#productName").val(searchProductName);		
 					}
 					else
 					{
-						nextNode = $(`
-							<li class="page-item disabled">
-								<a class="page-link">다음</a>
-							</li>
-						`);
+						$("#list").append(`<h1 style="text-align:center; margin:50px;">등록된 상품이 없습니다.</h1>`);
 					}
-					
-					$("#pagination").append(nextNode);
-					$("#currentPage").val(currentPage);
-					$("#pageSize").val(pageSize);
-					
-					$("#productName").val(searchProductName);					
 				},
 				function(err)
 				{

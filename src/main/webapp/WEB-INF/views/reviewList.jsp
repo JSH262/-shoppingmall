@@ -83,8 +83,10 @@
 		<c:forEach var="vo" items="${list}" varStatus="vs">
 			<c:set var="intScore" value="${fn:substringBefore(vo.score, '.')}"/>
 			<tr>
-				<td align="center">
-					<c:forEach begin="1" end="${intScore}">★</c:forEach>
+				<td align="center" class="text-warning" style="display:flex">
+					<c:forEach begin="1" end="${intScore}">
+						<i class="bi bi-star-fill"></i>
+					</c:forEach>
 				</td>
 				<td align="center">${vo.contents}</td>
 				<td align="center">
