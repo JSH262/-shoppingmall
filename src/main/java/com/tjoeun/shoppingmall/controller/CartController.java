@@ -45,7 +45,7 @@ public class CartController
 		int cartCnt = cartList.size();
 	    for (int i = 0; i < cartCnt; i++) 
 	    {
-	        // 이전 코드 내용
+	        // �씠�쟾 肄붾뱶 �궡�슜
 	        Long productId = cartList.get(i).getProductId();
 	        productIdsBuilder.append(productId);
 	        if (i != cartCnt - 1) 
@@ -56,6 +56,7 @@ public class CartController
 		
 		model.addAttribute("productIds", productIdsBuilder.toString());
 		model.addAttribute("cartList", cartList);
+		model.addAttribute("cartCnt", cartCnt);
 		model.addAttribute("userId", user.getId());
 		
 		return "cart/list";
@@ -77,13 +78,13 @@ public class CartController
 				else
 				{
 					retval.put("code", -1);
-					retval.put("msg", "데이터를 저장하지 못했습니다.");
+					retval.put("msg", "�뜲�씠�꽣瑜� ���옣�븯吏� 紐삵뻽�뒿�땲�떎.");
 				}
 			}
 			else
 			{
 				retval.put("code", -999);
-				retval.put("msg", "로그인이 필요한 서비스입니다.");
+				retval.put("msg", "濡쒓렇�씤�씠 �븘�슂�븳 �꽌鍮꾩뒪�엯�땲�떎.");
 			}
 		}
 		catch (Exception e) 
@@ -114,9 +115,9 @@ public class CartController
 		
 		int res = cartService.updateAmount(co);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("1"); // ②
+			response.getWriter().write("1"); // �몼
 		}
 	}
 	
@@ -134,9 +135,9 @@ public class CartController
 		
 		int res = cartService.deleteProduct(co);
 		if (res == 0) {
-			response.getWriter().write("0"); // ②
+			response.getWriter().write("0"); // �몼
 		} else {
-			response.getWriter().write("1"); // ②
+			response.getWriter().write("1"); // �몼
 		}
 	}
 }
