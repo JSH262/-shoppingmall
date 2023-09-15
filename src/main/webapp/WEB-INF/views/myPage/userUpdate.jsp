@@ -34,7 +34,7 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="<%=request.getContextPath() %>/images/logo.png" alt="" width="72" height="57">
+    <img class="d-block mx-auto mb-4" src="<%=request.getContextPath() %>/images/cat.jpg" alt="" width="72" height="57">
       <h2>회원정보 수정</h2>
     </div>
 

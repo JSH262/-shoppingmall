@@ -115,8 +115,8 @@
   
     
 <main class="form-signin w-100 m-auto">
-  <form>
-    <img class="mb-4" src="./images/logo.png" alt="" width="72" height="57">
+  <form style="text-align: center;">
+    <img class="mb-4" src="<%=request.getContextPath()%>/images/cat.jpg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Shoppingmall</h1>
 
     <div class="form-floating">
