@@ -210,7 +210,9 @@
 	    	<div class="row justify-content-center">
 	    		<h3>장바구니에 담긴 상품이 없습니다!!!</h3>
 	    	</div>
-	    		<input class="btn btn-primary" type="button" value="홈으로 이동" onclick="location.href='<%=request.getContextPath() %>/index'" />
+	    	<%--
+    		<input class="btn btn-primary" type="button" value="홈으로 이동" onclick="location.href='<%=request.getContextPath() %>/index'" />
+    		 --%>
 		</div>
 	</c:if>
 	<c:if test="${cartCnt != 0}">

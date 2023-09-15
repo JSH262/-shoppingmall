@@ -11,45 +11,56 @@
 <script type="text/javascript" src="./js/jquery-3.7.0.js"></script>
 </head>
 <body>
-<div class="container py-3">
+<div class="container align-items-center py-3">
   <main>
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="text-align: center; max-width: 700px; margin: 0 auto;">
 	  <div class="col" style="max-width: 220px; padding: 10px;">
-	    <div class="card mb-4 rounded-3 shadow-sm border-primary" style="max-width: 210px;">
-	      <div class="card-header py-3 text-bg-primary border-primary">
+	    <div class="card mb-4 rounded-3 shadow-sm border-secondary" style="max-width: 210px;">
+	      <div class="card-header py-3 text-bg-secondary border-secondary">
 	        <h4 class="my-0 fw-normal">일반회원 가입</h4>
 	      </div>
 	      <div class="card-body">
 	        <ul class="list-unstyled mt-3 mb-4"></ul>
+	        <!-- 
 	        <input type="radio" name="type" value="1" checked="checked"> 일반회원
+	         -->
+	        <input type="radio" class="btn-check" name="type" value="1" autocomplete="off" id="user" checked>
+			<label class="btn btn-outline-secondary w-100" for="user">일반회원</label>
 	      </div>
 	    </div>
 	  </div>
 	  <div class="col" style="max-width: 220px; padding: 10px;">
-	    <div class="card mb-4 rounded-3 shadow-sm border-primary" style="max-width: 210px;">
-	      <div class="card-header py-3 text-bg-primary border-primary">
+	    <div class="card mb-4 rounded-3 shadow-sm border-secondary" style="max-width: 210px;">
+	      <div class="card-header py-3 text-bg-secondary border-secondary">
 	        <h4 class="my-0 fw-normal">판매자 가입</h4>
 	      </div>
 	      <div class="card-body">
 	        <ul class="list-unstyled mt-3 mb-4"></ul>
-	        <input type="radio" name="type" value="2"> 판매자
+	        <input type="radio" class="btn-check" name="type" value="2" autocomplete="off" id="userSeller">
+			<label class="btn btn-outline-secondary w-100" for="userSeller">판매자</label>
 	      </div>
 	    </div>
 	  </div>
 	  <div class="col" style="max-width: 220px; padding: 10px;">
-	    <div class="card mb-4 rounded-3 shadow-sm border-primary" style="max-width: 210px;">
-	      <div class="card-header py-3 text-bg-primary border-primary">
-	        <h4 class="my-0 fw-normal">관리자</h4>
+	    <div class="card mb-4 rounded-3 shadow-sm border-secondary" style="max-width: 210px;">
+	      <div class="card-header py-3 text-bg-secondary border-secondary">
+	        <h4 class="my-0 fw-normal">관리자 가입</h4>
 	      </div>
 	      <div class="card-body">
 	        <ul class="list-unstyled mt-3 mb-4"></ul>
-	        <input type="radio" name="type" value="3"> 관리자
+	        <!-- 
+	        <input type="radio" name="type" value="3">
+	         --> 
+	        <input type="radio" class="btn-check" name="type" value="3" id="userAdmin" autocomplete="off">
+			<label class="btn btn-outline-secondary w-100" for="userAdmin">관리자</label>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	<!-- 가운데 정렬 넣어주고싶음 -->
-	<button type="button" class="btn btn-primary" style="text-align: center; margin: 0 auto;" onclick="checkUserType()">선택완료</button>
+	<div class="row">
+		<button type="button" class="btn btn-primary" style="text-align: center; margin: 0 auto; width:200px;" onclick="checkUserType()">선택완료</button>
+	</div>
   </main>
 </div>
 

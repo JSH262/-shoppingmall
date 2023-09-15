@@ -54,6 +54,7 @@
 </style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/component/header.jsp" %>
 	<table class="table table-bordered table-hover" style="width:70%; margin: 0 auto; margin-top: 150px;">
 	<!-- <table class="table-border" border="1" cellpadding="5" cellspacing="1" style="width:90%;margin: 0px auto;"> -->
 	<thead style="text-align: center;">
@@ -105,5 +106,7 @@
 
 <%@ include file="/WEB-INF/component/customAlert.jsp" %>
 
+	<%@ include file="/WEB-INF/component/footer.jsp" %>	
+	
 </body>
 </html>	

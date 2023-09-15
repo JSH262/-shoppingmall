@@ -17,8 +17,21 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.7.0.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/passwordCheck.js"></script>
+
+
+	<style>
+		.feature-icon {
+			width:2em;
+			height:2em;
+			border-radius: 0.5em;
+		}
+	</style>
+
+
 </head>
 <body>
+	<%@ include file="/WEB-INF/component/header.jsp" %>
+	
 
 <div class="container px-4 py-5" id="featured-3">
     <h2 class="pb-2 border-bottom">My Page</h2>
@@ -77,6 +90,9 @@
       <div class="feature col"> </div>
     </div>
   </div>
+
+	<%@ include file="/WEB-INF/component/footer.jsp" %>	
+
 
 </body>
 </html>

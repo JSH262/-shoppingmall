@@ -38,42 +38,37 @@
       <h2>회원정보 수정</h2>
     </div>
 
-      <div class="col-md-12 text-center">
-        <h4 class="mb-3">회원정보 입력</h4>
-        <form class="text-center">
-          <div class="row g-3 align-items-center">
-			<div class="col-4"></div>
-            <div class="col-6" style="padding-top: 12px; max-width: 250px;">
-              <label for="address" class="form-label">이름</label>
-              <input id="name" class="form-control" type="text" name="name"
-							value="<%=name %>"/>
-            </div>
-            <div class="col-4"></div>
-          </div>
-          <div class="row g-3">
-            <div class="col-4"></div>
-            <div class="col-6" style="padding-top: 12px; max-width: 250px;">
-              <label for="address" class="form-label">이메일</label>
-              <input id="email" class="form-control" type="email" name="email" 
-							value="<%=email %>"/>
-            </div>
-            <div class="col-4"></div>
-          </div>
-          <div class="row g-3">
-            <div class="col-4"></div>
-            <div class="col-6" style="padding-top: 12px; max-width: 250px;">
-              <label for="address" class="form-label">전화번호</label>
-              <input id="phone" class="form-control" type="text" name="phone" 
-							value="<%=phone %>"/>
-            </div>
-            <div class="col-4"></div>
-          </div>
-
-				<input type="hidden" id="userId" value="<%=userId %>">
-				<input class="btn btn-primary" style="margin-top: 15px" type="button" value="적용하기" onclick="userUpdate()"/>
-        </form>
-      </div>
-  </main>
+		<div class="col-md-12 text-center">
+			<h4 class="mb-3">회원정보 입력</h4>
+			<form class="text-center">
+				<div class="row align-items-center">
+					<div class="col-4"></div>
+					<div class="col-4">
+						<label for="address" class="form-label">이름</label>
+						<input id="name" class="form-control" type="text" name="name" value="<%=name %>" />
+					</div>
+					<div class="col-4"></div>
+				</div>
+				<div class="row">
+					<div class="col-4"></div>
+					<div class="col-4">
+						<label for="address" class="form-label">이메일</label> 
+						<input id="email" class="form-control" type="email" name="email" value="<%=email %>" />
+					</div>
+					<div class="col-4"></div>
+				</div>
+				<div class="row">
+					<div class="col-4"></div>
+					<div class="col-4">
+						<label for="address" class="form-label">전화번호</label> 
+						<input id="phone" class="form-control" type="text" name="phone" value="<%=phone %>" />
+					</div>
+					<div class="col-4"></div>
+				</div>
+				<input type="hidden" id="userId" value="<%=userId %>"> <input class="btn btn-primary" style="margin-top: 15px" type="button" value="적용하기" onclick="userUpdate()" />
+			</form>
+		</div>
+		</main>
 </div>
 
 <%@ include file="/WEB-INF/component/customAlert.jsp" %>
