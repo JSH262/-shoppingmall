@@ -16,10 +16,10 @@ function isValidUserPassword() {
 function passwordCheckFunction() {
 	let password1 = $('#password1').val();
 	let password2 = $('#password2').val();
-	
+	let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_])[a-zA-Z\d!@#$%^&*_]{8,30}$/;
 	if (password1 != password2) {
 		$('#passwordCheckMessage').html('비밀번호가 일치하지 않습니다.');
-	} else {
+	} else if (passwordRegex.test(password1) && passwordRegex.test(password2)){
 		$('#passwordCheckMessage').html('확인 완료');
 	}
 }
