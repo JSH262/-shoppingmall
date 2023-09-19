@@ -48,11 +48,8 @@ public class HomeController {
 	@Autowired
 	ProductService productService;
 
-	
-
 	@Autowired	
 	CategoryService categoryService;
-	
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -66,6 +63,10 @@ public class HomeController {
 		if(userInfo != null && userInfo.getType().equals(UsersType.SELLER))
 		{
 			return "redirect:/product/list";
+		}
+		else if(userInfo != null && userInfo.getType().equals(UsersType.ADMIN))
+		{
+			return "redirect:/adminPage";
 		}
 		else		
 		{

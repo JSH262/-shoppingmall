@@ -4,11 +4,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+	if(UsersType.BUYER.equals(AttributeName.getUserType(request)) || AttributeName.getUserType(request) == null)
+	{
+%>
 <script>
 	document.catDownList = ${categoryDownList};
 	document.catDownList2 = ${categoryDownList2};
 </script>
-
+<%
+	}
+%>
 
 <header style="z-index: 1000;">
 	<nav class="navbar navbar-expand-lg bg-light">
@@ -25,10 +31,16 @@
 				</ul>
 			</div>
 			 --%>
-			 
+<%
+	if(UsersType.BUYER.equals(AttributeName.getUserType(request)) || AttributeName.getUserType(request) == null)
+	{
+%>
 			<button class="btn nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategory" aria-controls="offcanvasCategory" id="categoryList">
 				<i class="bi bi-list" style="font-size:2em;"></i>
 			</button>
+<%
+	}
+%>
 			<div>&nbsp;</div>
 			<a class="navbar-brand" href="<%=request.getContextPath() %>/index">쇼핑몰</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +96,14 @@
 					</li>
 <%
 				}
+				else if(userType.equals(UsersType.ADMIN))
+				{
+%>
+					<li class="nav-item">
+						<a class="nav-link" href="<%=request.getContextPath() %>/logout"> 로그아웃 </a>						
+					</li>
+<%	
+				}				
 			}
 			else
 			{
@@ -105,7 +125,7 @@
 				
 				
 				<%
-					if(!UsersType.SELLER.equals(AttributeName.getUserType(request)))
+					if(UsersType.BUYER.equals(AttributeName.getUserType(request)) || AttributeName.getUserType(request) == null)
 					{
 				%>
 								

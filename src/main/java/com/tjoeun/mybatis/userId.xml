@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjoeun.dao.AdminDAO">
+	
+	<!-- 전체 글의 개수를 얻어온다. -->
+	<select id="selectCount" resultType="int">
+		select count(*) from users
+	</select>
+	
+	<!-- 1페이지 분량의 글 목록을 얻어온다. -->
+	<select id="selectList" parameterType="java.util.HashMap" resultType="vo">
+		<!--
+		<![CDATA[
+		select * from (
+			select rownum rnum, AA.* from (
+				select * from mvcboard order by gup desc, seq asc
+			) AA where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+		-->
+		select * from (
+			select rownum rnum, AA.* from (
+				select * from users order by id asc
+			) AA
+		) where rnum between #{startNo} and #{endNo}
+	</select>
+
+	
+	<!-- 글 1건을 얻어온다. -->
+	<select id="selectById" parameterType="String" resultType="vo">
+		select id, email, phone, type, name, use_yn, create_date, modify_date, company_id
+		from users 
+		where id = #{id}
+	</select>
+	
+	<!-- 아이디 1건을 삭제한다. -->
+	<update id="deleteId" parameterType="String">
+		update users set use_yn = 'N' where id = #{id}
+	</update>
+	
+		<!-- 아이디 1건을 복구한다. -->
+	<update id="restoreId" parameterType="String">
+		update users set use_yn = 'Y' where id = #{id}
+	</update>
+		
+	<update id="updateId" parameterType="vo">
+		update users set name = #{name}, email = #{email}, phone = #{phone}, use_yn = #{useYn}, modify_date = SYSDATE ,
+		<choose>
+			<when test = "type == 2">
+				company_id = #{companyId}
+			</when>
+			<otherwise>
+				company_id = company_id
+			</otherwise> 
+		</choose> where id = #{id}
+	</update>
+</mapper>

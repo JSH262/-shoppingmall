@@ -101,69 +101,71 @@ $(() => {
 		`);
 	let catDnList = document.catDownList;
 	let catDn2List = document.catDownList2; 
-	const CONTEXT_PATH = getContextPath();
-	
-	try
+	if(catDnList && catDn2List)
 	{
-		const ocCatDn = new bootstrap.Offcanvas('#offcanvasCategoryDown');
-		const ocCatDn2 = new bootstrap.Offcanvas('#offcanvasCategoryDown2');
+		const CONTEXT_PATH = getContextPath();
 		
-		const ocCategory = document.getElementById('offcanvasCategory')
-		ocCategory.addEventListener('hide.bs.offcanvas', function() {
-			ocCatDn.hide();
-			ocCatDn2.hide();
-		})
+		try
+		{
+			const ocCatDn = new bootstrap.Offcanvas('#offcanvasCategoryDown');
+			const ocCatDn2 = new bootstrap.Offcanvas('#offcanvasCategoryDown2');
 		
-		$("#offcanvasCategory").find('div[name=offcanvasCategoryDownShow]').bind('click', function() {
-			let catId = parseInt($(this).attr('data-bs-category-id'));
-			const catData = catDnList[catId];
-			let cdBody = $("#offcanvasCategoryDown ul[name=offcanvasCategoryDownList]");
-
-			cdBody.empty();
-			for(let i = 0; i<catData.length; i++)
-			{
-				let cdNode = categoryDownNode.clone();
-				let dataNode = cdNode.find('a[name=offcanvasCategoryDownData]');
-								
-				cdNode.find('div[name=offcanvasCategoryDownShow]').attr('data-bs-category-id', catData[i].id);
-				cdNode.find('div[name=offcanvasCategoryDownShow]').bind('click', function() {					
-					let cd2Id = parseInt($(this).attr('data-bs-category-id'));
-					let cd2Body = $('ul[name=offcanvasCategoryDown2List]');
-					
-					cd2Body.empty();
-					for(let q = 0; q<catDn2List[cd2Id].length; q++)
-					{
-						let cd2 = catDn2List[cd2Id][q];
-						let cd2Node = categoryDown2Node.clone();
-						let cd2a = cd2Node.find('a');
-
-						cd2a.attr('href', CONTEXT_PATH + cd2a.attr('href') + cd2.id);
-						cd2a.text(cd2.name);	
-						
-						cd2Body.append(cd2Node);
-					}
-					ocCatDn2.show();
-				});
-				dataNode.attr('href',  CONTEXT_PATH + dataNode.attr('href') + catData[i].id);
-				dataNode.text(catData[i].name);
-				
-				
-				cdBody.append(cdNode);
-				
-			}
+			const ocCategory = document.getElementById('offcanvasCategory')
+			ocCategory.addEventListener('hide.bs.offcanvas', function() {
+				ocCatDn.hide();
+				ocCatDn2.hide();
+			})
 			
-			ocCatDn.show();
-		});
-		
-		
-		
-		
-	}
-	catch(exp)
-	{
-		console.error(exp);
-	}
+			$("#offcanvasCategory").find('div[name=offcanvasCategoryDownShow]').bind('click', function() {
+				let catId = parseInt($(this).attr('data-bs-category-id'));
+				const catData = catDnList[catId];
+				let cdBody = $("#offcanvasCategoryDown ul[name=offcanvasCategoryDownList]");
 	
+				cdBody.empty();
+				for(let i = 0; i<catData.length; i++)
+				{
+					let cdNode = categoryDownNode.clone();
+					let dataNode = cdNode.find('a[name=offcanvasCategoryDownData]');
+									
+					cdNode.find('div[name=offcanvasCategoryDownShow]').attr('data-bs-category-id', catData[i].id);
+					cdNode.find('div[name=offcanvasCategoryDownShow]').bind('click', function() {					
+						let cd2Id = parseInt($(this).attr('data-bs-category-id'));
+						let cd2Body = $('ul[name=offcanvasCategoryDown2List]');
+						
+						cd2Body.empty();
+						for(let q = 0; q<catDn2List[cd2Id].length; q++)
+						{
+							let cd2 = catDn2List[cd2Id][q];
+							let cd2Node = categoryDown2Node.clone();
+							let cd2a = cd2Node.find('a');
+	
+							cd2a.attr('href', CONTEXT_PATH + cd2a.attr('href') + cd2.id);
+							cd2a.text(cd2.name);	
+							
+							cd2Body.append(cd2Node);
+						}
+						ocCatDn2.show();
+					});
+					dataNode.attr('href',  CONTEXT_PATH + dataNode.attr('href') + catData[i].id);
+					dataNode.text(catData[i].name);
+					
+					
+					cdBody.append(cdNode);
+					
+				}
+				
+				ocCatDn.show();
+			});
+			
+			
+			
+			
+		}
+		catch(exp)
+		{
+			console.error(exp);
+		}
+	}
 	
 	
 });

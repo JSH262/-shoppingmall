@@ -55,7 +55,11 @@ public class LoginChkUrl
 		new LoginChkUrlData("/review", null, new String[] {UsersType.BUYER}, "/login"),
 		new LoginChkUrlData("/deleteReview", null, new String[] {UsersType.BUYER}, "/login"),
 		
-		
+		new LoginChkUrlData("/adminPage", null, new String[] {UsersType.ADMIN}, "/login"),
+		new LoginChkUrlData("/userView", null, new String[] {UsersType.ADMIN}, "/login"),
+		new LoginChkUrlData("/deleteId", null, new String[] {UsersType.ADMIN}, "/login"),
+		new LoginChkUrlData("/restoreId", null, new String[] {UsersType.ADMIN}, "/login"),
+		new LoginChkUrlData("/updateId", null, new String[] {UsersType.ADMIN}, "/login"),
 		
 		new LoginChkUrlData("/image", "GET", null, null),
 		new LoginChkUrlData("/image", "POST", new String[] {UsersType.SELLER}, null)//POST만 검사

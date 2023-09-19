@@ -92,5 +92,17 @@ public class UsersVO {
 				+ type + ", name=" + name + ", useYn=" + useYn + ", createDate=" + createDate + ", modifyDate="
 				+ modifyDate + ", companyId=" + companyId + "]";
 	}
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+	public String getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 	
 }
