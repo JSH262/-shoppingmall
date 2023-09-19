@@ -219,7 +219,7 @@ $(() => {
 								<li class="page-item disabled">
 									<a class="page-link">다음</a>
 								</li>
-							`);
+							`);j
 						}
 						
 						$("#pagination").append(nextNode);

@@ -146,7 +146,7 @@
 	</div>
 </div>
 
-<div class="offcanvas offcanvas-start" style="margin-left: 350px;width:300px" tabindex="-1" id="offcanvasCategoryDown" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown">
+<div class="offcanvas offcanvas-start" style="margin-left: 330px;width:300px" tabindex="-1" id="offcanvasCategoryDown" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="offcanvasCategoryDownLabel"></h5>
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -159,7 +159,7 @@
 	</div>
 </div>
 
-<div class="offcanvas offcanvas-start" style="margin-left: 600px;width:300px" tabindex="-1" id="offcanvasCategoryDown2" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown2">
+<div class="offcanvas offcanvas-start" style="margin-left: 580px;width:300px" tabindex="-1" id="offcanvasCategoryDown2" data-bs-backdrop="false" aria-labelledby="offcanvasCategoryDown2">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="offcanvasCategoryDown2Label"></h5>
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
