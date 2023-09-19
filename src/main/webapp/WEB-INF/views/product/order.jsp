@@ -15,7 +15,7 @@
 <html>
 	<head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>주문</title>
 		<script>
 			document.id="<%=AttributeName.getUserData(request).getId() %>";
 			document.contextPath = "<%=request.getContextPath() %>";
@@ -26,7 +26,6 @@
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/order.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/payment.js"></script>
 		
-		<title>Insert title here</title>
 		<style type="text/css">
 			.product-container {
 				display:grid;

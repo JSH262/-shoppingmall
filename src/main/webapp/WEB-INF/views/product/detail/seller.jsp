@@ -7,7 +7,7 @@
 	
 		<head>
 			<meta charset="UTF-8">
-			<title>Insert title here</title>
+			<title>판매자</title>
 			
 			
 			<%@ include file="/WEB-INF/component/header/common.jsp" %>	

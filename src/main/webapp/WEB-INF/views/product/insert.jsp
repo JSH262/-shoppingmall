@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품 추가하기</title>
 
 <%@ include file="/WEB-INF/component/header/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/product/insert.js"></script>

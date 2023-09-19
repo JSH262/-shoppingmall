@@ -1,9 +1,5 @@
 package com.tjoeun.shoppingmall.config.interceptor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,10 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.tjoeun.helper.AttributeName;
-import com.tjoeun.helper.UsersType;
-import com.tjoeun.shoppingmall.vo.UsersVO;
 
 public class CustomInterceptor implements HandlerInterceptor 
 {

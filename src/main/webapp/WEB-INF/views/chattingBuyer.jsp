@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>채팅</title>
 			
 		<script>
 			document.contextPath = '<%=request.getContextPath() %>';

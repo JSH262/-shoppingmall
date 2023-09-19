@@ -7,7 +7,7 @@
 		
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/list/buyer.js"></script>		
-		<title>Insert title here</title>
+		<title>구매자</title>
 		<style type="text/css">
 			.product-container {
 				display:grid;

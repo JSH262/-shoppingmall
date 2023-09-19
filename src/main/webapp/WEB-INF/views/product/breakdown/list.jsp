@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>주문/결제목록</title>
 		<%@ include file="/WEB-INF/component/header/common.jsp" %>
 		<script type="text/javascript" src="<%=request.getContextPath() %>/js/product/breakdown/list.js"></script>
 							
