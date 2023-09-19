@@ -202,6 +202,10 @@
 			select[name=request], input[name=requestMessage] {
 				width: 40%;
 			}
+			#list {
+			 max-width: 1200px;
+			 margin: auto;
+			}
 		</style>
 	</head>
 	<body>

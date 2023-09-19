@@ -116,6 +116,12 @@
 			.product-sold-out {
 				opacity: 0.3;
 			}
+			
+			#list {
+				max-width:1200px;
+				margin: auto;			
+			}
+			
 		</style>
 	</head>
 	<body>

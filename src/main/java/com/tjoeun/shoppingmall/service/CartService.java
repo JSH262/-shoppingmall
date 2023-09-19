@@ -153,6 +153,7 @@ public class CartService
 			if(dao.isRow(vo) > 0)
 			{
 				retval = dao.update(vo);
+				th.commit();
 			}
 			else				
 			{
@@ -164,8 +165,6 @@ public class CartService
 				retval = dao.insert(vo);
 				th.commit();
 			}
-			
-			th.commit();
 		}
 		catch(Exception exp)
 		{

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<div class="modal fade" id="customAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="customAlertLabel" aria-hidden="true">
+<div class="modal fade" style="z-index: 10000" id="customAlert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="customAlertLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content rounded-3 shadow">
 			<div class="modal-body p-4 text-center">
