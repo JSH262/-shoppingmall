@@ -9,7 +9,8 @@ function deleteReview(id) {
 			switch (res) {
 				case '0':
 					customAlert.show('삭제 되었습니다.', null, 1, function(){
-						location.href = location.href;
+						//location.href = location.href;
+						location.replace(location.href);
 					});
 					break;
 				case '1':
