@@ -63,6 +63,11 @@ $(() => {
 				let item = list[i];
 				let img = $("<img class='img-thumbnail w-75'>");
 				
+				
+				node.find('td:eq(1)').bind('click', function(){
+					location.href = `${CONTEXT_PATH}/product/detail?id=${item.productId}`;
+				});
+				
 				img.attr('src', `${CONTEXT_PATH}/image/${item.productThumbnail}`);
 				node.find('span[name=orderDate]').text(item.createDate);
 				node.find('span[name=id]').text(item.id);

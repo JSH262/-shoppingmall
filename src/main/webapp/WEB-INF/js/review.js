@@ -16,16 +16,16 @@ function reviewInsert() {
 		},
 		success: res => {
 			switch (res) {
-			case '0':
+			case '1':
 				customAlert.show('리뷰등록에 성공했습니다.', null, 1, function(){
 					location.href="/shoppingmall/product/payment/list";	
 				});
 				break;
-			case '1':
+			case '2':
 				customAlert.show('글자수 부족.', '5글자 이상 입력하세요.', 1, function(){
 				});
 				break;
-			case '2':
+			case '3':
 				customAlert.show('등록 실패.', '잠시후 다시 실행해주세요.', 1, function(){
 				});
 				break;

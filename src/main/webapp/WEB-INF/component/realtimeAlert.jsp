@@ -6,7 +6,7 @@
 	if(UsersType.SELLER.equals(AttributeName.getUserType(request)))
 	{
 %>
-<div id="realtimeAlertContents" class="position-absolute top-0 end-0 mt-3 me-3">
+<div id="realtimeAlertContents" class="position-absolute top-0 end-0 mt-3 me-3" style="z-index: 10000;">
 	
 </div>
 <%

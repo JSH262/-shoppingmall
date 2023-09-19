@@ -22,12 +22,13 @@ import org.springframework.stereotype.Controller;
 
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.UsersType;
+import com.tjoeun.shoppingmall.config.ServerEndpointConfigurator;
 import com.tjoeun.shoppingmall.service.ProductService;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 
-@ServerEndpoint("/alert")
+@ServerEndpoint(value="/alert", configurator = ServerEndpointConfigurator.class)
 @Controller
 public class AlertServer 
 {

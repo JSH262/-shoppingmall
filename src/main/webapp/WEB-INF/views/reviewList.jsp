@@ -65,6 +65,7 @@
 		</tr>
 		<tr>
 			<th style="width: 50px;">별점</th>
+			<th style="width: 200px;">썸네일</th>
 			<th style="width: 500px;">내용</th>
 			<th style="width: 100px;">등록일</th>
 			<th style="width: 40px;">삭제</th>
@@ -88,11 +89,16 @@
 						<i class="bi bi-star-fill"></i>
 					</c:forEach>
 				</td>
+				<td>
+					<a href="<%=request.getContextPath() %>/product/detail?id=${vo.productId}">
+						<img style="width:100%" src="<%=request.getContextPath() %>/image/${vo.thumbnail}">
+					</a>
+				</td>
 				<td align="center">${vo.contents}</td>
 				<td align="center">
 					<fmt:formatDate value="${vo.createDate}" pattern="yyyy.MM.dd(E)"/>
 				</td>
-				<td  style="display:block">
+				<td style="display:block">
 					<%-- <input type="text" id="id" name="id" value="${vo.id}"/> --%>
 					<%-- <input type="button" id="button_${vs.index}" name="button_${vs.index}" value="삭제하기"/> --%>
 					<input  class="btn btn-lg btn-light w-100 mx-0" type="button"  style="text-align:center; display:block; margin: 0 auto;" value="삭제하기" onclick="deleteReview('${vo.id}')" />

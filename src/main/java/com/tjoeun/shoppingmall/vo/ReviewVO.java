@@ -12,6 +12,8 @@ public class ReviewVO {
     Character useYn;
     Timestamp createDate;
     String fmtCreateDate;
+    String thumbnail;
+    
     
     public ReviewVO() {	}
     
@@ -112,6 +114,16 @@ public class ReviewVO {
 
 	public void setFmtCreateDate(String fmtCreateDate) {
 		this.fmtCreateDate = fmtCreateDate;
+	}
+
+
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	@Override

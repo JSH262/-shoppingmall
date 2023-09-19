@@ -14,9 +14,14 @@
 	</update>
 	
 	<select id="selectByUserId" parameterType="java.lang.String" resultType="ReviewVO">
-		select *
-		from review
-		where user_id = #{userId} AND use_yn = 'Y'
+		
+		
+		select r.*, p.thumbnail
+		from review r join product p on r.product_id = p.id
+		where r.user_id = #{userId} AND r.use_yn = 'Y'
+		
+		
+		
 	</select>
 	
 	<select id="already" parameterType="java.lang.Integer" resultType="int">
