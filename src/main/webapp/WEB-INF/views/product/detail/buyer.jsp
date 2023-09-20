@@ -181,7 +181,7 @@
 					</div>
 		 		</div>
 		 	</div>
-		 	<div class="row pt-3 pb-3 bg-light" name="productDetailMenu" style="position: sticky; top:60px;">
+		 	<div class="row pt-3 pb-3 bg-light" name="productDetailMenu" style="position: sticky; top:60px; z-index:1000">
 		 		<div class="col-md-6">
 			 		<span class="input-group mb-3 justify-content-end">
 						<label class="input-group-text" for="amount">수량</label>
@@ -201,7 +201,9 @@
 						<c:choose>
 							<c:when test="${product.amount != 0 }">
 								<input class="btn btn-outline-secondary" type="button" id="cart" name="cart" value="장바구니" />
+								<%--
 								<input class="btn btn-outline-secondary" type="button" id="buy" name="buy" value="구매하기" />
+								 --%>
 							</c:when>
 							<c:otherwise>
 								<input class="btn btn-secondary" type="button" value="품절" disabled />

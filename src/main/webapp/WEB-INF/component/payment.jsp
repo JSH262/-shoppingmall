@@ -211,9 +211,9 @@
 										<tr>
 											<th scope="row">주민등록번호</th>
 											<td>
-												<input class="form-control form-control-sm" style="width:85px;display:inline;" type="text" name="paymentInputPersonalNm" id="paymentInputPersonalNm1">
+												<input class="form-control form-control-sm" style="width:85px;display:inline;" type="password" name="paymentInputPersonalNm" id="paymentInputPersonalNm1">
 												-
-												<input class="form-control form-control-sm" style="width:85px;display:inline;" type="text" name="paymentInputPersonalNm" id="paymentInputPersonalNm2">
+												<input class="form-control form-control-sm" style="width:85px;display:inline;" type="password" name="paymentInputPersonalNm" id="paymentInputPersonalNm2">
 											</td>
 										</tr>
 									</tbody>

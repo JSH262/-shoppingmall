@@ -172,6 +172,11 @@ public class myPageController
 		System.out.println(vo);
 		int res = myPageservice.userUpdate(vo);
 		if (res == 1) {
+			UsersVO userInfo = AttributeName.getUserData(request);
+			userInfo.setName(name);
+			userInfo.setEmail(email);
+			userInfo.setPhone(phone);
+			
 			response.getWriter().write("0"); // �몼
 		} else {
 			response.getWriter().write("1"); // �몼

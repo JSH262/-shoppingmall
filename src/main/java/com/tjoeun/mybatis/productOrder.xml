@@ -71,7 +71,7 @@
 								    to_char(po.product_price, 'FM999,999,999') fmt_product_price,
 								    to_char(po.product_amount * po.product_price + po.product_delivery_price, 'FM999,999,999') fmt_total_product_price,
 								    nvl2(r.id, 'false', 'true') is_review
-								from product_order po left join review r on po.product_id = r.product_order_id
+								from product_order po left join review r on po.id = r.product_order_id
 								where po.user_id = #{userId}								
 								order by po.id desc, po.product_id desc, po.product_name asc) t1
 						where rownum <![CDATA[ <= ]]> #{endNo}) t2
