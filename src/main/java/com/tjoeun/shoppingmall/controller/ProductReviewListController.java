@@ -31,7 +31,7 @@ public class ProductReviewListController
 	
 	@ResponseBody
 	@RequestMapping(value="/product/review/list", method=RequestMethod.POST)
-	protected HashMap<String, Object> doGet(HttpServletRequest request, HttpServletResponse response,
+	protected HashMap<String, Object> productReviewList(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody ProductVO params)
 	{
 		HashMap<String, Object> retval = new HashMap<String, Object>();
