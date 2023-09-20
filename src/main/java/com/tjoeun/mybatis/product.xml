@@ -89,7 +89,7 @@
 						<if test="useYn == null">
 							and use_yn = 'Y'
 						</if>
-						order by id desc) t1
+						order by create_date desc) t1
 				where rownum <![CDATA[ <= ]]> #{endNo}) p
 			left join 
 				(select product_id, avg(score) avg_review_score, count(score) cnt_review
@@ -97,6 +97,7 @@
 				group by product_id) r
 			on p.id = r.product_id
 		where p.rnum <![CDATA[ >= ]]> #{startNo}
+		order by p.rnum
 	</select>
 	
 	

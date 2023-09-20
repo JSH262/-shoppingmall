@@ -10,7 +10,7 @@
 	</context-param>
 	<context-param>
 	    <param-name>spring.profiles.active</param-name>
-	    <param-value>home</param-value>
+	    <param-value>dev</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->

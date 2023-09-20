@@ -43,10 +43,14 @@
 					background-color: crimson;
 					color: white;
 				}
-				
+				table {
+					max-width:1200px;
+					margin: auto;
+				}
 			</style>
 		</head>
 	<body>
+	
 	<%@ include file="/WEB-INF/component/header.jsp" %>
 	<c:choose>
 		<c:when test="${product != null }">
