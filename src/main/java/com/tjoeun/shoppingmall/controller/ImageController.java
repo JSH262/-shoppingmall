@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +21,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.tjoeun.shoppingmall.service.SettingService;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 
+import jdk.internal.org.jline.utils.Log;
+
 /**
  * Servlet implementation class ImageController
  */
 @Controller
 public class ImageController {
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	private static final long serialVersionUID = 1L;
 	SettingVO setting = null;
 	
@@ -41,23 +47,37 @@ public class ImageController {
 	{
 		try 
 		{
-			com.tjoeun.helper.Util.RecvImage(id, request, response, this.setting.getUploadPath());
+			String uploadUrl = this.setting.getUploadPath();
+			
+			com.tjoeun.helper.Util.RecvImage(id, request, response, uploadUrl);
 		}
 		catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 		}
 	}
 
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
 	protected void doPost(MultipartHttpServletRequest request, HttpServletResponse response) throws IOException 
-	{
-		String url = setting.getUploadPath();
-		
+	{		
 		try 
 		{
-			String strJson = com.tjoeun.helper.Util.SendPostImage(new MultipartFile[] {request.getFile("file")}, "file", url, null);
+			String uploadUrl = this.setting.getUploadPath();
+			char ch = uploadUrl.charAt(uploadUrl.length() - 1);
+			if(ch == '/')
+			{
+			}
+			else if(ch == '\\')
+			{
+			}
+			else
+			{
+				uploadUrl += "/";
+			}
+			
+			uploadUrl += "image";
+						
+			String strJson = com.tjoeun.helper.Util.SendPostImage(new MultipartFile[] {request.getFile("file")}, "file", uploadUrl, null);
 
 			response.setContentType("application/json; charset=UTF-8");
 			response.getWriter().write(strJson);
@@ -65,7 +85,7 @@ public class ImageController {
 		catch (IOException e) 
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 
 			JSONObject jObj = new JSONObject();
 			
