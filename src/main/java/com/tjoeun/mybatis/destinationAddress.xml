@@ -12,6 +12,7 @@
 	<select id="selectList" parameterType="DestinationAddressVO" resultType="DestinationAddressVO">
 		select *
 		from dest_addr
+		order by id desc
 	</select>
 	
 	<select id="select" parameterType="DestinationAddressVO" resultType="DestinationAddressVO">
