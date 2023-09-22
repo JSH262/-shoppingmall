@@ -107,11 +107,7 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-				
-				
-				
-				
-				
+
 		<!-- Servlet -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -158,8 +154,6 @@
 			<scope>test</scope>
 		</dependency>  
 		
-		
-		
 		<!-- MYSQL -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -196,10 +190,6 @@
 		    <scope>provided</scope>
 		</dependency>
 
-		
-		
-		
-
 		<!-- mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -212,7 +202,6 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.1.1</version>
 		</dependency>
-		
 		    
 		<!-- 파일 업로드를 위한 라이브러리를 추가한다.-->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
@@ -301,9 +290,6 @@
 		    <artifactId>HikariCP</artifactId>
 		    <version>4.0.3</version>
 		</dependency>
-
-
-				      
 	</dependencies>
    	<build>
         <plugins>

@@ -169,8 +169,11 @@ const payment = {
 									wSocket.send(JSON.stringify(sendData));
 									wSocket.close();
 									
-									alert(resp.msg);					
-									location.href = `${CONTEXT_PATH}/product/payment/list`;
+									//alert(resp.msg);
+									customAlert.show(resp.msg, null, 1, function() {
+										location.href = `${CONTEXT_PATH}/product/payment/list`;
+									});
+									
 								};
 							
 								wSocket.onclose = function(event) 

@@ -34,6 +34,7 @@ public class AlertServer
 {
 	JSONParser parser = new JSONParser();
 	private static Map<Session, String> clients = Collections.synchronizedMap(new HashMap<Session, String>());
+	//private static Map<Session, String> clients = new HashMap<Session, String>();
 
 	
 	@Autowired

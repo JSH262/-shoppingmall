@@ -35,6 +35,7 @@ import com.tjoeun.shoppingmall.vo.UsersVO;
 public class ChattingServer 
 {
 	private static Map<Session, WsInfoData> clients = Collections.synchronizedMap(new HashMap<Session, WsInfoData>());
+	//private static Map<Session, WsInfoData> clients = new HashMap<Session, WsInfoData>();
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -168,36 +169,38 @@ public class ChattingServer
 			
 			case PRODUCT_DATA:
 				{
-					
 					if(this.productService != null)
 					{
-						String id = (String)jMsg.get("id");	
-						String roomId = (String)jMsg.get("roomId");
-						Long productId = (Long)jMsg.get("productId");
-						WsInfoData wsInfo = clients.get(session);
-						
-						logger.info(String.format("%s, %s, %d", id, roomId, productId));
-						
-						ProductVO productInfo = productService.select(productId);
-						JSONObject sendMsg = new JSONObject();
-						
-						/*
-						sendMsg.put("deliveryPrice", productInfo.getDeliveryPrice());
-						sendMsg.put("discount", productInfo.getDiscount());
-						sendMsg.put("price", productInfo.getPrice());
-						sendMsg.put("amount", productInfo.getAmount());
-						*/
-						
-						sendMsg.put("id", id);
-						sendMsg.put("roomId", roomId);
-						sendMsg.put("link", "/product/detail?id=" + productId);
-						sendMsg.put("name", productInfo.getName());
-						sendMsg.put("code", ResponseCode.PRODUCT_DATA_SUCCESS.getCode());
-						wsInfo.sendAllRoomMessage(id, sendMsg);
-						
-						logger.info(sendMsg.toJSONString());
-						
-						retval = null;
+						synchronized (clients) 
+						{						
+							String id = (String)jMsg.get("id");	
+							String roomId = (String)jMsg.get("roomId");
+							Long productId = (Long)jMsg.get("productId");
+							WsInfoData wsInfo = clients.get(session);
+							
+							logger.info(String.format("%s, %s, %d", id, roomId, productId));
+							
+							ProductVO productInfo = productService.select(productId);
+							JSONObject sendMsg = new JSONObject();
+							
+							/*
+							sendMsg.put("deliveryPrice", productInfo.getDeliveryPrice());
+							sendMsg.put("discount", productInfo.getDiscount());
+							sendMsg.put("price", productInfo.getPrice());
+							sendMsg.put("amount", productInfo.getAmount());
+							*/
+							
+							sendMsg.put("id", id);
+							sendMsg.put("roomId", roomId);
+							sendMsg.put("link", "/product/detail?id=" + productId);
+							sendMsg.put("name", productInfo.getName());
+							sendMsg.put("code", ResponseCode.PRODUCT_DATA_SUCCESS.getCode());
+							wsInfo.sendAllRoomMessage(id, sendMsg);
+							
+							logger.info(sendMsg.toJSONString());
+							
+							retval = null;
+						}
 					}
 					else
 					{
@@ -208,46 +211,49 @@ public class ChattingServer
 			
 			case ENTRY_ROOM:
 				{
-					String id = (String)jMsg.get("id");	
-					String roomId = (String)jMsg.get("roomId");
-					WsInfoData wsInfo = clients.get(session);
-										
-					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
-					{										
-						WsRoomData room = wsInfo.getRoom(roomId);
-						
-						if(room != null)
-						{
-							if(room.isEntryRoom(wsInfo) == false)
-							{
-								room.entryRoom(wsInfo);	
-							}
-														
-							List<WsInfoData> entryUsers = room.getUsers();
-							JSONArray enterUsers = new JSONArray();
+					synchronized (clients) 
+					{
+						String id = (String)jMsg.get("id");	
+						String roomId = (String)jMsg.get("roomId");
+						WsInfoData wsInfo = clients.get(session);
+											
+						if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
+						{										
+							WsRoomData room = wsInfo.getRoom(roomId);
 							
-							for(int i = 0; i<entryUsers.size(); i++)
+							if(room != null)
 							{
-								enterUsers.add(								
-										entryUsers.get(i).getUserInfo().getId()
-								);
+								if(room.isEntryRoom(wsInfo) == false)
+								{
+									room.entryRoom(wsInfo);	
+								}
+															
+								List<WsInfoData> entryUsers = room.getUsers();
+								JSONArray enterUsers = new JSONArray();
+								
+								for(int i = 0; i<entryUsers.size(); i++)
+								{
+									enterUsers.add(								
+											entryUsers.get(i).getUserInfo().getId()
+									);
+								}
+								
+								retval.put("entryUserList", enterUsers);
+								retval.put("code", ResponseCode.ENTRY_ROOM_SUCCESS.getCode());
 							}
-							
-							retval.put("entryUserList", enterUsers);
-							retval.put("code", ResponseCode.ENTRY_ROOM_SUCCESS.getCode());
+							else
+							{
+								ResponseCode error = ResponseCode.ENTRY_ROOM_FAIL_NOT_FOUND; 
+								retval.put("code", error.getCode());
+								retval.put("msg", error.getMsg());	
+							}
 						}
 						else
 						{
-							ResponseCode error = ResponseCode.ENTRY_ROOM_FAIL_NOT_FOUND; 
+							ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
 							retval.put("code", error.getCode());
-							retval.put("msg", error.getMsg());	
+							retval.put("msg", error.getMsg());
 						}
-					}
-					else
-					{
-						ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
-						retval.put("code", error.getCode());
-						retval.put("msg", error.getMsg());
 					}
 				}
 				break;
@@ -255,51 +261,54 @@ public class ChattingServer
 				
 			case CREATE_ROOM:
 				{
-					String id = (String)jMsg.get("id");	
-					WsInfoData wsInfo = clients.get(session);
-					
-					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
-					{
-						JSONArray enterUsers = new JSONArray();
-						String roomId = Util.UUIDtoString();						
-						JSONArray entryUsers = (JSONArray)jMsg.get("entryUsers");
-						WsRoomData room = wsInfo.createRoom(roomId);
+					synchronized (clients) 
+					{	
+						String id = (String)jMsg.get("id");	
+						WsInfoData wsInfo = clients.get(session);
 						
-						for(int i = 0; i<entryUsers.size(); i++)
+						if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
 						{
-							String entryUserId = (String)entryUsers.get(i);							
-							Set<Session> keys = clients.keySet();
-							Iterator<Session> iter = keys.iterator();
-							while(iter.hasNext())
+							JSONArray enterUsers = new JSONArray();
+							String roomId = Util.UUIDtoString();						
+							JSONArray entryUsers = (JSONArray)jMsg.get("entryUsers");
+							WsRoomData room = wsInfo.createRoom(roomId);
+							
+							for(int i = 0; i<entryUsers.size(); i++)
 							{
-								synchronized (clients) 
-								{	
-									WsInfoData entryUserData = clients.get(iter.next());
-									UsersVO entryUserInfo = entryUserData.getUserInfo();
-									
-									if(
-										entryUserId.equals(entryUserInfo.getId())
-									)
-									{
-										// 방에 참여할 다른 사용자를 방에 참여한다.
-										room.entryRoom(entryUserData);
-										entryUserData.addRoom(room);
-										enterUsers.add(entryUserId);
-										break;
+								String entryUserId = (String)entryUsers.get(i);							
+								Set<Session> keys = clients.keySet();
+								Iterator<Session> iter = keys.iterator();
+								while(iter.hasNext())
+								{
+									synchronized (clients) 
+									{	
+										WsInfoData entryUserData = clients.get(iter.next());
+										UsersVO entryUserInfo = entryUserData.getUserInfo();
+										
+										if(
+											entryUserId.equals(entryUserInfo.getId())
+										)
+										{
+											// 방에 참여할 다른 사용자를 방에 참여한다.
+											room.entryRoom(entryUserData);
+											entryUserData.addRoom(room);
+											enterUsers.add(entryUserId);
+											break;
+										}
 									}
 								}
 							}
+							
+							retval.put("code", ResponseCode.CREATE_ROOM_SUCCESS.getCode());
+							retval.put("roomId", roomId);
+							retval.put("entryUserList", enterUsers);
 						}
-						
-						retval.put("code", ResponseCode.CREATE_ROOM_SUCCESS.getCode());
-						retval.put("roomId", roomId);
-						retval.put("entryUserList", enterUsers);
-					}
-					else
-					{
-						ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
-						retval.put("code", error.getCode());
-						retval.put("msg", error.getMsg());
+						else
+						{
+							ResponseCode error = ResponseCode.CREATE_ROOM_FAIL_AUTH; 
+							retval.put("code", error.getCode());
+							retval.put("msg", error.getMsg());
+						}	
 					}
 				}
 			
@@ -351,45 +360,48 @@ public class ChattingServer
 				
 			case SENDER:
 				{
-					String id = (String)jMsg.get("id");
-					WsInfoData wsInfo = clients.get(session);
-					
-					if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
+					synchronized (clients) 
 					{
-						String roomId = (String)jMsg.get("roomId");
-						String msg = (String)jMsg.get("msg");
-						WsRoomData room = wsInfo.getRoom(roomId);
+						String id = (String)jMsg.get("id");
+						WsInfoData wsInfo = clients.get(session);
 						
-						if(room != null)
+						if(id != null && wsInfo != null && id.equals(wsInfo.getUserInfo().getId()))
 						{
-							JSONObject sendMsg = new JSONObject();
+							String roomId = (String)jMsg.get("roomId");
+							String msg = (String)jMsg.get("msg");
+							WsRoomData room = wsInfo.getRoom(roomId);
 							
-							sendMsg.put("id", id);
-							sendMsg.put("msg", msg);
-							sendMsg.put("roomId", roomId);
-							sendMsg.put("code", ResponseCode.SENDER_SUCCESS.getCode());
-
-							logger.info("call onMessage => SENDER: " + session.getId() + ", " + wsInfo.getUserInfo());
-							
-							room.sendMessage(id, sendMsg.toJSONString());
-							
-							retval = null;
-							//retval.put("code", ResponseCode.SEND_SUCCESS.getCode());
+							if(room != null)
+							{
+								JSONObject sendMsg = new JSONObject();
+								
+								sendMsg.put("id", id);
+								sendMsg.put("msg", msg);
+								sendMsg.put("roomId", roomId);
+								sendMsg.put("code", ResponseCode.SENDER_SUCCESS.getCode());
+	
+								logger.info("call onMessage => SENDER: " + session.getId() + ", " + wsInfo.getUserInfo());
+								
+								room.sendMessage(id, sendMsg.toJSONString());
+								
+								retval = null;
+								//retval.put("code", ResponseCode.SEND_SUCCESS.getCode());
+							}
+							else
+							{
+								// 오류: 방이 없음
+								ResponseCode error = ResponseCode.SENDER_FAIL_NOT_ROOM; 
+								retval.put("code", error.getCode());
+								retval.put("msg", error.getMsg());
+							}
 						}
 						else
 						{
-							// 오류: 방이 없음
-							ResponseCode error = ResponseCode.SENDER_FAIL_NOT_ROOM; 
+							// 오류: id 또는 로그인하지 않음
+							ResponseCode error = ResponseCode.SENDER_FAIL_AUTH; 
 							retval.put("code", error.getCode());
 							retval.put("msg", error.getMsg());
 						}
-					}
-					else
-					{
-						// 오류: id 또는 로그인하지 않음
-						ResponseCode error = ResponseCode.SENDER_FAIL_AUTH; 
-						retval.put("code", error.getCode());
-						retval.put("msg", error.getMsg());
 					}
 				}
 				break;

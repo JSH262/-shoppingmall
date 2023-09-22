@@ -27,6 +27,7 @@ public class HttpSessionManagement
 	
 	
 	private Set<HttpSession> clients = Collections.synchronizedSet(new HashSet<HttpSession>());
+	//private Set<HttpSession> clients = new HashSet<HttpSession>();
 	
 	public UsersVO getUserData(String id)
 	{
@@ -230,20 +231,23 @@ public class HttpSessionManagement
 	public boolean isSession(String id)
 	{
 		boolean retval = true;
-		Iterator<HttpSession> iter = clients.iterator();
-		while(iter.hasNext())
-		{
-			HttpSession tmp = iter.next();
-			UsersVO user = AttributeName.getUserData(tmp);
-			
-			if(id.equals(user.getId()))
+		synchronized (clients) 
+		{			
+			Iterator<HttpSession> iter = clients.iterator();
+			while(iter.hasNext())
 			{
-
-				long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
+				HttpSession tmp = iter.next();
+				UsersVO user = AttributeName.getUserData(tmp);
 				
-				if(System.currentTimeMillis() >= time)
+				if(id.equals(user.getId()))
 				{
-					retval = false;
+	
+					long time = tmp.getLastAccessedTime() + tmp.getMaxInactiveInterval();
+					
+					if(System.currentTimeMillis() >= time)
+					{
+						retval = false;
+					}
 				}
 			}
 		}

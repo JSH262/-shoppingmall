@@ -134,7 +134,7 @@ $(() => {
 			    	}	
 			    	else
 			    	{
-			    		alert('판매자가 접속을 하지 않았습니다.');
+			    		customAlert.show('판매자가 접속을 하지 않았습니다.', null, 1);
 			    	}
 			    	
 			    	
@@ -143,7 +143,7 @@ $(() => {
 			    {
 			    	if(data.closedId == sellerId)
 			    	{
-			    		alert('판매자가 대화를 종료했습니다.');
+			    		customAlert.show('판매자가 대화를 종료했습니다.', null, 1);
 			    	}
 			    	
 			    	console.log(data.closedId, "가 접속을 종료했습니다.");
