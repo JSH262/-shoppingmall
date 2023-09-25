@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.service.UserService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
@@ -119,15 +120,22 @@ public class UserJoin {
 		System.out.println(vo);
 		
 		
-		// 테이블에 회원 정보를 저장하는 메소드를 실행한다.
-		int result = userService.UserInsert(vo);
-		
-		// 저장 체크
-		if (result == 1) {
-			response.getWriter().write("8"); // ②
-		} else {
-			System.out.println(result);
-			response.getWriter().write("9"); // ②
+		try
+		{
+			// 테이블에 회원 정보를 저장하는 메소드를 실행한다.
+			int result = userService.UserInsert(vo);
+			
+			// 저장 체크
+			if (result == 1) {
+				response.getWriter().write("8"); // ②
+			} else {
+				System.out.println(result);
+				response.getWriter().write("9"); // ②
+			}
+		}
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + ""); // ②
 		}
 	}
 

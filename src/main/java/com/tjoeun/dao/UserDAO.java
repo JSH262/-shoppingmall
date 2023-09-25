@@ -1,9 +1,12 @@
 package com.tjoeun.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.tjoeun.shoppingmall.vo.UsersVO;
 import com.tjoeun.vo.CompanyVO;
 
 
+@Mapper
 public interface UserDAO 
 {
 	public int insert(UsersVO vo);

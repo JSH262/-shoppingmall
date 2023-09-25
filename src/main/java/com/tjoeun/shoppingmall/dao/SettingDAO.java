@@ -1,10 +1,12 @@
 package com.tjoeun.shoppingmall.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.SettingVO;
 
+@Mapper
 public interface SettingDAO {
 	public int insert(ProductVO item);	
 	public SettingVO select();

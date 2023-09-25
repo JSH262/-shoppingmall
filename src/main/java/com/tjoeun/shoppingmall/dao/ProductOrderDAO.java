@@ -2,6 +2,7 @@ package com.tjoeun.shoppingmall.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.CartVO;
@@ -9,6 +10,7 @@ import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.PaymentVO;
 import com.tjoeun.shoppingmall.vo.ProductOrderVO;
 
+@Mapper
 public interface ProductOrderDAO 
 {
 	public int insert(ProductOrderVO item);

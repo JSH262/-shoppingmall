@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.ProductDAO;
@@ -17,6 +18,7 @@ import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 @Service
+@Transactional(readOnly=true)
 public class ProductService 
 {
 	Logger log = LoggerFactory.getLogger(this.getClass());
@@ -27,8 +29,13 @@ public class ProductService
 	@Autowired
 	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
 
+	@Autowired	
+	ProductDAO productDAO;
+	
+	@Transactional
 	public int insert(ProductVO item) 
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -46,6 +53,9 @@ public class ProductService
 		}
 				
 		return retval;
+		//*/
+		
+		return productDAO.insert(item);
 	}
 	
 	/*
@@ -78,6 +88,7 @@ public class ProductService
 	//*/
 	public List<ProductVO> selectList(ProductVO params, ProductPagingVO page)
 	{
+		/*
 		List<ProductVO> retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -98,6 +109,13 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		
+
+		params.setStartNo(page.getStartNo());
+		params.setEndNo(page.getEndNo());
+		
+		return  productDAO.selectList(params);
 	}
 	
 	/*
@@ -121,6 +139,7 @@ public class ProductService
 	//*/
 	public int totalCount(ProductVO params)
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -138,6 +157,9 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		
+		return productDAO.totalCount(params);
 	}
 	
 	public ProductVO select(Long id)
@@ -152,6 +174,7 @@ public class ProductService
 	
 	public ProductVO select(ProductVO params)
 	{
+		/*
 		ProductVO retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -169,9 +192,14 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		return productDAO.select(params);
 	}
+	
+	@Transactional
 	public int update(ProductVO item) 
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -189,11 +217,14 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
 		
+		return productDAO.update(item);
 	}
 
 	public List<ProductVO> selectList(List<CartVO> productIds) 
 	{
+		/*
 		List<ProductVO> retval = new ArrayList<>();
 		ProductVO params = new ProductVO();
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
@@ -226,10 +257,34 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		
+		List<ProductVO> retval = new ArrayList<>();
+		ProductVO params = new ProductVO();
+		
+		params.setChoose("detail");
+		for(int i = 0; i<productIds.size(); i++)
+		{
+			try
+			{
+				params.setId(productIds.get(i).getProductId());
+				
+				ProductVO result = productDAO.select(params);
+				
+				retval.add(result);
+			}
+			catch(NumberFormatException  nfexp)
+			{
+				
+			}
+		}
+		
+		return retval;
 	}
 	
 	public List<CategoryVO> selectProductCatList(CategoryVO params)
 	{
+		/*
 		List<CategoryVO> retval = new ArrayList<>();
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -247,9 +302,13 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		
+		return productDAO.selectProductCatList(params);		
 	}
 	public List<ReviewVO> selectProductReview(ProductVO params)
 	{
+		/*
 		List<ReviewVO> retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -267,9 +326,13 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		
+		return productDAO.selectProductReview(params);
 	}
 	public Integer selectProductReviewCount(ProductVO params)
 	{
+		/*
 		Integer retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -287,10 +350,13 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		return productDAO.selectProductReviewCount(params);
 	}
 	
 	public String totalProductSellPrice(String sellerId)
 	{
+		/*
 		ProductVO params = new ProductVO();
 		String retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
@@ -311,5 +377,11 @@ public class ProductService
 		}
 		
 		return retval;
+		//*/
+		ProductVO params = new ProductVO();
+		
+		params.setSellerId(sellerId);
+		
+		return productDAO.totalProductSellPrice(params);
 	}
 }

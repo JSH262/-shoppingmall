@@ -2,10 +2,12 @@ package com.tjoeun.shoppingmall.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.DestinationAddressVO;
 
+@Mapper
 public interface DestinationAddressDAO 
 {
 	public List<DestinationAddressVO> selectList(DestinationAddressVO vo);

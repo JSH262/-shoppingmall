@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.service.UserService;
 import com.tjoeun.shoppingmall.vo.UsersVO;
@@ -49,18 +50,25 @@ public class UserLogin {
 
 		UsersVO vo = new UsersVO(id, password1);
 		
-		int res = userService.userLogin(vo);
-		// 1 �Ѿ���� id�� �ش��ϴ� password�� ����
-		if (res == 1) {
-			// �α��� ����
-			UsersVO svo = userService.selectVO(id);
-			AttributeName.setUserData(request, svo);
-			HttpSessionManagement.getInstance().sessionCreated(request.getSession());
-			
-			response.getWriter().write("0"); 
-		} else {
-			// �α��� ����
-			response.getWriter().write("1");
+		try
+		{
+			int res = userService.userLogin(vo);
+			// 1 �Ѿ���� id�� �ش��ϴ� password�� ����
+			if (res == 1) {
+				// �α��� ����
+				UsersVO svo = userService.selectVO(id);
+				AttributeName.setUserData(request, svo);
+				HttpSessionManagement.getInstance().sessionCreated(request.getSession());
+				
+				response.getWriter().write("0"); 
+			} else {
+				// �α��� ����
+				response.getWriter().write("1");
+			}
+		}
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + "");
 		}
 
 	}

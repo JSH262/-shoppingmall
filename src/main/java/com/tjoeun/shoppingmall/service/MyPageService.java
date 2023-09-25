@@ -4,24 +4,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.MyPageDAO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @Service
+@Transactional(readOnly=true)
 public class MyPageService 
 {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	/*
 	@Autowired
 	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
 	@Autowired
 	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
-		
+	//*/
+	
+	@Autowired
+	MyPageDAO myPageDAO;
+	
 	public int passwordCheck(UsersVO vo) 
 	{
+		/*
 		int res = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -38,9 +46,15 @@ public class MyPageService
 		}
 		
 		return res;
+		//*/
+		
+		return myPageDAO.passwordCheck(vo);
 	}
+	
+	@Transactional
 	public int passwordUpdate(UsersVO vo) 
 	{
+		/*
 		int res = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -58,9 +72,16 @@ public class MyPageService
 		}
 		
 		return res;
+		//*/
+		
+
+		return myPageDAO.passwordUpdate(vo);
 	}
+	
+	@Transactional
 	public int unregister(UsersVO vo) 
 	{
+		/*
 		int res = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -78,9 +99,14 @@ public class MyPageService
 		}
 		
 		return res;
+		//*/
+		return myPageDAO.unregister(vo);
 	}
+	
+	@Transactional
 	public int userUpdate(UsersVO vo) 
 	{
+		/*
 		int res = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -98,6 +124,8 @@ public class MyPageService
 		}
 		
 		return res;
+		//*/
+		return myPageDAO.userUpdate(vo);
 	}
 	
 	

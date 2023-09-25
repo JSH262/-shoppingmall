@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.CartDAO;
@@ -23,18 +25,29 @@ import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
 @Service
+@Transactional(readOnly=true)
 public class CartService 
 {	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	/*
 	@Autowired
 	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
 	@Autowired
 	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
+	//*/
+	
+	@Autowired
+	CartDAO cartDAO;
+	
+	
+	@Autowired	
+	ProductDAO productDao;
 	
 	public List<CartVO> selectList(CartVO vo)
 	{
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<CartVO> retval = null;
 		
@@ -52,10 +65,14 @@ public class CartService
 		}
 				
 		return retval;
+		//*/
+		return cartDAO.selectList(vo);
+		
 	}
 	
 	public int count(String userId) 
 	{
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int retval = 0;
 		
@@ -72,10 +89,15 @@ public class CartService
 		}
 		
 		return retval;
+		//*/
+		
+		return cartDAO.count(userId);
 	}
 	
+	@Transactional
 	public int insert(CartVO vo) 
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -92,11 +114,15 @@ public class CartService
 		}
 						
 		return retval;
+		//*/
+		
+		return cartDAO.insert(vo);
 	}
 	
-	
+	@Transactional
 	public int delete(CartVO vo) 
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -113,10 +139,14 @@ public class CartService
 		}
 				
 		return retval;
+		//*/
+		return  cartDAO.delete(vo);
 	}
 	
+	@Transactional
 	public int update(CartVO vo) 
 	{
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -133,10 +163,15 @@ public class CartService
 		}
 		
 		return retval;
+		//*/
+		
+		return cartDAO.update(vo);
 	}
 
+	@Transactional
 	public int insert(HttpServletRequest request) throws JsonSyntaxException, IOException, ParseException 
 	{
+		/*
 		int retval = 0;
 		UsersVO user = AttributeName.getUserData(request);
 		String userId = user.getId();
@@ -173,9 +208,36 @@ public class CartService
 		}
 		
 		return retval;
+		//*/
+		
+		int retval = 0;
+		UsersVO user = AttributeName.getUserData(request);
+		String userId = user.getId();
+		CartVO vo = new Gson().fromJson(com.tjoeun.helper.Util.toBody(request), CartVO.class);
+		
+		ProductVO pVo = new ProductVO();			
+		pVo.setId(vo.getProductId());
+		vo.setUserId(userId);
+		
+		if(cartDAO.isRow(vo) > 0)
+		{
+			retval = cartDAO.update(vo);
+		}
+		else				
+		{
+			String sellerId = productDao.select(pVo).getSellerId();
+	
+			vo.setSellerId(sellerId);
+			
+			retval = cartDAO.insert(vo);
+		}
+		
+		return retval;
 	}
+	
 	public List<CartVO> productIds(CartVO item)
 	{
+		/*
 		List<CartVO> retval = null;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -192,9 +254,15 @@ public class CartService
 		}
 						
 		return retval;
+		//*/
+		
+		return cartDAO.productIds(item);
 	}
-
-	public int updateAmount(CartVO co) {
+	
+	@Transactional
+	public int updateAmount(CartVO co) throws ErrorCodeException
+	{
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 0;
 		try {
@@ -209,9 +277,22 @@ public class CartService
 		} finally {
 		}
 		return result;
+		//*/
+		
+		try
+		{
+			return cartDAO.updateAmount(co) == 1 ? 0 : 1;
+		}
+		catch(Exception exp)
+		{
+			throw new ErrorCodeException(1, exp.getMessage());
+		}
 	}
+	
 
-	public int deleteProduct(CartVO co) {
+	@Transactional
+	public int deleteProduct(CartVO co) throws ErrorCodeException {
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		int result = 0;
 		try {
@@ -226,5 +307,15 @@ public class CartService
 		} finally {
 		}
 		return result;
+		//*/
+		
+		try
+		{
+			return cartDAO.delete(co) == 1 ? 0 : 1;
+		}
+		catch(Exception exp)
+		{
+			throw new ErrorCodeException(1, exp.getMessage());
+		}
 	}
 }

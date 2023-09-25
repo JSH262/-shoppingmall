@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.service.UserService;
 import com.tjoeun.vo.CompanyVO;
 
@@ -47,11 +48,18 @@ public class CompanyInsert {
 		
 		CompanyVO vo = new CompanyVO(Name, Id, Address1, Address2, Stamp);
 		
-		int result = userService.companyInsert(vo);
-		if (result == 1) {
-			response.getWriter().write("1"); // ②
-		} else {
-			response.getWriter().write("2"); // ②
+		try
+		{
+			int result = userService.companyInsert(vo);
+			if (result == 1) {
+				response.getWriter().write("1"); // ②
+			} else {
+				response.getWriter().write("2"); // ②
+			}
+		}
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + "");
 		}
 	}
 }

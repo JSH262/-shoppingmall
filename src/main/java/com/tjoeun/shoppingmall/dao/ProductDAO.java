@@ -3,12 +3,14 @@ package com.tjoeun.shoppingmall.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.ProductVO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
+@Mapper
 public interface ProductDAO {
 	public int insert(ProductVO item);
 	public List<ProductVO> selectList(ProductVO params);

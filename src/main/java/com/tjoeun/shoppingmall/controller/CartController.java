@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.helper.AttributeName;
 import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.vo.CartVO;
@@ -113,11 +114,18 @@ public class CartController
 		co.setUserId(userId);
 		co.setProductId(productId);
 		
-		int res = cartService.updateAmount(co);
-		if (res == 0) {
-			response.getWriter().write("0"); // �몼
-		} else {
-			response.getWriter().write("1"); // �몼
+		try
+		{
+			int res = cartService.updateAmount(co);
+			if (res == 0) {
+				response.getWriter().write("0"); // �몼
+			} else {
+				response.getWriter().write("1"); // �몼
+			}
+		}
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + "");
 		}
 	}
 	
@@ -133,11 +141,18 @@ public class CartController
 		co.setUserId(userId);
 		co.setProductId(productId);
 		
-		int res = cartService.deleteProduct(co);
-		if (res == 0) {
-			response.getWriter().write("0"); // �몼
-		} else {
-			response.getWriter().write("1"); // �몼
+		try
+		{
+			int res = cartService.deleteProduct(co);
+			if (res == 0) {
+				response.getWriter().write("0"); // �몼
+			} else {
+				response.getWriter().write("1"); // �몼
+			}
+		}
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + "");
 		}
 	}
 }

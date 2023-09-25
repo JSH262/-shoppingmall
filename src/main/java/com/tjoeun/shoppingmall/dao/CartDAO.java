@@ -2,9 +2,12 @@ package com.tjoeun.shoppingmall.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.tjoeun.shoppingmall.vo.CartVO;
 
 
+@Mapper
 public interface CartDAO 
 {
 	public int insert(CartVO vo);	

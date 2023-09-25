@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.service.UserService;
 
 @Controller
@@ -29,11 +30,18 @@ public class userIdCheck {
 		System.out.println(id);
 		
 		// 회원 가입하려는 아이디가 테이블에 존재하는가 판단하는 메소드를 실행한다.
-		int result = userService.IDCheck(id);
-		if (id.trim().equals("")) {
-			result = 3;
+		try
+		{
+			int result = userService.IDCheck(id);
+			if (id.trim().equals("")) {
+				result = 3;
+			}
+			response.getWriter().write(result + "");
 		}
-		response.getWriter().write(result + "");
+		catch(ErrorCodeException exp)
+		{
+			response.getWriter().write(exp.getCode() + "");
+		}
 	}
 
 }

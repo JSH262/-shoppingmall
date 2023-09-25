@@ -3,11 +3,12 @@ package com.tjoeun.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
-
+@Mapper
 public interface AdminDAO {
 		
 	public int selectCount();

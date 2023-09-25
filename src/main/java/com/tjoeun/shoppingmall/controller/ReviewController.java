@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.shoppingmall.service.CartService;
 import com.tjoeun.shoppingmall.service.ReviewService;
 import com.tjoeun.shoppingmall.vo.CartVO;
@@ -69,14 +70,21 @@ public class ReviewController {
    		System.out.println(vo);
    		
    		
-   		int result = reviewService.ReviewInsert(vo);
-   		
-   		
-   		if (result == 1) {
-   			response.getWriter().write("1"); // 占쎈ぜ
-   		} else {
-   			System.out.println(result);
-   			response.getWriter().write("3"); // 占쎈ぜ
+   		try
+   		{
+	   		int result = reviewService.ReviewInsert(vo);
+	   		
+	   		
+	   		if (result == 1) {
+	   			response.getWriter().write("1"); // 占쎈ぜ
+	   		} else {
+	   			System.out.println(result);
+	   			response.getWriter().write("3"); // 占쎈ぜ
+	   		}
+   		}
+   		catch(ErrorCodeException code)
+   		{
+   			response.getWriter().write(code.getCode() + ""); // 占쎈ぜ
    		}
    	}
     

@@ -6,25 +6,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tjoeun.exception.ErrorCodeException;
 import com.tjoeun.helper.TransactionHelper;
 import com.tjoeun.shoppingmall.dao.ReviewDAO;
 import com.tjoeun.shoppingmall.vo.ReviewVO;
 
 @Service
+@Transactional(readOnly=true)
 public class ReviewService {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	/*
 	@Autowired
 	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
 	@Autowired
 	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
-
+	//*/
 	
-	public int ReviewInsert(ReviewVO vo) 
+	@Autowired
+	ReviewDAO reviewDAO;
+	
+	@Transactional
+	public int ReviewInsert(ReviewVO vo) throws ErrorCodeException
 	{
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 	    int result = 0;
 	    
@@ -40,9 +49,19 @@ public class ReviewService {
 	    }
 	    
 	    return result;
+	    //*/
+		
+		try
+		{
+			return reviewDAO.insert(vo);
+		}
+		catch(Exception exp)
+		{
+			throw new ErrorCodeException(2, exp.getMessage());
+		}
 	}
 	public List<Object> selectByUserId(String userId) {
-
+		/*
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		List<Object> list = null;  
 		try 
@@ -57,8 +76,14 @@ public class ReviewService {
 	    }
 		
 		return list;
+		//*/
+		
+		return reviewDAO.selectByUserId(userId);
 	}
+	
+	@Transactional
 	public int deleteReview(ReviewVO vo) {
+		/*
 		int retval = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -75,8 +100,12 @@ public class ReviewService {
 		}
 		
 		return retval;
+		//*/
+		return reviewDAO.deleteReview(vo);
 	}
+	
 	public int already(int orderId) {
+		/*
 		int res = 0;
 		TransactionHelper th = new TransactionHelper(this.sqlSession, this.transactionManager);
 		
@@ -89,6 +118,8 @@ public class ReviewService {
 			log.error("", e);
 		}
 		return res;
+		//*/
+		return reviewDAO.already(orderId);
 	}
 
 

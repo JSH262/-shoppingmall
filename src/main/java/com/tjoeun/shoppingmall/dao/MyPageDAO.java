@@ -2,6 +2,7 @@ package com.tjoeun.shoppingmall.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import com.tjoeun.shoppingmall.vo.CartVO;
 import com.tjoeun.shoppingmall.vo.CategoryVO;
 import com.tjoeun.shoppingmall.vo.UsersVO;
 
+@Mapper
 public interface MyPageDAO 
 {
 	public int passwordCheck(UsersVO vo);

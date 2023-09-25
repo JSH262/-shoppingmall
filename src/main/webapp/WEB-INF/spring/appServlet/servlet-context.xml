@@ -55,6 +55,9 @@
 			<beans:bean id="commonInterceptor" class="com.tjoeun.shoppingmall.config.interceptor.CustomInterceptor"/>
         </interceptor>
     </interceptors>
+    
+    
+    
 	<!-- 
 	<util:properties id="db" location="classpath:/com/tjoeun/mybatis/db.properties" />
 	  -->

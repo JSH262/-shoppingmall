@@ -78,15 +78,23 @@ public class ProductBreakdownModifyController
 				ProductOrderVO params = new Gson().fromJson(Util.toBody(request), ProductOrderVO.class);
 				if(params.getStatus().equals(ProductOrderStatus.CANCEL.getCode()))
 				{
-					if(poService.productOrderCancel(params, user))
+					try
 					{
-						retval.put("code", 0);
+						if(poService.productOrderCancel(params, user))
+						{
+							retval.put("code", 0);
+						}
+						else
+						{
+							retval.put("code", -995);
+							retval.put("msg", "error");
+						}	
 					}
-					else
+					catch(Throwable exp)
 					{
 						retval.put("code", -995);
 						retval.put("msg", "error");
-					}	
+					}
 				}
 				else if(params.getStatus().equals(ProductOrderStatus.NML_DEAL_COMPLETE.getCode()))
 				{
