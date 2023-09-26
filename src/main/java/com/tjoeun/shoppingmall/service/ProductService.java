@@ -23,12 +23,14 @@ public class ProductService
 {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	/*
 	@Autowired
 	org.mybatis.spring.SqlSessionTemplate sqlSession;
 
 	@Autowired
 	org.springframework.jdbc.datasource.DataSourceTransactionManager transactionManager;
-
+	//*/
+	
 	@Autowired	
 	ProductDAO productDAO;
 	
